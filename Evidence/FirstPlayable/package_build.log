@@ -1,0 +1,1653 @@
+Log started at 11/10/2026 8:20:58 (2026-10-11T06:20:58Z)
+Starting AutomationTool...
+Parsing command line: BuildCookRun -project="D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject" -noP4 -platform=Win64 -clientconfig=Development -build -skipcook -stage -pak -iostore -archive -archivedirectory="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release" -utf8output
+Found 1 scripts to execute:
+  BuildCookRun(project=D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject, noP4, platform=Win64, clientconfig=Development, build, skipcook, stage, pak, iostore, archive, archivedirectory=D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release, utf8output)
+Running on Windows as a 64-bit process.
+CWD=F:\Games\UE_5.8
+UnrealEngine ver. 5.8.0.0
+Initializing script modules...
+Find 1 directories time: 0.01 s
+Find 25 projects time: 0.35 s
+Total script module initialization time: 0.46 s.
+IsBuildMachine=False
+ShouldKillProcesses=True
+Setting up command environment.
+GetEnvironmentVariable uebp_LOCAL_ROOT=
+GetEnvironmentVariable uebp_LOCAL_ROOT=
+GetEnvironmentVariable uebp_EngineSavedFolder=
+SetEnvVar uebp_EngineSavedFolder=F:/Games/UE_5.8/Engine/Programs/AutomationTool/Saved
+GetEnvironmentVariable uebp_EngineSavedFolder=F:/Games/UE_5.8/Engine/Programs/AutomationTool/Saved
+GetEnvironmentVariable uebp_CSVFile=
+GetEnvironmentVariable uebp_LogFolder=
+GetEnvironmentVariable uebp_LOCAL_ROOT=F:/Games/UE_5.8
+SetEnvVar uebp_LogFolder=C:/Users/dremo/AppData/Roaming/Unreal Engine/AutomationTool/Logs/F+Games+UE_5.8
+DeleteDirectoryContents(C:/Users/dremo/AppData/Roaming/Unreal Engine/AutomationTool/Logs/F+Games+UE_5.8)
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Cook-2026.10.11-08.15.57.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\FinalCopyWin64_NonUFSFiles.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\FinalCopyWin64_NonUFSFilesDebug.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\FinalCopyWin64_UFSFiles.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\IoStoreCommands.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Log.json
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Log.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_DebugFiles_Win64.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_NonUFSFiles_Win64.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_UFSFiles_Win64.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PakCommands.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PrePak_Windows_NonUFSFiles.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PrePak_Windows_NonUFSFilesDebug.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PrePak_Windows_UFSFiles.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UBA-CeroEstrellasEditor-Win64-Development.json
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UBA-CeroEstrellasEditor-Win64-Development.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak-2026.10.11-08.16.24.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak-2026.10.11-08.16.31.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak-2026.10.11-08.16.32.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak_CreateIoStoreContainers-2026.10.11-08.16.35.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak_CreateMultiplePaks-2026.10.11-08.16.32.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak_ZenAutoLaunch-2026.10.11-08.16.30.txt
+GetEnvironmentVariable uebp_FinalLogFolder=
+SetEnvVar uebp_FinalLogFolder=C:/Users/dremo/AppData/Roaming/Unreal Engine/AutomationTool/Logs/F+Games+UE_5.8
+SetEnvVar MallocNanoZone=0
+GetEnvironmentVariable uebp_UATChildInstance=0
+Found VisualStudio2022 installation: G:\Program Files\Microsoft Visual Studio\2022\Community (Product=Microsoft.VisualStudio.Product.Community, Version=17.14.37710.0)
+Found VisualStudio2026 installation: C:\Program Files\Microsoft Visual Studio\18\Community (Product=Microsoft.VisualStudio.Product.Community, Version=18.10.12210.168)
+Using G:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe
+CompilationEvironment.HasCapabilityToCompile=True
+CompilationEvironment.FrameworkMsbuildExe=G:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe
+CompilationEvironment.DotnetMsbuildExe=F:\Games\UE_5.8\Engine\Binaries\ThirdParty\DotNet\10.0\win-x64\dotnet.exe
+Command Environment settings:
+CmdExe=C:\WINDOWS\system32\cmd.exe
+EngineSavedFolder=F:/Games/UE_5.8/Engine/Programs/AutomationTool/Saved
+HasCapabilityToCompile=True
+LocalRoot=F:/Games/UE_5.8
+LogFolder=C:/Users/dremo/AppData/Roaming/Unreal Engine/AutomationTool/Logs/F+Games+UE_5.8
+MountExe=C:\WINDOWS\system32\mount.exe
+FrameworkMsbuildExe=G:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe
+DotnetMsbuildExe=F:\Games\UE_5.8\Engine\Binaries\ThirdParty\DotNet\10.0\win-x64\dotnet.exe
+RobocopyExe=C:\WINDOWS\system32\robocopy.exe
+TimestampAsString=2026-10-11_08.20.58
+AutomationToolDll=F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationTool.dll
+
+No project directory provided for project scope BuildConfiguration.xml resolution.
+No config file at C:\ProgramData\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+No config file at C:\Users\dremo\AppData\Local\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+No config file at C:\Users\dremo\Documents\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Configuration will be read from:
+  C:\Users\dremo\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Reading configuration file from cache (C:\Users\dremo\AppData\Local\UnrealEngine\XmlConfigCache-F+Games+UE_5.8.bin): C:\Users\dremo\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Reading configuration file from cache (C:\Users\dremo\AppData\Local\UnrealEngine\XmlConfigCache-F+Games+UE_5.8.bin): C:\Users\dremo\AppData\Local\UnrealEngine\Intermediate\Build\UnrealBuildTool.Env.BuildConfiguration.xml
+    Registering build platform: UnrealBuildTool.AndroidPlatformFactory
+    Registering build platform: UnrealBuildTool.IOSPlatformFactory
+    Registering build platform: UnrealBuildTool.LinuxPlatformFactory
+    Registering build platform: UnrealBuildTool.MacPlatformFactory
+    Registering build platform: UnrealBuildTool.TVOSPlatformFactory
+    Registering build platform: UnrealBuildTool.WindowsPlatformFactory
+Found Windows 10 SDK root at C:\Program Files (x86)\Windows Kits\10 (1)
+Found Windows 10 SDK root at C:\Program Files (x86)\Windows Kits\10 (2)
+Found Windows 10 SDK version 10.0.22621.0 at C:\Program Files (x86)\Windows Kits\10
+Found Universal CRT version 10.0.22621.0 at C:\Program Files (x86)\Windows Kits\10
+Found Windows 10 SDK version 10.0.26100.0 at C:\Program Files (x86)\Windows Kits\10
+Found Universal CRT version 10.0.26100.0 at C:\Program Files (x86)\Windows Kits\10
+Win64 Installed SDK(s): MinVersion_Sdk=10.0.19041.0, MaxVersion_Sdk=10.9.99999.0, CurrentVersion_Sdk=10.0.22621.0, Version_AutoSdk=10.0.22621.0, CurrentVersion_AutoSdk=
+        Registering build platform: Win64 - buildable: True
+    Registering build platform: UnrealBuildTool.VisionOSPlatformFactory
+Cleaning up project rules folder
+DeleteDirectoryContents(C:\Users\dremo\AppData\Local\Temp\UAT\F+Games+UE_5.8\Rules)
+SafeDeleteFile C:\Users\dremo\AppData\Local\Temp\UAT\F+Games+UE_5.8\Rules\UATRules-57160dabd9efd394a5105e76f57d39d1.dll
+SafeDeleteFile C:\Users\dremo\AppData\Local\Temp\UAT\F+Games+UE_5.8\Rules\UATRules-57160dabd9efd394a5105e76f57d39d1.pdb
+SafeDeleteFile C:\Users\dremo\AppData\Local\Temp\UAT\F+Games+UE_5.8\Rules\UATRules-57160dabd9efd394a5105e76f57d39d1Manifest.json
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Android\net10.0\Android.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Apple\net10.0\Apple.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\AutomatedPerfTesting\net10.0\AutomatedPerfTesting.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Scripts\net10.0\AutomationScripts.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationUtils\net10.0\AutomationUtils.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\BuildGraph\net10.0\BuildGraph.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\CookedEditor\net10.0\CookedEditor.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\CrowdinLocalization\net10.0\CrowdinLocalization.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Gauntlet\net10.0\Gauntlet.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\ICVFX\net10.0\ICVFX.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Insights\net10.0\Insights.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\IOS\net10.0\IOS.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Linux\net10.0\Linux.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LiveLinkHub\net10.0\LiveLinkHub.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Localization\net10.0\Localization.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LowLevelTests\net10.0\LowLevelTests.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Mac\net10.0\Mac.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Microsoft\net10.0\Microsoft.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Mutable\net10.0\Mutable.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\OneSkyLocalization\net10.0\OneSkyLocalization.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\SmartlingLocalization\net10.0\SmartlingLocalization.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\SteamDeck\net10.0\SteamDeck.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Turnkey\net10.0\Turnkey.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\TVOS\net10.0\TVOS.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Platforms\VisionOS\Binaries\DotNET\AutomationTool\AutomationScripts\net10.0\VisionOS.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Windows\net10.0\Win.Automation.dll
+Loading script DLL: F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\XLocLocalization\net10.0\XLocLocalization.Automation.dll
+Creating platforms.
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Android\net10.0\Android.Automation.dll
+Creating platform AndroidPlatform from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Android\net10.0\Android.Automation.dll.
+Creating platform AndroidPlatformMulti from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Android\net10.0\Android.Automation.dll.
+Creating platform AndroidPlatformDXT from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Android\net10.0\Android.Automation.dll.
+Creating platform AndroidPlatformETC2 from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Android\net10.0\Android.Automation.dll.
+Creating platform AndroidPlatformASTC from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Android\net10.0\Android.Automation.dll.
+Creating platform AndroidPlatformOpenXR from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Android\net10.0\Android.Automation.dll.
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\TVOS\net10.0\Apple.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\AutomatedPerfTesting\net10.0\AutomatedPerfTesting.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Scripts\net10.0\AutomationScripts.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationUtils\net10.0\AutomationUtils.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\BuildGraph\net10.0\BuildGraph.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LiveLinkHub\net10.0\CookedEditor.Automation.dll
+Creating platform WindowsCookedEditor from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LiveLinkHub\net10.0\CookedEditor.Automation.dll.
+Creating platform LinuxCookedEditor from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LiveLinkHub\net10.0\CookedEditor.Automation.dll.
+Creating platform MacCookedEditor from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LiveLinkHub\net10.0\CookedEditor.Automation.dll.
+Creating platform WindowsCookedCooker from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LiveLinkHub\net10.0\CookedEditor.Automation.dll.
+Creating platform LinuxCookedCooker from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LiveLinkHub\net10.0\CookedEditor.Automation.dll.
+Creating platform MacCookedCooker from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LiveLinkHub\net10.0\CookedEditor.Automation.dll.
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\CrowdinLocalization\net10.0\CrowdinLocalization.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Mutable\net10.0\Gauntlet.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\ICVFX\net10.0\ICVFX.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Insights\net10.0\Insights.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\IOS\net10.0\IOS.Automation.dll
+Creating platform IOSPlatform from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\IOS\net10.0\IOS.Automation.dll.
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Linux\net10.0\Linux.Automation.dll
+Creating platform GenericLinuxPlatform from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Linux\net10.0\Linux.Automation.dll.
+Creating platform GenericLinuxPlatformArm64 from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Linux\net10.0\Linux.Automation.dll.
+Creating platform LinuxPlatformArm64DXT from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Linux\net10.0\Linux.Automation.dll.
+Creating platform LinuxPlatformArm64ASTC from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Linux\net10.0\Linux.Automation.dll.
+Creating platform LinuxPlatformArm64ETC2 from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Linux\net10.0\Linux.Automation.dll.
+Creating platform LinuxPlatformArm64Multi from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Linux\net10.0\Linux.Automation.dll.
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LiveLinkHub\net10.0\LiveLinkHub.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Localization\net10.0\Localization.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\LowLevelTests\net10.0\LowLevelTests.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Mac\net10.0\Mac.Automation.dll
+Creating platform MacPlatform from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Mac\net10.0\Mac.Automation.dll.
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Microsoft\net10.0\Microsoft.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Mutable\net10.0\Mutable.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\OneSkyLocalization\net10.0\OneSkyLocalization.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\SmartlingLocalization\net10.0\SmartlingLocalization.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Windows\net10.0\SteamDeck.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Turnkey\net10.0\Turnkey.Automation.dll
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\TVOS\net10.0\TVOS.Automation.dll
+Creating platform TVOSPlatform from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\TVOS\net10.0\TVOS.Automation.dll.
+Looking for platforms in F:\Games\UE_5.8\Engine\Platforms\VisionOS\Binaries\DotNET\AutomationTool\AutomationScripts\net10.0\VisionOS.Automation.dll
+Creating platform VisionOSPlatform from F:\Games\UE_5.8\Engine\Platforms\VisionOS\Binaries\DotNET\AutomationTool\AutomationScripts\net10.0\VisionOS.Automation.dll.
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Windows\net10.0\Win.Automation.dll
+Creating platform Win64Platform from F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\Platforms\Windows\net10.0\Win.Automation.dll.
+Looking for platforms in F:\Games\UE_5.8\Engine\Binaries\DotNET\AutomationTool\AutomationScripts\XLocLocalization\net10.0\XLocLocalization.Automation.dll
+Initializing AllowSubmit.
+AllowSubmit=False
+Initializing P4Enabled.
+P4Enabled=False
+P4CLRequired=False
+Executing commands...
+Attempting to execute BuildCookRun(project=D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject, noP4, platform=Win64, clientconfig=Development, build, skipcook, stage, pak, iostore, archive, archivedirectory=D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release, utf8output)
+Setting up ProjectParams for D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject
+Looking for targets for project D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject
+Searching for target rule files in D:/Trabajo/Cero Estrellas - El Simulador de Barista
+Found 2 target rule files:
+  D:\Trabajo\Cero Estrellas - El Simulador de Barista\Source\CeroEstrellas.Target.cs
+  D:\Trabajo\Cero Estrellas - El Simulador de Barista\Source\CeroEstrellasEditor.Target.cs
+Compiling targets DLL: C:\Users\dremo\AppData\Local\Temp\UAT\F+Games+UE_5.8\Rules\UATRules-57160dabd9efd394a5105e76f57d39d1.dll
+Compiling C:\Users\dremo\AppData\Local\Temp\UAT\F+Games+UE_5.8\Rules\UATRules-57160dabd9efd394a5105e76f57d39d1.dll: Assembly does not exist
+Creating target rules object: CeroEstrellasTarget
+Adding target: CeroEstrellasTarget (Game)
+Creating target rules object: CeroEstrellasEditorTarget
+Adding target: CeroEstrellasEditorTarget (Editor)
+Loading ini files for D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject
+Project Params **************
+AdditionalServerMapParams=
+Archive=True
+ArchiveMetaData=False
+CreateAppBundle=True
+BaseArchiveDirectory=D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release
+BaseStageDirectory=D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds
+ConfigOverrideParams=-
+Build=True
+SkipBuildClient=False
+SkipBuildEditor=False
+Cook=True
+Clean=(null)
+Client=False
+ClientConfigsToBuild=Development
+ClientCookedTargets=CeroEstrellas
+ClientTargetPlatform=Win64
+Compressed=False
+ForceUncompressed=False
+AdditionalPakOptions=
+AdditionalIoStoreOptions=
+ForceOodleDllVersion=
+CookOnTheFly=False
+CookOnTheFlyStreaming=False
+UnversionedCookedContent=True
+OptionalContent=False
+SkipCookingEditorContent=False
+SkipCookingErrorSummary=False
+GeneratePatch=False
+AddPatchLevel=False
+DiscVersion=
+CreateReleaseVersion=
+BasedOnReleaseVersion=
+OriginalReleaseVersion=
+DLCFile=(null)
+DLCIncludeEngineContent=False
+DLCPakPluginFile=False
+DLCOverrideCookedSubDir=(null)
+DLCOverrideStagedSubDir=(null)
+DiffCookedContentPath=
+AdditionalCookerOptions=
+DedicatedServer=False
+DirectoriesToCook=
+DDCGraph=
+CulturesToCook=<Not Specified> (Use Defaults)
+EditorTargets=CeroEstrellasEditor
+Foreign=False
+IsCodeBasedProject=True
+IsProgramTarget=False
+IncrementalCook=False
+IterateSharedCookedBuild=
+IterateSharedBuildUsePrecompiledExe=False
+CookAll=False
+CookPartialGC=False
+CookInEditor=False
+CookMapsOnly=False
+Deploy=False
+IterativeDeploy=False
+FastCook=False
+LogWindow=False
+Manifests=False
+MapToRun=
+NoClient=False
+NumClients=0
+NoDebugInfo=False
+SeparateDebugInfo=False
+MapFile=False
+NoCleanStage=False
+NoXGE=False
+MapsToCook=
+MapIniSectionsToCook=
+Pak=True
+IgnorePaksFromDifferentCookSource=False
+IoStore=True
+SkipIoStore=False
+ZenStore=False
+NoZenAutoLaunch=
+SkipEncryption=False
+GenerateOptimizationData=False
+SkipPackage=False
+NeverPackage=False
+Package=False
+ForcePackageData=False
+NullRHI=False
+WriteBackMetadataToAssetRegistry=
+FakeClient=False
+EditorTest=False
+RunAutomationTests=False
+RunAutomationTest=
+RunTimeoutSeconds=0
+CrashIndex=0
+ProgramTargets=
+ProjectPlatformBinariesPaths=[Win64, D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64]
+ProjectExePaths=[Win64, D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\CeroEstrellas.exe]
+Distribution=False
+PackageEncryptionKeyFile=(null)
+Prebuilt=False
+Prereqs=False
+AppLocalDirectory=
+NoBootstrapExe=False
+RawProjectPath=D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject
+RawProgramProjectOverride=(null)
+Run=False
+ServerConfigsToBuild=Development
+ServerCookedTargets=
+ServerTargetPlatform=Win64
+ShortProjectName=CeroEstrellas
+SignedPak=False
+SignPak=(null)
+SkipCook=True
+SkipCookOnTheFly=False
+SkipPak=False
+PrePak=False
+SkipStage=False
+Stage=True
+RehydrateAssets=False
+bTreatNonShippingBinariesAsDebugFiles=False
+bUseExtraFlavor=False
+StageDirectoryParam=
+AdditionalPackageOptions=
+Trace=(null)
+TraceHost=(null)
+TraceFile=(null)
+Project Params **************
+********** BUILD COMMAND STARTED **********
+************************* UnrealBuild:
+************************* UseXGE: False
+Running: F:\Games\UE_5.8\Engine\Binaries\ThirdParty\DotNet\10.0\win-x64\dotnet.exe "F:\Games\UE_5.8\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" -Target="CeroEstrellasEditor Win64 Development -Project=\"D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject\"" -Target="CeroEstrellas Win64 Development -Project=\"D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject\"  -remoteini=\"D:\Trabajo\Cero Estrellas - El Simulador de Barista\"  " -log="C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UBA-CeroEstrellasEditor-Win64-Development.txt"
+Log file: C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UBA-CeroEstrellasEditor-Win64-Development.txt
+Determining max actions to execute in parallel (8 physical cores, 16 logical cores)
+  Executing up to 8 processes, one per physical core
+  Requested 1.5 GB memory per action, 8.37 GB available: limiting max parallel actions to 5
+UbaServer - Listening on 0.0.0.0:1345
+UHT compiled-in object format Default
+UHT compiled-in object format Default
+UHT processed CeroEstrellas in 13.5715581 seconds (0 generated files written)
+UHT processed CeroEstrellasEditor in 17.9887577 seconds (0 generated files written)
+Building CeroEstrellas and CeroEstrellasEditor...
+===== Toolchain Information =====
+CeroEstrellas Win64 Development:
+  Using ISPC compiler (F:\Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+    Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2)
+  Using Visual Studio 14.44.35229 toolchain (G:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207) and Windows 10.0.22621.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+CeroEstrellasEditor Win64 Development:
+  Using ISPC compiler (F:\Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+    Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2)
+  Using Visual Studio 14.44.35229 toolchain (G:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207) and Windows 10.0.22621.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+=================================
+Using Unreal Build Accelerator local executor to run 21 action(s)
+  CPU 8 physical cores, 16 logical cores
+  Memory 23.93 GB physical, 26.53 GB/32.88 GB committed
+  UBA Storage capacity 40 GB
+** For CeroEstrellasEditor-Win64-Development **
+[1/21] Compile [x64] CECafeSubsystem.cpp
+[2/21] Compile [x64] CECustomer.cpp
+[3/21] Compile [x64] CEGameMode.cpp
+[4/21] Compile [x64] CEHUD.cpp
+[5/21] Compile [x64] CEPlayer.cpp
+[6/21] Compile [x64] CEProp.cpp
+[7/21] Compile [x64] CESmoke.cpp
+[8/21] Compile [x64] Module.CeroEstrellas.gen.cpp
+[9/21] Link [x64] UnrealEditor-CeroEstrellas.lib
+   Creando biblioteca D:/Trabajo/Cero Estrellas - El Simulador de Barista/Intermediate/Build/Win64/x64/UnrealEditor/Development/CeroEstrellas/UnrealEditor-CeroEstrellas.lib y objeto D:/Trabajo/Cero Estrellas - El Simulador de Barista/Intermediate/Build/Win64/x64/UnrealEditor/Development/CeroEstrellas/UnrealEditor-CeroEstrellas.exp
+[10/21] Link [x64] UnrealEditor-CeroEstrellas.dll
+[11/21] WriteMetadata CeroEstrellasEditor.target [NoUba]
+** For CeroEstrellas-Win64-Development **
+[12/21] Compile [x64] CECafeSubsystem.cpp
+[13/21] Compile [x64] CECustomer.cpp
+[14/21] Compile [x64] CEGameMode.cpp
+[15/21] Compile [x64] CEHUD.cpp
+[16/21] Compile [x64] CEPlayer.cpp
+[17/21] Compile [x64] CEProp.cpp
+[18/21] Compile [x64] CESmoke.cpp
+[19/21] Compile [x64] Module.CeroEstrellas.gen.cpp
+[20/21] Link [x64] CeroEstrellas.exe
+   Creando biblioteca D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\CeroEstrellas.lib y objeto D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\CeroEstrellas.exp
+[21/21] WriteMetadata CeroEstrellas.target [NoUba]
+
+Total time in Unreal Build Accelerator local executor: 115.67 seconds
+Output binary: D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\CeroEstrellas.exe
+Output binary: F:\Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe
+
+Result: Succeeded
+Total execution time: 135.84 seconds
+Trace written to file C:\Users\dremo\AppData\Local\UnrealBuildTool\Trace.uba with size 24.5kb
+Took 136,45s to run dotnet.exe, ExitCode=0
+************************* UnrealBuild:
+************************* UseXGE: False
+Build products *******
+No build products were made
+End Build products *******
+Build command time: 136.47 s
+********** BUILD COMMAND COMPLETED **********
+********** STAGE COMMAND STARTED **********
+Deployment Context **************
+ProjectFile = D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject
+ArchiveDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows
+IsCodeBasedUprojectFile = True
+DedicatedServer = False
+Stage = True
+StageTargetPlatform = Win64
+InputRootDir = F:\Games\UE_5.8
+InputProjectDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista
+PlatformDir = Win64
+StagedOutputDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+ShortProjectName = CeroEstrellas
+ProjectArgForCommandLines = -project="../../../CeroEstrellas/CeroEstrellas.uproject"
+RunRootDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+RunProjectDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas
+PakFileInternalRoot = ../../../
+PlatformUsesChunkManifests = False
+End Deployment Context **************
+Creating Staging Manifest...
+Can't find cloud directory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Platforms\Windows\Build\Cloud
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Intermediate\Staging\CeroEstrellas.exe
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\Win64\BootstrapPackagedGame-Win64-Shipping.exe D:\Trabajo\Cero Estrellas - El Simulador de Barista\Intermediate\Staging\CeroEstrellas.exe
+Patching bootstrap executable; D:\Trabajo\Cero Estrellas - El Simulador de Barista\Intermediate\Staging\CeroEstrellas.exe
+Begin update resource 'D:\Trabajo\Cero Estrellas - El Simulador de Barista\Intermediate\Staging\CeroEstrellas.exe' (0)
+Add resource 101, length 104 (True)
+Add resource 1, length 1996 (True)
+Add resource 2, length 2447 (True)
+Add resource 3, length 2535 (True)
+Add resource 4, length 3037 (True)
+Add resource 5, length 3244 (True)
+Add resource 6, length 3531 (True)
+Add resource 7, length 6931 (True)
+Add resource 201, length 94 (True)
+Add resource 202, length 28 (True)
+Add resource 205, length 2 (True)
+End update resource (True/0)
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\ToolTips.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\PortableObjectImport.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\BaseEditor.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Windows\WindowsEditorPerProjectUserSettings.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\BasePakFileRules.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\Engine.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\Category.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\BaseEditorSettings.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\BaseSourceControlSettings.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\BaseLightmass.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\WordCount.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\PropertyNames.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\BaseEditorKeyBindings.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Windows\WindowsEditorSettings.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\Keywords.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\Editor.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\BaseUnrealInsightsSettings.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\RepairData.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\BaseEditorPerProjectUserSettings.ini
+Excluding config file F:\Games\UE_5.8\Engine\Config\Localization\PortableObjectExport.ini
+Including config file F:\Games\UE_5.8\Engine\Config\ConfigRedirects.ini
+Including config file F:\Games\UE_5.8\Engine\Config\Layouts\DefaultLayout.ini
+Including config file F:\Games\UE_5.8\Engine\Config\PluginBase.ini
+Including config file F:\Games\UE_5.8\Engine\Config\ConsoleVariables.ini
+Including config file F:\Games\UE_5.8\Engine\Config\VulkanPC\DataDrivenPlatformInfo.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseGame.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseEngine.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseScalability.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseRuntimeOptions.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseInput.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseHardware.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseGameUserSettings.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseDeviceProfiles.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseCompat.ini
+Including config file F:\Games\UE_5.8\Engine\Config\Base.ini
+Including config file F:\Games\UE_5.8\Engine\Config\Windows\BaseWindowsGame.ini
+Including config file F:\Games\UE_5.8\Engine\Config\Windows\BaseWindowsEngine.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseMaterialExpressions.ini
+Including config file F:\Games\UE_5.8\Engine\Config\BaseInstallBundle.ini
+Including config file F:\Games\UE_5.8\Engine\Config\Windows\DataDrivenPlatformInfo.ini
+Including config file F:\Games\UE_5.8\Engine\Config\Windows\BaseWindowsInput.ini
+Including config file F:\Games\UE_5.8\Engine\Config\Windows\WindowsInput.ini
+Including config file F:\Games\UE_5.8\Engine\Config\Windows\WindowsGame.ini
+Including config file F:\Games\UE_5.8\Engine\Config\Layouts\UE4ClassicLayout.ini
+Including config file D:\Trabajo\Cero Estrellas - El Simulador de Barista\Config\DefaultEngine.ini
+Including config file D:\Trabajo\Cero Estrellas - El Simulador de Barista\Config\DefaultInput.ini
+Including config file D:\Trabajo\Cero Estrellas - El Simulador de Barista\Config\DefaultGame.ini
+Reading oplog from Zen...
+ZenServer at [::1]:8558 not ready yet (2.1s/25.0s); waiting.
+ZenServer at [::1]:8558 not ready yet (5.2s/25.0s); waiting.
+ZenServer at [::1]:8558 not ready yet (8.2s/25.0s); waiting.
+ZenServer at [::1]:8558 not ready yet (11.3s/25.0s); waiting.
+ZenServer at [::1]:8558 not ready yet (14.3s/25.0s); waiting.
+ZenServer at [::1]:8558 not ready yet (17.3s/25.0s); waiting.
+ZenServer at [::1]:8558 not ready yet (20.4s/25.0s); waiting.
+ZenServer at [::1]:8558 not ready yet (23.4s/25.0s); waiting.
+Running UnrealPak with arguments: "D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject" IoStore -StartZenServerForStage -SponsorProcessID=32976 -ProjectStore="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\ue.projectstore"
+SafeFileExists F:\Games\UE_5.8\Engine\Binaries\Win64\UnrealPak.exe=True
+Running: F:\Games\UE_5.8\Engine\Binaries\Win64\UnrealPak.exe "D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject" IoStore -StartZenServerForStage -SponsorProcessID=32976 -ProjectStore="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\ue.projectstore"
+LogStreaming: Display: AsyncLoading2 - Created: Async Loading Thread: false, Async Post Load: false, Multithreaded: false
+LogPakFile: Display: ProjectDir: D:/Trabajo/Cero Estrellas - El Simulador de Barista/
+LogIoStore: Display: ==================== IoStore Utils ====================
+LogIoStore: Display: Using command line for crypto configuration
+LogZenServiceInstance: Display: Launching zen utility 'F:/Games/UE_5.8/Engine/Binaries/Win64/zen.exe service status'.
+LogZenServiceInstance: Display: Writing plugin version info to 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zen_plugin_versions.json'
+LogZenServiceInstance: Display: Read zen version cache file from 'C:/Users/dremo/AppData/Local/UnrealEngine/5.8/Saved/Zen/zen.version', version: '5.8.13-202605190912-windows-x64-release-094f62c2'
+LogZenServiceInstance: Display: Read zen version cache file from 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zen.version', version: '5.8.13-202605190912-windows-x64-release-094f62c2'
+LogZenServiceInstance: Display: Installed service at 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zenserver.exe' is up to date
+LogZenServiceInstance: Display: Launching executable 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zenserver.exe', working dir 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install', data dir 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Data', args '--port 8558 --data-dir C:\Users\dremo\AppData\Local\UnrealEngine\Common\Zen\Data --http asio --gc-cache-duration-seconds 1209600 --gc-interval-seconds 21600 --gc-low-diskspace-threshold 2147483648 --cache-bucket-limit-overwrites --quiet --restrict-content-types --allow-external-oidctoken-exe=false --plugins-config "C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zen_plugins_v1.json" --security-config-path "C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/security-config.json" --owner-pid 13020  --child-id Zen_13020_Startup'
+LogZenServiceInstance: Display: Unreal Zen Storage Server HTTP service at http://[::1]:8558 status: OK!.
+LogZenServiceInstance: Display: Unreal Zen Storage Server HTTP service at http://[::1]:8558 status: OK!.
+LogPakFile: Display: UnrealPak executed in 5.045366 seconds
+Took 8,35s to run UnrealPak.exe, ExitCode=0
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak_ZenAutoLaunch-2026.10.11-08.23.52.txt
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Logs\UnrealPak.log C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak_ZenAutoLaunch-2026.10.11-08.23.52.txt
+Reading oplog from http://[::1]:8558/prj/CeroEstrellas.13640f9b/oplog/Windows/entries?trim_by_referencedset=true
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Encountered an op not intended to be parsed based upon /Script/UnrealEd.ProjectPackagingSettings. Skipping parsing of this op.
+Parsed 509 package entries from oplog.
+SafeFileExists D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\CeroEstrellas\Metadata\TemporaryNonUFSFiles.txt=False
+Cleaning Stage Directory: D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+SafeDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas.exe
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_DebugFiles_Win64.txt
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_NonUFSFiles_Win64.txt
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_UFSFiles_Win64.txt
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\NOTICES.txt
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\CeroEstrellas.exe
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\CeroEstrellas.pdb
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\tbb12.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\tbbmalloc.dll
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64\D3D12Core.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64\d3d12SDKLayers.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\DML
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\DML\x64
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\DML\x64\DirectML.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\DML\x64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\DML
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\CeroEstrellas-Windows.pak
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\CeroEstrellas-Windows.ucas
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\CeroEstrellas-Windows.utoc
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\global.ucas
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\global.utoc
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\DbgHelp
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\DbgHelp\dbghelp.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\DbgHelp
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic\v220
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic\v220\win64
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic\v220\win64\msquic.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic\v220\win64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic\v220
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath\Win64
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath\Win64\GFSDK_Aftermath_Lib.x64.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath\Win64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg\Win64
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg\Win64\VS2015
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg\Win64\VS2015\libogg_64.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg\Win64\VS2015
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg\Win64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbisfile_64.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbis_64.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.json
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.json
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.json
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.json
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.json
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.json
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.dll
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.json
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime\x64
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime\x64\WinPixEventRuntime.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime\x64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9\x64
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9\x64\xaudio2_9redist.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9\x64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Config
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Config\StagedBuild_CeroEstrellas.ini
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Config
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Renderer
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Renderer\TessellationTable.bin
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Renderer
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Slate
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Slate\Cursor
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Slate\Cursor\invisible.cur
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Slate\Cursor
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Slate
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug\Fonts
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug\Fonts\LastResort.tps
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug\Fonts\LastResort.ttf
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug\Fonts
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer\GPUDumpViewer.html
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.bat
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.sh
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime
+RecursivelyDeleteDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime\Win64
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime\Win64\onnxruntime.dll
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime\Win64
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine
+SafeDeleteEmptyDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+Creating pak using staging manifest.
+DumpManifest: C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PrePak_Windows_NonUFSFiles.txt, NumItems: 34
+SafeWriteAllLines C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PrePak_Windows_NonUFSFiles.txt
+DumpManifest: C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PrePak_Windows_NonUFSFilesDebug.txt, NumItems: 6
+SafeWriteAllLines C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PrePak_Windows_NonUFSFilesDebug.txt
+DumpManifest: C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PrePak_Windows_UFSFiles.txt, NumItems: 2289
+SafeWriteAllLines C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PrePak_Windows_UFSFiles.txt
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\ConfigRedirects.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\ConfigRedirects.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\Layouts\DefaultLayout.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\Layouts\DefaultLayout.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\PluginBase.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\PluginBase.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\ConsoleVariables.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\ConsoleVariables.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\VulkanPC\DataDrivenPlatformInfo.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\VulkanPC\DataDrivenPlatformInfo.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseGame.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseGame.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseEngine.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseEngine.ini
+Filtering config section 'StorageServers'
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseScalability.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseScalability.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseRuntimeOptions.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseRuntimeOptions.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseInput.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseInput.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseHardware.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseHardware.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseGameUserSettings.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseGameUserSettings.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseDeviceProfiles.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseDeviceProfiles.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseCompat.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseCompat.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\Base.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\Base.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\Windows\BaseWindowsGame.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\Windows\BaseWindowsGame.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\Windows\BaseWindowsEngine.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\Windows\BaseWindowsEngine.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseMaterialExpressions.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseMaterialExpressions.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\BaseInstallBundle.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\BaseInstallBundle.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\Windows\DataDrivenPlatformInfo.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\Windows\DataDrivenPlatformInfo.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\Windows\BaseWindowsInput.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\Windows\BaseWindowsInput.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\Windows\WindowsInput.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\Windows\WindowsInput.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\Windows\WindowsGame.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\Windows\WindowsGame.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Config\Layouts\UE4ClassicLayout.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Config\Layouts\UE4ClassicLayout.ini
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Config\DefaultEngine.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\CeroEstrellas\Config\DefaultEngine.ini
+Filtering config section '/Script/AndroidFileServerEditor.AndroidFileServerRuntimeSettings'
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Config\DefaultInput.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\CeroEstrellas\Config\DefaultInput.ini
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Config\DefaultGame.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\CeroEstrellas\Config\DefaultGame.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\2D\Paper2D\Config\DefaultPaper2D.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\2D\Paper2D\Config\DefaultPaper2D.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Animation\ACLPlugin\Config\FilterPlugin.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Animation\ACLPlugin\Config\FilterPlugin.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Animation\AnimatorKit\Config\Editor.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Animation\AnimatorKit\Config\Editor.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Animation\ControlRig\Config\DefaultControlRig.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Animation\ControlRig\Config\DefaultControlRig.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Animation\DeformerGraph\Config\DefaultDeformerGraph.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Animation\DeformerGraph\Config\DefaultDeformerGraph.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Animation\DeformerGraph\Config\Editor.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Animation\DeformerGraph\Config\Editor.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Animation\IKRig\Config\DefaultIKRig.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Animation\IKRig\Config\DefaultIKRig.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Animation\PhysicsControl\Config\DefaultPhysicsControl.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Animation\PhysicsControl\Config\DefaultPhysicsControl.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Animation\RigLogic\Config\DefaultRigLogic.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Animation\RigLogic\Config\DefaultRigLogic.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Cameras\GameplayCameras\Config\DefaultGameplayCameras.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Cameras\GameplayCameras\Config\DefaultGameplayCameras.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\ChaosVD\Config\ConfigRedirects.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\ChaosVD\Config\ConfigRedirects.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\ChaosVD\Config\DefaultChaosVD.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\ChaosVD\Config\DefaultChaosVD.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\ChaosVD\Config\Engine.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\ChaosVD\Config\Engine.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Compositing\CompositeCore\Config\DefaultCompositeCore.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Compositing\CompositeCore\Config\DefaultCompositeCore.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Developer\Concert\ConcertSync\ConcertSyncCore\Config\DefaultConcertSyncCore.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Developer\Concert\ConcertSync\ConcertSyncCore\Config\DefaultConcertSyncCore.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Editor\ConsoleVariablesEditor\Config\DefaultConsoleVariables.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Editor\ConsoleVariablesEditor\Config\DefaultConsoleVariables.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Editor\EditorScriptingUtilities\Config\DefaultEditorScriptingUtilities.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Editor\EditorScriptingUtilities\Config\DefaultEditorScriptingUtilities.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\EnhancedInput\Config\DefaultEnhancedInput.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\EnhancedInput\Config\DefaultEnhancedInput.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\EnhancedInput\Config\Input.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\EnhancedInput\Config\Input.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Enterprise\DatasmithContent\Config\DefaultDatasmithContent.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Enterprise\DatasmithContent\Config\DefaultDatasmithContent.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Enterprise\GLTFExporter\Config\DefaultGLTFExporter.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Enterprise\GLTFExporter\Config\DefaultGLTFExporter.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Enterprise\GLTFExporter\Config\FilterPlugin.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Enterprise\GLTFExporter\Config\FilterPlugin.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Enterprise\VariantManagerContent\Config\DefaultVariantManagerContent.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Enterprise\VariantManagerContent\Config\DefaultVariantManagerContent.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Experimental\Animation\Scribble\Config\DefaultScribble.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Experimental\Animation\Scribble\Config\DefaultScribble.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Experimental\ControlRigPhysics\Config\DefaultControlRigPhysics.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Experimental\ControlRigPhysics\Config\DefaultControlRigPhysics.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Experimental\FullBodyIK\Config\DefaultFullBodyIK.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Experimental\FullBodyIK\Config\DefaultFullBodyIK.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Experimental\InterchangeAxF\Assets\Config\DefaultInterchangeAxFAssets.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Experimental\InterchangeAxF\Assets\Config\DefaultInterchangeAxFAssets.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Experimental\InterchangeAxF\Assets\Config\FilterPlugin.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Experimental\InterchangeAxF\Assets\Config\FilterPlugin.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Experimental\ToolPresets\Config\DefaultToolPresets.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Experimental\ToolPresets\Config\DefaultToolPresets.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\FX\Niagara\Config\DefaultNiagara.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\FX\Niagara\Config\DefaultNiagara.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Fab\Config\DefaultFab.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Fab\Config\DefaultFab.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Interchange\Assets\Config\DefaultInterchangeAssets.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Interchange\Assets\Config\DefaultInterchangeAssets.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Interchange\Runtime\Config\DefaultInterchange.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Interchange\Runtime\Config\DefaultInterchange.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\MetaHuman\MetaHumanSDK\Config\DefaultMetaHumanSDK.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\MetaHuman\MetaHumanSDK\Config\DefaultMetaHumanSDK.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Mutable\Config\DefaultMutable.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Mutable\Config\DefaultMutable.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Mutable\Config\FilterPlugin.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Mutable\Config\FilterPlugin.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\NNE\NNEDenoiser\Config\Game.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\NNE\NNEDenoiser\Config\Game.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Online\OnlineSubsystemUtils\Config\Editor.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Online\OnlineSubsystemUtils\Config\Editor.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Online\OnlineSubsystemUtils\Config\Localization\OnlineSubsystemUtils.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Online\OnlineSubsystemUtils\Config\Localization\OnlineSubsystemUtils.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Online\OnlineSubsystem\Config\Localization\OnlineSubsystem.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Online\OnlineSubsystem\Config\Localization\OnlineSubsystem.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\PCG\Config\DefaultPCG.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\PCG\Config\DefaultPCG.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\PCG\Config\EditorPerProjectUserSettings.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\PCG\Config\EditorPerProjectUserSettings.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\HairStrands\Config\DefaultHairStrands.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\HairStrands\Config\DefaultHairStrands.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\InputDebugging\Config\Input.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\InputDebugging\Config\Input.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\Metasound\Config\DefaultMetaSound.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\Metasound\Config\DefaultMetaSound.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\ModelViewViewModel\Config\DefaultModelViewViewModel.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\ModelViewViewModel\Config\DefaultModelViewViewModel.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\PropertyBindingUtils\Config\DefaultPropertyBindingUtils.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\PropertyBindingUtils\Config\DefaultPropertyBindingUtils.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\RigVM\Config\DefaultRigVM.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\RigVM\Config\DefaultRigVM.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\RigVM\Config\Editor.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\RigVM\Config\Editor.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\StateTree\Config\DefaultStateTree.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\StateTree\Config\DefaultStateTree.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\Synthesis\Config\DefaultSynthesis.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\Synthesis\Config\DefaultSynthesis.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\Runtime\Windows\XInputDevice\Config\Input.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\Runtime\Windows\XInputDevice\Config\Input.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\TraceUtilities\Config\DefaultTraceUtilities.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\TraceUtilities\Config\DefaultTraceUtilities.ini
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\VirtualProduction\Takes\Config\DefaultTakes.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Temp\Win64\Engine\Plugins\VirtualProduction\Takes\Config\DefaultTakes.ini
+No matching platform for PakFileRules for Section ExcludeContentForMobile : Windows
+SafeFindFiles D:\Trabajo\Cero Estrellas - El Simulador de Barista\Build\Windows\FileOpenOrder GameOpenOrder*.log False
+FindFiles D:\Trabajo\Cero Estrellas - El Simulador de Barista\Build\Windows\FileOpenOrder GameOpenOrder*.log False
+SafeFindFiles D:\Trabajo\Cero Estrellas - El Simulador de Barista\Build\Windows\FileOpenOrder CookerOpenOrder*.log False
+FindFiles D:\Trabajo\Cero Estrellas - El Simulador de Barista\Build\Windows\FileOpenOrder CookerOpenOrder*.log False
+SafeFindFiles D:\Trabajo\Cero Estrellas - El Simulador de Barista\Build\Windows\FileOpenOrder EditorOpenOrder.log False
+FindFiles D:\Trabajo\Cero Estrellas - El Simulador de Barista\Build\Windows\FileOpenOrder EditorOpenOrder.log False
+Using 0 pak order files:
+SafeCreateDirectory F:\Games\UE_5.8\Engine\Programs\AutomationTool\Saved\ResponseFiles
+SafeCreateDirectory F:\Games\UE_5.8\Engine\Programs\AutomationTool\Saved\ResponseFiles
+Running UnrealPak with arguments: "D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject"  -cryptokeys="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\CeroEstrellas\Metadata\Crypto.json" -patchpaddingalign=2048 -compressionformats=Oodle -compresslevel=4 -compressmethod=Kraken  -ProjectStore="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\ue.projectstore" -platform=Windows  -CreateMultiple="C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PakCommands.txt"
+SafeFileExists F:\Games\UE_5.8\Engine\Binaries\Win64\UnrealPak.exe=True
+Running: F:\Games\UE_5.8\Engine\Binaries\Win64\UnrealPak.exe "D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject"  -cryptokeys="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\CeroEstrellas\Metadata\Crypto.json" -patchpaddingalign=2048 -compressionformats=Oodle -compresslevel=4 -compressmethod=Kraken  -ProjectStore="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\ue.projectstore" -platform=Windows  -CreateMultiple="C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\PakCommands.txt"
+OodleDataCompression: Display: Oodle v2.9.16 format for pak/iostore with method=Kraken, level=4=Normal
+LogStreaming: Display: AsyncLoading2 - Created: Async Loading Thread: false, Async Post Load: false, Multithreaded: false
+LogPakFile: Display: ProjectDir: D:/Trabajo/Cero Estrellas - El Simulador de Barista/
+LogPakFile: Display: Parsing crypto keys from a crypto key cache file
+LogPakFile: Display: CompressionFormats in priority order: Oodle, Zlib
+LogZenServiceInstance: Display: Launching zen utility 'F:/Games/UE_5.8/Engine/Binaries/Win64/zen.exe service status'.
+LogZenServiceInstance: Display: Writing plugin version info to 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zen_plugin_versions.json'
+LogZenServiceInstance: Display: Read zen version cache file from 'C:/Users/dremo/AppData/Local/UnrealEngine/5.8/Saved/Zen/zen.version', version: '5.8.13-202605190912-windows-x64-release-094f62c2'
+LogZenServiceInstance: Display: Read zen version cache file from 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zen.version', version: '5.8.13-202605190912-windows-x64-release-094f62c2'
+LogZenServiceInstance: Display: Installed service at 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zenserver.exe' is up to date
+LogZenServiceInstance: Display: Unreal Zen Storage Server HTTP service at http://[::1]:8558 status: OK!.
+LogZenStore: Display: Opening oplog CeroEstrellas.13640f9b / Windows
+LogIoStore: Display: Fetched 510 oplog items from Zen in 1.05 seconds
+LogIoStore: Display: Parsed 510 oplog items 0.01 seconds, 3406 chunks
+LogIoStore: Display: Loaded 550 chunk hashes from Zen in 0.03 seconds, 550 hashes updated in 0.00 seconds
+LogPakFile: Display: Oodle enabled on 'NoPluginCompression' files
+LogPakFile: Display: Loading response file F:\Games\UE_5.8\Engine\Programs\AutomationTool\Saved\ResponseFiles\PakList_CeroEstrellas-Windows.txt
+LogPakFile: Display: Added 1737 entries to add to pak file.
+LogPakFile: Display: Collecting files to add to pak file...
+LogPakFile: Display: Collected 1737 files in 0.01s.
+LogPakFile: Display: Creating pak D:/Trabajo/Cero Estrellas - El Simulador de Barista/Saved/StagedBuilds/Windows/CeroEstrellas/Content/Paks/CeroEstrellas-Windows.pak.
+LogPakFile: Display: Created pak file: D:/Trabajo/Cero Estrellas - El Simulador de Barista/Saved/StagedBuilds/Windows/CeroEstrellas/Content/Paks/CeroEstrellas-Windows.pak
+LogPakFile: Display: CompressionFormat 0 [Oodle] : 397 files, 24020909 -> 9197856 bytes
+LogPakFile: Display: CompressionFormat 2 [None] : 1340 files, 786471 -> 786471 bytes
+LogPakFile: Display: Added 1737 files, 10649795 bytes total
+LogPakFile: Display: PrimaryIndex size: 23922 bytes
+LogPakFile: Display: PathHashIndex size: 54572 bytes
+LogPakFile: Display: FullDirectoryIndex size: 57690 bytes
+LogPakFile: Display: Compression summary: 38.29% of original size. Compressed Size 9197856 bytes, Original Size 24020909 bytes.
+LogPakFile: Display: Encryption - DISABLED
+LogPakFile: Display:
+LogPakFile: Display: Writer and Compression Threads exited.
+LogPakFile: Display: UnrealPak executed in 1.922357 seconds
+Took 2,31s to run UnrealPak.exe, ExitCode=0
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak_CreateMultiplePaks-2026.10.11-08.23.56.txt
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Logs\UnrealPak.log C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak_CreateMultiplePaks-2026.10.11-08.23.56.txt
+Running UnrealPak with arguments: "D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject" D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject -CreateGlobalContainer="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\global.utoc" -ProjectStore="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\ue.projectstore" -CookedDirectory="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows" -Commands="C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\IoStoreCommands.txt" -patchpaddingalign=2048 -compressionformats=Oodle -compresslevel=4 -compressmethod=Kraken   -cryptokeys="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\CeroEstrellas\Metadata\Crypto.json" -compressionMinBytesSaved=1024 -compressionMinPercentSaved=5 -WriteBackMetadataToAssetRegistry=Disabled -platform=Windows 
+SafeFileExists F:\Games\UE_5.8\Engine\Binaries\Win64\UnrealPak.exe=True
+Running: F:\Games\UE_5.8\Engine\Binaries\Win64\UnrealPak.exe "D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject" D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject -CreateGlobalContainer="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\global.utoc" -ProjectStore="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\ue.projectstore" -CookedDirectory="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows" -Commands="C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\IoStoreCommands.txt" -patchpaddingalign=2048 -compressionformats=Oodle -compresslevel=4 -compressmethod=Kraken   -cryptokeys="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\CeroEstrellas\Metadata\Crypto.json" -compressionMinBytesSaved=1024 -compressionMinPercentSaved=5 -WriteBackMetadataToAssetRegistry=Disabled -platform=Windows
+OodleDataCompression: Display: Oodle v2.9.16 format for pak/iostore with method=Kraken, level=4=Normal
+LogStreaming: Display: AsyncLoading2 - Created: Async Loading Thread: false, Async Post Load: false, Multithreaded: false
+LogPakFile: Display: ProjectDir: D:/Trabajo/Cero Estrellas - El Simulador de Barista/
+LogIoStore: Display: ==================== IoStore Utils ====================
+LogIoStore: Display: Parsing crypto keys from a crypto key cache file 'D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows\CeroEstrellas\Metadata\Crypto.json'
+LogIoStore: Display: Container signing - DISABLED
+LogIoStore: Display: Directory index - ENABLED
+LogIoStore: Display: Using compression format 'Oodle'
+LogConfig: Display: Read in platform Windows ini files took 0.03 seconds
+LogIoStore: Display: Using memory mapping alignment '16384'
+LogIoStore: Display: Using compression block size '65536'
+LogIoStore: Display: Using compression block alignment '2048'
+LogIoStore: Display: Using compression min bytes saved '1024'
+LogIoStore: Display: Using compression min percent saved '5'
+LogIoStore: Display: Using max partition size '0'
+LogIoStore: Display: Not using DDC for compression
+LogIoStore: Display: Container metadata disabled
+LogIoStore: Display: Using command list file: 'C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\IoStoreCommands.txt'
+LogIoStore: Display: Selected Oodle level 4 (Normal) from command line for shaders
+LogZenServiceInstance: Display: Launching zen utility 'F:/Games/UE_5.8/Engine/Binaries/Win64/zen.exe service status'.
+LogZenServiceInstance: Display: Writing plugin version info to 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zen_plugin_versions.json'
+LogZenServiceInstance: Display: Read zen version cache file from 'C:/Users/dremo/AppData/Local/UnrealEngine/5.8/Saved/Zen/zen.version', version: '5.8.13-202605190912-windows-x64-release-094f62c2'
+LogZenServiceInstance: Display: Read zen version cache file from 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zen.version', version: '5.8.13-202605190912-windows-x64-release-094f62c2'
+LogZenServiceInstance: Display: Installed service at 'C:/Users/dremo/AppData/Local/UnrealEngine/Common/Zen/Install/zenserver.exe' is up to date
+LogZenServiceInstance: Display: Unreal Zen Storage Server HTTP service at http://[::1]:8558 status: OK!.
+LogZenStore: Display: Opening oplog CeroEstrellas.13640f9b / Windows
+LogIoStore: Display: Fetched 510 oplog items from Zen in 0.74 seconds
+LogIoStore: Display: Parsed 510 oplog items 0.01 seconds, 3406 chunks
+LogIoStore: Display: Loaded 550 chunk hashes from Zen in 0.00 seconds, 550 hashes updated in 0.00 seconds
+LogIoStore: Display: Searching for cooked assets in folder 'D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Cooked\Windows'
+LogIoStore: Display: Found '4' files
+LogIoStore: Display: Creating container targets...
+LogIoStore: Display: Processing shader libraries, compressing with Oodle Mermaid, level 4 (Normal)
+LogIoStore: Display: Shader library chunk override is disabled
+LogShaderLibrary: Display: Created IoStoreShaderArchive header: shaders grouped in 382 groups (158 of them didn't need new indices), average uncompressed size 139725 bytes, min 249 bytes, max 1033651 bytes (r.ShaderCodeLibrary.MaxShaderGroupSize=1048576)
+LogIoStore: Display: Global-PCD3D_SM5(PCD3D_SM5): Recompressed 3929 shaders as 382 groups. Library size changed from 11814 KB (4.41 : 1 ratio) to 5259 KB (9.91 : 1 ratio), 44.52% of previous.
+LogIoStore: Display: Save IoStoreShaderCodeArchive 'Global-PCD3D_SM5-PCD3D_SM5' with ChunkId 'c3fad98e7ca0cc3100000008' for target file 'D:/Trabajo/Cero Estrellas - El Simulador de Barista/Saved/Cooked/Windows/CeroEstrellas/Content/ShaderArchive-Global-PCD3D_SM5-PCD3D_SM5.ushaderbytecode'
+LogShaderLibrary: Display: Created IoStoreShaderArchive header: shaders grouped in 166 groups (103 of them didn't need new indices), average uncompressed size 39640 bytes, min 502 bytes, max 984689 bytes (r.ShaderCodeLibrary.MaxShaderGroupSize=1048576)
+LogIoStore: Display: CeroEstrellas-PCD3D_SM5(PCD3D_SM5): Recompressed 884 shaders as 166 groups. Library size changed from 1950 KB (3.29 : 1 ratio) to 1022 KB (6.28 : 1 ratio), 52.44% of previous.
+LogIoStore: Display: Save IoStoreShaderCodeArchive 'CeroEstrellas-PCD3D_SM5-PCD3D_SM5' with ChunkId '77452afce06b111e00000008' for target file 'D:/Trabajo/Cero Estrellas - El Simulador de Barista/Saved/Cooked/Windows/CeroEstrellas/Content/ShaderArchive-CeroEstrellas-PCD3D_SM5-PCD3D_SM5.ushaderbytecode'
+LogIoStore: Display: Shaders processed in 0.31 seconds
+LogIoStore: Display: Initialized WriteRequestManager with MaxConcurrentSourceReads=8 (16 cores), MaxSourceBufferMemory=3072MiB
+LogIoStore: Display: Processing redirects...
+LogIoStore: Display: Creating disk layout...
+LogIoStore: Display: Ordered 507 packages using fallback bundle order
+LogIoStore: Display: Disabled WriteRequestManager memory throttling, MaxConcurrentSourceReads=8 (16 cores)
+LogIoStore: Display: Writing container(s)...
+LogIoStore: Display: Writing and compressing took 0.41 seconds, writes to disk took 0.13 seconds for 126,786,128 bytes @ 939,234,425 bytes per second.
+LogIoStore: Display: global: Found perfect hashmap for 1 items.
+LogIoStore: Display: CeroEstrellas-Windows: Found perfect hashmap for 1101 items.
+LogIoStore: Display: Finalize took 0.0 seconds for 2 writers to write 124,655 bytes, 4,273,104 bytes per second
+LogIoStore: Display: Writing tocs... [Physical: 518 MiB, Virtual: 3256 MiB]
+LogIoStore: Display: 550 / 1,102 hashes were loaded from the hash database, by type:
+LogIoStore: Display:     ExportBundleData           507
+LogIoStore: Display:     BulkData                   43
+LogIoStore: Display: 550 / 1,102 chunks attempted to compress, by type:
+LogIoStore: Display:     ExportBundleData           507 / 507
+LogIoStore: Display:     BulkData                   43 / 43
+LogIoStore: Display:     ScriptObjects              0 / 1
+LogIoStore: Display:     ContainerHeader            0 / 1
+LogIoStore: Display:     ShaderCodeLibrary          0 / 2
+LogIoStore: Display:     ShaderCode                 0 / 548
+LogIoStore: Display: Source bytes read:
+LogIoStore: Display:     Zen:                        163,592,696
+LogIoStore: Display:         ExportBundleData        155,296,632 bytes over 507 reads
+LogIoStore: Display:         BulkData                  8,296,064 bytes over 43 reads
+LogIoStore: Display:     Loose File:                           0
+LogIoStore: Display:     Memory:                      13,144,930
+LogIoStore: Display:         ShaderCodeLibrary           278,264 bytes over 4 reads
+LogIoStore: Display:         ShaderCode               12,866,666 bytes over 1,096 reads
+LogIoStore: Display: Calculating stats...
+LogIoStore: Display:
+LogIoStore: Display: Container Summary
+LogIoStore: Display: ==================
+LogIoStore: Display:
+LogIoStore: Display:                      Container      Flags      Chunk(s) #       TOC (KiB)       Raw Size (MiB)           Size (MiB)
+LogIoStore: Display: -------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display:                         global  -/-/-/-/-               1            0.76                 3.06                 3.06 -
+LogIoStore: Display:          CeroEstrellas-Windows  C/-/-/I/-            1101          120.97               162.92               117.85 (27.66% Oodle)
+LogIoStore: Display: -------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display:                          Total                       1102          121.73               165.98               120.91
+LogIoStore: Display:
+LogIoStore: Display: ** Flags: (C)ompressed / (E)ncrypted / (S)igned) / (I)ndexed) / (O)nDemand **
+LogIoStore: Display:
+LogIoStore: Display: Compression block padding:     0.62 MiB
+LogIoStore: Display:
+LogIoStore: Display: Container Directory Index
+LogIoStore: Display: ==========================
+LogIoStore: Display:
+LogIoStore: Display:                      Container      Size (KiB)
+LogIoStore: Display: ----------------------------------------------
+LogIoStore: Display:                         global            0.00
+LogIoStore: Display:          CeroEstrellas-Windows           27.42
+LogIoStore: Display:
+LogIoStore: Display: Container Patch Report
+LogIoStore: Display: ========================
+LogIoStore: Display:
+LogIoStore: Display:                      Container          Total #       Modified #          Added #   Modified (MiB)      Added (MiB)
+LogIoStore: Display: -------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display:                         global                1                0                0             0.00             0.00
+LogIoStore: Display:          CeroEstrellas-Windows             1101                0             1101             0.00           117.23
+LogIoStore: Display: -------------------------------------------------------------------------------------------------------------------
+LogIoStore: Display:
+LogIoStore: Display: PackageStore
+LogIoStore: Display: =============
+LogIoStore: Display:
+LogIoStore: Display:                      Container      Size (KiB)      Packages #     Localized #
+LogIoStore: Display: ------------------------------------------------------------------------------
+LogIoStore: Display:          CeroEstrellas-Windows              13             507               0
+LogIoStore: Display: ------------------------------------------------------------------------------
+LogIoStore: Display:                          Total              13             507               0
+LogIoStore: Display:
+LogIoStore: Display:
+LogIoStore: Display: Input:       507 Packages
+LogIoStore: Display: Input:         0   B UExp
+LogIoStore: Display: Input:    148.10 MiB UAsset
+LogIoStore: Display: Input:      7.91 MiB UBulk
+LogIoStore: Display: Input:      5.14 MiB for 382 Global shaders
+LogIoStore: Display: Input:    257.17 KiB for 76 Shared shaders
+LogIoStore: Display: Input:         0   B for 0 Unique shaders
+LogIoStore: Display: Input:    765.51 KiB for 90 Inline shaders
+LogIoStore: Display:
+LogIoStore: Display: Output:      505 Imported package entries
+LogIoStore: Display: Output:      322 Packages without imports
+LogIoStore: Display: Output:        0 Public runtime script objects
+LogIoStore: Display: Output:     3.06 MiB InitialLoadData
+LogIoStore: Display:
+LogIoStore: Display: Success
+LogPakFile: Display: UnrealPak executed in 1.632367 seconds
+Took 2,03s to run UnrealPak.exe, ExitCode=0
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak_CreateIoStoreContainers-2026.10.11-08.23.58.txt
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\Logs\UnrealPak.log C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\UnrealPak_CreateIoStoreContainers-2026.10.11-08.23.58.txt
+DumpManifest: C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\FinalCopyWin64_UFSFiles.txt, NumItems: 2290
+SafeWriteAllLines C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\FinalCopyWin64_UFSFiles.txt
+DumpManifest: C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\FinalCopyWin64_NonUFSFiles.txt, NumItems: 34
+SafeWriteAllLines C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\FinalCopyWin64_NonUFSFiles.txt
+DumpManifest: C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\FinalCopyWin64_NonUFSFilesDebug.txt, NumItems: 6
+SafeWriteAllLines C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\FinalCopyWin64_NonUFSFilesDebug.txt
+Copying NonUFSFiles to staging directory: D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\CeroEstrellas.exe D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\CeroEstrellas.exe
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\D3D12\x64\D3D12Core.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64\D3D12Core.dll
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\D3D12\x64\d3d12SDKLayers.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64\d3d12SDKLayers.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\DML\x64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\DML\x64\DirectML.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\DML\x64\DirectML.dll
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\tbb12.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\tbb12.dll
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\tbbmalloc.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\tbbmalloc.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\DbgHelp
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\DbgHelp\dbghelp.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\DbgHelp\dbghelp.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic\v220\win64
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\MsQuic\v220\win64\msquic.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic\v220\win64\msquic.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath\Win64
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath\Win64\GFSDK_Aftermath_Lib.x64.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath\Win64\GFSDK_Aftermath_Lib.x64.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg\Win64\VS2015
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Ogg\Win64\VS2015\libogg_64.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg\Win64\VS2015\libogg_64.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbis_64.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbis_64.dll
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbisfile_64.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbisfile_64.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime\x64
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime\x64\WinPixEventRuntime.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime\x64\WinPixEventRuntime.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9\x64
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Windows\XAudio2_9\x64\xaudio2_9redist.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9\x64\xaudio2_9redist.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Renderer
+SafeCopyFile F:\Games\UE_5.8\Engine\Content\Renderer\TessellationTable.bin D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Renderer\TessellationTable.bin
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Slate\Cursor
+SafeCopyFile F:\Games\UE_5.8\Engine\Content\Slate\Cursor\invisible.cur D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Slate\Cursor\invisible.cur
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime\Win64
+SafeCopyFile F:\Games\UE_5.8\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime\Win64\onnxruntime.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime\Win64\onnxruntime.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Config
+SafeCopyFile F:\Games\UE_5.8\Engine\Intermediate\Build\BuildCookRun\StagedBuild_CeroEstrellas.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Config\StagedBuild_CeroEstrellas.ini
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.dll
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.json
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.dll
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.json
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.dll
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.json
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.dll
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.json
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.dll
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.json
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.dll
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.json
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.dll
+SafeCopyFile F:\Games\UE_5.8\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.json
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Intermediate\Staging\CeroEstrellas.exe D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas.exe
+SafeCopyFile F:\Games\UE_5.8\Engine\Source\ThirdParty\Licenses\NOTICES.txt D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\NOTICES.txt
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_NonUFSFiles_Win64.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_NonUFSFiles_Win64.txt
+SafeWriteAllLines C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_NonUFSFiles_Win64.txt
+SafeCopyFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_NonUFSFiles_Win64.txt D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_NonUFSFiles_Win64.txt
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_UFSFiles_Win64.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_UFSFiles_Win64.txt
+SafeWriteAllLines C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_UFSFiles_Win64.txt
+SafeCopyFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_UFSFiles_Win64.txt D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_UFSFiles_Win64.txt
+Copying DebugFiles to staging directory: D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Binaries\Win64\CeroEstrellas.pdb D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\CeroEstrellas.pdb
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug\Fonts
+SafeCopyFile F:\Games\UE_5.8\Engine\Content\SlateDebug\Fonts\LastResort.tps D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug\Fonts\LastResort.tps
+SafeCopyFile F:\Games\UE_5.8\Engine\Content\SlateDebug\Fonts\LastResort.ttf D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug\Fonts\LastResort.ttf
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer
+SafeCopyFile F:\Games\UE_5.8\Engine\Extras\GPUDumpViewer\GPUDumpViewer.html D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer\GPUDumpViewer.html
+SafeCopyFile F:\Games\UE_5.8\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.bat D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.bat
+SafeCopyFile F:\Games\UE_5.8\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.sh D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.sh
+SafeDeleteFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_DebugFiles_Win64.txt
+SafeDeleteFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_DebugFiles_Win64.txt
+SafeWriteAllLines C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_DebugFiles_Win64.txt
+SafeCopyFile C:\Users\dremo\AppData\Roaming\Unreal Engine\AutomationTool\Logs\F+Games+UE_5.8\Manifest_DebugFiles_Win64.txt D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_DebugFiles_Win64.txt
+Stage command time: 44.10 s
+********** STAGE COMMAND COMPLETED **********
+Deployment Context **************
+ProjectFile = D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject
+ArchiveDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows
+IsCodeBasedUprojectFile = True
+DedicatedServer = False
+Stage = True
+StageTargetPlatform = Win64
+InputRootDir = F:\Games\UE_5.8
+InputProjectDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista
+PlatformDir = Win64
+StagedOutputDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+ShortProjectName = CeroEstrellas
+ProjectArgForCommandLines = -project="../../../CeroEstrellas/CeroEstrellas.uproject"
+RunRootDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+RunProjectDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas
+PakFileInternalRoot = ../../../
+PlatformUsesChunkManifests = False
+End Deployment Context **************
+********** ARCHIVE COMMAND STARTED **********
+Archiving to D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release
+Deployment Context **************
+ProjectFile = D:\Trabajo\Cero Estrellas - El Simulador de Barista\CeroEstrellas.uproject
+ArchiveDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows
+IsCodeBasedUprojectFile = True
+DedicatedServer = False
+Stage = True
+StageTargetPlatform = Win64
+InputRootDir = F:\Games\UE_5.8
+InputProjectDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista
+PlatformDir = Win64
+StagedOutputDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+ShortProjectName = CeroEstrellas
+ProjectArgForCommandLines = -project="../../../CeroEstrellas/CeroEstrellas.uproject"
+RunRootDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows
+RunProjectDir = D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas
+PakFileInternalRoot = ../../../
+PlatformUsesChunkManifests = False
+End Deployment Context **************
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas.exe D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas.exe
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_DebugFiles_Win64.txt D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Manifest_DebugFiles_Win64.txt
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_NonUFSFiles_Win64.txt D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Manifest_NonUFSFiles_Win64.txt
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Manifest_UFSFiles_Win64.txt D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Manifest_UFSFiles_Win64.txt
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\NOTICES.txt D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\NOTICES.txt
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Config\StagedBuild_CeroEstrellas.ini D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Config\StagedBuild_CeroEstrellas.ini
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Config
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\CeroEstrellas.exe D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\CeroEstrellas.exe
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\CeroEstrellas.pdb D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\CeroEstrellas.pdb
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\tbb12.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\tbb12.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\tbbmalloc.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\tbbmalloc.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\CeroEstrellas-Windows.pak D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks\CeroEstrellas-Windows.pak
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\CeroEstrellas-Windows.ucas D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks\CeroEstrellas-Windows.ucas
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\CeroEstrellas-Windows.utoc D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks\CeroEstrellas-Windows.utoc
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\global.ucas D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks\global.ucas
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Content\Paks\global.utoc D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks\global.utoc
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Content\Paks
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Renderer\TessellationTable.bin D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Content\Renderer\TessellationTable.bin
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Content\Renderer
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer\GPUDumpViewer.html D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Extras\GPUDumpViewer\GPUDumpViewer.html
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Extras\GPUDumpViewer
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.bat D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.bat
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Extras\GPUDumpViewer
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.sh D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Extras\GPUDumpViewer\OpenGPUDumpViewer.sh
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Extras\GPUDumpViewer
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\DbgHelp\dbghelp.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\DbgHelp\dbghelp.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\DbgHelp
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\Slate\Cursor\invisible.cur D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Content\Slate\Cursor\invisible.cur
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Content\Slate\Cursor
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug\Fonts\LastResort.tps D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Content\SlateDebug\Fonts\LastResort.tps
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Content\SlateDebug\Fonts
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Content\SlateDebug\Fonts\LastResort.ttf D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Content\SlateDebug\Fonts\LastResort.ttf
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Content\SlateDebug\Fonts
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64\D3D12Core.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64\D3D12Core.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64\d3d12SDKLayers.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64\d3d12SDKLayers.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\D3D12\x64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\CeroEstrellas\Binaries\Win64\DML\x64\DirectML.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\DML\x64\DirectML.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\CeroEstrellas\Binaries\Win64\DML\x64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_api_dump.json
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_crash_diagnostic.json
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_gfxreconstruct.json
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_profiles.json
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_shader_object.json
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_synchronization2.json
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.json D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64\VkLayer_khronos_validation.json
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vulkan\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\MsQuic\v220\win64\msquic.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\MsQuic\v220\win64\msquic.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\MsQuic\v220\win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath\Win64\GFSDK_Aftermath_Lib.x64.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath\Win64\GFSDK_Aftermath_Lib.x64.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\NVIDIA\NVaftermath\Win64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Ogg\Win64\VS2015\libogg_64.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Ogg\Win64\VS2015\libogg_64.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Ogg\Win64\VS2015
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbisfile_64.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbisfile_64.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbis_64.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015\libvorbis_64.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Vorbis\Win64\VS2015
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime\x64\WinPixEventRuntime.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime\x64\WinPixEventRuntime.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Windows\WinPixEventRuntime\x64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9\x64\xaudio2_9redist.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9\x64\xaudio2_9redist.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Binaries\ThirdParty\Windows\XAudio2_9\x64
+SafeCopyFile D:\Trabajo\Cero Estrellas - El Simulador de Barista\Saved\StagedBuilds\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime\Win64\onnxruntime.dll D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime\Win64\onnxruntime.dll
+SafeCreateDirectory D:\Trabajo\Cero Estrellas - El Simulador de Barista\Release\Windows\Engine\Plugins\NNE\NNERuntimeORT\Binaries\ThirdParty\Onnxruntime\Win64
+Archive command time: 2.75 s
+********** ARCHIVE COMMAND COMPLETED **********
+BuildCookRun time: 184.92 s
+BUILD SUCCESSFUL
+AutomationTool executed for 0h 3m 6s
+AutomationTool exiting with ExitCode=0 (Success)

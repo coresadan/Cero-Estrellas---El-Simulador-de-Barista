@@ -1,0 +1,19 @@
+{
+	"passed": true,
+	"engine": "5.8.3-58210709+++UE5+Release-5.8",
+	"physics_handle_grab": true,
+	"coffee_pour": true,
+	"thrown_pastry_hit_customer": true,
+	"tray_grab": true,
+	"keyboard_movement": true,
+	"sprint_input": true,
+	"real_input_bindings": true,
+	"customer_exit_confirmed": true,
+	"boss_praise": true,
+	"boss_voice_assets_available": true,
+	"boss_marketing_line": true,
+	"chaos_count": 4,
+	"praise_count": 2,
+	"human_playthrough": false,
+	"microphone_llm_tts_integrated": false
+}

@@ -1,0 +1,28 @@
+#pragma once
+#include "CoreMinimal.h"
+namespace CEBoss
+{
+    inline TArray<FString> Lines()
+    {
+        return {
+            TEXT("¡Bienvenido, campeón! Aquí no cometemos errores: descubrimos oportunidades. ¡Haz que este turno sea inolvidable!"),
+            TEXT("¡Chaval, eres un genio! ShitAdvisor lo llama Deconstrucción Culinaria Agresiva. ¡La retención de clientes masoquistas ha subido un cuatrocientos por ciento!"),
+            TEXT("¡Ese café en el suelo es una activación sensorial! Acabamos de entrar en el mercado de las experiencias inmersivas. ¡Sigue así!"),
+            TEXT("¡Ha salido llorando de emoción! Eso es engagement líquido, chaval. ¡Tu ascenso está cada vez más cerca!"),
+            TEXT("¡No has perdido un cliente! Has optimizado el aforo con una estrategia de evacuación premium. ¡Mentalidad de líder!"),
+            TEXT("¡La taza voladora elimina intermediarios! Entrega directa, cero fricción. Bueno, un poco de fricción en la frente. ¡Innovación!"),
+            TEXT("¡Ese cruasán en la cara es marketing de proximidad! Estamos literalmente en boca de todos. ¡Qué visión estratégica!"),
+            TEXT("¡Me piden que te despida! Seguro que quieren que despida tu versión anterior. ¡Prepárate para más responsabilidades!"),
+            TEXT("¿Has bañado al cliente en café? Perfecto. Hemos fusionado cafetería y spa. Ponle un suplemento de bienestar."),
+            TEXT("Tres reclamaciones y una silla en el suelo. Eso es una reunión de equipo con resultados tangibles. Estoy orgullosa."),
+            TEXT("El portátil ya no funciona, pero el cliente nos está mencionando en todas sus redes. Acabas de inventar el marketing sin pantalla."),
+            TEXT("Nos están amenazando con una inspección. Excelente: vienen nuevos clientes con uniforme y capacidad de compra."),
+            TEXT("El desayuno acaba en la ropa y no en el estómago. Has descubierto una nueva categoría: moda comestible."),
+            TEXT("La gente sale corriendo. Nunca habíamos tenido una rotación de mesas tan eficiente. Te veo dirigiendo operaciones."),
+            TEXT("Ese desastre se oye desde la calle. Por fin tenemos publicidad exterior sin pagar licencia municipal."),
+            TEXT("Me dicen que este local es una pesadilla. Las experiencias inmersivas están en auge. Apunta: brunch de terror."),
+            TEXT("¿Querías que te despidiera? Después de lo de hoy necesito ponerte al frente de nuestra nueva franquicia. Enhorabuena."),
+            TEXT("Tenemos café en el techo y una reseña de una estrella. Excelente equilibrio entre expansión vertical y exclusividad.")
+        };
+    }
+}
