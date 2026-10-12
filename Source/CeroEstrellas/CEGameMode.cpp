@@ -8,6 +8,8 @@
 #include "Engine/PointLight.h"
 #include "Engine/DirectionalLight.h"
 #include "Engine/SkyLight.h"
+#include "Engine/PostProcessVolume.h"
+#include "Engine/TextureCube.h"
 #include "Engine/Engine.h"
 #include "Engine/GameViewportClient.h"
 #include "GameFramework/PlayerController.h"
@@ -15,6 +17,7 @@
 #include "Misc/CommandLine.h"
 #include "Misc/Parse.h"
 #include "EngineUtils.h"
+#include "Widgets/SWindow.h"
 
 ACEGameMode::ACEGameMode()
 {
@@ -26,11 +29,15 @@ ACEGameMode::ACEGameMode()
 void ACEGameMode::BeginPlay()
 {
     BuildCafe();
+    if(GetWorld()->WorldType==EWorldType::Game && GEngine && GEngine->GameViewport)
+        if(auto Window=GEngine->GameViewport->GetWindow()) Window->SetTitle(FText::FromString(TEXT("Cero Estrellas · El Simulador de Barista")));
     Super::BeginPlay();
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Observe(TEXT("shift_started"),TEXT(""),TEXT(""),0);
     bSmoke=FParse::Param(FCommandLine::Get(),TEXT("CeroSmokeTest"));
+    bDialogueSmoke=FParse::Param(FCommandLine::Get(),TEXT("CeroDialogueTest"));
+    bSmoke|=bDialogueSmoke;
     bLoopSmoke=bSmoke;
-    UE_LOG(LogTemp,Display,TEXT("CE_READY version=0.3.0 smoke=%d"),bSmoke);
+    UE_LOG(LogTemp,Display,TEXT("CE_READY version=0.6.0 smoke=%d"),bSmoke);
 }
 
 void ACEGameMode::Tick(float DeltaSeconds)
@@ -49,6 +56,7 @@ void ACEGameMode::Tick(float DeltaSeconds)
         }
     }
     Super::Tick(DeltaSeconds);
+    if(bSmoke && GetWorld()->GetTimeSeconds()>10.f && FrameSamples.Num()<36000) FrameSamples.Add(DeltaSeconds*1000.f);
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->TickRadio();
     TickArrivals();
     if (bSmoke && GetWorld()->GetTimeSeconds()>=SmokeNextAt) SmokeStep();
@@ -56,11 +64,12 @@ void ACEGameMode::Tick(float DeltaSeconds)
 
 void ACEGameMode::BuildCafe()
 {
-    const FLinearColor Teal(.025f,.19f,.16f), Deep(.012f,.065f,.055f), Cream(.84f,.74f,.54f), Wood(.29f,.14f,.06f), Orange(.9f,.28f,.07f), Metal(.22f,.28f,.25f);
+    const FLinearColor Teal(.065f,.23f,.19f), Deep(.025f,.078f,.073f), Cream(.78f,.75f,.65f), Wood(.29f,.14f,.06f), Orange(.70f,.31f,.12f), Metal(.22f,.28f,.25f);
     auto Block=[this](FVector Location,FVector Size,FLinearColor Color,bool bCollision=true,const TCHAR* Shape=TEXT("Cube"),bool bUnlit=false)
     {
         auto* Actor=GetWorld()->SpawnActor<AActor>(Location,FRotator::ZeroRotator);
         auto* Mesh=CEVisual::Part(Actor,Shape,FVector::ZeroVector,Size/100.f,Color,bUnlit);
+        Mesh->SetCastShadow(!bUnlit);
         Actor->SetActorLocation(Location);
         if (bCollision)
         {
@@ -87,7 +96,11 @@ void ACEGameMode::BuildCafe()
     Block(FVector(120,0,-10),FVector(1380,1200,20),Cream);
     for (int32 X=-5;X<=7;++X)
         for (int32 Y=-5;Y<=5;++Y)
-            Block(FVector(X*100,Y*100,.3f),FVector(98,98,.5f),((X+Y)%2==0) ? FLinearColor(.35f,.43f,.34f) : FLinearColor(.68f,.65f,.49f),false);
+        {
+            const FLinearColor TileColor=((X+Y)%2==0) ? FLinearColor(.32f,.38f,.35f) : FLinearColor(.65f,.62f,.53f);
+            auto* Tile=Block(FVector(X*100,Y*100,.3f),FVector(98,98,.5f),TileColor,false);
+            Cast<UStaticMeshComponent>(Tile->GetRootComponent())->SetMaterial(0,CEVisual::Surface(Tile,TileColor,TEXT("M_Stone")));
+        }
     Block(FVector(-570,0,170),FVector(20,1200,340),Teal);
     Block(FVector(800,0,170),FVector(20,1200,340),Teal);
     Block(FVector(120,-600,170),FVector(1380,20,340),Teal);
@@ -95,14 +108,30 @@ void ACEGameMode::BuildCafe()
     Block(FVector(-2.5f,600,60),FVector(1135,20,120),Teal);
     Block(FVector(742.5f,600,60),FVector(135,20,120),Teal);
     Block(FVector(120,600,320),FVector(1380,20,40),Teal);
-    Block(FVector(120,0,350),FVector(1380,1200,20),FLinearColor(.19f,.22f,.15f));
+    Block(FVector(120,0,350),FVector(1380,1200,20),FLinearColor(.57f,.54f,.46f));
+    // Wainscoting and brass trim give the large walls depth without extra simulation.
+    Block(FVector(786,0,54),FVector(6,1180,108),Deep,false);
+    Block(FVector(782,0,111),FVector(3,1180,3),FLinearColor(.42f,.30f,.14f),false);
+    for(int32 Y=-540;Y<=540;Y+=90) Block(FVector(781,Y,54),FVector(3,2,97),Teal,false);
+    Block(FVector(120,-586,54),FVector(1340,6,108),Deep,false);
+    Block(FVector(120,-582,111),FVector(1340,3,3),FLinearColor(.42f,.30f,.14f),false);
     for (int32 X=-500;X<=750;X+=250)
     {
         Block(FVector(X,598,205),FVector(9,18,190),Deep);
         if(X!=500)
         {
             Block(FVector(X+120,607,208),FVector(231,8,177),FLinearColor(.31f,.58f,.64f),false,TEXT("Cube"),true);
-            Block(FVector(X+100,609,170),FVector(80,5,45),FLinearColor(.23f,.36f,.36f),false,TEXT("Cube"),true);
+            // Low-cost street silhouettes sit in front of the opaque sky panel.
+            // They give the windows a view rather than a featureless luminous wall.
+            for(int32 Building=0;Building<3;++Building) {
+                const float BX=X+40.f+Building*78.f, Height=65.f+((X/250+Building+6)%3)*35.f;
+                Block(FVector(BX,601,119+Height/2),FVector(68,3,Height),FLinearColor(.13f+.025f*Building,.23f,.26f),false,TEXT("Cube"),true);
+                Block(FVector(BX,599,120+Height),FVector(73,2,4),FLinearColor(.10f,.16f,.18f),false,TEXT("Cube"),true);
+                for(int32 Row=0;Row<3;++Row) for(int32 Column=0;Column<2;++Column)
+                    if(25.f+Row*25.f<Height-8.f) Block(FVector(BX-16+Column*32,598,139+Row*25),FVector(12,1,13),FLinearColor(.38f,.48f,.46f),false,TEXT("Cube"),true);
+            }
+            Block(FVector(X+120,594,207),FVector(5,8,177),Deep,false);
+            Block(FVector(X+120,594,208),FVector(231,8,5),Deep,false);
         }
     }
     // Door is a recognisable destination, with a physical frame and an exit sign.
@@ -123,13 +152,18 @@ void ACEGameMode::BuildCafe()
     {
         Block(FVector(-545,-170,170+Shelf*80),FVector(30,620,6),Wood);
         for (int32 i=0;i<9;++i)
-            Block(FVector(-532,-420+i*62,190+Shelf*80),FVector(17,17,34),i%3==0 ? Orange : Cream,false,TEXT("Cylinder"));
+            Block(FVector(-532,-420+i*62,190+Shelf*80),FVector(17,17,34),i%3==0 ? Orange : Cream,false,TEXT("SM_Bottle"));
     }
     Block(FVector(45,-65,50),FVector(90,430,100),Teal);
     Block(FVector(45,-65,104),FVector(110,455,9),Wood);
     Block(FVector(-105,-330,50),FVector(390,90,100),Teal);
     Block(FVector(-105,-330,104),FVector(410,110,9),Wood);
     for(int32 y=-260;y<=140;y+=50) Block(FVector(-1,y,51),FVector(2,3,91),FLinearColor(.08f,.32f,.25f),false);
+    // Ribbed timber, recessed toe kick and a brass edge make the counter read
+    // as furniture. These details don't add obstacles to the work area.
+    for(int32 y=-266;y<=136;y+=18) Block(FVector(92,y,53),FVector(4,12,82),Wood,false);
+    Block(FVector(93,-65,10),FVector(6,428,12),Deep,false);
+    Block(FVector(99,-65,102),FVector(2,450,2),FLinearColor(.42f,.30f,.14f),false);
     auto Station=[this](ECEStationKind Kind,FVector Position)
     {
         auto* S=GetWorld()->SpawnActor<ACEStation>(Position,FRotator::ZeroRotator); S->Configure(Kind); return S;
@@ -147,14 +181,37 @@ void ACEGameMode::BuildCafe()
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Liquids=Liquids;
     // Syrup bottles and a bakery stand, accessible from the barista's side.
     Station(ECEStationKind::Pastries,FVector(45,95,121));
-    Sign(TEXT("PREPARACIÓN\n1 MOLER  2 PRENSAR  3 EXTRAER\nLATTE: JARRA → VAPOR → VERTER"),FVector(-145,-382,226),8,FColor(255,213,162),FRotator(0,90,0));
+    Block(FVector(-145,-384,215),FVector(195,3,57),Deep,false);
+    Sign(TEXT("PREPARACIÓN\n1 MOLER  2 PRENSAR  3 EXTRAER\nLATTE: JARRA / VAPOR / VERTER"),FVector(-145,-381,236),6.5f,FColor(232,216,182),FRotator(0,90,0));
     // Main wall graphic and corporate slogans.
     Block(FVector(787,-70,260),FVector(5,610,150),Deep,false);
     Sign(TEXT("CERO ESTRELLAS"),FVector(782,-70,286),40,FColor(255,207,134));
+    Sign(TEXT("CAFÉ DE ESPECIALIDAD  /  PACIENCIA LIMITADA"),FVector(782,-70,228),10,FColor(173,192,179));
     Sign(TEXT("EL CLIENTE SIEMPRE TIENE LA CULPA"),FVector(250,-581,310),10,FColor(158,205,185),FRotator(0,90,0));
     Block(FVector(250,-587,230),FVector(310,5,140),Deep,false);
     Sign(TEXT("CARTA DEL DÍA\nEspresso existencial .... 3,50\nLatte de resignación .... 4,00\nDespido ........ AGOTADO"),FVector(250,-582,274),14,FColor(238,209,157),FRotator(0,90,0));
     Sign(TEXT("SONRÍE. ES OBLIGATORIO."),FVector(-557,300,230),17,FColor(255,193,106),FRotator::ZeroRotator);
+    // Framed coffee graphics, clock and small shelf details complete the room.
+    for(float Y:{-475.f,420.f}) {
+        Block(FVector(783,Y,245),FVector(4,121,125),Wood,false);
+        Block(FVector(780,Y,245),FVector(2,111,115),Cream,false);
+        auto* Bean=Block(FVector(778,Y,250),FVector(3,27,43),Orange,false,TEXT("Sphere"));
+        Bean->SetActorRotation(FRotator(0,0,-24));
+        Block(FVector(775,Y,250),FVector(1,2,24),Wood,false);
+        Sign(TEXT("CAFÉ DE ORIGEN"),FVector(775,Y,211),7,FColor(72,62,45));
+        Sign(TEXT("CERO PRISAS"),FVector(775,Y,197),5,FColor(105,94,74));
+    }
+    auto* Clock=Block(FVector(-554,120,252),FVector(49,49,4),Deep,false,TEXT("Cylinder"));
+    Clock->SetActorRotation(FRotator(90,0,0));
+    auto* Face=Block(FVector(-550,120,252),FVector(43,43,2),Cream,false,TEXT("Cylinder"));
+    Face->SetActorRotation(FRotator(90,0,0));
+    for(int32 Hour=0;Hour<12;++Hour) {
+        const float Angle=Hour*PI/6;
+        auto* Mark=Block(FVector(-548,120+FMath::Sin(Angle)*18,252+FMath::Cos(Angle)*18),FVector(1,1.5f,4),Deep,false);
+        Mark->SetActorRotation(FRotator(0,0,-Hour*30.f));
+    }
+    Block(FVector(-546,120,260),FVector(1,1.5f,17),Deep,false);
+    Block(FVector(-545,126,252),FVector(1,13,1.5f),Deep,false);
     // Seating and the three approved archetypes. Visuals and reactions are placeholders, not LLM output.
     const float Ys[]={-100.f,220.f,-405.f};
     for(int32 i=0;i<3;++i)
@@ -187,32 +244,52 @@ void ACEGameMode::BuildCafe()
     // Planters and poster accents.
     for (FVector P : {FVector(710,440,0),FVector(-480,470,0)})
     {
-        Block(P+FVector(0,0,30),FVector(55,55,60),Orange,true,TEXT("Cylinder"));
-        for(int32 i=0;i<5;++i) Block(P+FVector(FMath::Sin(i*1.2f)*20,FMath::Cos(i*1.2f)*20,80+i*8),FVector(18,18,70),Teal,false,TEXT("Sphere"));
+        Block(P+FVector(0,0,30),FVector(55,55,60),Orange,true,TEXT("SM_Pot"));
+        for(int32 i=0;i<9;++i)
+        {
+            auto* Leaf=Block(P+FVector(FMath::Sin(i*1.2f)*20,FMath::Cos(i*1.2f)*20,78+i*4),FVector(17,24,64),i%2 ? Teal : FLinearColor(.07f,.27f,.12f),false,TEXT("SM_Leaf"));
+            Leaf->SetActorRotation(FRotator(12+i*3,i*47.f,18));
+        }
     }
-    auto* Sun=GetWorld()->SpawnActor<ADirectionalLight>(FVector(0,0,300),FRotator(-55,-35,0));
-    Sun->GetLightComponent()->SetIntensity(2.8f);
-    Sun->GetLightComponent()->SetLightColor(FLinearColor(1.f,.88f,.66f));
+    // Light arrives through the actual window openings, drawing mullion shadows
+    // across the cafe instead of being stopped by the solid side wall.
+    auto* Sun=GetWorld()->SpawnActor<ADirectionalLight>(FVector(0,0,300),FRotator(-38,-90,0));
+    Sun->GetLightComponent()->SetIntensity(3.5f);
+    Sun->GetLightComponent()->SetLightColor(FLinearColor(1.f,.93f,.83f));
     auto* Sky=GetWorld()->SpawnActor<ASkyLight>();
-    Sky->GetLightComponent()->SetIntensity(.7f);
+    Sky->GetLightComponent()->SourceType=SLS_SpecifiedCubemap;
+    Sky->GetLightComponent()->SetCubemap(LoadObject<UTextureCube>(nullptr,TEXT("/Game/Prototype/T_CafeReflection.T_CafeReflection")));
+    Sky->GetLightComponent()->SetIntensity(.65f);
+    auto* Grade=GetWorld()->SpawnActor<APostProcessVolume>(); Grade->bUnbound=true;
+    auto& PP=Grade->Settings;
+    PP.bOverride_AutoExposureBias=true; PP.AutoExposureBias=.4f;
+    PP.bOverride_ColorSaturation=true; PP.ColorSaturation=FVector4(.94f,.94f,.94f,1);
+    PP.bOverride_AmbientOcclusionIntensity=true; PP.AmbientOcclusionIntensity=.55f;
+    PP.bOverride_BloomIntensity=true; PP.BloomIntensity=.15f;
     for(FVector P : {FVector(-180,-120,300),FVector(330,-250,300),FVector(330,200,300),FVector(-400,350,300)})
     {
         auto* Light=GetWorld()->SpawnActor<APointLight>(P,FRotator::ZeroRotator);
         auto* Point=Cast<UPointLightComponent>(Light->GetLightComponent());
-        Point->SetIntensity(4500.f);
-        Point->SetAttenuationRadius(650.f);
-        Point->SetLightColor(FLinearColor(1.f,.82f,.54f));
-        Point->SetCastShadows(false);
+        Point->SetIntensity(6500.f);
+        Point->SetAttenuationRadius(700.f);
+        Point->SetLightColor(FLinearColor(1.f,.91f,.79f));
+        Point->SetCastShadows(P.X==330.f && P.Y==200.f);
+        Point->SetSourceRadius(14.f);
         Block(P+FVector(0,0,11),FVector(55,55,15),Orange,false,TEXT("Cone"));
-        Block(P,FVector(32,32,3),FLinearColor(1.f,.66f,.28f),false,TEXT("Cylinder"),true);
-        Block(P+FVector(0,0,30),FVector(3,3,38),Deep,false,TEXT("Cylinder"));
+        Block(P,FVector(32,32,3),FLinearColor(3.f,1.8f,.7f),false,TEXT("Cylinder"),true);
+        Block(P+FVector(0,0,30),FVector(3,3,38),Deep,false,TEXT("SM_Bottle"));
     }
-    UE_LOG(LogTemp,Display,TEXT("CE_CAFE_BUILT version=0.3 stations=9 replenishable_stock=1"));
+    auto* WindowFill=GetWorld()->SpawnActor<APointLight>(FVector(220,420,240),FRotator::ZeroRotator);
+    auto* Fill=Cast<UPointLightComponent>(WindowFill->GetLightComponent());
+    Fill->SetIntensity(3200.f); Fill->SetAttenuationRadius(1000.f); Fill->SetLightColor(FLinearColor(.72f,.86f,1.f)); Fill->SetCastShadows(false);
+    UE_LOG(LogTemp,Display,TEXT("CE_CAFE_BUILT version=0.6 stations=9 skinned_characters=3 hands=2 dialogue_on_the_move=1"));
 }
 
 void ACEGameMode::TickArrivals()
 {
     const float Now=GetWorld()->GetTimeSeconds(); if(Now<NextArrivalAt) return;
+    // The door fits one person. Finish departures before admitting another visit.
+    for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(It->bLeaving || FVector::Dist2D(It->GetActorLocation(),FVector(620,650,92))<100.f) { NextArrivalAt=Now+1.f; return; }
     bool Taken[3]={false,false,false};
     for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(It->SeatSlot>=0 && It->SeatSlot<3) Taken[It->SeatSlot]=true;
     int32 Slot=INDEX_NONE; for(int32 i=0;i<3;++i) if(!Taken[i]) { Slot=i; break; }

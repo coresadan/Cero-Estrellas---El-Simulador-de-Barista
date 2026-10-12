@@ -1,0 +1,80 @@
+﻿[
+    {
+        "case":  "restaurant_roles",
+        "passed":  true,
+        "answer":  {
+                       "dialogo":  {
+                                       "texto":  "Soy cliente de Cero Estrellas; tú eres mi camarero."
+                                   },
+                       "reaccion":  {
+                                        "emocion":  "neutral",
+                                        "cambio_enfado":  0,
+                                        "quiere_irse":  false
+                                    }
+                   },
+        "first_text_seconds":  17.34,
+        "total_seconds":  22.8,
+        "prompt_tokens":  367,
+        "cached_prompt_tokens":  0,
+        "generated_tokens":  48
+    },
+    {
+        "case":  "player_correction",
+        "passed":  true,
+        "answer":  {
+                       "dialogo":  {
+                                       "texto":  "He pedido latte con cruasán."
+                                   },
+                       "reaccion":  {
+                                        "emocion":  "neutral",
+                                        "cambio_enfado":  0,
+                                        "quiere_irse":  false
+                                    }
+                   },
+        "first_text_seconds":  2.91,
+        "total_seconds":  7.53,
+        "prompt_tokens":  411,
+        "cached_prompt_tokens":  322,
+        "generated_tokens":  41
+    },
+    {
+        "case":  "name_recall",
+        "passed":  true,
+        "answer":  {
+                       "dialogo":  {
+                                       "texto":  "Croqueta."
+                                   },
+                       "reaccion":  {
+                                        "emocion":  "humillado",
+                                        "cambio_enfado":  0.1,
+                                        "quiere_irse":  false
+                                    }
+                   },
+        "first_text_seconds":  4.25,
+        "total_seconds":  9.05,
+        "prompt_tokens":  516,
+        "cached_prompt_tokens":  367,
+        "generated_tokens":  40
+    },
+    {
+        "case":  "physical_recipient",
+        "passed":  false,
+        "answer":  {
+                       "dialogo":  {
+                                       "texto":  "No has echado nada en mi camisa, discúlpame por equivocarme."
+                                   },
+                       "reaccion":  {
+                                        "emocion":  "humillado",
+                                        "cambio_enfado":  0.1,
+                                        "quiere_irse":  false
+                                    }
+                   },
+        "first_text_seconds":  9.84,
+        "total_seconds":  16.67,
+        "prompt_tokens":  656,
+        "cached_prompt_tokens":  210,
+        "generated_tokens":  55,
+        "initial_lexical_check_passed":  true,
+        "semantic_review":  "Denied the received coffee incident. Mentioning the shirt alone did not prove that the facts were understood."
+    }
+]

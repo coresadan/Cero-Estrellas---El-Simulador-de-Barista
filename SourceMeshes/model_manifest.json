@@ -1,0 +1,122 @@
+{
+  "SM_BevelCube": {
+    "vertices": 96,
+    "triangles": 188,
+    "original": true
+  },
+  "SM_Cup": {
+    "vertices": 852,
+    "triangles": 1572,
+    "original": true
+  },
+  "SM_Pitcher": {
+    "vertices": 700,
+    "triangles": 1268,
+    "original": true
+  },
+  "SM_Croissant": {
+    "vertices": 4160,
+    "triangles": 8232,
+    "original": true
+  },
+  "SM_Sleeve": {
+    "vertices": 256,
+    "triangles": 448,
+    "original": true
+  },
+  "SM_Forearm": {
+    "vertices": 224,
+    "triangles": 384,
+    "original": true
+  },
+  "SM_Trouser": {
+    "vertices": 224,
+    "triangles": 384,
+    "original": true
+  },
+  "SM_Shin": {
+    "vertices": 224,
+    "triangles": 384,
+    "original": true
+  },
+  "SM_Hand": {
+    "vertices": 836,
+    "triangles": 1648,
+    "original": true
+  },
+  "SM_Shoe": {
+    "vertices": 628,
+    "triangles": 1244,
+    "original": true
+  },
+  "SM_Head": {
+    "vertices": 22202,
+    "triangles": 44400,
+    "original": true
+  },
+  "SM_Torso": {
+    "vertices": 360,
+    "triangles": 640,
+    "original": true
+  },
+  "SM_Hair": {
+    "vertices": 1574,
+    "triangles": 3120,
+    "original": true
+  },
+  "SM_Glasses": {
+    "vertices": 552,
+    "triangles": 1092,
+    "original": true
+  },
+  "SM_Wand": {
+    "vertices": 60,
+    "triangles": 116,
+    "original": true
+  },
+  "SM_Bottle": {
+    "vertices": 288,
+    "triangles": 512,
+    "original": true
+  },
+  "SM_Pot": {
+    "vertices": 320,
+    "triangles": 576,
+    "original": true
+  },
+  "SM_Leaf": {
+    "vertices": 222,
+    "triangles": 440,
+    "original": true
+  },
+  "SM_Hopper": {
+    "vertices": 280,
+    "triangles": 480,
+    "original": true
+  },
+  "SM_SeatBack": {
+    "vertices": 96,
+    "triangles": 188,
+    "original": true
+  },
+  "SM_TrayRim": {
+    "vertices": 384,
+    "triangles": 752,
+    "original": true
+  },
+  "SM_Filter": {
+    "vertices": 384,
+    "triangles": 672,
+    "original": true
+  },
+  "SM_FilterGrip": {
+    "vertices": 96,
+    "triangles": 188,
+    "original": true
+  },
+  "SM_SteamKnob": {
+    "vertices": 192,
+    "triangles": 320,
+    "original": true
+  }
+}

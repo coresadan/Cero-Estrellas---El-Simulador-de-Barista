@@ -12,7 +12,8 @@ ACELiquidSystem::ACELiquidSystem()
     auto* Root=CreateDefaultSubobject<USceneComponent>(TEXT("LiquidRoot")); SetRootComponent(Root);
     Drops=CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("BallisticDrops")); Drops->SetupAttachment(Root);
     Pools=CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("PersistentPuddles")); Pools->SetupAttachment(Root);
-    for(auto* Mesh : {Drops.Get(),Pools.Get()})
+    Steam=CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("SteamPuffs")); Steam->SetupAttachment(Root);
+    for(auto* Mesh : {Drops.Get(),Pools.Get(),Steam.Get()})
     {
         Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         Mesh->SetCastShadow(false); Mesh->NumCustomDataFloats=3;
@@ -26,6 +27,9 @@ void ACELiquidSystem::BeginPlay()
     auto* Mat=LoadObject<UMaterialInterface>(nullptr,TEXT("/Game/Prototype/M_Liquid.M_Liquid"));
     Drops->SetMaterial(0,Mat); Pools->SetMaterial(0,Mat);
     Particles.SetNum(192);
+    Steam->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Engine/BasicShapes/Sphere.Sphere")));
+    Steam->SetMaterial(0,LoadObject<UMaterialInterface>(nullptr,TEXT("/Game/Prototype/M_Steam.M_Steam")));
+    Puffs.SetNum(24); for(int32 i=0;i<24;++i) Steam->AddInstance(FTransform(FQuat::Identity,FVector::ZeroVector,FVector::ZeroVector));
     for(int32 i=0;i<Particles.Num();++i) Drops->AddInstance(FTransform(FQuat::Identity,FVector::ZeroVector,FVector::ZeroVector));
     for(int32 i=0;i<32*5;++i) Pools->AddInstance(FTransform(FQuat::Identity,FVector::ZeroVector,FVector::ZeroVector));
 }
@@ -120,8 +124,9 @@ void ACELiquidSystem::Impact(FCELiquidDrop& Drop, const FHitResult& Hit)
     if(auto* Customer=Cast<ACECustomer>(Hit.GetActor()))
     {
         SoakedMl+=Volume;
-        Customer->React(TEXT("coffee_spill"),TEXT("Café caliente"),Volume*.012f);
-        if(Customer->HitCount==1) CEVisual::Stain(GetWorld(),Customer->GetActorTransform().TransformPosition(FVector(-21.5f,0,15)),false,Customer);
+        const FString LiquidName=Drop.Espresso>.01f ? TEXT("café") : Drop.Milk>.01f ? TEXT("leche") : TEXT("agua");
+        Customer->Soak(Volume,LiquidName);
+        Customer->React(TEXT("coffee_spill"),LiquidName+(Drop.Temperature>45.f ? TEXT(" caliente") : TEXT(" fría")),Volume*.012f);
     }
     else if(auto* MovingProp=Cast<ACEProp>(Hit.GetActor())) CEVisual::Stain(GetWorld(),Hit.ImpactPoint+Hit.ImpactNormal*.8f,Hit.ImpactNormal.Z>.65f,MovingProp);
     else if(Hit.ImpactNormal.Z>.65f) Splash(Hit.ImpactPoint,Drop.Color,Volume);
@@ -133,6 +138,19 @@ void ACELiquidSystem::Impact(FCELiquidDrop& Drop, const FHitResult& Hit)
 void ACELiquidSystem::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+    const float SteamNow=GetWorld()->GetTimeSeconds();
+    if(SteamNow>=NextSteamAt) {
+        NextSteamAt=SteamNow+.22f; int32 Count=0;
+        for(TActorIterator<ACEProp> It(GetWorld());It && Count<6;++It) if(It->IsContainer() && It->VolumeMl()>10.f && It->Temperature>55.f && !It->bBroken) {
+            auto& Puff=Puffs[SteamCursor]; Puff.Position=It->GetActorLocation()+FVector(0,0,11); Puff.Age=0; SteamCursor=(SteamCursor+1)%Puffs.Num(); ++Count;
+        }
+    }
+    for(int32 i=0;i<Puffs.Num();++i) {
+        auto& Puff=Puffs[i]; Puff.Age+=DeltaSeconds; Puff.Position+=FVector(FMath::Sin(SteamNow+i)*3.f,2.f,18.f)*DeltaSeconds;
+        const float Size=Puff.Age<1.3f ? .035f+Puff.Age*.075f : 0.f;
+        Steam->UpdateInstanceTransform(i,FTransform(FQuat::Identity,Puff.Position,FVector(Size,Size,Size*1.6f)),true,false);
+    }
+    Steam->MarkRenderStateDirty();
     for(int32 i=0;i<Particles.Num();++i)
     {
         auto& Drop=Particles[i]; if(!Drop.bAlive) continue;

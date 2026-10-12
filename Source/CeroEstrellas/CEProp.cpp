@@ -6,6 +6,7 @@
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "EngineUtils.h"
+#include "Components/PoseableMeshComponent.h"
 
 ACEProp::ACEProp()
 {
@@ -21,12 +22,15 @@ void ACEProp::Configure(ECEPropKind InKind)
     const bool bCup=Kind==ECEPropKind::Cup, bFilter=Kind==ECEPropKind::Portafilter, bTray=Kind==ECEPropKind::Tray, bLaptop=Kind==ECEPropKind::Laptop, bPitcher=Kind==ECEPropKind::Pitcher, bChair=Kind==ECEPropKind::Chair;
     const TCHAR* Shape=(bCup || bPitcher || bFilter) ? TEXT("Cylinder") : (bTray || bLaptop || bChair) ? TEXT("Cube") : TEXT("Sphere");
     UStaticMesh* Mesh=nullptr;
-    if(bCup || bPitcher) Mesh=LoadObject<UStaticMesh>(nullptr,TEXT("/Game/Prototype/Meshes/SM_Cup.SM_Cup"));
+    const TCHAR* Authored=bCup ? TEXT("SM_Cup") : bPitcher ? TEXT("SM_Pitcher") : bFilter ? TEXT("SM_Filter") : Kind==ECEPropKind::Pastry ? TEXT("SM_Croissant") : bTray || bChair || bLaptop ? TEXT("SM_BevelCube") : nullptr;
+    if(Authored) Mesh=LoadObject<UStaticMesh>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Meshes/%s.%s"),Authored,Authored));
     if(!Mesh) Mesh=LoadObject<UStaticMesh>(nullptr,*FString::Printf(TEXT("/Engine/BasicShapes/%s.%s"),Shape,Shape));
     Body->SetStaticMesh(Mesh);
-    Body->SetWorldScale3D(bCup ? FVector(1.f) : bPitcher ? FVector(1.15f,1.15f,1.15f) : bChair ? FVector(.52f,.55f,.07f) : bTray ? FVector(1.1f,.7f,.035f) : bFilter ? FVector(.20f,.20f,.06f) : bLaptop ? FVector(.42f,.32f,.035f) : FVector(.32f,.18f,.12f));
+    Body->SetWorldScale3D(bCup || bFilter ? FVector(1.f) : bPitcher ? FVector(1.15f,1.15f,1.15f) : bChair ? FVector(.52f,.55f,.07f) : bTray ? FVector(1.1f,.7f,.035f) : bLaptop ? FVector(.42f,.32f,.035f) : FVector(.32f,.18f,.12f));
     const FLinearColor Color=bCup ? FLinearColor(.82f,.78f,.67f) : bTray ? FLinearColor(.06f,.25f,.22f) : bChair ? FLinearColor(.025f,.19f,.16f) : bPitcher ? FLinearColor(.65f,.68f,.67f) : bFilter || bLaptop ? FLinearColor(.23f,.27f,.28f) : FLinearColor(.8f,.35f,.07f);
     Body->SetMaterial(0,CEVisual::Material(this,Color,false,bFilter || bLaptop || bPitcher));
+    if(bCup) Body->SetMaterial(0,CEVisual::Surface(this,Color,TEXT("M_Ceramic")));
+    if(Kind==ECEPropKind::Pastry) Body->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.78f,.34f,.075f),TEXT("M_Pastry")));
     auto* Physical=NewObject<UPhysicalMaterial>(this);
     Physical->Friction=bTray ? .55f : .36f; Physical->Restitution=Kind==ECEPropKind::Pastry ? .68f : .12f;
     Body->SetPhysMaterialOverride(Physical); Body->SetSimulatePhysics(true);
@@ -41,32 +45,38 @@ void ACEProp::Configure(ECEPropKind InKind)
     if(bCup || bPitcher)
     {
         Coffee=Add(TEXT("Cylinder"),FVector(0,0,-9),FVector(.185f,.185f,.012f),FLinearColor(.08f,.023f,.01f));
+        Coffee->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.08f,.023f,.01f),TEXT("M_Ceramic")));
         Coffee->SetVisibility(false);
-        Add(TEXT("Cube"),FVector(15,0,1),FVector(.035f,.045f,.15f),Color);
-        Add(TEXT("Cube"),FVector(12,0,8),FVector(.09f,.045f,.027f),Color);
-        Add(TEXT("Cube"),FVector(12,0,-6),FVector(.09f,.045f,.027f),Color);
+        // Hollow handles and the milk spout are now part of the authored shell.
     }
     if(bChair)
     {
-        auto* Back=Add(TEXT("Cube"),FVector(24,0,41),FVector(.08f,.55f,.79f),Color);
+        auto* Cushion=Add(TEXT("SM_BevelCube"),FVector(0,0,5),FVector(.50f,.51f,.035f),Color);
+        Cushion->SetMaterial(0,CEVisual::Surface(this,Color,TEXT("M_Fabric")));
+        auto* Back=Add(TEXT("SM_SeatBack"),FVector(24,0,41),FVector(.08f,.55f,.79f),Color);
         Back->SetCollisionProfileName(TEXT("PhysicsActor")); Back->SetCollisionResponseToChannel(ECC_WorldDynamic,ECR_Ignore);
         Back->SetCollisionResponseToChannel(ECC_Pawn,ECR_Block); Back->WeldTo(Body,NAME_None,true);
+        auto* Padding=Add(TEXT("SM_SeatBack"),FVector(19,0,41),FVector(.025f,.48f,.68f),Color);
+        Padding->SetMaterial(0,CEVisual::Surface(this,Color,TEXT("M_Fabric")));
         for(int32 X:{-1,1}) for(int32 Y:{-1,1})
         {
             auto* Leg=Add(TEXT("Cube"),FVector(X*20.f,Y*22.f,-24),FVector(.045f,.045f,.48f),FLinearColor(.012f,.065f,.055f));
             Leg->SetCollisionProfileName(TEXT("PhysicsActor")); Leg->SetCollisionResponseToChannel(ECC_WorldDynamic,ECR_Ignore);
             Leg->SetCollisionResponseToChannel(ECC_Pawn,ECR_Block); Leg->WeldTo(Body,NAME_None,true);
+            Add(TEXT("Cube"),FVector(X*20.f,Y*22.f,-44),FVector(.047f,.047f,.07f),FLinearColor(.42f,.30f,.14f));
         }
         Body->SetCenterOfMass(FVector(0,0,-12));
     }
     if(bTray)
     {
+        Add(TEXT("SM_TrayRim"),FVector::ZeroVector,FVector(1),FLinearColor(.025f,.1f,.09f));
         for(int32 Side:{-1,1})
         {
             auto* Edge=Add(TEXT("Cube"),FVector(0,Side*34.f,3),FVector(1.1f,.025f,.07f),FLinearColor(.025f,.1f,.09f));
             auto* End=Add(TEXT("Cube"),FVector(Side*54.f,0,3),FVector(.025f,.7f,.07f),FLinearColor(.025f,.1f,.09f));
             for(auto* Rim:{Edge,End})
             {
+                Rim->SetVisibility(false);
                 Rim->SetCollisionProfileName(TEXT("PhysicsActor")); Rim->SetCollisionResponseToChannel(ECC_Pawn,ECR_Ignore);
                 Rim->WeldTo(Body,NAME_None,true);
             }
@@ -74,25 +84,18 @@ void ACEProp::Configure(ECEPropKind InKind)
     }
     if(bFilter)
     {
-        Add(TEXT("Cube"),FVector(21,0,0),FVector(.31f,.045f,.045f),FLinearColor(.02f,.025f,.025f));
+        Add(TEXT("SM_FilterGrip"),FVector::ZeroVector,FVector(1),FLinearColor(.02f,.025f,.025f));
         Coffee=Add(TEXT("Cylinder"),FVector(0,0,3.1f),FVector(.17f,.17f,.01f),FLinearColor(.055f,.022f,.009f));
         Coffee->SetVisibility(false);
     }
     if(bLaptop)
     {
         auto* Lid=Add(TEXT("Cube"),FVector(17,0,13),FVector(.025f,.32f,.27f),Color); Lid->SetRelativeRotation(FRotator(0,0,-12));
-        auto* Screen=Add(TEXT("Cube"),FVector(15.5f,0,13),FVector(.007f,.28f,.23f),FLinearColor(.1f,.5f,.55f));
-        Screen->SetMaterial(0,CEVisual::Material(this,FLinearColor(.1f,.5f,.55f),true));
+        auto* Screen=Add(TEXT("Cube"),FVector(15.5f,0,13),FVector(.007f,.28f,.23f),FLinearColor(.025f,.10f,.12f));
+        Screen->SetMaterial(0,CEVisual::Surface(this,FLinearColor::White,TEXT("M_Screen")));
         for(int32 Row=0;Row<4;++Row) Add(TEXT("Cube"),FVector(-8+Row*5,0,2),FVector(.02f,.25f,.009f),FLinearColor(.025f,.03f,.03f));
     }
-    if(Kind==ECEPropKind::Pastry)
-    {
-        for(int32 i=-2;i<=2;++i)
-        {
-            auto* Segment=Add(TEXT("Sphere"),FVector(i*6.f,FMath::Abs(i)*3.f,1),FVector(.10f,.20f-FMath::Abs(i)*.025f,.125f-FMath::Abs(i)*.015f),FLinearColor(.95f,.48f,.12f));
-            Segment->SetRelativeRotation(FRotator(0,i*14.f,0));
-        }
-    }
+    // Pastry folds and crescent silhouette are baked into SM_Croissant.
 }
 float ACEProp::AddLiquid(float Espresso,float Milk,float Water,float Degrees)
 {
@@ -194,6 +197,12 @@ void ACEProp::Hit(UPrimitiveComponent* HitComponent,AActor* OtherActor,UPrimitiv
         if(auto* Customer=Cast<ACECustomer>(OtherActor))
         {
             LastHitAt=Now; Customer->React(TEXT("customer_hit"),DisplayName,Kind==ECEPropKind::Pastry ? .85f : .9f); Cafe->Sound(TEXT("Thump"),HitResult.ImpactPoint); bThrown=false;
+            if(Kind==ECEPropKind::Pastry && Customer->Rig) {
+                Body->SetSimulatePhysics(false); Body->SetCollisionEnabled(ECollisionEnabled::QueryOnly); bStuck=true;
+                AttachToComponent(Customer->Rig,FAttachmentTransformRules::KeepWorldTransform,TEXT("head"));
+                SetActorLocation(Customer->HeadLocation()+Customer->GetActorQuat().RotateVector(FVector(-16,0,0)));
+                SetLifeSpan(8.f); Cafe->Observe(TEXT("pastry_stuck"),Customer->CustomerId,TEXT("Cruasán pegado en la cara"),.3f);
+            }
         }
         if(Kind==ECEPropKind::Cup && NormalImpulse.Size()>200.f && !bHeld)
         {

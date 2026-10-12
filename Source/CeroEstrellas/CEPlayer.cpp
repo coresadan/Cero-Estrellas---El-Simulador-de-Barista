@@ -1,6 +1,7 @@
 #include "CEGameplay.h"
 #include "CEKitchen.h"
 #include "CEVisual.h"
+#include "CEDialogue.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -27,6 +28,7 @@ ACEPlayer::ACEPlayer()
     Handle->AngularStiffness = 1000.f;
     Handle->AngularDamping = 90.f;
     Handle->InterpolationSpeed = 12.f;
+    Dialogue=CreateDefaultSubobject<UCEDialogueComponent>(TEXT("CustomerDialogue"));
     GetCharacterMovement()->MaxWalkSpeed = 230.f;
     GetCharacterMovement()->BrakingDecelerationWalking = 1500.f;
     GetCharacterMovement()->JumpZVelocity = 390.f;
@@ -58,6 +60,8 @@ void ACEPlayer::SetupPlayerInputComponent(UInputComponent* Input)
     Input->BindAction(TEXT("Pour"), IE_Released, this, &ACEPlayer::StopPour);
     Input->BindAction(TEXT("Interact"), IE_Pressed, this, &ACEPlayer::Interact);
     Input->BindAction(TEXT("Taunt"), IE_Pressed, this, &ACEPlayer::Taunt);
+    Input->BindAction(TEXT("Dialogue"), IE_Pressed, this, &ACEPlayer::Talk);
+    Input->BindAction(TEXT("VoiceDialogue"), IE_Pressed, this, &ACEPlayer::TalkVoice);
     Input->BindAction(TEXT("Sprint"), IE_Pressed, this, &ACEPlayer::SprintOn);
     Input->BindAction(TEXT("Sprint"), IE_Released, this, &ACEPlayer::SprintOff);
     Input->BindAction(TEXT("Reset"), IE_Pressed, this, &ACEPlayer::Reset);
@@ -74,7 +78,9 @@ void ACEPlayer::SprintOn() { GetCharacterMovement()->MaxWalkSpeed = 440.f; }
 void ACEPlayer::SprintOff() { GetCharacterMovement()->MaxWalkSpeed = 230.f; }
 void ACEPlayer::StopPour() { bPouring = false; if(Held) Held->bPourRequested=false; }
 void ACEPlayer::Reset() { UGameplayStatics::OpenLevel(this, TEXT("Cafeteria")); }
-void ACEPlayer::Quit() { UKismetSystemLibrary::QuitGame(this, Cast<APlayerController>(GetController()), EQuitPreference::Quit, false); }
+void ACEPlayer::Quit() { if(Dialogue->IsOpen()) { Dialogue->Close(); return; } UKismetSystemLibrary::QuitGame(this, Cast<APlayerController>(GetController()), EQuitPreference::Quit, false); }
+void ACEPlayer::Talk() { if(Dialogue->IsOpen() && !Dialogue->IsEditing()) { Dialogue->EditConversation(); return; } if(auto* Customer=Cast<ACECustomer>(FocusActor(400.f))) Dialogue->Open(Customer); else GetWorld()->GetSubsystem<UCECafeSubsystem>()->Notify(TEXT("Mira a un cliente y pulsa T para Dialogar.")); }
+void ACEPlayer::TalkVoice() { if(!Dialogue->IsOpen()) { auto* Customer=Cast<ACECustomer>(FocusActor(400.f)); if(!Customer || !Dialogue->Open(Customer)) return; Dialogue->ResumePlay(); } Dialogue->ToggleRecording(); }
 
 ACEProp* ACEPlayer::FocusProp() const
 {
@@ -124,6 +130,7 @@ void ACEPlayer::Hold(ACEProp* Prop)
         GetWorld()->GetSubsystem<UCECafeSubsystem>()->Notify(TEXT("Desayuno confiscado. Otra oportunidad para empeorar el servicio."));
     }
     if(Held) Release();
+    if(Prop->bStuck) { Prop->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); Prop->bStuck=false; Prop->Body->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics); Prop->Body->SetSimulatePhysics(true); Prop->SetLifeSpan(0.f); }
     if(auto* Station=Cast<ACEStation>(Prop->GetAttachParentActor()))
     {
         if(Station->WorkLeft>0.f) return;
@@ -139,6 +146,7 @@ void ACEPlayer::Hold(ACEProp* Prop)
 
 void ACEPlayer::Throw()
 {
+    ActionUntil=GetWorld()->GetTimeSeconds()+.28f;
     if (!Held)
     {
         if(auto* Prop=Cast<ACEProp>(FocusActor(230.f)))
@@ -173,6 +181,7 @@ void ACEPlayer::Pour()
 
 void ACEPlayer::Interact()
 {
+    ActionUntil=GetWorld()->GetTimeSeconds()+.35f;
     AActor* Target=FocusActor(330.f);
     auto* Station=Cast<ACEStation>(Target);
     if(!Station && Target) Station=Cast<ACEStation>(Target->GetAttachParentActor());
@@ -204,6 +213,7 @@ void ACEPlayer::Taunt()
 void ACEPlayer::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+    AnimateHands(DeltaSeconds);
     const float Now=GetWorld()->GetTimeSeconds(), Speed=GetVelocity().Size2D();
     const float Bob=GetCharacterMovement()->IsMovingOnGround() ? FMath::Sin(Now*(Speed>300.f ? 12.f : 8.f))*FMath::Min(Speed/180.f,1.6f) : 0.f;
     Camera->SetRelativeLocation(FVector(0,0,66.f+Bob));
@@ -217,7 +227,7 @@ void ACEPlayer::Tick(float DeltaSeconds)
         Held->bAimedPour=Receiver && Receiver->IsContainer() && Receiver->GetActorUpVector().Z>.7f;
         if(Held->bAimedPour) Held->PourTarget=Receiver->GetActorLocation()+FVector(0,0,13.f);
     }
-    FVector Target = Camera->GetComponentLocation() + Camera->GetForwardVector()*130.f + Camera->GetRightVector()*26.f - FVector(0,0,30.f);
+    FVector Target = Camera->GetComponentLocation() + Camera->GetForwardVector()*(Held->Kind==ECEPropKind::Tray ? 108.f : 88.f) + Camera->GetRightVector()*(Held->Kind==ECEPropKind::Tray ? 0.f : 24.f) - FVector(0,0,30.f);
     Target.Z=FMath::Max(Target.Z,Camera->GetComponentLocation().Z-(Held->Kind==ECEPropKind::Tray ? 33.f : 18.f));
     FRotator Rotation(0, GetControlRotation().Yaw, 0);
     if (bPouring) Rotation.Roll = 120.f;

@@ -1,0 +1,27 @@
+﻿[
+    {
+        "file":  "response_2.json",
+        "total_seconds":  10.28,
+        "load_seconds":  0.01
+    },
+    {
+        "file":  "response_3.json",
+        "total_seconds":  9.33,
+        "load_seconds":  0.01
+    },
+    {
+        "file":  "response_4.json",
+        "total_seconds":  12.05,
+        "load_seconds":  0.04
+    },
+    {
+        "file":  "response_5.json",
+        "total_seconds":  14.94,
+        "load_seconds":  0.01
+    },
+    {
+        "file":  "response_7.json",
+        "total_seconds":  18.48,
+        "load_seconds":  0.01
+    }
+]

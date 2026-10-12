@@ -1,4 +1,4 @@
-﻿param([string]$EngineRoot = 'F:\Games\UE_5.8', [switch]$Packaged, [string]$EvidenceName = 'RealismoPlayable')
+﻿param([string]$EngineRoot = 'F:\Games\UE_5.8', [switch]$Packaged, [switch]$Quick, [string]$EvidenceName = 'RealismoPlayable')
 $ErrorActionPreference = 'Stop'
 $ceRoot = Split-Path -Parent $PSScriptRoot
 $ceEvidence = Join-Path $ceRoot ('Evidence\' + $EvidenceName)
@@ -13,6 +13,7 @@ if ($Packaged) {
     $ceExe = Join-Path $EngineRoot 'Engine\Binaries\Win64\UnrealEditor.exe'
     $ceArguments = @(('"{0}"' -f $ceProject), '-game', '-windowed', '-ResX=1280', '-ResY=720', '-CeroSmokeTest', '-unattended', '-NoSplash', ('"-CeroEvidenceDir={0}"' -f $ceEvidence), ('"-abslog={0}\editor_runtime.log"' -f $ceEvidence))
 }
+if($Quick) { $ceArguments += '-CeroQuickSmoke' }
 $ceProcess = Start-Process -FilePath $ceExe -ArgumentList $ceArguments -WorkingDirectory $ceRoot -WindowStyle Hidden -Wait -PassThru
 if ($ceProcess.ExitCode -ne 0) { throw "Runtime smoke test exited with $($ceProcess.ExitCode)" }
 if (-not (Test-Path -LiteralPath $ceReport)) { throw 'No smoke report produced.' }

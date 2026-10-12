@@ -6,8 +6,16 @@
 
 namespace CEVisual
 {
+    inline UMaterialInstanceDynamic* Surface(UObject* Owner,FLinearColor Color,const TCHAR* Name)
+    {
+        auto* Base=LoadObject<UMaterialInterface>(nullptr,*FString::Printf(TEXT("/Game/Prototype/%s.%s"),Name,Name));
+        auto* Result=UMaterialInstanceDynamic::Create(Base,Owner);
+        if(Result) Result->SetVectorParameterValue(TEXT("Tint"),Color);
+        return Result;
+    }
     inline UMaterialInstanceDynamic* Material(UObject* Owner, FLinearColor Color, bool bUnlit = false, bool bMetal = false)
     {
+        bMetal|=!bUnlit && (Color.Equals(FLinearColor(.55f,.60f,.58f),.005f) || Color.Equals(FLinearColor(.42f,.30f,.14f),.005f));
         const bool bWood=!bUnlit && !bMetal && Color.Equals(FLinearColor(.29f,.14f,.06f),.005f);
         auto* Base = LoadObject<UMaterialInterface>(nullptr, bUnlit ? TEXT("/Game/Prototype/M_Unlit.M_Unlit") : bMetal ? TEXT("/Game/Prototype/M_Metal.M_Metal") : bWood ? TEXT("/Game/Prototype/M_Wood.M_Wood") : TEXT("/Game/Prototype/M_Surface.M_Surface"));
         auto* Result = UMaterialInstanceDynamic::Create(Base, Owner);
@@ -20,6 +28,8 @@ namespace CEVisual
         auto* Component = NewObject<UStaticMeshComponent>(Actor);
         Actor->AddInstanceComponent(Component);
         Component->SetMobility(EComponentMobility::Movable);
+        // Manufactured objects share authored bevelled geometry instead of razor-edged cubes.
+        if(FString(Shape)==TEXT("Cube")) Shape=TEXT("SM_BevelCube");
         const FString MeshPath=FString(Shape).StartsWith(TEXT("SM_")) ? FString::Printf(TEXT("/Game/Prototype/Meshes/%s.%s"),Shape,Shape) : FString::Printf(TEXT("/Engine/BasicShapes/%s.%s"),Shape,Shape);
         Component->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,*MeshPath));
         Component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -28,6 +38,9 @@ namespace CEVisual
         Component->SetRelativeLocation(Location);
         Component->SetRelativeScale3D(Scale);
         Component->SetMaterial(0, Material(Actor, Color, bUnlit));
+        const FString Kind(Shape);
+        if(Kind==TEXT("SM_Head") || Kind==TEXT("SM_Hand") || Kind==TEXT("SM_Forearm")) Component->SetMaterial(0,Surface(Actor,Color,TEXT("M_Skin")));
+        if(Kind==TEXT("SM_Torso") || Kind==TEXT("SM_Sleeve") || Kind==TEXT("SM_Trouser") || Kind==TEXT("SM_Shin")) Component->SetMaterial(0,Surface(Actor,Color,TEXT("M_Fabric")));
         Component->RegisterComponent();
         return Component;
     }

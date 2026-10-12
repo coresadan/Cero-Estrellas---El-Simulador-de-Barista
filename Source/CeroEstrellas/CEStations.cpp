@@ -7,6 +7,16 @@
 #include "Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
 
+namespace {
+FString StationLabel(const ACEStation& Station)
+{
+    if(Station.WorkLeft>0 && Station.Kind==ECEStationKind::Espresso)
+        return FString::Printf(TEXT("9 BAR  /  %.1f s"),Station.WorkLeft);
+    const FString Full=Station.Status(); int32 Newline;
+    return Full.FindChar(TEXT('\n'),Newline) ? Full.Left(Newline) : Full;
+}
+}
+
 ACEStation::ACEStation()
 {
     PrimaryActorTick.bCanEverTick=true;
@@ -14,7 +24,7 @@ ACEStation::ACEStation()
     Body->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics); Body->SetCollisionResponseToAllChannels(ECR_Block);
     Body->SetCollisionObjectType(ECC_WorldStatic);
     Screen=CreateDefaultSubobject<UTextRenderComponent>(TEXT("Instructions")); Screen->SetupAttachment(Body);
-    Screen->SetWorldSize(6.f); Screen->SetHorizontalAlignment(EHTA_Center); Screen->SetTextRenderColor(FColor(176,247,213));
+    Screen->SetWorldSize(3.6f); Screen->SetHorizontalAlignment(EHTA_Center); Screen->SetTextRenderColor(FColor(210,227,209));
     WorkingSound=CreateDefaultSubobject<UAudioComponent>(TEXT("ApplianceSound")); WorkingSound->SetupAttachment(Body);
     WorkingSound->bAutoActivate=false; WorkingSound->SetVolumeMultiplier(.35f);
     WorkingSound->bOverrideAttenuation=true;
@@ -26,7 +36,7 @@ ACEStation::ACEStation()
 void ACEStation::Configure(ECEStationKind InKind)
 {
     Kind=InKind;
-    Body->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Engine/BasicShapes/Cube.Cube")));
+    Body->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Game/Prototype/Meshes/SM_BevelCube.SM_BevelCube")));
     const FVector Size=Kind==ECEStationKind::Tamper ? FVector(38,42,12) : Kind==ECEStationKind::Espresso ? FVector(145,65,66) : Kind==ECEStationKind::Grinder ? FVector(38,44,70) : Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water ? FVector(42,48,64) : Kind==ECEStationKind::Trays ? FVector(75,80,30) : Kind==ECEStationKind::Bin ? FVector(50,50,70) : FVector(70,70,25);
     Body->SetWorldScale3D(Size/100.f);
     Body->SetMaterial(0,CEVisual::Material(this,Kind==ECEStationKind::Bin ? FLinearColor(.12f,.18f,.17f) : FLinearColor(.16f,.22f,.22f),false,Kind==ECEStationKind::Espresso || Kind==ECEStationKind::Grinder || Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water));
@@ -40,6 +50,8 @@ void ACEStation::Configure(ECEStationKind InKind)
     Screen->SetRelativeRotation(FRotator(0,90,0));
     if(Kind==ECEStationKind::Espresso)
     {
+        Add(TEXT("Cube"),FVector(0,34.8f,26),FVector(.89f,.015f,.12f),Black);
+        Screen->SetRelativeLocation(FVector(0,36.f,29)/Body->GetComponentScale());
         Add(TEXT("Cube"),FVector(0,34,-9),FVector(1.27f,.02f,.34f),Black);
         Add(TEXT("Cube"),FVector(0,49,-31),FVector(1.4f,.40f,.035f),Steel);
         for(int32 i=-4;i<=4;++i) Add(TEXT("Cube"),FVector(i*14,50,-28),FVector(.01f,.33f,.01f),Black);
@@ -50,6 +62,14 @@ void ACEStation::Configure(ECEStationKind InKind)
         auto* Needle=Add(TEXT("Cube"),FVector(-46,35,13),FVector(.01f,.01f,.07f),Orange); Needle->SetRelativeRotation(FRotator(15,0,0));
         for(int32 i=0;i<3;++i) Add(TEXT("Sphere"),FVector(30+i*14,34,12),FVector(.06f,.035f,.06f),i==0 ? Orange : Steel,true);
         Add(TEXT("Cube"),FVector(0,0,36),FVector(1.4f,.58f,.025f),Steel);
+        for(int32 Side:{-1,1})
+        {
+            Add(TEXT("Cube"),FVector(Side*70.f,0,0),FVector(.035f,.64f,.64f),FLinearColor(.035f,.14f,.12f));
+            Add(TEXT("Cube"),FVector(Side*61.f,34,0),FVector(.025f,.025f,.57f),Steel);
+            Add(TEXT("SM_Wand"),FVector(Side*56.f,37,-6),FVector(1),Steel);
+            Add(TEXT("SM_SteamKnob"),FVector(Side*57.f,39,25),FVector(.7f,.7f,1.f),Black)->SetRelativeRotation(FRotator(0,0,90));
+        }
+        for(int32 i=-5;i<=5;++i) Add(TEXT("Cube"),FVector(i*11.f,-19,37.7f),FVector(.02f,.2f,.012f),Black);
     }
     if(Kind==ECEStationKind::Tamper)
     {
@@ -60,7 +80,7 @@ void ACEStation::Configure(ECEStationKind InKind)
     if(Kind==ECEStationKind::Grinder)
     {
         Add(TEXT("Cylinder"),FVector(0,0,46),FVector(.30f,.30f,.22f),FLinearColor(.24f,.1f,.025f));
-        Add(TEXT("Cone"),FVector(0,0,27),FVector(.33f,.33f,.23f),Steel);
+        Add(TEXT("SM_Hopper"),FVector(0,0,27),FVector(.33f,.33f,.23f),Steel);
         Add(TEXT("Cylinder"),FVector(0,0,60),FVector(.32f,.32f,.03f),Black);
         Add(TEXT("Cube"),FVector(0,26,0),FVector(.13f,.18f,.055f),Steel);
         for(int32 Side:{-1,1}) Add(TEXT("Cube"),FVector(Side*9,27,-20),FVector(.025f,.23f,.025f),Steel);
@@ -70,6 +90,7 @@ void ACEStation::Configure(ECEStationKind InKind)
         Add(TEXT("Cylinder"),FVector(0,29,2),FVector(.05f,.05f,.40f),Steel);
         Add(TEXT("Cube"),FVector(0,33,-15),FVector(.045f,.16f,.045f),Steel);
         Add(TEXT("Sphere"),FVector(0,26,23),FVector(.12f,.07f,.12f),Kind==ECEStationKind::Milk ? FLinearColor(.84f,.75f,.54f) : Orange);
+        Add(TEXT("SM_Wand"),FVector(-12,24,-4),FVector(.8f),Steel);
         Add(TEXT("Cube"),FVector(0,40,-30),FVector(.39f,.29f,.025f),Steel);
     }
     if(Kind==ECEStationKind::Cups || Kind==ECEStationKind::Trays || Kind==ECEStationKind::Pastries)
@@ -77,7 +98,7 @@ void ACEStation::Configure(ECEStationKind InKind)
         for(int32 Side:{-1,1}) Add(TEXT("Cube"),FVector(Side*(Size.X/2-2),0,18),FVector(.035f,Size.Y/100.f,.60f),Steel);
         Screen->SetRelativeLocation(FVector(0,Size.Y/2+1,6)/Body->GetComponentScale());
     }
-    Screen->SetText(FText::FromString(Status()));
+    Screen->SetText(FText::FromString(StationLabel(*this)));
 }
 FVector ACEStation::CupPosition() const
 {
@@ -232,5 +253,5 @@ void ACEStation::Tick(float DeltaSeconds)
             GetWorld()->GetSubsystem<UCECafeSubsystem>()->Sound(TEXT("Click"),GetActorLocation());
         }
     }
-    if(Now>=ScreenNextAt) { ScreenNextAt=Now+.2f; Screen->SetText(FText::FromString(Status())); }
+    if(Now>=ScreenNextAt) { ScreenNextAt=Now+.2f; Screen->SetText(FText::FromString(StationLabel(*this))); }
 }

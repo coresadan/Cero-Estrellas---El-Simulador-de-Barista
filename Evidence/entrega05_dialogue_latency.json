@@ -1,0 +1,107 @@
+{
+  "version": "0.5.0",
+  "evidence": "Entrega05DialogoFinal",
+  "model": "qwen3:4b-instruct",
+  "followup_visible_seconds": {
+    "min": 4.41,
+    "max": 9.07
+  },
+  "followup_validated_seconds": {
+    "min": 11.14,
+    "max": 20.69
+  },
+  "previous_five_turn_median_seconds": 12.05,
+  "matching_five_turn_median_seconds": 18.55,
+  "matching_median_reduction_percent": -53.9,
+  "comparison_note": "Same hardware, real packaged tests; matching order, name, recall, incident and confirmed transcript. Other CPU load and reply lengths can vary.",
+  "replies": [
+    {
+      "file": "response_2.json",
+      "text": "He pedido latte con cruasán.",
+      "backend_seconds": 19.93,
+      "load_seconds": 0.01,
+      "prompt_tokens": 330,
+      "cached_prompt_tokens": 0,
+      "generated_tokens": 41,
+      "first_visible_seconds": 12.09,
+      "validated_seconds": 19.94
+    },
+    {
+      "file": "response_3.json",
+      "text": "Estoy en Cero Estrellas, hablo contigo, mi camarero.",
+      "backend_seconds": 14.33,
+      "load_seconds": 0.01,
+      "prompt_tokens": 367,
+      "cached_prompt_tokens": 288,
+      "generated_tokens": 49,
+      "first_visible_seconds": 4.41,
+      "validated_seconds": 14.33
+    },
+    {
+      "file": "response_4.json",
+      "text": "Ya pedí latte con cruasán. ¿Por qué preguntas?",
+      "backend_seconds": 14.28,
+      "load_seconds": 0.02,
+      "prompt_tokens": 411,
+      "cached_prompt_tokens": 322,
+      "generated_tokens": 48,
+      "first_visible_seconds": 4.83,
+      "validated_seconds": 14.28
+    },
+    {
+      "file": "response_5.json",
+      "text": "París.",
+      "backend_seconds": 11.13,
+      "load_seconds": 0.02,
+      "prompt_tokens": 451,
+      "cached_prompt_tokens": 367,
+      "generated_tokens": 35,
+      "first_visible_seconds": 4.56,
+      "validated_seconds": 11.14
+    },
+    {
+      "file": "response_6.json",
+      "text": "Recuerdo su nombre, Croqueta.",
+      "backend_seconds": 13.72,
+      "load_seconds": 0.01,
+      "prompt_tokens": 486,
+      "cached_prompt_tokens": 410,
+      "generated_tokens": 41,
+      "first_visible_seconds": 4.74,
+      "validated_seconds": 13.73
+    },
+    {
+      "file": "response_7.json",
+      "text": "Croqueta",
+      "backend_seconds": 14.71,
+      "load_seconds": 0.02,
+      "prompt_tokens": 517,
+      "cached_prompt_tokens": 437,
+      "generated_tokens": 48,
+      "first_visible_seconds": 5.66,
+      "validated_seconds": 14.72
+    },
+    {
+      "file": "response_8.json",
+      "text": "Me diste café en la camisa. ¿Por qué?",
+      "backend_seconds": 18.55,
+      "load_seconds": 0.01,
+      "prompt_tokens": 661,
+      "cached_prompt_tokens": 478,
+      "generated_tokens": 49,
+      "first_visible_seconds": 8.26,
+      "validated_seconds": 18.55
+    },
+    {
+      "file": "response_10.json",
+      "text": "Me diste café en la camisa. ¿Puedes volver a servirlo?",
+      "backend_seconds": 20.69,
+      "load_seconds": 0.01,
+      "prompt_tokens": 707,
+      "cached_prompt_tokens": 503,
+      "generated_tokens": 55,
+      "first_visible_seconds": 9.07,
+      "validated_seconds": 20.69
+    }
+  ]
+}

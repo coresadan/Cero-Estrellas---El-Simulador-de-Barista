@@ -1,0 +1,2 @@
+﻿timestamp, name, memory.total [MiB], memory.used [MiB], utilization.gpu [%]
+2026/10/11 20:44:57.433, NVIDIA GeForce GTX 1060 6GB, 6144 MiB, 2649 MiB, 27 %

@@ -18,72 +18,20 @@ ACECustomer::ACECustomer()
 }
 void ACECustomer::Configure(const FString& Id,const FString& Name,const FLinearColor& Outfit,int32 Archetype)
 {
-    CustomerId=Id; Personality=Archetype; StartPosition=GetActorLocation();
-    VisualRoot=NewObject<USceneComponent>(this); AddInstanceComponent(VisualRoot);
-    VisualRoot->SetupAttachment(Collision); VisualRoot->RegisterComponent();
-    const FLinearColor Skin(.65f+.06f*Archetype,.40f+.04f*Archetype,.25f+.035f*Archetype), Dark(.025f,.035f,.038f);
-    auto Pivot=[this](FVector Position)
-    {
-        auto* P=NewObject<USceneComponent>(this); AddInstanceComponent(P); P->SetupAttachment(VisualRoot); P->SetRelativeLocation(Position); P->RegisterComponent(); return P;
-    };
-    auto Part=[this](USceneComponent* Parent,const TCHAR* Shape,FVector P,FVector Scale,FLinearColor Color)
-    {
-        auto* Mesh=CEVisual::Part(this,Shape,FVector::ZeroVector,Scale,Color);
-        Mesh->AttachToComponent(Parent,FAttachmentTransformRules::KeepRelativeTransform); Mesh->SetRelativeLocation(P); return Mesh;
-    };
-    CEVisual::Part(this,TEXT("SM_Torso"),FVector(0,0,12),FVector(.42f,.51f,.59f),Outfit);
-    CEVisual::Part(this,TEXT("Sphere"),FVector(0,0,-18),FVector(.38f,.42f,.22f),Dark);
-    for(int32 Button=0;Button<3;++Button) CEVisual::Part(this,TEXT("Sphere"),FVector(-17.5f,0,8+Button*9),FVector(.018f,.018f,.018f),FLinearColor(.78f,.7f,.55f));
-    CEVisual::Part(this,TEXT("Cylinder"),FVector(0,0,42),FVector(.14f,.14f,.15f),Skin);
-    HeadPivot=Pivot(FVector(0,0,64));
-    Part(HeadPivot,TEXT("SM_Head"),FVector::ZeroVector,FVector(.35f,.31f,.43f),Skin);
-    Part(HeadPivot,TEXT("Sphere"),FVector(4,0,15),FVector(.34f,.33f,.16f),Dark);
-    Part(HeadPivot,TEXT("Sphere"),FVector(-18,0,0),FVector(.07f,.08f,.10f),Skin*.86f);
-    for(int32 Side=0;Side<2;++Side)
-    {
-        const float Sign=Side==0 ? -1.f : 1.f;
-        Part(HeadPivot,TEXT("Sphere"),FVector(0,Sign*16,0),FVector(.07f,.045f,.10f),Skin);
-        auto* Eye=Part(HeadPivot,TEXT("Sphere"),FVector(-15.1f,Sign*6.7f,5),FVector(.038f,.065f,.055f),FLinearColor(.9f,.89f,.83f)); Eyes[Side]=Eye;
-        Pupils[Side]=Part(HeadPivot,TEXT("Sphere"),FVector(-17,Sign*6.7f,5),FVector(.017f,.025f,.033f),Dark);
-        Brows[Side]=Part(HeadPivot,TEXT("Cube"),FVector(-16,Sign*6.7f,10),FVector(.015f,.07f,.016f),Dark);
-        ArmPivots[Side]=Pivot(FVector(0,Sign*26,31));
-        Part(ArmPivots[Side],TEXT("Sphere"),FVector(0,0,-13),FVector(.14f,.14f,.34f),Outfit);
-        Part(ArmPivots[Side],TEXT("Cylinder"),FVector(-1,0,-34),FVector(.10f,.10f,.23f),Skin);
-        Part(ArmPivots[Side],TEXT("Sphere"),FVector(-1,0,-48),FVector(.10f,.085f,.13f),Skin);
-        LegPivots[Side]=Pivot(FVector(0,Sign*12,-22));
-        Part(LegPivots[Side],TEXT("Cylinder"),FVector(0,0,-14),FVector(.15f,.16f,.29f),Dark);
-        KneePivots[Side]=Pivot(FVector::ZeroVector); KneePivots[Side]->AttachToComponent(LegPivots[Side],FAttachmentTransformRules::KeepRelativeTransform);
-        KneePivots[Side]->SetRelativeLocation(FVector(0,0,-28));
-        Part(KneePivots[Side],TEXT("Sphere"),FVector::ZeroVector,FVector(.16f,.16f,.16f),Dark);
-        Part(KneePivots[Side],TEXT("Cylinder"),FVector(0,0,-14),FVector(.135f,.14f,.29f),Dark);
-        Part(KneePivots[Side],TEXT("Sphere"),FVector(-6,0,-35),FVector(.31f,.17f,.13f),FLinearColor(.08f,.045f,.028f));
-    }
-    Mouth=Part(HeadPivot,TEXT("Sphere"),FVector(-16,0,-9),FVector(.018f,.10f,.018f),FLinearColor(.22f,.075f,.045f));
-    if(Archetype==0)
-    {
-        for(int32 Side:{-1,1}) Part(HeadPivot,TEXT("Cube"),FVector(-17.5f,Side*7.f,5),FVector(.015f,.095f,.055f),FLinearColor(.12f,.18f,.18f));
-        CEVisual::Part(this,TEXT("Cube"),FVector(-22,0,18),FVector(.02f,.07f,.28f),FLinearColor(.75f,.18f,.08f));
-    }
-    if(Archetype==1)
-    {
-        Part(HeadPivot,TEXT("Cylinder"),FVector(0,0,25),FVector(.45f,.42f,.045f),FLinearColor(.12f,.055f,.023f));
-        Part(HeadPivot,TEXT("Cylinder"),FVector(0,0,30),FVector(.32f,.31f,.10f),FLinearColor(.2f,.1f,.04f));
-        Part(HeadPivot,TEXT("Sphere"),FVector(-10,0,-15),FVector(.15f,.25f,.19f),FLinearColor(.12f,.05f,.02f));
-    }
-    if(Archetype==2)
-    {
-        Part(HeadPivot,TEXT("Sphere"),FVector(14,0,-8),FVector(.25f,.39f,.51f),Dark);
-        Part(ArmPivots[0],TEXT("Cube"),FVector(-3,0,-47),FVector(.025f,.09f,.17f),FLinearColor(.12f,.08f,.16f));
-    }
-    TArray<UStaticMeshComponent*> Meshes; GetComponents(Meshes);
-    for(auto* Mesh:Meshes) if(Mesh->GetAttachParent()==Collision) Mesh->AttachToComponent(VisualRoot,FAttachmentTransformRules::KeepRelativeTransform);
-    Bubble->SetText(FText::FromString(Name));
+    CustomerId=Id; DisplayName=Name; Personality=FMath::Clamp(Archetype,0,2); StartPosition=GetActorLocation();
+    if(!BuildRig(Outfit)) UE_LOG(LogTemp,Error,TEXT("CE_RIG_MISSING customer=%s"),*Id);
+    Bubble->SetVisibility(false);
 }
 void ACECustomer::BeginVisit(int32 Slot,ECEDrink Drink,bool bPastry)
 {
     SeatSlot=Slot; RequestedDrink=Drink; bWantsPastry=bPastry; Patience=110.f+Slot*12;
+    const int32 Phase=GetWorld()->GetSubsystem<UCECafeSubsystem>()->ShiftPhase;
+    if(Phase>=1 && GetTypeHash(CustomerId)%2==0) { MinServingTemperature=60.f; SpecialRequest=TEXT("Bien caliente: más de 60 C."); }
+    else if(Phase>=2) { MinServingVolume=Drink==ECEDrink::Espresso ? 55.f : 170.f; SpecialRequest=Drink==ECEDrink::Espresso ? TEXT("Espresso largo: al menos 55 ml.") : TEXT("Taza bien llena: al menos 170 ml."); }
+    Patience=FMath::Max(70.f,Patience-Phase*10.f);
     const float Ys[]={-100.f,220.f,-405.f};
-    Route={FVector(620,455,92),FVector(185,455,92),FVector(185,Ys[Slot],92)}; RouteIndex=0; State=ECECustomerState::Arriving;
+    // A separate aisle allows later arrivals to pass customers waiting at the counter.
+    Route={FVector(620,455,92),FVector(245,455,92),FVector(245,Ys[Slot],92),FVector(165,Ys[Slot],92)}; RouteIndex=0; State=ECECustomerState::Arriving;
     Speak(TEXT("Buenos días.\nNecesito desayunar."),4.f);
 }
 FString ACECustomer::OrderText() const
@@ -93,8 +41,24 @@ FString ACECustomer::OrderText() const
 }
 void ACECustomer::Speak(const FString& Text,float Duration)
 {
-    Reaction=Text; Bubble->SetText(FText::FromString(Text)); ReactionUntil=GetWorld()->GetTimeSeconds()+Duration;
+    Reaction=Text; FString Visible=Text;
+    GetWorld()->GetSubsystem<UCECafeSubsystem>()->Subtitle(CustomerId,DisplayName,Text,Duration);
+    if(Text.Len()>75 && !Text.Contains(TEXT("\n")))
+    {
+        TArray<FString> Words; Text.ParseIntoArray(Words,TEXT(" "),true); Visible.Empty(); int32 Width=0;
+        for(const auto& Word:Words) { if(Width+Word.Len()>36) { Visible+=TEXT("\n"); Width=0; } else if(!Visible.IsEmpty()) { Visible+=TEXT(" "); ++Width; } Visible+=Word; Width+=Word.Len(); }
+    }
+    Bubble->SetText(FText::FromString(Visible)); ReactionUntil=GetWorld()->GetTimeSeconds()+Duration;
     Bubble->SetTextRenderColor(Anger>.4f ? FColor(255,140,90) : FColor(255,231,179)); GestureUntil=GetWorld()->GetTimeSeconds()+2.f;
+}
+void ACECustomer::ApplyDialogue(const FString& Text,const FString& Emotion,float AngerChange,bool bWantsToLeave)
+{
+    if(bLeaving) return;
+    DialogueEmotion=Emotion;
+    Anger=FMath::Clamp(Anger+FMath::Clamp(AngerChange,-.1f,.3f),0.f,1.2f);
+    Speak(Text,10.f);
+    // Unreal confirms the departure and the existing boss cooldown; the LLM cannot award points.
+    if(bWantsToLeave && Anger>=1.f) DialogueDepartureAt=GetWorld()->GetTimeSeconds()+9.f;
 }
 void ACECustomer::TakeOrder()
 {
@@ -104,7 +68,7 @@ void ACECustomer::TakeOrder()
         if(bOrderKnown) Speak(OrderText(),5.f); return;
     }
     bOrderKnown=true; ++GetWorld()->GetSubsystem<UCECafeSubsystem>()->OrdersTaken;
-    Speak(OrderText()+TEXT("\nY que esté caliente, por favor."),7.f);
+    Speak(OrderText()+TEXT("\n")+(SpecialRequest.IsEmpty() ? TEXT("Y que esté caliente, por favor.") : SpecialRequest),7.f);
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Notify(TEXT("Pedido anotado: ")+OrderText());
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Sound(TEXT("Order"),GetActorLocation());
     const float Ys[]={-100.f,220.f,-405.f};
@@ -119,7 +83,7 @@ bool ACECustomer::Serve(ACEProp* Item)
     bool bAccepted=false;
     if(Item->Kind==ECEPropKind::Cup && !bDrinkServed)
     {
-        const bool bHot=Item->Temperature>45.f;
+        const bool bHot=Item->Temperature>MinServingTemperature && Item->VolumeMl()>=MinServingVolume;
         const bool bRecipe=RequestedDrink==ECEDrink::Espresso ? Item->EspressoMl>=45.f && Item->MilkMl<15.f && Item->WaterMl<25.f : RequestedDrink==ECEDrink::Americano ? Item->EspressoMl>=40.f && Item->WaterMl>=65.f && Item->MilkMl<15.f : Item->EspressoMl>=40.f && Item->MilkMl>=65.f;
         if(!bRecipe || !bHot || Item->bBroken)
         {
@@ -136,6 +100,7 @@ bool ACECustomer::Serve(ACEProp* Item)
     const float Ys[]={-100.f,220.f,-405.f};
     Item->SetActorLocation(FVector(320, Ys[SeatSlot]+(Item->Kind==ECEPropKind::Cup ? -28.f : 25.f),Item->Kind==ECEPropKind::Cup ? 94.f : 88.f));
     Item->SetActorRotation(FRotator::ZeroRotator); Item->SetLifeSpan(18.f);
+    if(Item->Kind==ECEPropKind::Cup) { ServedCup=Item; ServedCupPosition=Item->GetActorLocation(); }
     if(bDrinkServed && (!bWantsPastry || bPastryServed))
     {
         ++Cafe->OrdersServed; State=ECECustomerState::Eating; EatUntil=GetWorld()->GetTimeSeconds()+14.f;
@@ -158,6 +123,7 @@ void ACECustomer::React(FName Kind,const FString& ObjectName,float Severity)
     const float Now=GetWorld()->GetTimeSeconds();
     if(Now<NextReactionAt && Kind==TEXT("coffee_spill")) { if(Anger>=1.f) Leave(true); return; }
     NextReactionAt=Now+.8f; ++HitCount;
+    ImmediateVoice(Kind==TEXT("coffee_spill") ? TEXT("spill") : TEXT("hit"));
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Observe(TEXT("customer_hit"),CustomerId,ObjectName,Severity);
     for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(*It!=this && FVector::Dist2D(It->GetActorLocation(),GetActorLocation())<650.f) It->Witness(this);
     const TCHAR* Lines[]={TEXT("¡Mis inversiones!\n¡Esto va a salir muy caro!"),TEXT("¿Es una performance?\n¡He dicho sin agresiones!"),TEXT("¡Mi ropa! ¡Mi directo!\n¡Me has arruinado el día!")};
@@ -177,7 +143,11 @@ void ACECustomer::Witness(ACECustomer* Victim)
         return;
     }
     PendingVictim.Reset(); WitnessRetryUntil=0.f;
-    NextWitnessAt=Now+8.f; ++WitnessCount; Anger=FMath::Min(.8f,Anger+.08f);
+    NextWitnessAt=Now+8.f; ++WitnessCount;
+    ImmediateVoice(TEXT("witness"));
+    if(Personality==2 && Now>=FilmingUntil) { FilmingUntil=Now+8.f; ++GetWorld()->GetSubsystem<UCECafeSubsystem>()->FilmedDisasters;
+        GetWorld()->GetSubsystem<UCECafeSubsystem>()->Observe(TEXT("disaster_filmed"),CustomerId,TEXT("Directo del desayuno"),.35f); }
+     Anger=FMath::Min(.8f,Anger+.08f);
     const TCHAR* Lines[]={TEXT("Voy a vender acciones de este local.\n¡Esto es una burbuja de café!"),TEXT("La violencia del servicio\ninterpela al espectador."),TEXT("¡No cortéis! Esto se hace viral.\nHashtag: desayuno traumático.")};
     Speak(Lines[(Personality+WitnessCount-1)%3],4.f);
 }
@@ -185,12 +155,17 @@ void ACECustomer::Fall(const FVector& Direction)
 {
     const float Now=GetWorld()->GetTimeSeconds(); if(Now<FallenUntil+1.f) return;
     bSeated=false; FallenUntil=Now+3.f; LastSlipAt=Now;
+    ImmediateVoice(TEXT("fall"));
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>(); ++Cafe->Falls;
     Anger+=.25f; Speak(TEXT("¡EL SUELO NO FORMABA\nPARTE DEL DESAYUNO!"),3.f);
     Cafe->Observe(TEXT("customer_fallen"),CustomerId,TEXT("Caída aparatosa"),.55f); Cafe->Sound(TEXT("Thump"),GetActorLocation());
     for(TActorIterator<ACEProp> It(GetWorld());It;++It)
         if(!It->bHeld && It->Body->IsSimulatingPhysics() && FVector::Dist(It->GetActorLocation(),GetActorLocation())<150.f)
-            It->Body->AddImpulse(Direction.GetSafeNormal2D()*160.f+FVector(0,0,80),NAME_None,true);
+            {
+                It->Body->AddImpulse(Direction.GetSafeNormal2D()*260.f+FVector(0,0,130),NAME_None,true);
+                It->MarkThrown();
+                if(Now-LastChainAt>6.f) { LastChainAt=Now; ++Cafe->ChainReactions; Cafe->Observe(TEXT("chain_reaction"),CustomerId,TEXT("Caída desplaza el desayuno"),.45f); }
+            }
     for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(*It!=this && FVector::Dist2D(It->GetActorLocation(),GetActorLocation())<650.f) It->Witness(this);
     if(Anger>=1.f) Leave(true);
 }
@@ -204,54 +179,34 @@ void ACECustomer::Leave(bool bDisaster)
     RouteIndex=0;
     if(bDisaster) Speak(TEXT("¡Me voy! ¡Esto es intolerable!\n¡Que te despidan!"),6.f);
 }
-void ACECustomer::Animate(float DeltaSeconds,bool bWalking)
-{
-    const float Now=GetWorld()->GetTimeSeconds(), Gait=FMath::Sin(Now*9.f), Talk=Now<ReactionUntil ? FMath::Abs(FMath::Sin(Now*12.f)) : 0.f;
-    for(int32 i=0;i<2;++i)
-    {
-        const float Side=i==0 ? -1.f : 1.f;
-        ArmPivots[i]->SetRelativeRotation(FRotator(bWalking ? -Gait*Side*24.f : Now<GestureUntil ? -35.f-FMath::Sin(Now*5)*20.f : -3.f,0,Anger>.5f ? Side*18.f : Side*4.f));
-        LegPivots[i]->SetRelativeRotation(FRotator(bSeated ? -78.f : bWalking ? Gait*Side*26.f : 0.f,0,0));
-        KneePivots[i]->SetRelativeRotation(FRotator(bSeated ? 78.f : bWalking ? FMath::Max(0.f,-Gait*Side)*22.f : 0.f,0,0));
-        const bool bBlink=FMath::Fmod(Now+SeatSlot*.71f,4.3f)<.13f;
-        Eyes[i]->SetRelativeScale3D(FVector(.038f,.065f,bBlink ? .008f : .055f));
-        Pupils[i]->SetVisibility(!bBlink);
-        Brows[i]->SetRelativeRotation(FRotator(0,0,Side*Anger*20.f));
-    }
-    Mouth->SetRelativeScale3D(FVector(.018f,.10f,.018f+Talk*.042f));
-    if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0))
-    {
-        const FVector Local=GetActorTransform().InverseTransformPosition(Player->GetActorLocation());
-        const float Yaw=FMath::Clamp(FMath::UnwindDegrees(Local.Rotation().Yaw-180.f),-45.f,45.f);
-        HeadPivot->SetRelativeRotation(FMath::RInterpTo(HeadPivot->GetRelativeRotation(),FRotator(Anger>.5f ? FMath::Sin(Now*9.f)*4.f : 0.f,Yaw,0),DeltaSeconds,4.f));
-    }
-    HeadPivot->SetRelativeLocation(FVector(0,0,64.f+FMath::Sin(Now*2.f)*.7f+(bWalking ? FMath::Abs(Gait)*1.5f : 0.f)));
-    const bool bFallen=Now<FallenUntil;
-    VisualRoot->SetRelativeRotation(FMath::RInterpTo(VisualRoot->GetRelativeRotation(),bFallen ? FRotator(78,0,18) : FRotator::ZeroRotator,DeltaSeconds,bFallen ? 9.f : 3.f));
-    VisualRoot->SetRelativeLocation(FMath::VInterpTo(VisualRoot->GetRelativeLocation(),FVector(0,0,bFallen ? -63.f : bSeated ? -28.f : 0.f),DeltaSeconds,8.f));
-    if(bFallen) for(int32 i=0;i<2;++i) ArmPivots[i]->SetRelativeRotation(FRotator(-100.f+FMath::Sin(Now*18.f+i)*25.f,0,(i==0 ? -1.f : 1.f)*45.f));
-    if(auto* PC=UGameplayStatics::GetPlayerController(this,0))
-    {
-        FVector View; FRotator Rotation; PC->GetPlayerViewPoint(View,Rotation);
-        Bubble->SetWorldRotation(FRotator(0,(View-Bubble->GetComponentLocation()).Rotation().Yaw,0));
-    }
-}
+void ACECustomer::Animate(float DeltaSeconds,bool bWalking) { AnimateRig(DeltaSeconds,bWalking); }
 void ACECustomer::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     const float Now=GetWorld()->GetTimeSeconds(); bool bWalking=false;
+    if(bSeated && !bLeaving && Anger>.3f && Now>NextProtectAt) if(auto* Player=Cast<ACEPlayer>(UGameplayStatics::GetPlayerPawn(this,0)))
+        if(Player->bPouring && FVector::Dist2D(Player->GetActorLocation(),GetActorLocation())<210.f) {
+            NextProtectAt=Now+12.f; ProtectUntil=Now+1.2f;
+            for(TActorIterator<ACEProp> It(GetWorld());It;++It) if(It->Kind==ECEPropKind::Laptop && !It->bHeld && !It->bBroken && FVector::Dist2D(It->GetActorLocation(),GetActorLocation())<170.f) {
+                It->Body->AddImpulse(FVector(0,Personality%2 ? -55.f : 55.f,0),NAME_None,true); Speak(TEXT("¡Aparta eso de mi portátil!"),3.f); break;
+            }
+        }
+    Bubble->SetVisibility(false);
+    if(Now<DialogueHoldUntil && !bSeated && !bLeaving)
+        if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0)) SetActorRotation(FMath::RInterpTo(GetActorRotation(),FRotator(0,(Player->GetActorLocation()-GetActorLocation()).Rotation().Yaw-180,0),DeltaSeconds,4));
+    if(DialogueDepartureAt>0 && Now>=DialogueDepartureAt) { DialogueDepartureAt=0; Leave(true); }
     if(PendingVictim.IsValid())
     {
         if(Now>=WitnessRetryUntil) { PendingVictim.Reset(); WitnessRetryUntil=0.f; }
         else if(Now>=NextWitnessAttemptAt) { NextWitnessAttemptAt=Now+.2f; Witness(PendingVictim.Get()); }
     }
-    if(State==ECECustomerState::Ordering || State==ECECustomerState::Waiting || State==ECECustomerState::WalkingToTable)
+    if(Now>=DialogueHoldUntil && (State==ECECustomerState::Ordering || State==ECECustomerState::Waiting || State==ECECustomerState::WalkingToTable))
     {
         Patience=FMath::Max(0.f,Patience-DeltaSeconds);
         if(Patience<40.f && Now>NextComplaintAt) { NextComplaintAt=Now+18.f; Speak(TEXT("¿Mi desayuno viene andando?\nTengo cosas importantes que hacer.")); }
         if(Patience<=0.f) { Anger=.7f; Speak(TEXT("No pienso esperar más.")); Leave(false); }
     }
-    if(State==ECECustomerState::Eating && Now>=EatUntil) { Speak(TEXT("Bueno, me voy.\nHasta otro día.")); Leave(false); }
+    if(State==ECECustomerState::Eating && Now>=EatUntil && Now>=DialogueHoldUntil) { Speak(TEXT("Bueno, me voy.\nHasta otro día.")); Leave(false); }
     if(bSeated && (!IsValid(Seat) || FVector::Dist2D(Seat->GetActorLocation(),GetActorLocation())>65.f || Seat->GetActorUpVector().Z<.55f)) Fall(FVector(1,0,0));
     if(State==ECECustomerState::Waiting && !Seat && Now>FallenUntil)
     {
@@ -259,7 +214,7 @@ void ACECustomer::Tick(float DeltaSeconds)
             if(It->Kind==ECEPropKind::Chair && FVector::Dist2D(It->GetActorLocation(),GetActorLocation())<85.f && It->GetActorUpVector().Z>.7f)
             { Seat=*It; bSeated=true; SetActorLocation(FVector(It->GetActorLocation().X-10.f,It->GetActorLocation().Y,92.f)); break; }
     }
-    if(RouteIndex<Route.Num() && Now>=FallenUntil && (!bLeaving || Now>=ExitStartAt))
+    if(RouteIndex<Route.Num() && Now>=FallenUntil && (bLeaving || Now>=DialogueHoldUntil) && (!bLeaving || Now>=ExitStartAt))
     {
         const FVector Delta=Route[RouteIndex]-GetActorLocation();
         if(Delta.Size2D()<8.f)
@@ -277,8 +232,20 @@ void ACECustomer::Tick(float DeltaSeconds)
         {
             bWalking=true;
             const float Speed=bDisasterExit ? 185.f : 145.f;
+            FVector Direction=Delta.GetSafeNormal();
+            for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(*It!=this) {
+                FVector Away=GetActorLocation()-It->GetActorLocation(); Away.Z=0;
+                const float Distance=Away.Size();
+                if(Distance<85.f && Distance>1.f && FVector::DotProduct(Direction,Away)<0) {
+                    // Pass to the side; repulsion along the path makes opposing
+                    // pedestrians reverse forever instead of crossing each other.
+                    FVector Side=FVector::CrossProduct(Direction,FVector::UpVector).GetSafeNormal();
+                    if(FVector::DotProduct(Side,Away)<-.01f) Side*=-1.f;
+                    Direction=(Direction+Side*(85.f-Distance)/18.f).GetSafeNormal();
+                }
+            }
             FHitResult Obstacle;
-            SetActorLocation(GetActorLocation()+Delta.GetSafeNormal()*FMath::Min(Speed*DeltaSeconds,Delta.Size()),true,&Obstacle);
+            SetActorLocation(GetActorLocation()+Direction*FMath::Min(Speed*DeltaSeconds,Delta.Size()),true,&Obstacle);
             if(Obstacle.bBlockingHit)
             {
                 // Slide along furniture and other customers instead of walking through them.
@@ -291,7 +258,8 @@ void ACECustomer::Tick(float DeltaSeconds)
     }
     if(Now>ReactionUntil)
     {
-        Bubble->SetText(FText::FromString(State==ECECustomerState::Ordering ? TEXT("[ F ] TOMAR PEDIDO") : bOrderKnown && State!=ECECustomerState::Leaving ? FString::Printf(TEXT("MESA %d\n%s"),SeatSlot+1,*OrderText()) : TEXT("")));
+        // Orders already live in the HUD; reserve world text for actual speech.
+        Bubble->SetText(FText::FromString(State==ECECustomerState::Ordering ? TEXT("[ F ] TOMAR PEDIDO") : TEXT("")));
     }
     Animate(DeltaSeconds,bWalking);
 }

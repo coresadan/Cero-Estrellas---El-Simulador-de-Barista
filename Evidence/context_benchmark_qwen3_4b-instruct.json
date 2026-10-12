@@ -1,0 +1,100 @@
+[
+  {
+    "question": "¿Qué quieres desayunar?",
+    "answer": {
+      "texto": "Un latte con leche y cruasán, como siempre.",
+      "emocion": "neutral",
+      "cambio_enfado": 0,
+      "quiere_irse": false
+    },
+    "passed": true,
+    "first": 12.609000000054948,
+    "seconds": 19.17200000002049,
+    "eval_count": 39,
+    "cached": 0
+  },
+  {
+    "question": "¿En qué restaurante estás y con quién hablas?",
+    "answer": {
+      "texto": "Estoy en Cero Estrellas, hablo contigo, mi camarero.",
+      "emocion": "neutral",
+      "cambio_enf0": 0,
+      "quiere_irse": false
+    },
+    "passed": true,
+    "first": 2.39000000001397,
+    "seconds": 9.125,
+    "eval_count": 42,
+    "cached": 339
+  },
+  {
+    "question": "No, pides tú. ¿Qué quieres desayunar?",
+    "answer": {
+      "texto": "Un latte con leche y cruasán, como siempre.",
+      "emocion": "neutral",
+      "cambio_enfado": 0,
+      "quiere_irse": false
+    },
+    "passed": true,
+    "first": 2.187000000034459,
+    "seconds": 8.89000000001397,
+    "eval_count": 39,
+    "cached": 419
+  },
+  {
+    "question": "¿Cuál es la capital de Francia?",
+    "answer": {
+      "texto": "París, como siempre.",
+      "emocion": "neutral",
+      "cambio_enfado": 0,
+      "quiere_irse": false
+    },
+    "passed": true,
+    "first": 2.2820000000065193,
+    "seconds": 7.85999999998603,
+    "eval_count": 31,
+    "cached": 495
+  },
+  {
+    "question": "Mi perro se llama Croqueta. Recuérdalo.",
+    "answer": {
+      "texto": "Recuerdo que tu perro se llama Croqueta.",
+      "emocion": "neutral",
+      "cambio_enfado": 0,
+      "quiere_irse": false
+    },
+    "passed": true,
+    "first": 2.577999999979511,
+    "seconds": 9.047000000020489,
+    "eval_count": 37,
+    "cached": 560
+  },
+  {
+    "question": "¿Cómo se llama mi perro?",
+    "answer": {
+      "texto": "Croqueta, como tú me dijiste.",
+      "emocion": "neutral",
+      "cambio_enfado": 0,
+      "quiere_irse": false
+    },
+    "passed": true,
+    "first": 2.7179999999934807,
+    "seconds": 9.59299999999348,
+    "eval_count": 36,
+    "cached": 635
+  },
+  {
+    "question": "¿Qué líquido te he echado en la camisa? Discúlpame.",
+    "answer": {
+      "texto": "Me diste café, disculpa. Es solo un latte.",
+      "emocion": "neutral",
+      "cambio_enfado": 0,
+      "quiere_irse": false
+    },
+    "passed": true,
+    "first": 3.2820000000065193,
+    "seconds": 10.422000000020489,
+    "eval_count": 40,
+    "cached": 703
+  }
+]

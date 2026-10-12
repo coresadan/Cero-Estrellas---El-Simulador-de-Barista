@@ -1,0 +1,9 @@
+﻿{
+    "passed":  true,
+    "stopped_remaining_project_processes":  0,
+    "start_launch_seconds":  4.49,
+    "voice_ready":  true,
+    "loaded_models":  1,
+    "model_gpu_bytes":  0,
+    "project_model_runners":  1
+}

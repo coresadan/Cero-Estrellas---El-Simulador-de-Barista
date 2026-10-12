@@ -1,0 +1,79 @@
+[
+  {
+    "model": "qwen3:4b-instruct",
+    "threads": 6,
+    "question": "Buenos días, ¿qué desayuno has pedido?",
+    "seconds": 17.12,
+    "load_seconds": 4.03,
+    "prompt_tokens": 186,
+    "prompt_seconds": 5.03,
+    "output_tokens": 44,
+    "reply": "{\"cambio_enfado\":0,\"emocion\":\"neutral\",\"quiere_irse\":false,\"texto\":\"Hoy he pedido un latte de café con leche y un cruasán.\"}"
+  },
+  {
+    "model": "qwen3:4b-instruct",
+    "threads": 6,
+    "question": "No, pides tú.",
+    "seconds": 9.41,
+    "load_seconds": 0.01,
+    "prompt_tokens": 220,
+    "prompt_seconds": 1.16,
+    "output_tokens": 45,
+    "reply": "{\"cambio_enfado\":0,\"emocion\":\"neutral\",\"quiere_irse\":false,\"texto\":\"Sí, he pedido un latte de café con leche y un cruasán.\"}"
+  },
+  {
+    "model": "qwen3:4b-instruct",
+    "threads": 6,
+    "question": "¿En qué restaurante estás y con quién hablas?",
+    "seconds": 12.0,
+    "load_seconds": 0.01,
+    "prompt_tokens": 263,
+    "prompt_seconds": 1.83,
+    "output_tokens": 52,
+    "reply": "{ \"cambio_enfado\": 0, \"emocion\": \"neutral\", \"quiere_irse\": false, \"texto\": \"Estoy en el restaurante Cero Estrellas hablando contigo, mi camarero.\" }"
+  },
+  {
+    "model": "qwen3:4b-instruct",
+    "threads": 6,
+    "question": "Mi perro se llama Croqueta. ¿Te gustan los perros?",
+    "seconds": 11.68,
+    "load_seconds": 0.01,
+    "prompt_tokens": 309,
+    "prompt_seconds": 1.59,
+    "output_tokens": 54,
+    "reply": "{ \"cambio_enfado\": 0, \"emocion\": \"neutral\", \"quiere_irse\": false, \"texto\": \"Sí, me encantan los perros, especialmente con nombres tan creativos como Croqueta.\" }"
+  },
+  {
+    "model": "qwen3:4b-instruct",
+    "threads": 6,
+    "question": "¿Cómo se llama mi perro?",
+    "seconds": 11.71,
+    "load_seconds": 0.01,
+    "prompt_tokens": 307,
+    "prompt_seconds": 4.11,
+    "output_tokens": 41,
+    "reply": "{\"cambio_enfado\":0,\"emocion\":\"neutral\",\"quiere_irse\":false,\"texto\":\"Tu perro se llama Croqueta.\"}"
+  },
+  {
+    "model": "qwen3:4b-instruct",
+    "threads": 6,
+    "question": "¿Qué líquido te he echado en la camisa? Discúlpame.",
+    "seconds": 12.96,
+    "load_seconds": 0.01,
+    "prompt_tokens": 333,
+    "prompt_seconds": 4.83,
+    "output_tokens": 45,
+    "reply": "{\"cambio_enfado\": -0.1, \"emocion\": \"neutral\", \"quiere_irse\": false, \"texto\": \"No te preocupes, fue un error mío.\"}"
+  },
+  {
+    "model": "qwen3:4b-instruct",
+    "threads": 6,
+    "question": "¿Cuál es la capital de Francia?",
+    "seconds": 12.4,
+    "load_seconds": 0.01,
+    "prompt_tokens": 321,
+    "prompt_seconds": 3.91,
+    "output_tokens": 42,
+    "reply": "{ \"cambio_enfado\": 0, \"emocion\": \"neutral\", \"quiere_irse\": false, \"texto\": \"La capital de Francia es París.\" }"
+  }
+]

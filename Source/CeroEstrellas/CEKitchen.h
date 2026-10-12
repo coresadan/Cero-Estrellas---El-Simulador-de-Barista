@@ -97,7 +97,12 @@ public:
     int32 SlipCount = 0;
     UPROPERTY() TObjectPtr<UInstancedStaticMeshComponent> Drops;
     UPROPERTY() TObjectPtr<UInstancedStaticMeshComponent> Pools;
+    UPROPERTY() TObjectPtr<UInstancedStaticMeshComponent> Steam;
 private:
+    struct FSteamPuff { FVector Position=FVector::ZeroVector; float Age=10.f; };
+    TArray<FSteamPuff> Puffs;
+    float NextSteamAt = 0.f;
+    int32 SteamCursor = 0;
     TArray<FCELiquidDrop> Particles;
     TArray<FCEPuddle> Puddles;
     int32 Cursor = 0;

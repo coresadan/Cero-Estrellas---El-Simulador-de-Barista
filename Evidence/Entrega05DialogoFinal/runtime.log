@@ -1,0 +1,1551 @@
+﻿Log file open, 10/11/26 20:43:29
+LogWindows: Failed to load 'aqProf.dll' (GetLastError=126)
+LogWindows: File 'aqProf.dll' does not exist
+LogProfilingDebugging: Loading WinPixEventRuntime.dll for PIX profiling (from ../../../Engine/Binaries/ThirdParty/Windows/WinPixEventRuntime/x64).
+LogWindows: Failed to load 'VtuneApi.dll' (GetLastError=126)
+LogWindows: File 'VtuneApi.dll' does not exist
+LogWindows: Failed to load 'VtuneApi32e.dll' (GetLastError=126)
+LogWindows: File 'VtuneApi32e.dll' does not exist
+LogWindows: Custom abort handler registered for crash reporting.
+LogInit: Running DelayedAutoRegister Phase StartOfEnginePreInit
+LogCore: Display: UTS: The Unreal Trace Server binary is not available ('../../../Engine/Binaries/Win64/UnrealTraceServer.exe')
+LogTrace: Initializing trace...
+LogTrace: Finished trace initialization.
+LogCsvProfiler: Display: Metadata set : platform="Windows"
+LogCsvProfiler: Display: Metadata set : config="Development"
+LogCsvProfiler: Display: Metadata set : buildversion="++UE5+Release-5.8-CL-58210709"
+LogCsvProfiler: Display: Metadata set : engineversion="5.8.3-58210709+++UE5+Release-5.8"
+LogCsvProfiler: Display: Metadata set : enginereleaseversion="5.8.3"
+LogCsvProfiler: Display: Metadata set : os="Windows 11 (25H2) [10.0.26200.9457] "
+LogCsvProfiler: Display: Metadata set : cpu="AuthenticAMD|AMD Ryzen 7 2700X Eight-Core Processor"
+LogCsvProfiler: Display: Metadata set : pgoenabled="0"
+LogCsvProfiler: Display: Metadata set : pgoprofilingenabled="0"
+LogCsvProfiler: Display: Metadata set : ltoenabled="0"
+LogCsvProfiler: Display: Metadata set : asan="0"
+LogCsvProfiler: Display: Metadata set : mergedmodules="0"
+LogCsvProfiler: Display: Metadata set : compacttset="0"
+LogCsvProfiler: Display: Metadata set : commandline="" CeroEstrellas -windowed -ResX=1280 -ResY=720 -CeroDialogueTest -unattended -NoSplash -CeroEvidenceDir="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Evidence\Entrega05DialogoFinal" -CeroTestWav="D:\Trabajo\Cero Estrellas - El Simulador de Barista\SourceAudio\Voice\dialogue_test.wav" -abslog="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Evidence\Entrega05DialogoFinal\runtime.log"""
+LogCsvProfiler: Display: Metadata set : loginid="e9c9825246437f943a4f01a8281bcfb7"
+LogCsvProfiler: Display: Metadata set : llm="0"
+LogPakFile: Initializing PakPlatformFile
+LogIoDispatcher: Display: Mounted container '../../../CeroEstrellas/Content/Paks/global.utoc', Id='ffffffffffffffff', Order=0, Slot=0, Options=(None), Flags=(), HasSoftRefs=False
+LogPakFile: Display: Initialized I/O dispatcher file backend. Mounted the global container: ../../../CeroEstrellas/Content/Paks/global.utoc
+LogPakFile: Display: Found Pak file ../../../CeroEstrellas/Content/Paks/CeroEstrellas-Windows.pak attempting to mount.
+LogPakFile: Display: Mounting pak file ../../../CeroEstrellas/Content/Paks/CeroEstrellas-Windows.pak.
+LogIoDispatcher: Display: Mounted container '../../../CeroEstrellas/Content/Paks/CeroEstrellas-Windows.utoc', Id='ccd1ca41d4b55c56', Order=4, Slot=0, Options=(None), Flags=(Compressed|Indexed), HasSoftRefs=False
+LogFilePackageStore: Mounting container: Id=ccd1ca41d4b55c56, Order=4, NumPackages=581
+LogPakFile: Display: Mounted IoStore container "../../../CeroEstrellas/Content/Paks/CeroEstrellas-Windows.utoc"
+LogPakFile: Display: Mounted Pak file '../../../CeroEstrellas/Content/Paks/CeroEstrellas-Windows.pak', mount point: '../../../'
+LogCsvProfiler: Display: Metadata set : zenstreaming="0"
+LogInit: Running DelayedAutoRegister Phase FileSystemReady
+LogInit: Running DelayedAutoRegister Phase TaskGraphSystemReady
+LogStats: Stats thread started at 0.654576
+LogInit: Running DelayedAutoRegister Phase StatSystemReady
+LogCsvProfiler: Display: Metadata set : systemresolution.resx="1280"
+LogCsvProfiler: Display: Metadata set : systemresolution.resy="720"
+LogICUInternationalization: OS requested locale 'es-ES' is not supported. Using the OS requested language of 'es-ES' as the locale.
+LogICUInternationalization: ICU TimeZone Detection - Raw Offset: +1:00, Platform Override: ''
+LogInit: Session CrashGUID >====================================================
+         Session CrashGUID >   UECC-Windows-C6237FC94AE22AC1AFD339B5CCEA2809
+         Session CrashGUID >====================================================
+LogConfig: No local boot hotfix file found at: [../../../CeroEstrellas/Saved/PersistentDownloadDir/HotfixForNextBoot.txt]
+LogInit: Running DelayedAutoRegister Phase IniSystemReady
+LogAudio: Display: Pre-Initializing Audio Device Manager...
+LogAudio: Display: AudioInfo: 'OPUS' Registered
+LogAssetRegistry: Premade AssetRegistry loaded from '../../../CeroEstrellas/AssetRegistry.bin'.
+LogAudioDebug: Display: Lib vorbis DLL was dynamically loaded.
+LogAudio: Display: AudioInfo: 'OGG' Registered
+LogAudio: Display: AudioInfo: 'ADPCM' Registered
+LogAudio: Display: AudioInfo: 'PCM' Registered
+LogAudio: Display: AudioInfo: 'BINKA' Registered
+LogAudio: Display: AudioInfo: 'RADA' Registered
+LogAudio: Display: Audio Device Manager Pre-Initialized
+LogPluginManager: Mounting Engine plugin Paper2D
+LogPluginManager: Mounting Engine plugin AISupport
+LogPluginManager: Mounting Engine plugin EnvironmentQueryEditor
+LogPluginManager: Mounting Engine plugin ACLPlugin
+LogPluginManager: Mounting Engine plugin AnimationData
+LogPluginManager: Mounting Engine plugin AnimatorKit
+LogPluginManager: Mounting Engine plugin ControlRigModules
+LogPluginManager: Mounting Engine plugin ControlRigSpline
+LogPluginManager: Mounting Engine plugin ControlRig
+LogPluginManager: Mounting Engine plugin DeformerGraph
+LogPluginManager: Mounting Engine plugin EaseCurveTool
+LogPluginManager: Mounting Engine plugin GameplayInsights
+LogPluginManager: Mounting Engine plugin IKRig
+LogPluginManager: Mounting Engine plugin PhysicsControl
+LogPluginManager: Mounting Engine plugin RigLogic
+LogPluginManager: Mounting Engine plugin SkeletalMeshModelingTools
+LogPluginManager: Mounting Engine plugin TweeningUtils
+LogPluginManager: Mounting Engine plugin AudioInsightsRuntime
+LogPluginManager: Mounting Engine plugin AudioInsights
+LogPluginManager: Mounting Engine plugin AudioModulationInsights
+LogPluginManager: Mounting Engine plugin BaseMaterial
+LogPluginManager: Mounting Engine plugin Bridge
+LogPluginManager: Mounting Engine plugin CameraShakePreviewer
+LogPluginManager: Mounting Engine plugin EngineCameras
+LogPluginManager: Mounting Engine plugin GameplayCameras
+LogPluginManager: Mounting Engine plugin ChaosCloth
+LogPluginManager: Mounting Engine plugin ChaosVD
+LogPluginManager: Mounting Engine plugin CompositeCore
+LogPluginManager: Mounting Engine plugin OodleNetwork
+LogPluginManager: Mounting Engine plugin Dataflow
+LogPluginManager: Mounting Engine plugin AnimationSharing
+LogPluginManager: Mounting Engine plugin ConcertMain
+LogPluginManager: Mounting Engine plugin ConcertSyncClient
+LogPluginManager: Mounting Engine plugin ConcertSyncCore
+LogPluginManager: Mounting Engine plugin ConcertSharedSlate
+LogPluginManager: Mounting Engine plugin DumpGPUServices
+LogPluginManager: Mounting Engine plugin GPUReshape
+LogPluginManager: Mounting Engine plugin NamingTokens
+LogPluginManager: Mounting Engine plugin PixWinPlugin
+LogPluginManager: Mounting Engine plugin PluginUtils
+LogPluginManager: Mounting Engine plugin ProjectLauncher
+LogPluginManager: Mounting Engine plugin RenderDocPlugin
+LogPluginManager: Mounting Engine plugin FileSandbox
+LogPluginManager: Mounting Engine plugin UObjectPlugin
+LogPluginManager: Mounting Engine plugin AssetManagerEditor
+LogPluginManager: Mounting Engine plugin BlueprintHeaderView
+LogPluginManager: Mounting Engine plugin BlueprintMaterialTextureNodes
+LogPluginManager: Mounting Engine plugin ColorGrading
+LogPluginManager: Mounting Engine plugin ConsoleVariables
+LogPluginManager: Mounting Engine plugin ContentBrowserAssetDataSource
+LogPluginManager: Mounting Engine plugin CurveEditorTools
+LogPluginManager: Mounting Engine plugin DataValidation
+LogPluginManager: Mounting Engine plugin EditorScriptingUtilities
+LogPluginManager: Mounting Engine plugin EngineAssetDefinitions
+LogPluginManager: Mounting Engine plugin FacialAnimation
+LogPluginManager: Mounting Engine plugin GeometryMode
+LogPluginManager: Mounting Engine plugin MaterialAssetWizard
+LogPluginManager: Mounting Engine plugin LightMixer
+LogPluginManager: Mounting Engine plugin ObjectMixer
+LogPluginManager: Mounting Engine plugin ProxyLODPlugin
+LogPluginManager: Mounting Engine plugin SequencerAnimTools
+LogPluginManager: Mounting Engine plugin SpeedTreeImporter
+LogPluginManager: Mounting Engine plugin UMGWidgetPreview
+LogPluginManager: Mounting Engine plugin UVEditor
+LogPluginManager: Mounting Engine plugin EnhancedInput
+LogPluginManager: Mounting Engine plugin DatasmithContent
+LogPluginManager: Mounting Engine plugin GLTFExporter
+LogPluginManager: Mounting Engine plugin VariantManagerContent
+LogPluginManager: Mounting Engine plugin VariantManager
+LogPluginManager: Mounting Engine plugin Scribble
+LogPluginManager: Mounting Engine plugin AutomationUtils
+LogPluginManager: Mounting Engine plugin BackChannel
+LogPluginManager: Mounting Engine plugin Buoyancy
+LogPluginManager: Mounting Engine plugin ChaosCaching
+LogPluginManager: Mounting Engine plugin ChaosEditor
+LogPluginManager: Mounting Engine plugin ChaosNiagara
+LogPluginManager: Mounting Engine plugin ChaosSolverPlugin
+LogPluginManager: Mounting Engine plugin ChaosUserDataPT
+LogPluginManager: Mounting Engine plugin CharacterAI
+LogPluginManager: Mounting Engine plugin ControlRigPhysics
+LogPluginManager: Mounting Engine plugin EditorDataStorageFeatures
+LogPluginManager: Mounting Engine plugin EditorDataStorage
+LogPluginManager: Mounting Engine plugin EditorPerformance
+LogPluginManager: Mounting Engine plugin EditorTRSGizmo
+LogPluginManager: Mounting Engine plugin Fracture
+LogPluginManager: Mounting Engine plugin FullBodyIK
+LogPluginManager: Mounting Engine plugin GeometryCollectionPlugin
+LogPluginManager: Mounting Engine plugin GeometryDataflow
+LogPluginManager: Mounting Engine plugin GizmoFramework
+LogPluginManager: Mounting Engine plugin GlobalConfigurationData
+LogPluginManager: Mounting Engine plugin InterchangeAxfAssets
+LogPluginManager: Mounting Engine plugin Landmass
+LogPluginManager: Mounting Engine plugin LevelSequenceNavigatorBridge
+LogPluginManager: Mounting Engine plugin LocalizableMessage
+LogPluginManager: Mounting Engine plugin MutableAssetUserData
+LogPluginManager: Mounting Engine plugin NFORDenoise
+LogPluginManager: Mounting Engine plugin PlanarCut
+LogPluginManager: Mounting Engine plugin PlatformCrypto
+LogPluginManager: Mounting Engine plugin PythonScriptPlugin
+LogPluginManager: Mounting Engine plugin RuntimeTelemetry
+LogPluginManager: Mounting Engine plugin ToolPresets
+LogPluginManager: Mounting Engine plugin Water
+LogPluginManager: Mounting Engine plugin Cascade
+LogPluginManager: Mounting Engine plugin NiagaraPreviewContent
+LogPluginManager: Mounting Engine plugin NiagaraSimCaching
+LogPluginManager: Mounting Engine plugin Niagara
+LogPluginManager: Mounting Engine plugin Fab
+LogPluginManager: Mounting Engine plugin AlembicImporter
+LogPluginManager: Mounting Engine plugin InterchangeAssets
+LogPluginManager: Mounting Engine plugin InterchangeEditor
+LogPluginManager: Mounting Engine plugin Interchange
+LogPluginManager: Mounting Engine plugin AvfMedia
+LogPluginManager: Mounting Engine plugin ImgMedia
+LogPluginManager: Mounting Engine plugin MP4Utilities
+LogPluginManager: Mounting Engine plugin MediaCompositing
+LogPluginManager: Mounting Engine plugin MediaPlate
+LogPluginManager: Mounting Engine plugin TmvMedia
+LogPluginManager: Mounting Engine plugin WebMMedia
+LogPluginManager: Mounting Engine plugin WmfMedia
+LogPluginManager: Mounting Engine plugin MeshPainting
+LogPluginManager: Mounting Engine plugin TcpMessaging
+LogPluginManager: Mounting Engine plugin UdpMessaging
+LogPluginManager: Mounting Engine plugin MetaHumanSDK
+LogPluginManager: Mounting Engine plugin ActorSequence
+LogPluginManager: Mounting Engine plugin LevelSequenceEditor
+LogPluginManager: Mounting Engine plugin SequenceValidator
+LogPluginManager: Mounting Engine plugin SequencerScripting
+LogPluginManager: Mounting Engine plugin TemplateSequence
+LogPluginManager: Mounting Engine plugin Mutable
+LogPluginManager: Mounting Engine plugin NNEDenoiser
+LogPluginManager: Mounting Engine plugin NNERuntimeORT
+LogPluginManager: Mounting Engine plugin OnlineBase
+LogPluginManager: Mounting Engine plugin OnlineServices
+LogPluginManager: Mounting Engine plugin OnlineSubsystemNull
+LogPluginManager: Mounting Engine plugin OnlineSubsystemUtils
+LogPluginManager: Mounting Engine plugin OnlineSubsystem
+LogPluginManager: Mounting Engine plugin PCG
+LogPluginManager: Mounting Engine plugin AutomatedPerfTestTools
+LogPluginManager: Mounting Engine plugin LauncherChunkInstaller
+LogPluginManager: Mounting Engine plugin ActorLayerUtilities
+LogPluginManager: Mounting Engine plugin AndroidFileServer
+LogPluginManager: Mounting Engine plugin AndroidPermission
+LogPluginManager: Mounting Engine plugin AppleImageUtils
+LogPluginManager: Mounting Engine plugin ArchVisCharacter
+LogPluginManager: Mounting Engine plugin AssetTags
+LogPluginManager: Mounting Engine plugin AudioCapture
+LogPluginManager: Mounting Engine plugin AudioSynesthesia
+LogPluginManager: Mounting Engine plugin AudioWidgets
+LogPluginManager: Mounting Engine plugin CableComponent
+LogPluginManager: Mounting Engine plugin ChunkDownloader
+LogPluginManager: Mounting Engine plugin ComputeFramework
+LogPluginManager: Mounting Engine plugin CustomMeshComponent
+LogPluginManager: Mounting Engine plugin SQLiteCore
+LogPluginManager: Mounting Engine plugin ExampleDeviceProfileSelector
+LogPluginManager: Mounting Engine plugin GeometryCache
+LogPluginManager: Mounting Engine plugin GeometryProcessing
+LogPluginManager: Mounting Engine plugin GooglePAD
+LogPluginManager: Mounting Engine plugin HairStrands
+LogPluginManager: Mounting Engine plugin InputDebugging
+LogPluginManager: Mounting Engine plugin LocationServicesBPLibrary
+LogPluginManager: Mounting Engine plugin MeshModelingToolset
+LogPluginManager: Mounting Engine plugin Metasound
+LogPluginManager: Mounting Engine plugin MobilePatchingUtils
+LogPluginManager: Mounting Engine plugin ModelViewViewModel
+LogPluginManager: Mounting Engine plugin MsQuic
+LogPluginManager: Mounting Engine plugin ProceduralMeshComponent
+LogPluginManager: Mounting Engine plugin PropertyAccessEditor
+LogPluginManager: Mounting Engine plugin PropertyBindingUtils
+LogPluginManager: Mounting Engine plugin ResonanceAudio
+LogPluginManager: Mounting Engine plugin RigVM
+LogPluginManager: Mounting Engine plugin SignificanceManager
+LogPluginManager: Mounting Engine plugin SkeletalMerging
+LogPluginManager: Mounting Engine plugin SoundFields
+LogPluginManager: Mounting Engine plugin StateTree
+LogPluginManager: Mounting Engine plugin Synthesis
+LogPluginManager: Mounting Engine plugin WaveTable
+LogPluginManager: Mounting Engine plugin WebMMoviePlayer
+LogPluginManager: Mounting Engine plugin WindowsDeviceProfileSelector
+LogPluginManager: Mounting Engine plugin WindowsMoviePlayer
+LogPluginManager: Mounting Engine plugin XInputDevice
+LogPluginManager: Mounting Engine plugin InterchangeTests
+LogPluginManager: Mounting Engine plugin TraceUtilities
+LogPluginManager: Mounting Engine plugin Takes
+LogPluginManager: Mounting Engine plugin WorldMetrics
+LogInit: Running DelayedAutoRegister Phase EarliestPossiblePluginsLoaded
+LogConfig: Applying CVar settings from Section [/Script/CompositeCore.CompositeCorePluginSettings] File [Engine]
+LogWindows: Failed to load 'WinPixGpuCapturer.dll' (GetLastError=126)
+LogWindows: File 'WinPixGpuCapturer.dll' does not exist
+PixWinPlugin: PIX capture plugin failed to initialize! Check that the process is launched from PIX.
+LogConfig: Applying CVar settings from Section [/Script/RenderDocPlugin.RenderDocPluginSettings] File [Engine]
+RenderDocPlugin: Display: RenderDoc plugin will not be loaded. Use '-AttachRenderDoc' on the cmd line or enable 'renderdoc.AutoAttach' in the plugin settings.
+LogNFORDenoise: NFORDenoise function starting up
+LogAnalytics: Display: Provider StudioTelemetry.Provider.Log is disabled for this application
+LogAnalytics: Display: Provider StudioTelemetry.Provider.CSV is disabled for this application
+LogAnalytics: Display: Provider StudioTelemetry.Provider.Horde is disabled for this application
+LogStudioTelemetry: Started StudioTelemetry Session
+LogInit: Using libcurl 8.15.0
+LogInit:  - built for Windows
+LogInit:  - supports SSL with OpenSSL/1.1.1t
+LogInit:  - supports HTTP deflate (compression) using libz 1.3
+LogInit:  - other features:
+LogInit:      CURL_VERSION_SSL
+LogInit:      CURL_VERSION_LIBZ
+LogInit:      CURL_VERSION_IPV6
+LogInit:      CURL_VERSION_ASYNCHDNS
+LogInit:      CURL_VERSION_LARGEFILE
+LogInit:      CURL_VERSION_TLSAUTH_SRP
+LogInit:      CURL_VERSION_HTTP2
+LogInit:  CurlRequestOptions (configurable via config and command line):
+LogInit:  - bVerifyPeer = true  - Libcurl will verify peer certificate
+LogInit:  - bUseHttpProxy = false  - Libcurl will NOT use HTTP proxy
+LogInit:  - CVarHttpReuseConnectionEnabled = true  - Libcurl will reuse connections
+LogInit:  - MaxHostConnections = 16  - Libcurl will limit the number of connections to a host
+LogInit:  - LocalHostAddr = Default
+LogInit:  - BufferSize = 65536
+LogInit: CreateHttpThread using FCurlMultiPollEventLoopHttpThread
+LogInit: Creating http thread with maximum 251 concurrent requests
+LogInit: WinSock: version 1.1 (2.2), MaxSocks=32767, MaxUdp=65467
+LogOnline: OSS: Created online subsystem instance for: NULL
+LogOnline: OSS: TryLoadSubsystemAndSetDefault: Loaded subsystem for type [NULL]
+LogInit: ExecutableName: CeroEstrellas.exe
+LogInit: Build: ++UE5+Release-5.8-CL-58210709
+LogInit: Platform=Windows
+LogInit: MachineId=e9c9825246437f943a4f01a8281bcfb7
+LogInit: DeviceId=
+LogInit: Engine Version: 5.8.3-58210709+++UE5+Release-5.8
+LogInit: Compatible Engine Version: 5.8.0-55116800+++UE5+Release-5.8
+LogInit: Net CL: 55116800
+LogInit: OS: Windows 11 (25H2) [10.0.26200.9457] (), CPU: AMD Ryzen 7 2700X Eight-Core Processor         , GPU: NVIDIA GeForce GTX 1060 6GB
+LogInit: CPU Model ID: 17082, microcode revision: 800820d
+LogInit: Compiled (64-bit): Sep 17 2026 19:13:03
+LogInit: Architecture: x64
+LogInit: Compiled with Visual C++: 19.44.35229.00
+LogInit: Build Configuration: Development
+LogInit: Branch Name: ++UE5+Release-5.8
+LogInit: Command Line: -windowed -ResX=1280 -ResY=720 -CeroDialogueTest -unattended -NoSplash -CeroEvidenceDir="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Evidence\Entrega05DialogoFinal" -CeroTestWav="D:\Trabajo\Cero Estrellas - El Simulador de Barista\SourceAudio\Voice\dialogue_test.wav" -abslog="D:\Trabajo\Cero Estrellas - El Simulador de Barista\Evidence\Entrega05DialogoFinal\runtime.log"
+LogInit: Base Directory: D:/Trabajo/Cero Estrellas - El Simulador de Barista/Release/Windows/CeroEstrellas/Binaries/Win64/
+LogInit: Allocator: Binned3
+LogInit: Installed Engine Build: 0
+LogInit: This binary is optimized with LTO: no, PGO: no, instrumented for PGO data collection: no
+LogDevObjectVersion: Number of dev versions registered: 44
+LogDevObjectVersion:   Dev-Blueprints (B0D832E4-1F89-4F0D-ACCF-7EB736FD4AA2): 10
+LogDevObjectVersion:   Dev-Build (E1C64328-A22C-4D53-A36C-8E866417BD8C): 0
+LogDevObjectVersion:   Dev-Core (375EC13C-06E4-48FB-B500-84F0262A717E): 4
+LogDevObjectVersion:   Dev-Editor (E4B068ED-F494-42E9-A231-DA0B2E46BB41): 40
+LogDevObjectVersion:   Dev-Framework (CFFC743F-43B0-4480-9391-14DF171D2073): 37
+LogDevObjectVersion:   Dev-Mobile (B02B49B5-BB20-44E9-A304-32B752E40360): 3
+LogDevObjectVersion:   Dev-Networking (A4E4105C-59A1-49B5-A7C5-40C4547EDFEE): 0
+LogDevObjectVersion:   Dev-Online (39C831C9-5AE6-47DC-9A44-9C173E1C8E7C): 0
+LogDevObjectVersion:   Dev-Physics (78F01B33-EBEA-4F98-B9B4-84EACCB95AA2): 20
+LogDevObjectVersion:   Dev-Platform (6631380F-2D4D-43E0-8009-CF276956A95A): 0
+LogDevObjectVersion:   Dev-Rendering (12F88B9F-8875-4AFC-A67C-D90C383ABD29): 49
+LogDevObjectVersion:   Dev-Sequencer (7B5AE74C-D270-4C10-A958-57980B212A5A): 13
+LogDevObjectVersion:   Dev-VR (D7296918-1DD6-4BDD-9DE2-64A83CC13884): 3
+LogDevObjectVersion:   Dev-LoadTimes (C2A15278-BFE7-4AFE-6C17-90FF531DF755): 1
+LogDevObjectVersion:   Private-Geometry (6EACA3D4-40EC-4CC1-B786-8BED09428FC5): 3
+LogDevObjectVersion:   Dev-AnimPhys (29E575DD-E0A3-4627-9D10-D276232CDCEA): 17
+LogDevObjectVersion:   Dev-Anim (AF43A65D-7FD3-4947-9873-3E8ED9C1BB05): 15
+LogDevObjectVersion:   Dev-ReflectionCapture (6B266CEC-1EC7-4B8F-A30B-E4D90942FC07): 1
+LogDevObjectVersion:   Dev-Automation (0DF73D61-A23F-47EA-B727-89E90C41499A): 1
+LogDevObjectVersion:   FortniteMain (601D1886-AC64-4F84-AA16-D3DE0DEAC7D6): 268
+LogDevObjectVersion:   FortniteValkyrie (8DBC2C5B-54A7-43E0-A768-FCBB7DA29060): 8
+LogDevObjectVersion:   FortniteSeason (5B4C06B7-2463-4AF8-805B-BF70CDF5D0DD): 15
+LogDevObjectVersion:   FortniteRelease (E7086368-6B23-4C58-8439-1B7016265E91): 20
+LogDevObjectVersion:   Dev-Enterprise (9DFFBCD6-494F-0158-E221-12823C92A888): 11
+LogDevObjectVersion:   Dev-Niagara (F2AED0AC-9AFE-416F-8664-AA7FFA26D6FC): 1
+LogDevObjectVersion:   Dev-Destruction (174F1F0B-B4C6-45A5-B13F-2EE8D0FB917D): 10
+LogDevObjectVersion:   Dev-Physics-Ext (35F94A83-E258-406C-A318-09F59610247C): 41
+LogDevObjectVersion:   Dev-PhysicsMaterial-Chaos (B68FC16E-8B1B-42E2-B453-215C058844FE): 1
+LogDevObjectVersion:   Dev-CineCamera (B2E18506-4273-CFC2-A54E-F4BB758BBA07): 1
+LogDevObjectVersion:   Dev-VirtualProduction (64F58936-FD1B-42BA-BA96-7289D5D0FA4E): 1
+LogDevObjectVersion:   UE5-Main (697DD581-E64F-41AB-AA4A-51ECBEB7B628): 123
+LogDevObjectVersion:   UE5-Release (D89B5E42-24BD-4D46-8412-ACA8DF641779): 68
+LogDevObjectVersion:   UE5-SpecialProject (59DA5D52-1232-4948-B878-597870B8E98B): 9
+LogDevObjectVersion:   Dev-MediaFramework (6F0ED827-A609-4895-9C91-998D90180EA4): 2
+LogDevObjectVersion:   Dev-NaniteResearch (30D58BE3-95EA-4282-A6E3-B159D8EBB06A): 1
+LogDevObjectVersion:   Dev-ComputeFramework (6304A3E7-0059-4F59-8CFC-21BD7721FD4E): 0
+LogDevObjectVersion:   Dev-RigVM (DC49959B-53C0-4DE7-9156-EA885E7C5D39): 25
+LogDevObjectVersion:   Dev-ControlRig (A7820CFB-20A7-4359-8C54-2C149623CF50): 43
+LogDevObjectVersion:   Dev-PhysicsControl (E68A5C1A-42C3-CA0D-B014-41B228C1F2DD): 33
+LogDevObjectVersion:   Dev-RigPhysics (B7F3D285-4A1C-5E08-2D6B-9F71C50E8A14): 6
+LogDevObjectVersion:   Dev-Optimus (93EDE1AA-10CA-7375-4DF9-8A2849B157A0): 14
+LogDevObjectVersion:   Dev-IKRig (F6DFBB78-BB50-A0E4-4018-B84D60CBAF23): 14
+LogDevObjectVersion:   FN-Main-InterchangePipeline (B69D2E47-E2A8-4003-BF77-18A492C4D899): 2
+LogDevObjectVersion:   Dev-Scribble (DC49359B-53C0-4DE7-9126-EA885E1C5D39): 0
+LogInit: Presizing for max 2097152 objects, including 1 objects not considered by GC.
+LogStreaming: Display: AsyncLoading2 - Created: Async Loading Thread: true, Async Post Load: true, Multithreaded: false
+LogInit: Object subsystem initialized
+LogConfig: Set CVar [[con.DebugEarlyDefault:1]]
+LogConfig: CVar [[con.DebugLateDefault:1]] deferred - dummy variable created
+LogConfig: CVar [[con.DebugLateCheat:1]] deferred - dummy variable created
+LogConfig: CVar [[LogNamedEventFilters:Frame *]] deferred - dummy variable created
+LogConfig: Set CVar [[r.setres:1280x720]]
+LogConfig: CVar [[framepro.ScopeMinTimeMicroseconds:10]] deferred - dummy variable created
+LogConfig: Set CVar [[fx.NiagaraAllowRuntimeScalabilityChanges:1]]
+LogConfig: CVar [[QualityLevelMapping:high]] deferred - dummy variable created
+LogConfig: CVar [[r.Occlusion.SingleRHIThreadStall:1]] deferred - dummy variable created
+LogConfig: Set CVar [[r.Nanite.Streaming.ReservedResources:1]]
+LogConfig: Set CVar [[D3D12.Bindless.ResourceDescriptorHeapSize:32768]]
+LogConfig: Set CVar [[D3D12.Bindless.SamplerDescriptorHeapSize:2048]]
+LogConfig: Set CVar [[r.PSOPrecache.GlobalShaders:1]]
+LogConfig: Set CVar [[r.VRS.EnableSoftware:1]]
+LogConfig: Set CVar [[r.VRS.ContrastAdaptiveShading:1]]
+[2026.10.11-18.43.29:419][  0]LogConfig: CVar [[con.DebugLateDefault:1]] deferred - dummy variable created
+[2026.10.11-18.43.29:419][  0]LogConfig: CVar [[con.DebugLateCheat:1]] deferred - dummy variable created
+[2026.10.11-18.43.29:419][  0]LogConfig: CVar [[LogNamedEventFilters:Frame *]] deferred - dummy variable created
+[2026.10.11-18.43.29:419][  0]LogConfig: CVar [[framepro.ScopeMinTimeMicroseconds:10]] deferred - dummy variable created
+[2026.10.11-18.43.29:419][  0]LogConfig: CVar [[QualityLevelMapping:high]] deferred - dummy variable created
+[2026.10.11-18.43.29:419][  0]LogConfig: CVar [[r.Occlusion.SingleRHIThreadStall:1]] deferred - dummy variable created
+[2026.10.11-18.43.29:421][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.RendererSettings] File [Engine]
+[2026.10.11-18.43.29:421][  0]LogConfig: CVar [[VisualizeCalibrationColorMaterialPath:/Engine/EngineMaterials/PPM_DefaultCalibrationColor.PPM_DefaultCalibrationColor]] deferred - dummy variable created
+[2026.10.11-18.43.29:421][  0]LogConfig: CVar [[VisualizeCalibrationGrayscaleMaterialPath:/Engine/EngineMaterials/PPM_DefaultCalibrationGrayscale.PPM_DefaultCalibrationGrayscale]] deferred - dummy variable created
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.GPUCrashDebugging:0]]
+[2026.10.11-18.43.29:421][  0]LogConfig: CVar [[MaxSkinBones:(Default=65536,PerPlatform=(("Mobile", 256)))]] deferred - dummy variable created
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.Shaders.RemoveUnusedInterpolators:1]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.Shadow.DetectVertexShaderLayerAtRuntime:1]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.Substrate.RoughDiffuse:1]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.Substrate.ShadingQuality:1]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.Substrate.TileCoord8bits:0]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.Substrate.Glints:1]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.Substrate.ClosuresPerPixel:4]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.Refraction.Blur:1]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.DynamicGlobalIlluminationMethod:0]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.ReflectionMethod:2]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.RayTracing:0]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.DefaultFeature.AutoExposure:0]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.DefaultFeature.MotionBlur:0]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.DefaultFeature.Bloom:1]]
+[2026.10.11-18.43.29:421][  0]LogConfig: Set CVar [[r.AntiAliasingMethod:2]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[r.Shadow.Virtual.Enable:0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[r.Streaming.PoolSize:1200]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[r.AllowStaticLighting:0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.RendererOverrideSettings] File [Engine]
+[2026.10.11-18.43.29:423][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.StreamingSettings] File [Engine]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.MinBulkDataSizeForAsyncLoading:131072]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.AsyncLoadingThreadEnabled:1]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.EventDrivenLoaderEnabled:1]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.WarnIfTimeLimitExceeded:0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.TimeLimitExceededMultiplier:1.5]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.TimeLimitExceededMinTime:0.005]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.UseBackgroundLevelStreaming:1]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.PriorityAsyncLoadingExtraTime:15.0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.LevelStreamingActorsUpdateTimeLimit:5.0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.PriorityLevelStreamingActorsUpdateExtraTime:5.0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.LevelStreamingComponentsRegistrationGranularity:10]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.UnregisterComponentsTimeLimit:1.0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.LevelStreamingComponentsUnregistrationGranularity:5]]
+[2026.10.11-18.43.29:423][  0]LogConfig: CVar [[s.MaxPackageSummarySize:16384]] deferred - dummy variable created
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[s.FlushStreamingOnExit:1]]
+[2026.10.11-18.43.29:423][  0]LogConfig: CVar [[FixedBootOrder:/Script/Engine/Default__SoundBase]] deferred - dummy variable created
+[2026.10.11-18.43.29:423][  0]LogConfig: CVar [[FixedBootOrder:/Script/Engine/Default__MaterialInterface]] deferred - dummy variable created
+[2026.10.11-18.43.29:423][  0]LogConfig: CVar [[FixedBootOrder:/Script/Engine/Default__DeviceProfileManager]] deferred - dummy variable created
+[2026.10.11-18.43.29:423][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.GarbageCollectionSettings] File [Engine]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.MaxObjectsNotConsideredByGC:1]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.NumRetriesBeforeForcingGC:10]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.AllowParallelGC:1]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.TimeBetweenPurgingPendingKillObjects:61.1]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.MaxObjectsInEditor:25165824]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.IncrementalBeginDestroyEnabled:1]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.CreateGCClusters:1]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.MinGCClusterSize:5]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.AssetClustreringEnabled:0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.ActorClusteringEnabled:0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Set CVar [[gc.VerifyUObjectsAreNotFGCObjects:0]]
+[2026.10.11-18.43.29:423][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.NetworkSettings] File [Engine]
+[2026.10.11-18.43.29:423][  0]LogConfig: CVar [[NetworkEmulationProfiles:(ProfileName="Average",ToolTip="Simulates average internet conditions")]] deferred - dummy variable created
+[2026.10.11-18.43.29:423][  0]LogConfig: CVar [[NetworkEmulationProfiles:(ProfileName="Bad",ToolTip="Simulates laggy internet conditions")]] deferred - dummy variable created
+[2026.10.11-18.43.29:423][  0]LogConfig: CVar [[NetworkEmulationProfiles:(ProfileName="BufferBloat",ToolTip="Simulates a connection affected by buffer bloat (in and out)")]] deferred - dummy variable created
+[2026.10.11-18.43.29:501][  0]LogConfig: Applying CVar settings from Section [ViewDistanceQuality@3] File [Scalability]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.SkeletalMeshLODBias:0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.ViewDistanceScale:1.0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Applying CVar settings from Section [AntiAliasingQuality@3] File [Scalability]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.FXAA.Quality:4]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.TemporalAA.Quality:2]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.TSR.History.R11G11B10:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.TSR.History.ScreenPercentage:200]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.TSR.History.UpdateQuality:3]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.TSR.ShadingRejection.Flickering:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.TSR.RejectionAntiAliasingQuality:2]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.TSR.ReprojectionField:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.TSR.Resurrection:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Applying CVar settings from Section [ShadowQuality@3] File [Scalability]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LightFunctionQuality:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.ShadowQuality:5]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.CSM.MaxCascades:10]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.MaxResolution:2048]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.MaxCSMResolution:2048]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.RadiusThreshold:0.01]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.DistanceScale:1.0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.CSM.TransitionScale:1.0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.PreShadowResolutionFactor:1.0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.DistanceFieldShadowing:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.VolumetricFog:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.VolumetricFog.GridPixelSize:8]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.VolumetricFog.GridSizeZ:128]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.VolumetricFog.HistoryMissSupersampleCount:4]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LightMaxDrawDistanceScale:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.CapsuleShadows:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.MaxPhysicalPages:4096]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.ResolutionLodBiasDirectional:-1.5]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.ResolutionLodBiasDirectionalMoving:-1.5]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.ResolutionLodBiasLocal:0.0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.ResolutionLodBiasLocalMoving:1.0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.SMRT.RayCountDirectional:8]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.SMRT.SamplesPerRayDirectional:4]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.SMRT.RayCountLocal:8]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.SMRT.SamplesPerRayLocal:4]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Shadow.Virtual.MarkCoarsePagesLocal:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.NumSamplesPerPixel:4]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.DownsampleMode:2]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.ScreenTraces.Quality:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.FrontLayerTranslucency.Allow:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.FrontLayerTranslucency.SpecularOnly:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.FrontLayerTranslucency.SoftShadows:0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.FrontLayerTranslucency.TexturedRectLights:0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.Spatial.UseHistorySpatialVariance:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.Volume.GridPixelSize:8]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.MegaLights.Volume.GridSizeZ:128]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Applying CVar settings from Section [GlobalIlluminationQuality@3] File [Scalability]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.DistanceFieldAO:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.SkylightIntensityMultiplier:1.0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.AOQuality:2]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.DiffuseIndirect.Allow:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.FinalGatherMethod:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LumenScene.SurfaceCache.AtlasSize:4096]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LumenScene.SurfaceCache.CardTexelDensityScale:100]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LumenScene.SurfaceCache.CardMinResolution:2]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LumenScene.SurfaceCache.CardMaxResolution:512]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LumenScene.DirectLighting.MaxLightsPerTile:8]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LumenScene.DirectLighting.UpdateFactor:32]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LumenScene.Radiosity.UpdateFactor:64]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LumenScene.Radiosity.ProbeSpacing:4]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.LumenScene.Radiosity.HemisphereProbeResolution:4]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.TraceMeshSDFs.Allow:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.RadianceCache.ProbeResolution:32]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.RadianceCache.NumProbesToTraceBudget:150]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.DownsampleFactor:16]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.NumAdaptiveProbes:8]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.TracingOctahedronResolution:8]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.IrradianceFormat:0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.StochasticInterpolation:0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.FullResolutionJitterWidth:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.TwoSidedFoliageBackfaceDiffuse:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ScreenTraces.HZBTraversal.FullResDepth:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ShortRangeAO.DownsampleFactor:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ShortRangeAO.HorizonSearch.SliceCount:2]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ShortRangeAO.BentNormal:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ShortRangeAO.HorizonSearch.HZB:0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ShortRangeAO.HorizonSearch.ForegroundSampleRejectPower:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ShortRangeAO.FoliageOcclusionStrength:.7]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.GridPixelSize:32]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.TraceFromVolume:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.ShareRadianceCacheWithOpaque:0]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.SpatialFilter:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.TracingOctahedronResolution:3]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.RadianceCache.ProbeResolution:8]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.RadianceCache.GridResolution:24]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.RadianceCache.NumProbesToTraceBudget:100]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.Lumen.HardwareRayTracing.HitLighting.Allowed:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.RayTracing.Scene.BuildMode:1]]
+[2026.10.11-18.43.29:501][  0]LogConfig: Set CVar [[r.RayTracing.Geometry.SkeletalMeshes:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.MeshCardRepresentation.SkeletalMesh:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.RayTracing.DynamicGeometry.MaxUpdatePrimitivesPerFrame:-1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Applying CVar settings from Section [ReflectionQuality@3] File [Scalability]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.SSR.Quality:3]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.SSR.HalfResSceneColor:0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Lumen.Reflections.Allow:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Lumen.Reflections.DownsampleFactor:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Lumen.Reflections.MaxRoughnessToTraceForFoliage:0.4]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.MaxRoughnessToEvaluateRoughSpecularForFoliage:0.8]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Lumen.Reflections.ScreenSpaceReconstruction.NumSamples:5]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Lumen.Reflections.ScreenSpaceReconstruction.MinWeight:0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyReflections.FrontLayer.Allow:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyReflections.FrontLayer.Enable:0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Applying CVar settings from Section [PostProcessQuality@3] File [Scalability]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.MotionBlurQuality:4]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.MotionBlur.HalfResGather:0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.AmbientOcclusionMipLevelFactor:0.4]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.AmbientOcclusionMaxQuality:100]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.AmbientOcclusionLevels:-1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.AmbientOcclusionRadiusScale:1.0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DepthOfFieldQuality:2]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.RenderTargetPoolMin:400]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.LensFlareQuality:2]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.SceneColorFringeQuality:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.EyeAdaptationQuality:2]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.BloomQuality:5]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Bloom.ScreenPercentage:50.000]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.FastBlurThreshold:100]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Upscale.Quality:3]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.LightShaftQuality:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Filter.SizeScale:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.LUT.Shaper:0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.LUT.Size:32]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Tonemapper.Quality:5]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Gather.ResolutionDivisor:2         ; lower gathering resolution]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Gather.AccumulatorQuality:1        ; higher gathering accumulator quality]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Gather.PostfilterMethod:1          ; Median3x3 postfilering method]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Gather.EnableBokehSettings:0       ; no bokeh simulation when gathering]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Gather.RingCount:4                 ; medium number of samples when gathering]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Scatter.ForegroundCompositing:1    ; additive foreground scattering]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Scatter.BackgroundCompositing:2    ; additive background scattering]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Scatter.EnableBokehSettings:1      ; bokeh simulation when scattering]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Scatter.MaxSpriteRatio:0.1         ; only a maximum of 10% of scattered bokeh]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Recombine.Quality:1                ; cheap slight out of focus]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Recombine.EnableBokehSettings:0    ; no bokeh simulation on slight out of focus]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.TemporalAAQuality:1                ; more stable temporal accumulation]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Kernel.MaxForegroundRadius:0.025]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DOF.Kernel.MaxBackgroundRadius:0.025]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Applying CVar settings from Section [TextureQuality@3] File [Scalability]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Streaming.MipBias:0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Streaming.AmortizeCPUToGPUCopy:0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Streaming.MaxNumTexturesToStreamPerFrame:0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Streaming.Boost:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.MaxAnisotropy:8]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.VT.MaxAnisotropy:8]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Streaming.LimitPoolSizeToVRAM:0]]
+[2026.10.11-18.43.29:502][  0]LogConsoleManager: Warning: Setting the console variable 'r.Streaming.PoolSize' with 'SetByScalability' was ignored as it is lower priority than the previous 'SetByProjectSetting'. Value remains '1200'
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.Streaming.MaxEffectiveScreenSize:0]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Applying CVar settings from Section [EffectsQuality@3] File [Scalability]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.TranslucencyLightingVolume.Dim:64]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.RefractionQuality:2]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.SceneColorFormat:4]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.DetailMode:3]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.TranslucencyLightingVolume.Blur:1]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.MaterialQualityLevel:1 ; High quality]]
+[2026.10.11-18.43.29:502][  0]LogConfig: Set CVar [[r.SSS.Scale:1]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SSS.SampleSet:2]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SSS.Quality:1]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SSS.HalfRes:0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SSGI.Quality:3]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.EmitterSpawnRateScale:1.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.ParticleLightQuality:2]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.FastApplyOnOpaque:1 ; Always have FastSkyLUT 1 in this case to avoid wrong sky]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.SampleCountMaxPerSlice:4]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.DepthResolution:16.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.FastSkyLUT:1]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.FastSkyLUT.SampleCountMin:4.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.FastSkyLUT.SampleCountMax:128.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.SampleCountMin:4.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.SampleCountMax:128.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.TransmittanceLUT.UseSmallFormat:0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.TransmittanceLUT.SampleCount:10.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.SkyAtmosphere.MultiScatteringLUT.SampleCount:15.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.Fog.SeparateComposition:-1	; Allow fog separate composition when FSSS is enabled.]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[fx.Niagara.QualityLevel:3]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.Refraction.OffsetQuality:1]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.Allowed:1]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.DownsampleFactor:2]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.MaxStepCount:256]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.Shadows.Resolution:512]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.Shadows.Precision:0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.UseExistenceMask:0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Applying CVar settings from Section [FoliageQuality@3] File [Scalability]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[foliage.DensityScale:1.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[grass.DensityScale:1.0]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[pcg.Quality:3]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Applying CVar settings from Section [ShadingQuality@3] File [Scalability]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.HairStrands.SkyLighting.IntegrationType:2]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.HairStrands.SkyAO.SampleCount:4]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.HairStrands.Visibility.MSAA.SamplePerPixel:4]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Set CVar [[r.AnisotropicMaterials:1]]
+[2026.10.11-18.43.29:503][  0]LogConfig: Applying CVar settings from Section [LandscapeQuality@3] File [Scalability]
+[2026.10.11-18.43.29:511][  0]LogRHI: Using Default RHI: D3D11
+[2026.10.11-18.43.29:784][  0]LogRHI: Using Highest Feature Level of D3D11: SM5
+[2026.10.11-18.43.29:784][  0]LogRHI: Loading RHI module D3D11RHI
+[2026.10.11-18.43.29:786][  0]LogRHI: Checking if RHI D3D11 with Feature Level SM5 is supported by your system.
+[2026.10.11-18.43.29:828][  0]LogD3D11RHI: D3D11 min allowed feature level: 11_0
+[2026.10.11-18.43.29:828][  0]LogD3D11RHI: D3D11 max allowed feature level: 11_1
+[2026.10.11-18.43.29:828][  0]LogD3D11RHI: D3D11 adapters:
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI: Testing D3D11 Adapter 0:
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     Description : NVIDIA GeForce GTX 1060 6GB
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     VendorId    : 10de
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     DeviceId    : 1c03
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     SubSysId    : 143819da
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     Revision    : 00a1
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     DedicatedVideoMemory : 6323961856 bytes
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     DedicatedSystemMemory : 0 bytes
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     SharedSystemMemory : 12845897728 bytes
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     AdapterLuid : 0 63430
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:    0. 'NVIDIA GeForce GTX 1060 6GB' (Feature Level 11_1)
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:       6031/0/12250 MB DedicatedVideo/DedicatedSystem/SharedSystem, Outputs:2, VendorId:0x10de UMA:false
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI: Testing D3D11 Adapter 1:
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     Description : Microsoft Basic Render Driver
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     VendorId    : 1414
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     DeviceId    : 008c
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     SubSysId    : 0000
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     Revision    : 0000
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     DedicatedVideoMemory : 0 bytes
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     DedicatedSystemMemory : 0 bytes
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     SharedSystemMemory : 12845897728 bytes
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     AdapterLuid : 0 67823
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:    1. 'Microsoft Basic Render Driver' (Feature Level 11_1)
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:       0/0/12250 MB DedicatedVideo/DedicatedSystem/SharedSystem, Outputs:0, VendorId:0x1414 UMA:true
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI: Chosen D3D11 Adapter:
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     Description : NVIDIA GeForce GTX 1060 6GB
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     VendorId    : 10de
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     DeviceId    : 1c03
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     SubSysId    : 143819da
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     Revision    : 00a1
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     DedicatedVideoMemory : 6323961856 bytes
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     DedicatedSystemMemory : 0 bytes
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     SharedSystemMemory : 12845897728 bytes
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI:     AdapterLuid : 0 63430
+[2026.10.11-18.43.29:829][  0]LogD3D11RHI: Integrated GPU (iGPU): false
+[2026.10.11-18.43.29:829][  0]LogRHI: RHI D3D11 with Feature Level SM5 is supported and will be used.
+[2026.10.11-18.43.29:829][  0]LogInit: Selected Device Profile: [Windows]
+[2026.10.11-18.43.29:829][  0]LogHAL: Display: Platform has ~ 24 GB [25691795456 / 34359738368 / 24], which maps to Larger [LargestMinGB=32, LargerMinGB=12, DefaultMinGB=8, SmallerMinGB=6, SmallestMinGB=0)
+[2026.10.11-18.43.29:830][  0]LogDeviceProfileManager: Going up to parent DeviceProfile []
+[2026.10.11-18.43.29:830][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[UI.SlateSDFText.RasterizationMode:Bitmap -> Msdf]]
+[2026.10.11-18.43.29:830][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[UI.SlateSDFText.ResolutionLevel:2 -> 2]]
+[2026.10.11-18.43.29:830][  0]LogConfig: Applying CVar settings from Section [Startup] File [../../../Engine/Config/ConsoleVariables.ini]
+[2026.10.11-18.43.29:830][  0]LogConfig: Set CVar [[p.chaos.AllowCreatePhysxBodies:1]]
+[2026.10.11-18.43.29:830][  0]LogConfig: Set CVar [[fx.SkipVectorVMBackendOptimizations:1]]
+[2026.10.11-18.43.29:830][  0]LogConfig: Applying CVar settings from Section [Startup_Windows] File [../../../Engine/Config/ConsoleVariables.ini]
+[2026.10.11-18.43.29:830][  0]LogConfig: Applying CVar settings from Section [ConsoleVariables] File [Engine]
+[2026.10.11-18.43.29:830][  0]LogConfig: Set CVar [[WindowsApplication.UseWorkerThreadForRawInput:0]]
+[2026.10.11-18.43.29:830][  0]LogConfig: Set CVar [[r.PSOPrecache.KeepInMemoryForActiveMaterials:1]]
+[2026.10.11-18.43.29:831][  0]LogInit: Computer: DESKTOP-E3K60BQ
+[2026.10.11-18.43.29:831][  0]LogInit: User: dremo
+[2026.10.11-18.43.29:831][  0]LogInit: CPU Page size=4096, Cores=8
+[2026.10.11-18.43.29:831][  0]LogInit: High frequency timer resolution =10.000000 MHz
+[2026.10.11-18.43.29:831][  0]LogInit: Gaming Handheld Device: 0
+[2026.10.11-18.43.29:844][  0]LogMemory: Process is running as part of a Windows Job with separate resource limits
+[2026.10.11-18.43.29:844][  0]LogMemory: Memory total: Physical=23.9GB (24GB approx) Virtual=32.9GB
+[2026.10.11-18.43.29:844][  0]LogMemory: Platform Memory Stats for Windows
+[2026.10.11-18.43.29:844][  0]LogMemory: Process Physical Memory: 245.99 MB used, 245.99 MB peak
+[2026.10.11-18.43.29:844][  0]LogMemory: Process Virtual Memory: 212.88 MB used, 212.88 MB peak
+[2026.10.11-18.43.29:844][  0]LogMemory: Physical Memory: 14269.68 MB used,  10231.93 MB free, 24501.61 MB total
+[2026.10.11-18.43.29:844][  0]LogMemory: Virtual Memory: 21712.83 MB used,  11959.77 MB free, 33672.60 MB total
+[2026.10.11-18.43.29:844][  0]LogCsvProfiler: Display: Metadata set : extradevelopmentmemorymb="0"
+[2026.10.11-18.43.29:854][  0]LogWindows: WindowsPlatformFeatures enabled
+[2026.10.11-18.43.29:858][  0]LogSpline: Registered spline type: TypeId=0x54E3AD22, Impl=MultiSpline, Value=Vector
+[2026.10.11-18.43.29:860][  0]LogChaosDD: Chaos Debug Draw Startup
+[2026.10.11-18.43.29:860][  0]LogInit: Physics initialised using underlying interface: Chaos
+[2026.10.11-18.43.29:861][  0]LogInit: Using OS detected language (es-ES).
+[2026.10.11-18.43.29:861][  0]LogInit: Using OS detected locale (es-ES).
+[2026.10.11-18.43.29:862][  0]LogTextLocalizationManager: No localization for 'es-ES' exists, so 'en' will be used for the language.
+[2026.10.11-18.43.29:862][  0]LogTextLocalizationManager: No localization for 'es-ES' exists, so 'en' will be used for the locale.
+[2026.10.11-18.43.29:976][  0]LogWindowsTouchpad: Display: CacheForceMaxTouchpadSensitivityMode SetMaxTouchpadSensitivity
+[2026.10.11-18.43.29:977][  0]LogInputDeviceRegistry: RegisterDevice: DeviceId=0 InputDeviceName=WindowsApplication HardwareDeviceIdentifier=KBM (changed=true)
+[2026.10.11-18.43.29:988][  0]LogObj: Display: Attempting to load config data for Default__SlateThemeManager before the Class has been constructed/registered/linked (likely during module loading or early startup). This will result in the load silently failing and should be fixed.
+[2026.10.11-18.43.30:004][  0]LogSlate: New Slate User Created. Platform User Id 0, User Index 0, Is Virtual User: 0
+[2026.10.11-18.43.30:004][  0]LogSlate: Slate User Registered.  User Index 0, Is Virtual User: 0
+[2026.10.11-18.43.30:213][  0]LogInit: Running DelayedAutoRegister Phase PreRHIInit
+[2026.10.11-18.43.30:216][  0]LogRHI: Using Default RHI: D3D11
+[2026.10.11-18.43.30:216][  0]LogRHI: Using Highest Feature Level of D3D11: SM5
+[2026.10.11-18.43.30:216][  0]LogRHI: Loading RHI module D3D11RHI
+[2026.10.11-18.43.30:216][  0]LogRHI: Checking if RHI D3D11 with Feature Level SM5 is supported by your system.
+[2026.10.11-18.43.30:216][  0]LogRHI: RHI D3D11 with Feature Level SM5 is supported and will be used.
+[2026.10.11-18.43.30:258][  0]LogD3D11RHI: NVIDIA Architecture=304
+[2026.10.11-18.43.30:258][  0]LogRHI: Display: Timeout Detection and Recovery (TDR) summary: 
+	- TDR using non-default settings - Level: Recover, Delay: 8, DdiDelay: 5
+[2026.10.11-18.43.30:258][  0]LogWindows: Attached monitors:
+[2026.10.11-18.43.30:258][  0]LogWindows:     resolution: 1707x960, work area: (-1707, 0) -> (0, 912), device: '\\.\DISPLAY1'
+[2026.10.11-18.43.30:258][  0]LogWindows:     resolution: 1536x864, work area: (0, 0) -> (1536, 816), device: '\\.\DISPLAY2' [PRIMARY]
+[2026.10.11-18.43.30:258][  0]LogWindows: Found 2 attached monitors.
+[2026.10.11-18.43.30:258][  0]LogWindows: Gathering driver information using Windows Setup API
+[2026.10.11-18.43.30:258][  0]LogRHI: RHI Adapter Info:
+[2026.10.11-18.43.30:258][  0]LogRHI:             Name: NVIDIA GeForce GTX 1060 6GB
+[2026.10.11-18.43.30:258][  0]LogRHI:   Driver Version: 582.28 (internal:32.0.15.8228, unified:582.28)
+[2026.10.11-18.43.30:258][  0]LogRHI:      Driver Date: 1-20-2026
+[2026.10.11-18.43.30:258][  0]LogRHI: Performing driver check for denylisted drivers.
+[2026.10.11-18.43.30:260][  0]LogD3D11RHI: Creating new Direct3DDevice
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     GPU DeviceId: 0x1c03 (for the marketing name, search the web for "GPU Device Id")
+[2026.10.11-18.43.30:261][  0]LogRHI: Texture pool is 4221 MB (70% of 6031 MB)
+[2026.10.11-18.43.30:261][  0]LogNvidiaAftermath: Nvidia Aftermath is disabled in D3D11 due to instability issues.
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI: Creating D3DDevice using adapter:
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     Description : NVIDIA GeForce GTX 1060 6GB
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     VendorId    : 10de
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     DeviceId    : 1c03
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     SubSysId    : 143819da
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     Revision    : 00a1
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     DedicatedVideoMemory : 6323961856 bytes
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     DedicatedSystemMemory : 0 bytes
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     SharedSystemMemory : 12845897728 bytes
+[2026.10.11-18.43.30:261][  0]LogD3D11RHI:     AdapterLuid : 0 63430
+[2026.10.11-18.43.30:411][  0]LogNvidiaAftermath: Aftermath is not loaded.
+[2026.10.11-18.43.30:411][  0]LogD3D11RHI: RHI has support for 64 bit atomics
+[2026.10.11-18.43.30:412][  0]LogD3D11RHI: Async texture creation enabled
+[2026.10.11-18.43.30:412][  0]LogD3D11RHI: D3D11_MAP_WRITE_NO_OVERWRITE for dynamic buffer SRVs is supported
+[2026.10.11-18.43.30:412][  0]LogD3D11RHI: Array index from any shader is supported
+[2026.10.11-18.43.30:459][  0]LogVRS: Current RHI does not support Variable Rate Shading
+[2026.10.11-18.43.30:463][  0]LogRHI: Render tracing channels set: 'Submission' -> 0xf
+[2026.10.11-18.43.30:464][  0]LogCsvProfiler: Display: Metadata set : verbatimrhiname="D3D11"
+[2026.10.11-18.43.30:464][  0]LogCsvProfiler: Display: Metadata set : rhiname="D3D11"
+[2026.10.11-18.43.30:464][  0]LogCsvProfiler: Display: Metadata set : rhifeaturelevel="SM5"
+[2026.10.11-18.43.30:464][  0]LogCsvProfiler: Display: Metadata set : shaderplatform="PCD3D_SM5"
+[2026.10.11-18.43.30:464][  0]LogCsvProfiler: Display: Metadata set : gpu="NVIDIA GeForce GTX 1060 6GB"
+[2026.10.11-18.43.30:464][  0]LogCsvProfiler: Display: Metadata set : gpudriver="582.28"
+[2026.10.11-18.43.30:464][  0]LogInit: Initializing FReadOnlyCVARCache
+[2026.10.11-18.43.30:471][  0]LogRendererCore: Ray tracing is disabled. Reason: disabled through project setting (r.RayTracing=0).
+[2026.10.11-18.43.30:473][  0]LogShaderLibrary: Display: Using IoDispatcher for shader code library Global. Total 3929 unique shaders.
+[2026.10.11-18.43.30:473][  0]LogShaderLibrary: Display: Cooked Context: Loaded Shared Shader Library Global
+[2026.10.11-18.43.30:473][  0]LogShaderLibrary: Display: Logical shader library 'Global' has been created as a monolithic library, components 1
+[2026.10.11-18.43.30:473][  0]LogTemp: Display: Clearing the OS Cache
+[2026.10.11-18.43.30:474][  0]LogInit: Running DelayedAutoRegister Phase ShaderTypesReady
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: --- StereoAspects begin ---
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: Platform=PCD3D_SM5 (0)
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bInstancedStereo = 0
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bMobilePlatform = 0
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bMobilePostprocessing = 1
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bMobileMultiView = 0
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bMultiViewportCapable = 1
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bInstancedStereoNative = 0
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: ---
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bMobileMultiViewCoreSupport = 0
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bMobileMultiViewNative = 0
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: ---
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bInstancedStereoEnabled = 0
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: bMobileMultiViewEnabled = 0
+[2026.10.11-18.43.30:532][  0]LogInit: FStereoShaderAspects: --- StereoAspects end ---
+[2026.10.11-18.43.30:543][  0]LogInit: XR: Instanced Stereo Rendering is Disabled
+[2026.10.11-18.43.30:543][  0]LogInit: XR: Mobile Multiview is Disabled
+[2026.10.11-18.43.30:565][  0]LogSlate: Using FreeType 2.14.1
+[2026.10.11-18.43.30:567][  0]LogSlate: SlateFontServices - WITH_FREETYPE: 1, WITH_HARFBUZZ: 1
+[2026.10.11-18.43.30:607][  0]LogWindowsTextInputMethodSystem: Available input methods:
+[2026.10.11-18.43.30:607][  0]LogWindowsTextInputMethodSystem:   - Español (España, internacional) - (Keyboard).
+[2026.10.11-18.43.30:607][  0]LogWindowsTextInputMethodSystem:   - Español (España, internacional) - Corrección de entrada táctil (TSF IME).
+[2026.10.11-18.43.30:607][  0]LogWindowsTextInputMethodSystem: Activated input method: Español (España, internacional) - (Keyboard).
+[2026.10.11-18.43.30:642][  0]LogShaderLibrary: Display: Using IoDispatcher for shader code library CeroEstrellas. Total 890 unique shaders.
+[2026.10.11-18.43.30:642][  0]LogShaderLibrary: Display: Cooked Context: Loaded Shared Shader Library CeroEstrellas
+[2026.10.11-18.43.30:642][  0]LogShaderLibrary: Display: Logical shader library 'CeroEstrellas' has been created as a monolithic library, components 1
+[2026.10.11-18.43.30:643][  0]LogShaderLibrary: Display: Tried to open again shader library 'CeroEstrellas', but could not find new components for it (existing components: 1).
+[2026.10.11-18.43.30:643][  0]LogInit: Using OS detected language (es-ES).
+[2026.10.11-18.43.30:643][  0]LogInit: Using OS detected locale (es-ES).
+[2026.10.11-18.43.30:643][  0]LogTextLocalizationManager: No localization for 'es-ES' exists, so 'en' will be used for the language.
+[2026.10.11-18.43.30:643][  0]LogTextLocalizationManager: No localization for 'es-ES' exists, so 'en' will be used for the locale.
+[2026.10.11-18.43.30:649][  0]LogAssetRegistry: ActiveMountsLoading is disabled.
+[2026.10.11-18.43.30:649][  0]LogAssetRegistry: FAssetRegistry took 0.0038 seconds to start up
+[2026.10.11-18.43.30:654][  0]LogInit: Running DelayedAutoRegister Phase PreObjectSystemReady
+[2026.10.11-18.43.30:930][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64Editor not found.
+[2026.10.11-18.43.30:930][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64 not found.
+[2026.10.11-18.43.30:933][  0]LogDeviceProfileManager: Active device profile: [00007FE7F8314D70][00007FF357A65800 82] Windows
+[2026.10.11-18.43.30:933][  0]LogCsvProfiler: Display: Metadata set : deviceprofile="Windows"
+[2026.10.11-18.43.30:934][  0]LogInit: Running DelayedAutoRegister Phase DeviceProfileManagerReady
+[2026.10.11-18.43.30:947][  0]LogStreaming: Display: FlushAsyncLoading(8): 8 QueuedPackages, 0 AsyncPackages
+[2026.10.11-18.43.30:947][  0]LogFilePackageStore: Updated: NewPackages=581, OldPackages=0, TotalPackages=582
+[2026.10.11-18.43.31:021][  0]LogStreaming: Display: Partially loaded package /Engine/EngineMaterials/WorldGridMaterial (state: WaitingForIo) to avoid deadlock when it was recursively flushed by package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: PostLoad). UniqueCallstack(-1).
+[2026.10.11-18.43.31:035][  0]LogStreaming: Display: Partially loaded package /Engine/EngineMaterials/DefaultDeferredDecalMaterial (state: WaitingForIo) to avoid deadlock when it was recursively flushed by package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: PostLoad). UniqueCallstack(-1).
+[2026.10.11-18.43.31:037][  0]LogStreaming: Display: Partially loaded package /Engine/EngineMaterials/DefaultLightFunctionMaterial (state: WaitingForIo) to avoid deadlock when it was recursively flushed by package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: PostLoad). UniqueCallstack(-1).
+[2026.10.11-18.43.31:039][  0]LogStreaming: Display: Partially loaded package /Engine/EngineMaterials/DefaultPostProcessMaterial (state: WaitingForIo) to avoid deadlock when it was recursively flushed by package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: PostLoad). UniqueCallstack(-1).
+[2026.10.11-18.43.31:204][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.11-18.43.31:225][  0]LogMetaSound: Display: MetaSound Page Target Initialized to 'Default'
+[2026.10.11-18.43.31:235][  0]LogPackageLocalizationCache: Processed 83 localized package path(s) for 1 prioritized culture(s) in 0.001456 seconds
+[2026.10.11-18.43.31:242][  0]LogStats: UGameplayTagsManager::InitializeManager -  0.001 s
+[2026.10.11-18.43.31:244][  0]LogConfig: Applying CVar settings from Section [/Script/NNEDenoiser.NNEDenoiserSettings] File [Engine]
+[2026.10.11-18.43.31:252][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.11-18.43.31:280][  0]LogInit: Running DelayedAutoRegister Phase ObjectSystemReady
+[2026.10.11-18.43.31:281][  0]LogModuleManager: StartProcessingNewlyLoadedObjects
+[2026.10.11-18.43.31:293][  0]LogMoviePlayer: Initializing movie player
+[2026.10.11-18.43.31:306][  0]LogNiagaraDebuggerClient: Niagara Debugger Client Initialized | Session: F08EDD0A196F48C28000000000008800 | Instance: E50DFF1B4A931EE5C4EA52A3BB480D67 (DESKTOP-E3K60BQ-28924).
+[2026.10.11-18.43.31:395][  0]LogNNERuntimeORT: MakeRuntimeORTDml:
+[2026.10.11-18.43.31:395][  0]LogNNERuntimeORT:   DirectML:  yes
+[2026.10.11-18.43.31:395][  0]LogNNERuntimeORT:   RHI D3D12: no
+[2026.10.11-18.43.31:395][  0]LogNNERuntimeORT:   D3D12:     n/a (checked in CanCreateModelGPU)
+[2026.10.11-18.43.31:395][  0]LogNNERuntimeORT: Interface availability:
+[2026.10.11-18.43.31:395][  0]LogNNERuntimeORT:   GPU: n/a (checked in CanCreateModelGPU)
+[2026.10.11-18.43.31:395][  0]LogNNERuntimeORT:   RDG: no
+[2026.10.11-18.43.31:417][  0]LogAudio: Display: Registering Engine Module Parameter Interfaces...
+[2026.10.11-18.43.31:417][  0]LogMetaSound: MetaSound Engine Initialized
+[2026.10.11-18.43.31:432][  0]LogAndroidPermission: UAndroidPermissionCallbackProxy::GetInstance
+[2026.10.11-18.43.31:448][  0]LogUObjectArray: 34547 objects as part of root set at end of initial load.
+[2026.10.11-18.43.31:448][  0]LogUObjectArray: 4 objects are not in the root set, but can never be destroyed because they are in the DisregardForGC set.
+[2026.10.11-18.43.31:448][  0]LogUObjectArray: CloseDisregardForGC: 34547/34547 objects in disregard for GC pool
+[2026.10.11-18.43.31:468][  0]LogEngine: Initializing Engine...
+[2026.10.11-18.43.31:494][  0]LogNetVersion: Set ProjectVersion to 0.5.0. Version Checksum will be recalculated on next use.
+[2026.10.11-18.43.31:495][  0]LogInit: Texture streaming: Enabled
+[2026.10.11-18.43.31:497][  0]LogAudio: Display: Initializing Audio Device Manager...
+[2026.10.11-18.43.31:500][  0]LogAudio: Display: Loading Default Audio Settings Objects...
+[2026.10.11-18.43.31:502][  0]LogAudio: Display: No default SoundConcurrencyObject specified (or failed to load).
+[2026.10.11-18.43.31:502][  0]LogAudio: Display: Audio Device Manager Initialized
+[2026.10.11-18.43.31:502][  0]LogAudio: Display: Creating Audio Device:                 Id: 1, Scope: Shared, Realtime: True
+[2026.10.11-18.43.31:503][  0]LogAudioMixer: Display: bUseRenderScheduler set to true.
+[2026.10.11-18.43.31:504][  0]LogAudioMixer: Display: Audio Mixer Platform Settings:
+[2026.10.11-18.43.31:504][  0]LogAudioMixer: Display: 	Sample Rate:						  48000
+[2026.10.11-18.43.31:504][  0]LogAudioMixer: Display: 	Callback Buffer Frame Size Requested: 1024
+[2026.10.11-18.43.31:504][  0]LogAudioMixer: Display: 	Callback Buffer Frame Size To Use:	  1024
+[2026.10.11-18.43.31:504][  0]LogAudioMixer: Display: 	Number of buffers to queue:			  1
+[2026.10.11-18.43.31:504][  0]LogAudioMixer: Display: 	Max Channels (voices):				  32
+[2026.10.11-18.43.31:504][  0]LogAudioMixer: Display: 	Number of Async Source Workers:		  4
+[2026.10.11-18.43.31:504][  0]LogAudio: Display: AudioDevice MaxSources: 32
+[2026.10.11-18.43.31:507][  0]LogAudio: Display: Audio Spatialization Plugin: None (built-in).
+[2026.10.11-18.43.31:507][  0]LogAudio: Display: Audio Reverb Plugin: None (built-in).
+[2026.10.11-18.43.31:507][  0]LogAudio: Display: Audio Occlusion Plugin: None (built-in).
+[2026.10.11-18.43.31:532][  0]LogAudioEnumeration: Display: Refreshing FWindowsMMDeviceCache
+[2026.10.11-18.43.31:542][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Render Role='Console', Device='Altavoces (Realtek(R) Audio)'
+[2026.10.11-18.43.31:543][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Capture Role='Console', Device='Micrófono (Trust Full HD Webcam)'
+[2026.10.11-18.43.31:545][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Render Role='Multimedia', Device='Altavoces (Realtek(R) Audio)'
+[2026.10.11-18.43.31:547][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Capture Role='Multimedia', Device='Micrófono (Trust Full HD Webcam)'
+[2026.10.11-18.43.31:548][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Render Role='Communications', Device='LG HDR 4K (NVIDIA High Definition Audio)'
+[2026.10.11-18.43.31:550][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Capture Role='Communications', Device='Micrófono (Razer Seiren X)'
+[2026.10.11-18.43.31:551][  0]LogAudioMixerWasapi: Display: FWasapiServiceWatcher started.
+[2026.10.11-18.43.31:551][  0]LogAudioMixer: Display: Initializing audio mixer using platform API: 'WASAPIMixer'
+[2026.10.11-18.43.31:551][  0]LogAudioMixerWasapi: Display: FWasapiServiceWatcher initial state: Audiosrv=RUNNING, AudioEndpointBuilder=RUNNING
+[2026.10.11-18.43.31:553][  0]LogAudioMixerWasapi: FAudioMixerWasapiRenderStream::InitializeHardware DefaultDevicePeriod: 480 requesting buffer size: 1920
+[2026.10.11-18.43.31:561][  0]LogAudioMixerWasapi: Display: FAudioMixerWasapiRenderStream::InitializeHardware audio mixer requested num channels: 2, Wasapi render stream hardware supports num channels: 2
+[2026.10.11-18.43.31:561][  0]LogAudioMixerWasapi: Display: FAudioMixerWasapiRenderStream::InitializeHardware succeeded with sample rate: 48000, buffer period: 1024
+[2026.10.11-18.43.31:561][  0]LogAudioMixer: Display: FAudioMixerWasapi initialized: SampleRate=48000 NumChannels=2 NumDirectOutChannels=0 bIsAggregateDevice=0 StreamParams.Num()=1
+[2026.10.11-18.43.31:561][  0]LogAudioMixer: Display: Using Audio Hardware Device Altavoces (Realtek(R) Audio)
+[2026.10.11-18.43.31:564][  0]LogAudioMixer: Display: Initializing Sound Submixes...
+[2026.10.11-18.43.31:565][  0]LogAudioMixer: Display: Creating Master Submix 'MasterSubmixDefault'
+[2026.10.11-18.43.31:566][  0]LogAudioMixer: Display: Creating Master Submix 'MasterReverbSubmixDefault'
+[2026.10.11-18.43.31:571][  0]LogAudioMixer: Display: Output buffers initialized: Frames=1024, Channels=2, Samples=2048, InstanceID=1
+[2026.10.11-18.43.31:572][  0]LogAudioMixer: Display: Starting AudioMixerPlatformInterface::RunInternal(), InstanceID=1
+[2026.10.11-18.43.31:572][  0]LogAudioMixer: Display: Audio Buffer Underrun (starvation) detected. InstanceID=1
+[2026.10.11-18.43.31:572][  0]LogInit: FAudioDevice initialized with ID 1.
+[2026.10.11-18.43.31:573][  0]LogAudioMixer: Initializing Audio Bus Subsystem for audio device with ID 1
+[2026.10.11-18.43.31:574][  0]LogCsvProfiler: Display: Metadata set : largeworldcoordinates="1"
+[2026.10.11-18.43.31:581][  0]LogChaosDD: Creating Chaos Debug Draw Scene for world Untitled
+[2026.10.11-18.43.31:653][  0]LogAudio: Display: Audio Device (ID: 1) registered with world 'Untitled'.
+[2026.10.11-18.43.31:658][  0]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2026.10.11-18.43.31:660][  0]LogInit: Display: Game Engine Initialized.
+[2026.10.11-18.43.31:661][  0]LogNNEDenoiser: Ray Tracing is not enabled, therefore NNEDenoiser is not registered!
+[2026.10.11-18.43.31:661][  0]LogMutable: Creating Mutable Customizable Object System.
+[2026.10.11-18.43.31:669][  0]LogCsvProfiler: Display: Metadata set : raytracing="0"
+[2026.10.11-18.43.31:688][  0]LogInit: Display: Starting Game.
+[2026.10.11-18.43.31:688][  0]LogGlobalStatus: UEngine::Browse Started Browse: "/Game/Maps/Cafeteria?Name=Player"
+[2026.10.11-18.43.31:688][  0]LogNet: Browse: /Game/Maps/Cafeteria?Name=Player
+[2026.10.11-18.43.31:688][  0]LogLoad: LoadMap: /Game/Maps/Cafeteria?Name=Player
+[2026.10.11-18.43.31:688][  0]LogWorld: BeginTearingDown for /Temp/Untitled_0
+[2026.10.11-18.43.31:693][  0]LogWorld: UWorld::CleanupWorld for Untitled, bSessionEnded=true, bCleanupResources=true
+[2026.10.11-18.43.31:696][  0]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2026.10.11-18.43.31:715][  0]LogAudio: Display: Audio Device unregistered from world 'Untitled'.
+[2026.10.11-18.43.31:726][  0]LogUObjectHash: Compacting FUObjectHashTables data took   1.18ms
+[2026.10.11-18.43.31:758][  0]LogAudio: Display: Audio Device (ID: 1) registered with world 'Cafeteria'.
+[2026.10.11-18.43.31:758][  0]LogChaosDD: Creating Chaos Debug Draw Scene for world Cafeteria
+[2026.10.11-18.43.31:764][  0]LogLoad: Game class is 'CEGameMode'
+[2026.10.11-18.43.31:765][  0]LogWorld: Bringing World /Game/Maps/Cafeteria.Cafeteria up for play (max tick rate 0) at 2026.10.11-20.43.31
+[2026.10.11-18.43.31:765][  0]LogWorld: Bringing up level for play took: 0.001373
+[2026.10.11-18.43.31:786][  0]LogEnhancedInput: Warning: UEnhancedInputLocalPlayerSubsystem for Local Player 'LocalPlayer_2147482474' does not have a valid PlayerInput object. Failed to load user settings.
+[2026.10.11-18.43.31:904][  0]LogTemp: Display: CE_CAFE_BUILT version=0.5 stations=9 authored_models=24 dialogue=1
+[2026.10.11-18.43.31:904][  0]LogTemp: Display: CE_CHAOS id=chaos-000001 kind=shift_started customer= severity=0.00
+[2026.10.11-18.43.31:904][  0]LogTemp: Display: CE_READY version=0.5.0 smoke=1
+[2026.10.11-18.43.31:905][  0]LogViewport: Display: Viewport MouseCaptureMode Changed, CapturePermanently_IncludingInitialMouseDown -> CapturePermanently
+[2026.10.11-18.43.31:906][  0]LogLoad: Took 0.217550 seconds to LoadMap(/Game/Maps/Cafeteria)
+[2026.10.11-18.43.31:906][  0]LogGlobalStatus: UEngine::LoadMap Load map complete /Game/Maps/Cafeteria
+[2026.10.11-18.43.32:056][  0]LogSlate: Display: Synchronously lazy loading font file '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' with subface index 0 in Game thread.
+[2026.10.11-18.43.32:056][  0]LogSlate: Display: Took 0.001271 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' (155K) on Game thread.
+[2026.10.11-18.43.32:056][  0]LogSlate: Display: Freetype font face in memory successfully created with synchronously loaded raw font file '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' subface 0 in Game thread.
+[2026.10.11-18.43.32:056][  0]LogSlate: Display: Font face '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' subface index 0 successfully added to font face map in Game thread.
+[2026.10.11-18.43.32:091][  0]LogSlate: Display: Synchronously lazy loading font file '../../../Engine/Content/Slate/Fonts/DroidSansFallback.ttf' with subface index 0 in Game thread.
+[2026.10.11-18.43.32:091][  0]LogSlate: Display: Took 0.027576 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/DroidSansFallback.ttf' (3848K) on Game thread.
+[2026.10.11-18.43.32:091][  0]LogSlate: Display: Freetype font face in memory successfully created with synchronously loaded raw font file '../../../Engine/Content/Slate/Fonts/DroidSansFallback.ttf' subface 0 in Game thread.
+[2026.10.11-18.43.32:091][  0]LogSlate: Display: Font face '../../../Engine/Content/Slate/Fonts/DroidSansFallback.ttf' subface index 0 successfully added to font face map in Game thread.
+[2026.10.11-18.43.32:159][  0]LogRenderer: Pixel format for LUT is PF_A2B10G10R10
+[2026.10.11-18.43.32:166][  0]LogRHI: Display: ShaderPipelineCache: Paused Batching. 1
+[2026.10.11-18.43.32:166][  0]LogPakFile: AllPaks IndexSizes: DirectoryHashSize=32, PathHashSize=16, EntriesSize=24576, DirTreeIndexSize=159104, TotalSize=183728
+[2026.10.11-18.43.32:166][  0]LogRHI: Display: ShaderPipelineCache: Resumed Batching. 0
+[2026.10.11-18.43.32:166][  0]LogRHI: Display: ShaderPipelineCache: Batching Resumed.
+[2026.10.11-18.43.32:166][  0]LogInit: Running DelayedAutoRegister Phase EndOfEngineInit
+[2026.10.11-18.43.32:167][  0]LogInit: Display: Engine is initialized. Leaving FEngineLoop::Init()
+[2026.10.11-18.43.32:167][  0]LogLoad: (Engine Initialization) Total time: 3.88 seconds
+[2026.10.11-18.43.32:192][  0]LogContentStreaming: Texture pool size now 1200 MB
+[2026.10.11-18.43.32:192][  0]LogCsvProfiler: Display: Metadata set : streamingpoolsizemb="1200"
+[2026.10.11-18.43.32:197][  0]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2026.10.11-18.43.32:199][  0]LogTrace: Display: Control listening on port 1985
+[2026.10.11-18.43.32:228][  1]LogRenderer: Forcing update for all mesh draw commands: SkyLight change
+[2026.10.11-18.43.36:179][238]LogStreaming: Display: FlushAsyncLoading(102): 1 QueuedPackages, 0 AsyncPackages
+[2026.10.11-18.43.36:213][238]LogTemp: Display: CE_ARRIVAL id=cliente-001 slot=0 order=Espresso · 60 ml
+[2026.10.11-18.43.36:213][238]LogTemp: Display: CE_DIALOGUE_STAGE 0
+[2026.10.11-18.43.36:237][239]LogViewport: Display: Viewport MouseLockMode Changed, LockOnCapture -> DoNotLock
+[2026.10.11-18.43.36:237][239]LogViewport: Display: Viewport MouseCaptureMode Changed, CapturePermanently -> NoCapture
+[2026.10.11-18.43.36:250][239]LogSlate: Display: Synchronously lazy loading font file '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' with subface index 0 in Game thread.
+[2026.10.11-18.43.36:250][239]LogSlate: Display: Took 0.001457 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' (160K) on Game thread.
+[2026.10.11-18.43.36:250][239]LogSlate: Display: Freetype font face in memory successfully created with synchronously loaded raw font file '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' subface 0 in Game thread.
+[2026.10.11-18.43.36:250][239]LogSlate: Display: Font face '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' subface index 0 successfully added to font face map in Game thread.
+[2026.10.11-18.43.36:779][271]LogTemp: Display: CE_DIALOGUE_STAGE 1
+[2026.10.11-18.43.36:779][271]LogTemp: Display: CE_DIALOGUE_CHECK T_opens_dialogue_panel_and_cursor=1
+[2026.10.11-18.43.36:779][271]LogTemp: Display: CE_DIALOGUE_CHECK conversation_holds_customer_patience=1
+[2026.10.11-18.43.36:782][271]LogTemp: Display: CE_DIALOGUE_CHECK strict_contract_accepts_valid_json=1
+[2026.10.11-18.43.36:782][271]LogTemp: Display: CE_DIALOGUE_CHECK contract_rejects_missing_fields=1
+[2026.10.11-18.43.36:782][271]LogTemp: Display: CE_DIALOGUE_CHECK contract_rejects_unknown_emotion=1
+[2026.10.11-18.43.36:782][271]LogTemp: Display: CE_DIALOGUE_CHECK contract_rejects_excessive_gameplay_delta=1
+[2026.10.11-18.43.36:782][271]LogTemp: Display: CE_DIALOGUE_CHECK empty_or_long_input_not_sent=1
+[2026.10.11-18.43.36:783][271]LogTemp: Display: CE_DIALOGUE_CHECK text_field_accepts_spanish_input=1
+[2026.10.11-18.43.36:784][271]LogTemp: Display: CE_DIALOGUE_CHECK UI_draft_starts_real_Ollama_request=1
+[2026.10.11-18.43.36:784][271]LogTemp: Display: CE_DIALOGUE_CHECK concurrent_turn_is_rejected=1
+[2026.10.11-18.43.37:081][289]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.37:329][304]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.37:580][319]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.37:830][334]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.38:081][349]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.38:329][364]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.38:581][379]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.38:831][394]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.39:079][409]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.39:329][424]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.39:580][439]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.39:831][454]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.40:079][469]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.40:330][484]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.40:580][499]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.40:831][514]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.41:081][529]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.41:331][544]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.41:581][559]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.41:830][574]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.42:081][589]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.42:331][604]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.42:581][619]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.42:831][634]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.43:081][649]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.43:331][664]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.43:581][679]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.43:831][694]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.44:081][709]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.44:331][724]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.44:581][739]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.44:831][754]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.45:081][769]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.45:331][784]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.45:581][799]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.45:831][814]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.46:080][829]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.46:331][844]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.46:581][859]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.46:831][874]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.47:080][889]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.47:340][904]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.47:601][919]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.47:859][933]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.48:110][947]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.48:381][961]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.48:638][974]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.48:868][986]LogTemp: Display: CE_DIALOGUE_FIRST_TEXT seconds=12.09
+[2026.10.11-18.43.48:903][988]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.49:171][  2]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.49:422][ 16]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.49:685][ 30]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.49:946][ 42]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.50:199][ 56]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.50:466][ 71]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.50:717][ 85]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.50:974][ 99]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.51:242][111]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.51:497][125]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.51:756][140]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.52:013][155]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.52:268][170]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.52:521][183]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.52:784][196]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.53:046][211]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.53:309][226]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.53:561][239]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.53:816][252]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.54:072][265]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.54:189][270]LogTemp: Display: CE_ARRIVAL id=cliente-002 slot=1 order=Americano · café + agua + cruasán
+[2026.10.11-18.43.54:328][277]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.54:584][289]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.54:845][302]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.55:106][315]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.55:379][327]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.55:648][340]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.55:907][353]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.56:175][367]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.56:433][381]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.56:701][394]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.56:728][395]LogTemp: Display: CE_DIALOGUE_REPLY customer=qa-dialogue emotion=neutral chars=28 anger=0.00 wants_leave=0 first_text=12.09 complete=19.94
+[2026.10.11-18.43.56:854][403]LogTemp: Display: CE_DIALOGUE_VOICE duration=1.67
+[2026.10.11-18.43.56:952][409]LogTemp: Display: CE_DIALOGUE_STAGE 2
+[2026.10.11-18.43.56:952][409]LogTemp: Display: CE_DIALOGUE_CHECK real_Ollama_reply_is_validated_and_displayed=1
+[2026.10.11-18.43.56:952][409]LogTemp: Display: CE_DIALOGUE_CHECK reply_knows_the_actual_order=1
+[2026.10.11-18.43.56:952][409]LogTemp: Display: CE_DIALOGUE_CHECK progressive_text_arrives_before_validated_response=1
+[2026.10.11-18.43.56:952][409]LogTemp: Display: CE_DIALOGUE_CHECK dialogue_UI_hides_backend_terminology=1
+[2026.10.11-18.44.02:964][764]LogTemp: Display: CE_DIALOGUE_STAGE 14
+[2026.10.11-18.44.02:964][764]LogTemp: Display: CE_DIALOGUE_CHECK Piper_audio_reaches_Unreal_playback=1
+[2026.10.11-18.44.03:264][782]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.03:514][797]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.03:764][812]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.04:014][827]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.04:264][842]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.04:514][857]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.04:764][872]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.05:014][887]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.05:264][902]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.05:514][917]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.05:764][932]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.06:016][947]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.06:277][961]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.06:533][974]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.06:805][987]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.07:067][997]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.07:333][  8]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.07:378][ 10]LogTemp: Display: CE_DIALOGUE_FIRST_TEXT seconds=4.41
+[2026.10.11-18.44.07:587][ 19]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.07:850][ 31]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.08:117][ 42]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.08:377][ 53]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.08:647][ 67]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.08:912][ 81]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.09:177][ 93]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.09:434][106]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.09:696][117]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.09:961][129]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.10:213][141]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.10:468][154]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.10:729][167]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.10:988][179]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.11:243][191]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.11:494][204]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.11:749][217]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.12:004][229]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.12:206][238]LogTemp: Display: CE_ARRIVAL id=cliente-003 slot=2 order=Latte · café + leche
+[2026.10.11-18.44.12:268][241]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.12:521][254]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.12:771][266]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.13:026][278]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.13:285][291]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.13:541][303]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.13:794][314]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.14:047][326]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.14:317][339]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.14:582][351]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.14:847][363]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.15:121][375]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.15:372][386]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.15:627][398]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.15:887][410]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.16:149][422]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.16:403][434]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.16:664][445]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.16:932][457]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.17:198][470]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.17:297][474]LogTemp: Display: CE_DIALOGUE_REPLY customer=qa-dialogue emotion=neutral chars=52 anger=0.00 wants_leave=0 first_text=4.41 complete=14.33
+[2026.10.11-18.44.17:467][484]LogTemp: Display: CE_DIALOGUE_STAGE 15
+[2026.10.11-18.44.17:467][484]LogTemp: Display: CE_DIALOGUE_CHECK customer_knows_restaurant_and_waiter_roles=1
+[2026.10.11-18.44.17:779][502]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.18:032][517]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.18:281][532]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.18:532][547]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.18:781][562]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.19:048][578]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.19:298][593]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.19:548][608]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.19:798][623]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.20:048][638]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.20:298][653]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.20:548][668]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.20:811][683]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.21:079][696]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.21:344][708]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.21:608][719]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.21:871][731]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.22:128][743]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.22:293][751]LogTemp: Display: CE_DIALOGUE_FIRST_TEXT seconds=4.83
+[2026.10.11-18.44.22:397][756]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.22:661][769]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.22:917][780]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.23:171][793]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.23:429][806]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.23:696][819]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.23:960][831]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.24:218][842]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.24:477][855]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.24:735][868]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.24:997][881]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.25:265][894]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.25:517][905]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.25:781][917]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.26:051][930]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.26:312][942]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.26:573][954]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.26:832][967]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.27:089][980]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.27:343][993]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.27:614][  6]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.27:879][ 19]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.28:132][ 31]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.28:383][ 42]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.28:642][ 55]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.28:902][ 66]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.29:162][ 79]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.29:426][ 92]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.29:681][103]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.29:939][115]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.30:206][128]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.30:475][141]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.30:733][154]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.31:002][166]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.31:265][178]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.31:534][191]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.31:753][202]LogTemp: Display: CE_DIALOGUE_REPLY customer=qa-dialogue emotion=neutral chars=46 anger=0.00 wants_leave=0 first_text=4.83 complete=14.28
+[2026.10.11-18.44.31:783][204]LogTemp: Display: CE_DIALOGUE_STAGE 16
+[2026.10.11-18.44.31:783][204]LogTemp: Display: CE_DIALOGUE_CHECK customer_handles_player_correction_without_invented_spill=1
+[2026.10.11-18.44.32:095][221]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.32:357][236]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.32:607][251]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.32:858][266]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.33:108][281]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.33:369][296]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.33:620][311]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.33:869][326]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.34:120][341]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.34:370][356]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.34:620][371]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.34:869][386]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.35:137][401]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.35:393][414]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.35:662][427]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.35:916][438]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.36:184][450]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.36:341][458]LogTemp: Display: CE_DIALOGUE_FIRST_TEXT seconds=4.56
+[2026.10.11-18.44.36:441][463]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.36:693][476]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.36:947][489]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.37:215][502]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.37:479][514]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.37:732][526]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.37:990][538]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.38:258][552]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.38:516][563]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.38:776][574]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.39:042][587]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.39:297][599]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.39:555][612]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.39:808][625]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.40:063][636]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.40:326][649]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.40:593][662]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.40:849][673]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.41:110][685]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.41:362][697]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.41:617][709]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.41:877][721]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.42:131][734]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.42:386][747]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.42:641][759]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.42:907][771]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.42:921][771]LogTemp: Display: CE_DIALOGUE_REPLY customer=qa-dialogue emotion=neutral chars=6 anger=0.00 wants_leave=0 first_text=4.56 complete=11.14
+[2026.10.11-18.44.42:980][775]LogTemp: Display: CE_DIALOGUE_VOICE duration=0.66
+[2026.10.11-18.44.43:172][786]LogTemp: Display: CE_DIALOGUE_STAGE 17
+[2026.10.11-18.44.43:172][786]LogTemp: Display: CE_DIALOGUE_CHECK customer_can_discuss_topics_outside_the_restaurant=1
+[2026.10.11-18.44.49:175][140]LogTemp: Display: CE_DIALOGUE_STAGE 3
+[2026.10.11-18.44.49:175][140]LogTemp: Display: CE_DIALOGUE_CHECK Piper_audio_reaches_Unreal_playback=1
+[2026.10.11-18.44.49:474][158]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.49:725][173]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.49:991][189]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.50:258][205]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.50:512][220]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.50:778][236]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.51:028][251]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.51:278][266]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.51:529][281]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.51:779][296]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.52:029][311]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.52:281][326]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.52:535][338]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.52:799][347]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.53:049][356]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.53:303][364]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.53:561][373]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.53:812][384]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.53:911][388]LogTemp: Display: CE_DIALOGUE_FIRST_TEXT seconds=4.74
+[2026.10.11-18.44.54:081][394]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.54:359][403]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.54:617][413]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.54:890][423]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.55:149][432]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.55:415][441]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.55:682][451]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.55:944][461]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.56:213][471]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.56:465][480]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.56:730][489]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.56:998][500]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.57:258][510]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.57:513][520]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.57:786][532]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.58:060][542]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.58:315][553]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.58:568][565]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.58:832][577]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.59:095][587]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.59:371][597]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.59:636][608]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.44.59:913][620]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.00:166][631]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.00:434][643]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.00:694][655]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.00:966][666]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.01:227][679]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.01:497][693]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.01:762][706]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.02:029][719]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.02:281][730]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.02:546][743]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.02:809][757]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.02:903][762]LogTemp: Display: CE_DIALOGUE_REPLY customer=qa-dialogue emotion=neutral chars=29 anger=0.00 wants_leave=0 first_text=4.74 complete=13.73
+[2026.10.11-18.45.03:026][769]LogTemp: Display: CE_DIALOGUE_VOICE duration=1.59
+[2026.10.11-18.45.03:059][771]LogTemp: Display: CE_DIALOGUE_STAGE 4
+[2026.10.11-18.45.03:372][789]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.03:624][804]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.03:873][819]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.04:123][834]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.04:374][849]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.04:624][864]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.04:874][879]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.05:124][894]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.05:373][909]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.05:623][924]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.05:873][939]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.06:124][954]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.06:377][969]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.06:638][982]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.06:903][994]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.07:169][  7]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.07:439][ 18]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.07:699][ 31]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.07:955][ 44]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.08:210][ 57]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.08:473][ 71]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.08:718][ 82]LogTemp: Display: CE_DIALOGUE_FIRST_TEXT seconds=5.66
+[2026.10.11-18.45.08:738][ 83]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.09:004][ 96]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.09:257][108]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.09:522][122]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.09:789][136]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.10:043][149]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.10:305][162]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.10:567][176]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.10:832][190]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.11:095][205]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.11:359][218]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.11:625][232]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.11:886][246]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.12:149][260]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.12:402][272]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.12:662][285]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.12:916][297]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.13:175][310]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.13:428][323]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.13:690][337]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.13:948][349]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.14:204][361]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.14:474][374]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.14:728][388]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.14:993][402]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.15:245][416]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.15:506][429]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.15:759][441]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.16:028][455]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.16:290][468]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.16:543][481]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.16:795][494]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.17:058][506]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.17:323][520]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.17:591][534]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.17:777][543]LogTemp: Display: CE_DIALOGUE_REPLY customer=qa-dialogue emotion=neutral chars=8 anger=0.00 wants_leave=0 first_text=5.66 complete=14.72
+[2026.10.11-18.45.17:835][547]LogTemp: Display: CE_DIALOGUE_VOICE duration=0.71
+[2026.10.11-18.45.17:851][548]LogTemp: Display: CE_DIALOGUE_STAGE 5
+[2026.10.11-18.45.17:851][548]LogTemp: Display: CE_DIALOGUE_CHECK customer_remembers_previous_turns=1
+[2026.10.11-18.45.17:851][548]LogTemp: Display: CE_CHAOS id=chaos-000002 kind=customer_hit customer=qa-dialogue severity=0.50
+[2026.10.11-18.45.18:164][566]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.18:415][581]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.18:681][597]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.18:932][612]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.19:181][627]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.19:432][642]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.19:682][657]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.19:948][673]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.20:198][688]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.20:465][704]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.20:715][719]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.20:964][734]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.21:232][750]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.21:481][765]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.21:749][781]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.21:998][796]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.22:265][812]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.22:514][827]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.22:765][842]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.23:015][857]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.23:281][873]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.23:532][888]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.23:782][903]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.24:033][918]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.24:283][933]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.24:535][948]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.24:803][963]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.25:059][977]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.25:312][989]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.25:566][  1]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.25:833][ 16]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.26:088][ 29]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.26:111][ 30]LogTemp: Display: CE_DIALOGUE_FIRST_TEXT seconds=8.26
+[2026.10.11-18.45.26:344][ 43]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.26:619][ 57]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.26:881][ 69]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.27:147][ 83]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.27:410][ 96]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.27:679][110]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.27:933][122]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.28:195][135]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.28:460][149]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.28:710][163]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.28:975][176]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.29:228][191]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.29:487][204]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.29:755][218]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.30:016][232]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.30:280][247]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.30:547][260]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.30:803][272]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.31:064][285]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.31:318][299]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.31:578][313]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.31:845][327]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.32:100][340]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.32:365][352]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.32:627][365]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.32:877][378]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.33:139][393]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.33:397][406]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.33:666][419]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.33:922][433]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.34:187][447]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.34:439][461]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.34:710][475]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.34:966][487]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.35:218][500]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.35:483][514]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.35:736][528]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.36:003][542]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.36:264][554]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.36:404][560]LogTemp: Display: CE_DIALOGUE_REPLY customer=qa-dialogue emotion=enfadado chars=37 anger=0.75 wants_leave=0 first_text=8.26 complete=18.55
+[2026.10.11-18.45.36:525][568]LogTemp: Display: CE_DIALOGUE_STAGE 6
+[2026.10.11-18.45.36:525][568]LogTemp: Display: CE_DIALOGUE_CHECK dialogue_reacts_to_physical_context=1
+[2026.10.11-18.45.36:525][568]LogTemp: Display: CE_DIALOGUE_CHECK customer_does_not_claim_to_have_spilled_on_player=1
+[2026.10.11-18.45.36:525][568]LogTemp: Display: CE_DIALOGUE_CHECK AI_anger_change_stays_within_gameplay_bounds=1
+[2026.10.11-18.45.36:525][568]LogTemp: Display: CE_DIALOGUE_CHECK ordinary_dialogue_does_not_trigger_boss=1
+[2026.10.11-18.45.36:647][568]LogTemp: Display: CE_DIALOGUE_VOICE duration=2.10
+[2026.10.11-18.45.42:535][922]LogTemp: Display: CE_DIALOGUE_STAGE 7
+[2026.10.11-18.45.42:535][922]LogTemp: Display: CE_DIALOGUE_CHECK speech_fixture_available=1
+[2026.10.11-18.45.42:835][940]LogTemp: Display: CE_DIALOGUE_STAGE 8
+[2026.10.11-18.45.43:086][955]LogTemp: Display: CE_DIALOGUE_STAGE 8
+[2026.10.11-18.45.43:335][970]LogTemp: Display: CE_DIALOGUE_STAGE 8
+[2026.10.11-18.45.43:353][971]LogTemp: Display: CE_DIALOGUE_TRANSCRIBED chars=61
+[2026.10.11-18.45.43:585][985]LogTemp: Display: CE_DIALOGUE_STAGE 8
+[2026.10.11-18.45.43:585][985]LogTemp: Display: CE_DIALOGUE_CHECK Whisper_returns_editable_spanish_transcript=1
+[2026.10.11-18.45.43:585][985]LogTemp: Display: CE_DIALOGUE_CHECK transcript_is_not_sent_without_confirmation=1
+[2026.10.11-18.45.44:595][ 40]LogTemp: Display: CE_DIALOGUE_STAGE 13
+[2026.10.11-18.45.44:895][ 58]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.45:144][ 73]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.45:395][ 88]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.45:645][103]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.45:895][118]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.46:144][133]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.46:395][148]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.46:645][163]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.46:912][179]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.47:178][195]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.47:428][210]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.47:678][225]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.47:928][240]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.48:177][255]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.48:445][271]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.48:694][286]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.48:945][301]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.49:195][316]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.49:444][331]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.49:695][346]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.49:961][362]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.50:211][377]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.50:461][392]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.50:712][407]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.50:961][422]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.51:212][437]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.51:462][452]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.51:711][467]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.51:963][482]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.52:219][495]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.52:485][508]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.52:742][522]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.52:998][535]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.53:262][549]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.53:522][562]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.53:667][569]LogTemp: Display: CE_DIALOGUE_FIRST_TEXT seconds=9.07
+[2026.10.11-18.45.53:781][574]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.54:031][587]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.54:284][600]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.54:543][613]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.54:795][626]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.55:046][638]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.55:300][651]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.55:553][664]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.55:819][678]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.56:072][692]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.56:330][704]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.56:590][716]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.56:849][730]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.57:107][744]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.57:370][758]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.57:637][771]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.57:909][783]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.58:163][796]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.58:425][810]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.58:694][824]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.58:962][839]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.59:227][854]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.59:477][868]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.45.59:741][883]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.00:006][898]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.00:256][910]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.00:519][923]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.00:776][937]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.01:036][952]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.01:299][967]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.01:549][982]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.01:815][996]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.02:081][ 10]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.02:344][ 24]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.02:596][ 37]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.02:860][ 50]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.03:117][ 63]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.03:371][ 75]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.03:629][ 88]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.03:883][102]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.04:146][116]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.04:396][130]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.04:655][142]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.04:919][156]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.05:181][169]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.05:283][174]LogTemp: Display: CE_DIALOGUE_REPLY customer=qa-dialogue emotion=enfadado chars=54 anger=0.85 wants_leave=0 first_text=9.07 complete=20.69
+[2026.10.11-18.46.05:434][184]LogTemp: Display: CE_DIALOGUE_STAGE 9
+[2026.10.11-18.46.05:434][184]LogTemp: Display: CE_DIALOGUE_CHECK confirmed_transcript_reaches_Ollama=1
+[2026.10.11-18.46.05:494][184]LogAudioCaptureCore: Display: WasapiCapture AudioFormat SampeRate: 48000, BitDepth: 32-Bit Floating Point
+[2026.10.11-18.46.06:048][218]LogTemp: Display: CE_DIALOGUE_STAGE 10
+[2026.10.11-18.46.06:049][218]LogTemp: Display: CE_DIALOGUE_CLOSE target=qa-dialogue leaving=0
+[2026.10.11-18.46.06:062][218]LogViewport: Display: Viewport MouseLockMode Changed, DoNotLock -> LockOnCapture
+[2026.10.11-18.46.06:062][218]LogViewport: Display: Viewport MouseCaptureMode Changed, NoCapture -> CapturePermanently
+[2026.10.11-18.46.06:062][218]LogTemp: Display: CE_DIALOGUE_CHECK Escape_closes_panel_and_recording=1
+[2026.10.11-18.46.06:064][218]LogViewport: Display: Viewport MouseLockMode Changed, LockOnCapture -> DoNotLock
+[2026.10.11-18.46.06:064][218]LogViewport: Display: Viewport MouseCaptureMode Changed, CapturePermanently -> NoCapture
+[2026.10.11-18.46.06:090][218]LogAudioCaptureCore: Display: WasapiCapture AudioFormat SampeRate: 48000, BitDepth: 32-Bit Floating Point
+[2026.10.11-18.46.06:102][218]LogTemp: Display: CE_DIALOGUE_CHECK short_microphone_recording_stops_safely=1
+[2026.10.11-18.46.06:102][218]LogTemp: Display: CE_DIALOGUE_CHECK reopening_preserves_the_customer_conversation=1
+[2026.10.11-18.46.06:103][218]LogTemp: Display: CE_DIALOGUE_CLOSE target=qa-dialogue leaving=0
+[2026.10.11-18.46.06:103][218]LogViewport: Display: Viewport MouseLockMode Changed, DoNotLock -> LockOnCapture
+[2026.10.11-18.46.06:104][218]LogViewport: Display: Viewport MouseCaptureMode Changed, NoCapture -> CapturePermanently
+[2026.10.11-18.46.09:058][396]LogTemp: Display: CE_DIALOGUE_STAGE 11
+[2026.10.11-18.46.09:059][396]LogTemp: Display: CE_DIALOGUE_CHECK closing_cancels_async_turn_without_stale_reply=1
+[2026.10.11-18.46.09:059][396]LogViewport: Display: Viewport MouseLockMode Changed, LockOnCapture -> DoNotLock
+[2026.10.11-18.46.09:059][396]LogViewport: Display: Viewport MouseCaptureMode Changed, CapturePermanently -> NoCapture
+[2026.10.11-18.46.09:059][396]LogTemp: Display: CE_DIALOGUE_CLOSE target=qa-dialogue leaving=1
+[2026.10.11-18.46.09:059][396]LogViewport: Display: Viewport MouseLockMode Changed, DoNotLock -> LockOnCapture
+[2026.10.11-18.46.09:059][396]LogViewport: Display: Viewport MouseCaptureMode Changed, NoCapture -> CapturePermanently
+[2026.10.11-18.46.09:358][414]LogTemp: Display: CE_DIALOGUE_STAGE 12
+[2026.10.11-18.46.09:359][414]LogTemp: Display: CE_DIALOGUE_CHECK departing_customer_closes_conversation=1
+[2026.10.11-18.46.09:359][414]LogStreaming: Display: FlushAsyncLoading(115): 1 QueuedPackages, 0 AsyncPackages
+[2026.10.11-18.46.09:361][414]LogTemp: Display: CE_DIALOGUE_CHECK all_24_authored_models_available=1
+[2026.10.11-18.46.09:361][414]LogTemp: Display: CE_DIALOGUE_RESULT passed=1 checks=33
+[2026.10.11-18.46.09:361][414]LogWindows: FPlatformMisc::RequestExitWithStatus(0, 0, <NoCallSiteInfo>)
+[2026.10.11-18.46.09:361][414]LogCore: Engine exit requested (reason: Win RequestExit)
+[2026.10.11-18.46.09:364][415]LogCore: Engine exit requested (reason: EngineExit() was called; note: exit was already requested)
+[2026.10.11-18.46.09:372][415]LogInit: Display: PreExit Game.
+[2026.10.11-18.46.09:372][415]LogWorld: BeginTearingDown for /Game/Maps/Cafeteria
+[2026.10.11-18.46.09:374][415]LogWorld: UWorld::CleanupWorld for Cafeteria, bSessionEnded=true, bCleanupResources=true
+[2026.10.11-18.46.09:379][415]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2026.10.11-18.46.09:383][415]LogRuntimeTelemetry: Recording EnginePreExit events
+[2026.10.11-18.46.09:568][415]LogAudio: Display: Beginning Audio Device Manager Shutdown (Module: AudioMixerWasapi)...
+[2026.10.11-18.46.09:568][415]LogAudio: Display: Destroying 1 Remaining Audio Device(s)...
+[2026.10.11-18.46.09:568][415]LogAudio: Display: Audio Device unregistered from world 'Cafeteria'.
+[2026.10.11-18.46.09:568][415]LogAudio: Display: Shutting down audio device while 1 references to it are still alive. For more information, compile with INSTRUMENT_AUDIODEVICE_HANDLES.
+[2026.10.11-18.46.09:568][415]LogAudioMixer: Display: FAudioMixerWasapi::StopAudioStream() InstanceID=1, StreamState=4
+[2026.10.11-18.46.09:570][415]LogAudioMixerWasapi: Display: FWasapiServiceWatcher stopped.
+[2026.10.11-18.46.09:576][415]LogAudioMixer: Deinitializing Audio Bus Subsystem for audio device with ID -1
+[2026.10.11-18.46.09:576][415]LogAudio: Display: Audio Device Manager Shutdown
+[2026.10.11-18.46.09:576][415]LogSlate: Request Window 'CeroEstrellas (64-bit Development PCD3D_SM5) ' being destroyed
+[2026.10.11-18.46.09:578][415]LogSlate: Window 'CeroEstrellas (64-bit Development PCD3D_SM5) ' being destroyed
+[2026.10.11-18.46.09:588][415]LogWindowsTextInputMethodSystem: Activated input method: Español (España, internacional) - (Keyboard).
+[2026.10.11-18.46.09:608][415]LogSlate: Slate User Destroyed.  User Index 0, Is Virtual User: 0
+[2026.10.11-18.46.09:608][415]LogExit: Preparing to exit.
+[2026.10.11-18.46.09:609][415]LogMoviePlayer: Shutting down movie player
+[2026.10.11-18.46.09:646][415]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2026.10.11-18.46.09:658][415]LogDemo: Cleaned up 0 splitscreen connections, owner deletion: enabled
+[2026.10.11-18.46.09:672][415]LogExit: Game engine shut down
+[2026.10.11-18.46.09:684][415]LogRenderer: Forcing update for all mesh draw commands: SkyLight change
+[2026.10.11-18.46.09:782][415]LogExit: Object subsystem successfully closed.
+[2026.10.11-18.46.09:792][415]LogShaderLibrary: Display: Closing logical shader library 'Global' with 1 components
+[2026.10.11-18.46.09:792][415]LogShaderLibrary: Display: Closing logical shader library 'CeroEstrellas' with 1 components
+[2026.10.11-18.46.09:819][415]LogChaosDD: Chaos Debug Draw Shutdown
+[2026.10.11-18.46.09:823][415]LogNFORDenoise: NFORDenoise function shutting down
+[2026.10.11-18.46.09:823][415]RenderDocPlugin: plugin has been unloaded.
+[2026.10.11-18.46.09:826][415]LogPakFile: Destroying PakPlatformFile
+[2026.10.11-18.46.09:829][415]LogD3D11RHI: Shutdown
+[2026.10.11-18.46.09:829][415]LogD3D11RHI: CleanupD3DDevice
+[2026.10.11-18.46.09:843][415]LogExit: Exiting.
+[2026.10.11-18.46.09:859][415]Log file closed, 10/11/26 20:46:09

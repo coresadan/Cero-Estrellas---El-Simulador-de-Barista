@@ -4,6 +4,8 @@
 #include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
+#include "Engine/Texture2D.h"
+#include "Materials/MaterialInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
@@ -22,8 +24,11 @@
 #include "Sound/SoundBase.h"
 #include "InputKeyEventArgs.h"
 #include "EngineUtils.h"
+#include "CEDialogue.h"
+#include "Components/PoseableMeshComponent.h"
+#include "Engine/SkeletalMesh.h"
 
-void ACEGameMode::SmokeStep() { LoopSmokeStep(); }
+void ACEGameMode::SmokeStep() { if(bDialogueSmoke) DialogueSmokeStep(); else LoopSmokeStep(); }
 void ACEGameMode::LoopSmokeStep()
 {
     auto* PC=UGameplayStatics::GetPlayerController(this,0);
@@ -180,6 +185,7 @@ void ACEGameMode::LoopSmokeStep()
         Tap(EKeys::LeftMouseButton); SmokeNextAt=Now+1.3f; break;
     case 17:
         Check(TEXT("mouse_throw_hits_customer"),!Player->Held && SmokeCustomer->HitCount>0 && SmokeCustomer->bLeaving);
+        Check(TEXT("thrown_pastry_sticks_to_head"),SmokePastry->bStuck && SmokePastry->GetAttachParentActor()==SmokeCustomer);
         Check(TEXT("radio_waits_for_major_exit"),Cafe->PraiseCount==0);
         Shot(TEXT("05_reaccion_y_gestos")); SmokeNextAt=Now+12.f; break;
     case 18:
@@ -215,8 +221,10 @@ void ACEGameMode::LoopSmokeStep()
     case 22:
     {
         Check(TEXT("removing_chair_makes_customer_fall"),!SmokeCustomer->bSeated && SmokeCustomer->FallenUntil>Now && Cafe->Falls>=1);
+        Check(TEXT("fallen_customer_head_remains_above_floor"),SmokeCustomer->HeadLocation().Z>=10.f);
         Check(TEXT("E_grabs_and_throws_physics_chair"),!Player->Held && FVector::Dist2D(SmokeTray->GetActorLocation(),FVector(300,350,52))>65.f);
         Check(TEXT("witness_reacts_to_nearby_disaster"),SmokeWitness->WitnessCount>0);
+        Check(TEXT("influencer_records_witnessed_disaster"),SmokeWitness->bFilming && Cafe->FilmedDisasters>0);
         Check(TEXT("puddles_use_irregular_lobes"),Cafe->Liquids->Pools->GetInstanceCount()==160 && Cafe->Liquids->VisiblePuddleLobes()>=5);
         Check(TEXT("continuous_drops_stay_bounded"),Cafe->Liquids->Drops->GetInstanceCount()==192);
         const int32 Before=Cafe->ViralPoints;
@@ -233,12 +241,77 @@ void ACEGameMode::LoopSmokeStep()
     }
     case 23:
         Check(TEXT("fallen_customer_recovers"),Now>SmokeCustomer->FallenUntil);
+        if(!LoopChecks.Contains(TEXT("witness_keeps_filming_during_recovery"))) {
+            Check(TEXT("witness_keeps_filming_during_recovery"),SmokeWitness->bFilming);
+            Player->SetActorLocation(FVector(210,500,92)); Aim(SmokeWitness->HeadLocation()); Shot(TEXT("07b_influencer_graba"));
+            SmokeStage=23; SmokeNextAt=Now+.4f; break;
+        }
         Player->SetActorLocation(FVector(-140,300,92)); PC->SetControlRotation(FRotator::ZeroRotator);
         Key(EKeys::SpaceBar,IE_Pressed); SmokeNextAt=Now+.2f; break;
     case 24:
         Check(TEXT("space_jumps_in_first_person"),Player->GetCharacterMovement()->IsFalling() && Player->GetVelocity().Z>0.f);
         Key(EKeys::SpaceBar,IE_Released);
         SmokeNextAt=Now+1.f; break;
+    case 25:
+    {
+        Check(TEXT("first_person_has_two_visible_gripping_hands"),Player->VisibleHands()==2);
+        bool Rigs=true; for(const TCHAR* Name:{TEXT("SK_Crypto"),TEXT("SK_Hipster"),TEXT("SK_Influencer")})
+            Rigs&=LoadObject<USkeletalMesh>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Characters/%s.%s"),Name,Name))!=nullptr;
+        Check(TEXT("three_original_skeletal_customers_are_cooked"),Rigs);
+        Check(TEXT("customer_uses_weighted_eighteen_bone_body"),SmokeCustomer->Rig && SmokeCustomer->Rig->GetNumBones()>=18);
+        Check(TEXT("steam_uses_bounded_twenty_four_instance_pool"),Cafe->Liquids->Steam->GetInstanceCount()==24);
+        Player->SetActorLocation(FVector(130,350,92)); Aim(SmokeCustomer->HeadLocation());
+        Player->Dialogue->Open(SmokeCustomer); Player->Dialogue->SetDraft(TEXT("Borrador conservado al seguir trabajando")); Player->Dialogue->ResumePlay();
+        Check(TEXT("conversation_can_leave_editor_without_cancelling"),Player->Dialogue->IsOpen() && !Player->Dialogue->IsEditing() && !PC->bShowMouseCursor);
+        LoopPreviousCustomerPosition=Player->GetActorLocation(); Key(EKeys::W,IE_Pressed);
+        SmokeNextAt=Now+.5f; break;
+    }
+    case 26:
+        Key(EKeys::W,IE_Released);
+        Check(TEXT("player_moves_while_conversation_remains_open"),FVector::Dist2D(Player->GetActorLocation(),LoopPreviousCustomerPosition)>20.f && Player->Dialogue->IsOpen());
+        Player->Dialogue->EditConversation();
+        Check(TEXT("return_to_dialogue_preserves_draft"),Player->Dialogue->Draft==TEXT("Borrador conservado al seguir trabajando") && Player->Dialogue->IsEditing());
+        Player->Dialogue->Close();
+        SmokeCustomer->Soak(80); SmokeWitness->Witness(SmokeCustomer);
+        Player->SetActorLocation(FVector(185,500,92)); Aim(SmokeCustomer->HeadLocation());
+        Shot(TEXT("08_personajes_y_manos")); SmokeNextAt=Now+.6f; break;
+    case 27:
+        Check(TEXT("wetness_is_stored_on_customer"),SmokeCustomer->WetMl>=80.f);
+        // A physics event drives the chain; the dialogue model is not involved.
+        SmokeCustomer->FallenUntil=0; SmokeCustomer->Anger=0; SmokeCustomer->bLeaving=false;
+        SmokePastry=GetWorld()->SpawnActor<ACEProp>(SmokeCustomer->GetActorLocation()+FVector(50,0,-5),FRotator::ZeroRotator); SmokePastry->Configure(ECEPropKind::Pastry);
+        LoopPreviousCustomerPosition=SmokePastry->GetActorLocation();
+        SmokeCustomer->Fall(FVector(1,0,0));
+        Check(TEXT("physics_does_not_need_AI_to_react"),SmokeCustomer->FallenUntil>Now && !Player->Dialogue->IsBusy());
+        Check(TEXT("eight_minute_shift_has_reached_rush_phase"),Cafe->ShiftDuration==480.f && Cafe->ShiftPhase>=1);
+        SmokeWitness->WitnessCount=0;
+        SmokeNextAt=Now+1.f; break;
+    case 28:
+        Check(TEXT("fall_launches_loose_objects_into_chain"),Cafe->ChainReactions>0 && SmokeWitness->HitCount>0);
+        SmokeWitness->Witness(SmokeCustomer); SmokeNextAt=Now+.4f; break;
+    case 29:
+        Check(TEXT("secondary_physics_impact_reaches_other_customer"),SmokeWitness->HitCount>0 && SmokeWitness->bLeaving);
+        Player->SetActorLocation(FVector(190,500,92)); Aim(SmokeWitness->HeadLocation());
+        Shot(TEXT("09_directo_del_desastre")); SmokeNextAt=Now+.8f; break;
+    case 30:
+        if(FParse::Param(FCommandLine::Get(),TEXT("CeroQuickSmoke"))) { SmokeStage=34; SmokeNextAt=Now+1.f; break; }
+        SmokeNextAt=FMath::Max(Now+1.f,241.f); break;
+    case 31:
+    {
+        Check(TEXT("shift_escalates_into_viral_phase_on_real_clock"),Cafe->ShiftPhase==2);
+        auto* Demanding=GetWorld()->SpawnActor<ACECustomer>(FVector(220,455,92),FRotator::ZeroRotator);
+        Demanding->Configure(TEXT("qa-exigente"),TEXT("CLIENTE EXIGENTE"),FLinearColor(.2f,.3f,.3f),0);
+        Demanding->BeginVisit(0,ECEDrink::Latte,true);
+        Check(TEXT("later_customers_have_visible_serving_requirements"),!Demanding->SpecialRequest.IsEmpty() && (Demanding->MinServingTemperature>=60.f || Demanding->MinServingVolume>=170.f));
+        Demanding->Destroy(); Player->SetActorLocation(FVector(130,350,92)); PC->SetControlRotation(FRotator(-12,0,0));
+        Shot(TEXT("10_turno_viral")); SmokeNextAt=421.f; break;
+    }
+    case 32:
+        Check(TEXT("shift_enters_final_minute_on_real_clock"),Cafe->ShiftPhase==3 && !Cafe->bShiftFinished);
+        SmokeNextAt=481.f; break;
+    case 33:
+        Check(TEXT("full_eight_minute_shift_finishes_without_game_over"),Cafe->bShiftFinished && IsValid(Player) && Cafe->Feedback.Contains(TEXT("Despido denegado")));
+        Shot(TEXT("11_despido_denegado")); SmokeNextAt=Now+1.f; break;
     default:
     {
         bool bVoices=true; for(int32 i=0;i<CEBoss::Lines().Num();++i)
@@ -246,11 +319,32 @@ void ACEGameMode::LoopSmokeStep()
             auto* Voice=LoadObject<USoundBase>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Audio/Boss_%d.Boss_%d"),i,i)); bVoices=bVoices && Voice && Voice->GetDuration()>0.f;
         }
         Check(TEXT("all_18_boss_recordings_available"),bVoices);
+        bool bTextures=true;
+        for(const TCHAR* Set:{TEXT("Wood"),TEXT("Stone"),TEXT("Fabric"),TEXT("Metal"),TEXT("Skin"),TEXT("Paint")})
+            for(const TCHAR* Map:{TEXT("A"),TEXT("N"),TEXT("ORM")}) {
+                const FString Name=FString(Set)+TEXT("_")+Map;
+                auto* Texture=LoadObject<UTexture2D>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Textures/%s.%s"),*Name,*Name));
+                bTextures&=Texture && Texture->GetSizeX()==512 && Texture->GetSizeY()==512;
+            }
+        auto* ScreenTexture=LoadObject<UTexture2D>(nullptr,TEXT("/Game/Prototype/Textures/Screen_A.Screen_A"));
+        bTextures&=ScreenTexture && ScreenTexture->GetSizeX()==512 && ScreenTexture->GetSizeY()==512;
+        Check(TEXT("all_19_PBR_and_screen_textures_available"),bTextures);
+        bool bMaterials=true;
+        for(const TCHAR* Name:{TEXT("M_Surface"),TEXT("M_Unlit"),TEXT("M_Liquid"),TEXT("M_Metal"),TEXT("M_Wood"),TEXT("M_Ceramic"),TEXT("M_Fabric"),TEXT("M_Skin"),TEXT("M_Pastry"),TEXT("M_Stone"),TEXT("M_Screen")})
+            bMaterials&=LoadObject<UMaterialInterface>(nullptr,*FString::Printf(TEXT("/Game/Prototype/%s.%s"),Name,Name))!=nullptr;
+        Check(TEXT("all_11_materials_available"),bMaterials);
         bool Passed=true; auto Report=MakeShared<FJsonObject>();
         for(const auto& Pair:LoopChecks) { Report->SetBoolField(Pair.Key,Pair.Value); Passed=Passed && Pair.Value; }
         Report->SetBoolField(TEXT("passed"),Passed); Report->SetStringField(TEXT("engine"),FEngineVersion::Current().ToString());
-        Report->SetStringField(TEXT("version"),TEXT("0.3.0")); Report->SetBoolField(TEXT("human_playthrough"),false);
-        Report->SetBoolField(TEXT("microphone_llm_tts_integrated"),false); Report->SetNumberField(TEXT("floor_liquid_ml"),Cafe->Liquids->FloorMl);
+        Report->SetStringField(TEXT("version"),TEXT("0.6.0")); Report->SetBoolField(TEXT("human_playthrough"),false);
+        Report->SetBoolField(TEXT("full_shift_exercised"),!FParse::Param(FCommandLine::Get(),TEXT("CeroQuickSmoke")));
+        Report->SetBoolField(TEXT("dialogue_not_exercised_in_this_scenario"),true); Report->SetNumberField(TEXT("floor_liquid_ml"),Cafe->Liquids->FloorMl);
+        FrameSamples.Sort(); if(!FrameSamples.IsEmpty()) {
+            Report->SetNumberField(TEXT("frame_samples"),FrameSamples.Num());
+            Report->SetNumberField(TEXT("frame_p50_ms"),FrameSamples[FrameSamples.Num()/2]);
+            Report->SetNumberField(TEXT("frame_p95_ms"),FrameSamples[FMath::Min(FrameSamples.Num()-1,FMath::FloorToInt(FrameSamples.Num()*.95f))]);
+            Report->SetNumberField(TEXT("frame_max_ms"),FrameSamples.Last());
+        }
         FString Output; FJsonSerializer::Serialize(Report,TJsonWriterFactory<>::Create(&Output)); FFileHelper::SaveStringToFile(Output,*(Evidence/TEXT("smoke_result.json")));
         UE_LOG(LogTemp,Display,TEXT("CE_LOOP_RESULT passed=%d checks=%d"),Passed,LoopChecks.Num());
         bSmoke=false; FPlatformMisc::RequestExitWithStatus(false,Passed ? 0 : 1); break;

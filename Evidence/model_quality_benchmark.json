@@ -1,0 +1,36 @@
+[
+  {
+    "model": "qwen2.5:3b",
+    "created_at": "2026-10-11T12:13:55.4710371Z",
+    "message": {
+      "role": "assistant",
+      "content": "{ \"texto\": \"Mi perro se llama Croqueta\", \"emocion\": \"divertido\", \"cambio_enfado\": 0.1, \"quiere_irse\": false }"
+    },
+    "done": true,
+    "done_reason": "stop",
+    "total_duration": 17818015800,
+    "load_duration": 3427317000,
+    "prompt_eval_count": 445,
+    "prompt_eval_cached_count": 0,
+    "prompt_eval_duration": 8944445000,
+    "eval_count": 45,
+    "eval_duration": 5438395000
+  },
+  {
+    "model": "qwen2.5:3b",
+    "created_at": "2026-10-11T12:14:10.4760613Z",
+    "message": {
+      "role": "assistant",
+      "content": "{ \"texto\": \"No te preocupes, ya te lo he limpiado. Tu perro se llama Croqueta, ¿verdad?\", \"emocion\": \"humillado\", \"cambio_enfado\": -0.1, \"quiere_irse\": false }"
+    },
+    "done": true,
+    "done_reason": "stop",
+    "total_duration": 14985318900,
+    "load_duration": 8855900,
+    "prompt_eval_count": 568,
+    "prompt_eval_cached_count": 260,
+    "prompt_eval_duration": 6360906000,
+    "eval_count": 62,
+    "eval_duration": 8608001000
+  }
+]

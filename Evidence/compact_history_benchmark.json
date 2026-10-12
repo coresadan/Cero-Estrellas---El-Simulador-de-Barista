@@ -1,0 +1,59 @@
+[
+  {
+    "case": "name_recall",
+    "passed": true,
+    "answer": {
+      "dialogo": {
+        "texto": "Tu perro se llama Croqueta."
+      },
+      "reaccion": {
+        "cambio_enfado": 0,
+        "emocion": "neutral",
+        "quiere_irse": false
+      }
+    },
+    "first_text_seconds": 8.11,
+    "total_seconds": 15.03,
+    "prompt_tokens": 516,
+    "cached_prompt_tokens": 288,
+    "generated_tokens": 53
+  },
+  {
+    "case": "physical_recipient",
+    "passed": true,
+    "answer": {
+      "dialogo": {
+        "texto": "Me diste café en la camisa. ¿Puedes volver a hacerlo bien?"
+      },
+      "reaccion": {
+        "cambio_enfado": 0.1,
+        "emocion": "enfadado",
+        "quiere_irse": false
+      }
+    },
+    "first_text_seconds": 6.38,
+    "total_seconds": 13.98,
+    "prompt_tokens": 661,
+    "cached_prompt_tokens": 477,
+    "generated_tokens": 55
+  },
+  {
+    "case": "confirmed_transcript",
+    "passed": true,
+    "answer": {
+      "dialogo": {
+        "texto": "¿Por qué me derramaste el café en la camisa? ¿Eso es parte del servicio?"
+      },
+      "reaccion": {
+        "cambio_enfado": 0.2,
+        "emocion": "enfadado",
+        "quiere_irse": false
+      }
+    },
+    "first_text_seconds": 11.78,
+    "total_seconds": 20.08,
+    "prompt_tokens": 673,
+    "cached_prompt_tokens": 292,
+    "generated_tokens": 59
+  }
+]

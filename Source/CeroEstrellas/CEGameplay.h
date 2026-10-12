@@ -15,6 +15,10 @@ class UCapsuleComponent;
 class USoundBase;
 class ACEStation;
 class ACELiquidSystem;
+class UCEDialogueComponent;
+class UPoseableMeshComponent;
+class UAudioComponent;
+class UMaterialInstanceDynamic;
 
 UENUM(BlueprintType)
 enum class ECEPropKind : uint8 { Cup, Pastry, Tray, Portafilter, Laptop, Pitcher, Chair };
@@ -62,6 +66,16 @@ public:
     UPROPERTY(BlueprintReadOnly) float ComboUntil = 0.f;
     UPROPERTY(BlueprintReadOnly) int32 Falls = 0;
     UPROPERTY(BlueprintReadOnly) FString Challenge = TEXT("Sirve 2 desayunos para financiar tu sabotaje");
+    UPROPERTY(BlueprintReadOnly) int32 ShiftPhase = 0;
+    UPROPERTY(BlueprintReadOnly) FString ShiftTitle = TEXT("APERTURA / Un desayuno tranquilo");
+    UPROPERTY(BlueprintReadOnly) float ShiftDuration = 480.f;
+    UPROPERTY(BlueprintReadOnly) bool bShiftFinished = false;
+    UPROPERTY(BlueprintReadOnly) int32 ChainReactions = 0;
+    UPROPERTY(BlueprintReadOnly) int32 FilmedDisasters = 0;
+    UPROPERTY(BlueprintReadOnly) FString CustomerSubtitle;
+    UPROPERTY(BlueprintReadOnly) float CustomerSubtitleUntil = 0.f;
+    UPROPERTY(BlueprintReadOnly) FString SubtitleCustomer;
+    void Subtitle(const FString& Id,const FString& Name,const FString& Text,float Duration);
     int32 ChallengeStep = 0;
     UPROPERTY(BlueprintReadOnly) FString Feedback;
     UPROPERTY(BlueprintReadOnly) float FeedbackUntil = 0.f;
@@ -82,6 +96,9 @@ private:
     int32 EventSerial = 0;
     int32 PhraseSerial = 0;
     TMap<FString,float> ComboEvents;
+    TMap<FName,float> SoundTimes;
+    UPROPERTY() TObjectPtr<UAudioComponent> Ambience;
+    int32 AnnouncedPhase = 0;
 };
 
 UCLASS()
@@ -116,6 +133,7 @@ public:
     bool bHeld = false;
     bool bPourRequested = false;
     bool bDelivered = false;
+    bool bStuck = false;
 private:
     UFUNCTION() void Hit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& HitResult);
     UPROPERTY() TObjectPtr<UStaticMeshComponent> Coffee;
@@ -144,6 +162,28 @@ public:
     void Speak(const FString& Text, float Duration=5.f);
     void Fall(const FVector& Direction);
     void Witness(ACECustomer* Victim);
+    void ApplyDialogue(const FString& Text,const FString& Emotion,float AngerChange,bool bWantsToLeave);
+    bool BuildRig(const FLinearColor& Outfit);
+    void AnimateRig(float DeltaSeconds,bool bWalking);
+    void Soak(float Ml,const FString& Liquid=TEXT("café"));
+    void VoiceStarted(float Duration,float Energy=1.f);
+    void SetSpeechEnvelope(const TArray<float>& Levels,float Duration);
+    void ImmediateVoice(const TCHAR* Cue);
+    FVector HeadLocation() const;
+    UPROPERTY(VisibleAnywhere) TObjectPtr<UPoseableMeshComponent> Rig;
+    UPROPERTY(BlueprintReadOnly) float WetMl = 0.f;
+    UPROPERTY(BlueprintReadOnly) FString ReceivedLiquid;
+    UPROPERTY(BlueprintReadOnly) bool bFilming = false;
+    UPROPERTY(BlueprintReadOnly) FString SpecialRequest;
+    float MinServingTemperature = 45.f;
+    float MinServingVolume = 0.f;
+    float ThinkingUntil = 0.f;
+    float VoiceUntil = 0.f;
+    int32 Archetype() const { return Personality; }
+    FString DisplayName;
+    FString DialogueEmotion;
+    float DialogueHoldUntil = 0.f;
+    float DialogueDepartureAt = 0.f;
     UPROPERTY(BlueprintReadOnly) bool bSeated = false;
     UPROPERTY(BlueprintReadOnly) float FallenUntil = 0.f;
     UPROPERTY(BlueprintReadOnly) int32 WitnessCount = 0;
@@ -191,6 +231,25 @@ private:
     UPROPERTY() TObjectPtr<UStaticMeshComponent> Eyes[2];
     UPROPERTY() TObjectPtr<UStaticMeshComponent> Brows[2];
     UPROPERTY() TObjectPtr<UStaticMeshComponent> Mouth;
+    UPROPERTY() TObjectPtr<UStaticMeshComponent> Phone;
+    UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> ClothingMaterial;
+    TMap<FName,FTransform> RestBones;
+    TMap<FName,FTransform> PosedBones;
+    float PoseSeat = 0.f;
+    float PoseFall = 0.f;
+    float PoseGesture = 0.f;
+    float PoseHeadYaw = 0.f;
+    float FilmingUntil = 0.f;
+    float LastChainAt = -100.f;
+    bool bTakingSip = false;
+    float VoiceEnergy = 1.f;
+    float VoiceBegin = 0.f;
+    TArray<float> SpeechLevels;
+    TWeakObjectPtr<ACEProp> ServedCup;
+    FVector ServedCupPosition;
+    float ImmediateVoiceAt = -100.f;
+    float ProtectUntil = 0.f;
+    float NextProtectAt = 0.f;
     void Leave(bool bDisaster);
     void Animate(float DeltaSeconds, bool bWalking);
 };
@@ -210,15 +269,26 @@ public:
     UFUNCTION(BlueprintCallable) void Interact();
     UFUNCTION(BlueprintCallable) void Taunt();
     AActor* FocusActor(float Range=300.f) const;
+    void Talk();
+    void TalkVoice();
     void Hold(ACEProp* Prop);
     void Release();
     ACEProp* FocusProp() const;
     UPROPERTY(VisibleAnywhere) TObjectPtr<UCameraComponent> Camera;
     UPROPERTY(VisibleAnywhere) TObjectPtr<UPhysicsHandleComponent> Handle;
+    UPROPERTY(VisibleAnywhere) TObjectPtr<UCEDialogueComponent> Dialogue;
     UPROPERTY(BlueprintReadOnly) TObjectPtr<ACEProp> Held;
     bool bPouring = false;
     float SlipUntil = 0.f;
+    int32 VisibleHands() const;
+    void AnimateHands(float DeltaSeconds);
 private:
+    UPROPERTY() TObjectPtr<UStaticMeshComponent> Hands[2];
+    UPROPERTY() TObjectPtr<UStaticMeshComponent> Forearms[2];
+    UPROPERTY() TObjectPtr<UStaticMeshComponent> Sleeves[2];
+    float ActionUntil = 0.f;
+    TWeakObjectPtr<AActor> Highlighted;
+    void SetHighlight(AActor* Actor);
     float FootstepAt = 0.f;
     void Forward(float Value);
     void Right(float Value);
@@ -256,6 +326,9 @@ private:
     void BuildCafe();
     void SmokeStep();
     void LoopSmokeStep();
+    void DialogueSmokeStep();
+    bool bDialogueSmoke = false;
+    bool bSmokeMicrophoneAvailable = false;
     bool bSmoke = false;
     bool bSmokeInputReady = false;
     int32 SmokeStage = 0;
@@ -285,4 +358,5 @@ private:
     TMap<FString,bool> LoopChecks;
     FVector LoopPreviousCustomerPosition;
     int32 LoopFirstBossPhrase = -1;
+    TArray<float> FrameSamples;
 };

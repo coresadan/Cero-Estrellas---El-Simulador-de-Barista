@@ -1,0 +1,20 @@
+[
+  {
+    "mesh": "SK_Crypto",
+    "vertices": 21628,
+    "bones": 18,
+    "original": true
+  },
+  {
+    "mesh": "SK_Hipster",
+    "vertices": 21388,
+    "bones": 18,
+    "original": true
+  },
+  {
+    "mesh": "SK_Influencer",
+    "vertices": 21537,
+    "bones": 18,
+    "original": true
+  }
+]

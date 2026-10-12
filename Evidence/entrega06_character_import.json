@@ -1,0 +1,18 @@
+[
+  {
+    "asset": "/Game/Prototype/Characters/SK_Crypto.SK_Crypto",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Hipster.SK_Hipster",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Influencer.SK_Influencer",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Meshes/SM_GripHand.SM_GripHand",
+    "skeletal": false
+  }
+]

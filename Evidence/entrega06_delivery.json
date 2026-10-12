@@ -1,0 +1,36 @@
+{
+  "version": "0.6.0",
+  "verified_at": "2026-10-12T09:29:07.669682+02:00",
+  "executable": "Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "26ca5b3518e3d2b788999cdd41021fd10abf2994ff645a8cb3f7e1e265e0d1ab",
+  "archive_matches_compiled_binary": true,
+  "executable_newer_than_source": true,
+  "scenarios": {
+    "Entrega06Playable": {
+      "checks": 72,
+      "passed": true,
+      "report": "Evidence/Entrega06Playable/smoke_result.json"
+    },
+    "Entrega06FinalQuick": {
+      "checks": 68,
+      "passed": true,
+      "report": "Evidence/Entrega06FinalQuick/smoke_result.json"
+    },
+    "Entrega06Dialogo": {
+      "checks": 37,
+      "passed": true,
+      "report": "Evidence/Entrega06Dialogo/dialogue_result.json"
+    }
+  },
+  "service_lifecycle": {
+    "passed": true,
+    "stopped_remaining_project_processes": 0,
+    "start_launch_seconds": 4.49,
+    "voice_ready": true,
+    "loaded_models": 1,
+    "model_gpu_bytes": 0,
+    "project_model_runners": 1
+  },
+  "human_playthrough": false,
+  "note": "Full shift precedes the visual hands correction; quick regression verifies the corrected hands. The final code change only delays the V automation assertion until keyboard input is processed."
+}

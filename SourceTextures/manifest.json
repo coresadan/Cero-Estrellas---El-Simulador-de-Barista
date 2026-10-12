@@ -1,0 +1,19 @@
+{
+  "original": true,
+  "resolution": 512,
+  "material_sets": [
+    "Wood",
+    "Stone",
+    "Fabric",
+    "Metal",
+    "Skin",
+    "Paint"
+  ],
+  "maps_per_set": [
+    "A: sRGB albedo multiplier",
+    "N: tangent DirectX normal",
+    "ORM: occlusion / roughness / metallic"
+  ],
+  "textures": 19,
+  "source_bytes": 14942550
+}

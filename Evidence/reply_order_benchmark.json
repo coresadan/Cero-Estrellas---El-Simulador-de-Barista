@@ -1,0 +1,16 @@
+{
+  "answer": {
+    "dialogo": {
+      "texto": "Me diste café derramado en la camisa."
+    },
+    "reaccion": {
+      "cambio_enfado": 0.1,
+      "emocion": "enfadado",
+      "quiere_irse": false
+    }
+  },
+  "first_text_seconds": 3.843999999924563,
+  "total_seconds": 11.765999999945052,
+  "cached": 919,
+  "generated_tokens": 49
+}
