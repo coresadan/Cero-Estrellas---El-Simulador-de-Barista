@@ -88,9 +88,9 @@ L.connect_material_property(opacity, '', unreal.MaterialProperty.MP_OPACITY)
 L.recompile_material(mat)
 unreal.EditorAssetLibrary.save_loaded_asset(mat)
 tasks = []
-for folder, destination in [('Customers', '/Game/Prototype/Audio/Customers'), ('FX', '/Game/Prototype/Audio/FX')]:
+for folder, destination in [('Customers', '/Game/Prototype/Audio/Customers'), ('FX', '/Game/Prototype/Audio/FX'), ('Boss', '/Game/Prototype/Audio')]:
     for filename in os.listdir(os.path.join(root, 'SourceAudio', folder)):
-        if not filename.endswith('.wav') or (folder == 'FX' and filename != 'CafeAmbience.wav'):
+        if not filename.endswith('.wav') or (folder == 'FX' and filename != 'CafeAmbience.wav') or (folder == 'Boss' and not filename.startswith('Boss_Event_')):
             continue
         t = unreal.AssetImportTask()
         t.set_editor_property('filename', os.path.join(root, 'SourceAudio', folder, filename))
@@ -110,4 +110,4 @@ rules.set_editor_property('resolution_rule', unreal.MaxConcurrentResolutionRule.
 rules.set_editor_property('retrigger_time', 0.1)
 lim.set_editor_property('concurrency', rules)
 unreal.EditorAssetLibrary.save_loaded_asset(lim)
-unreal.log('CE_POLISH_IMPORT_READY wet fabric, steam, 12 voices, ambience, concurrency')
+unreal.log('CE_POLISH_IMPORT_READY wet fabric, steam, 24 voices, 3 event calls, ambience, concurrency')

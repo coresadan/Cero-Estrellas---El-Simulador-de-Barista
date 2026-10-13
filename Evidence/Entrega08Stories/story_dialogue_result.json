@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "scope": "direct_backend_check_not_unreal_end_to_end",
+  "human_semantic_review": false,
+  "cases": [
+    {
+      "story": "ENTREVISTA EN DIEZ MINUTOS",
+      "profile": 3,
+      "question": "¿Qué tienes que hacer después de desayunar?",
+      "answer": "Tengo una entrevista. Tolerar la presión es mi fortaleza.",
+      "contract_valid": true,
+      "mentions_story_context": true,
+      "seconds": 15.72
+    },
+    {
+      "story": "CITA A CIEGAS",
+      "profile": 2,
+      "question": "¿Cómo reconocerás a tu cita?",
+      "answer": "No sé, tal vez con una flor. ¿Y tú? ¿Con tu outfit o con tu café?",
+      "contract_valid": true,
+      "mentions_story_context": true,
+      "seconds": 15.55
+    },
+    {
+      "story": "CRÍTICA EN INCÓGNITO",
+      "profile": 1,
+      "question": "¿Por qué estás tomando notas del restaurante?",
+      "answer": "Porque el cuaderno es para anotar sentimientos, no críticas.",
+      "contract_valid": true,
+      "mentions_story_context": true,
+      "seconds": 15.95
+    },
+    {
+      "story": "AUDICIÓN DE ÓPERA",
+      "profile": 5,
+      "question": "¿Para qué estás calentando la voz?",
+      "answer": "Para una audición, camarero. Mi voz necesita calor, no una camisa fría.",
+      "contract_valid": true,
+      "mentions_story_context": true,
+      "seconds": 16.22
+    },
+    {
+      "story": "POEMA PARA UN EX",
+      "profile": 8,
+      "question": "¿Para quién estás escribiendo el poema?",
+      "answer": "Para mi ex. Necesito una palabra que rima con latte.",
+      "contract_valid": true,
+      "mentions_story_context": true,
+      "seconds": 14.89
+    }
+  ]
+}

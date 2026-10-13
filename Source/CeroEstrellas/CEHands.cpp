@@ -1,4 +1,5 @@
 #include "CEGameplay.h"
+#include "CEKitchen.h"
 #include "CEDialogue.h"
 #include "CEVisual.h"
 #include "Camera/CameraComponent.h"
@@ -40,6 +41,13 @@ void ACEPlayer::AnimateHands(float Delta)
             else Local=FVector(0,0,0);
             Wrist=Held->GetActorLocation()+Held->GetActorQuat().RotateVector(Local); Grip=Held->GetActorQuat();
         } else if(Now<ActionUntil) Wrist=View.TransformPosition(FVector(52,Side*14,-20));
+        if(bInteractHeld && i==1) {
+            auto* Station=Cast<ACEStation>(FocusActor(260.f));
+            if(!Station) { auto* Focus=FocusActor(260.f); if(Focus) Station=Cast<ACEStation>(Focus->GetAttachParentActor()); }
+            if(Station && Station->Kind==ECEStationKind::Tamper && Station->WorkLeft>0) {
+                Wrist=Station->GetActorLocation()+FVector(0,0,28.f-Station->TampPressure*6.f); Grip=FRotator(0,GetControlRotation().Yaw,90).Quaternion();
+            }
+        }
         const FVector Shoulder=View.TransformPosition(FVector(2,Side*18,-35));
         const FVector Bend=View.TransformVector(FVector(-2,Side*12,-25));
         // Stable elbow pole gives a continuous arm; wrists follow real body lag.

@@ -8,6 +8,10 @@ voice=PiperVoice.load(str(root/'Tools/LocalAI/Models/es_ES-davefx-medium.onnx'),
 lines=[{'spill':'¡Mi camisa! ¡Esto no cotiza!','hit':'¡Eh! ¡Mis inversiones!','fall':'¡Me caigo! ¡Vaya desplome!','witness':'¡Esto es una burbuja de café!'},
        {'spill':'¡Qué acidez tan agresiva!','hit':'¡No pedí esta performance!','fall':'¡El suelo no es una mesa!','witness':'Esto merece una crítica demoledora.'},
        {'spill':'¡Mi outfit! ¡Lo has empapado!','hit':'¡Eh! ¡Eso está grabado!','fall':'¡Me caigo! ¡Sujeta el móvil!','witness':'¡No cortéis! ¡Esto se hace viral!'}]
+extra=[{'order':'Un desayuno que dé buenos rendimientos.','defend':'¡Mi portátil queda fuera de tu zona de riesgo!','thanks':'Bien. Ahora puedo volver a mis inversiones.','chat':'¿A ti también te han servido una crisis existencial?'},
+       {'order':'Espero una extracción con criterio.','defend':'Voy a apartar mi desayuno. Por si acaso.','thanks':'Esta taza tiene una narrativa aceptable.','chat':'Lo llamaré degustación del desencanto.'},
+       {'order':'Que salga bonito. Voy a grabarlo.','defend':'¡No manches la taza antes de la foto!','thanks':'Esta sí puede salir en mi historia.','chat':'¿Puedes salir en mi directo? Esto necesita testigos.'}]
+for group,addition in zip(lines,extra): group.update(addition)
 for i,group in enumerate(lines):
     for cue,text in group.items():
         with wave.open(str(dest/f'NPC_{i}_{cue}.wav'),'wb') as out: voice.synthesize_wav(text,out)
@@ -22,4 +26,4 @@ for n in range(rate*duration):
     samples.append(struct.pack('<h',int(max(-.9,min(.9,hum+traffic+cups))*25000)))
 with wave.open(str(root/'SourceAudio/FX/CafeAmbience.wav'),'wb') as out:
     out.setnchannels(1); out.setsampwidth(2); out.setframerate(rate); out.writeframes(b''.join(samples))
-print('CE_POLISH_AUDIO_READY 12 customer clips and bounded ambience loop')
+print('CE_POLISH_AUDIO_READY 24 customer clips and bounded ambience loop')

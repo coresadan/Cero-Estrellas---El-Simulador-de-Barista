@@ -1,0 +1,12 @@
+{
+  "version": "0.8.0",
+  "engine": "5.8.3",
+  "launcher": "Jugar.bat",
+  "executable": "Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "91be5e87b4716f9e2ba0c50553d7b920cf55233d8935d9c99914bf8af60e93a2",
+  "matches_compiled_binary": true,
+  "newest_source": "Source\\CeroEstrellas\\CEPolishSmoke.cpp",
+  "newest_source_utc": "2026-10-13T18:57:52.074598+00:00",
+  "binary_utc": "2026-10-13T19:02:23.711047+00:00",
+  "source_older_than_binary": true
+}

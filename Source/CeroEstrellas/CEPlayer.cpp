@@ -59,9 +59,13 @@ void ACEPlayer::SetupPlayerInputComponent(UInputComponent* Input)
     Input->BindAction(TEXT("Pour"), IE_Pressed, this, &ACEPlayer::Pour);
     Input->BindAction(TEXT("Pour"), IE_Released, this, &ACEPlayer::StopPour);
     Input->BindAction(TEXT("Interact"), IE_Pressed, this, &ACEPlayer::Interact);
+    Input->BindAction(TEXT("Interact"), IE_Released, this, &ACEPlayer::ReleaseInteraction);
     Input->BindAction(TEXT("Taunt"), IE_Pressed, this, &ACEPlayer::Taunt);
     Input->BindAction(TEXT("Dialogue"), IE_Pressed, this, &ACEPlayer::Talk);
     Input->BindAction(TEXT("VoiceDialogue"), IE_Pressed, this, &ACEPlayer::TalkVoice);
+    Input->BindAction(TEXT("OrderList"),IE_Pressed,this,&ACEPlayer::ShowOrders);
+    Input->BindAction(TEXT("OrderList"),IE_Released,this,&ACEPlayer::HideOrders);
+    Input->BindAction(TEXT("Help"),IE_Pressed,this,&ACEPlayer::ToggleHelp);
     Input->BindAction(TEXT("Sprint"), IE_Pressed, this, &ACEPlayer::SprintOn);
     Input->BindAction(TEXT("Sprint"), IE_Released, this, &ACEPlayer::SprintOff);
     Input->BindAction(TEXT("Reset"), IE_Pressed, this, &ACEPlayer::Reset);
@@ -181,6 +185,7 @@ void ACEPlayer::Pour()
 
 void ACEPlayer::Interact()
 {
+    bInteractHeld=true;
     ActionUntil=GetWorld()->GetTimeSeconds()+.35f;
     AActor* Target=FocusActor(330.f);
     auto* Station=Cast<ACEStation>(Target);

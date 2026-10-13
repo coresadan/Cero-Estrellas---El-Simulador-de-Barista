@@ -25,6 +25,7 @@ for name in ['SK_Crypto','SK_Hipster','SK_Influencer','SM_GripHand']:
     assert mesh, name+' missing'
     if skeletal:
         assert unreal.CECharacterAssets.prepare_skeleton(mesh), name+' skeleton not initialized'
+        assert unreal.CECharacterAssets.prepare_physics(mesh), name+' articulated collision not initialized'
         slots=mesh.get_editor_property('materials')
         for slot in slots:
             material=str(slot.material_slot_name)
@@ -34,5 +35,5 @@ for name in ['SK_Crypto','SK_Hipster','SK_Influencer','SM_GripHand']:
     unreal.EditorAssetLibrary.save_loaded_asset(mesh)
     manifest.append({'asset':mesh.get_path_name(),'skeletal':skeletal})
 unreal.EditorAssetLibrary.save_directory('/Game/Prototype/Characters',only_if_is_dirty=False,recursive=True)
-with open(os.path.join(root,'Evidence','entrega06_character_import.json'),'w',encoding='utf-8') as out: json.dump(manifest,out,indent=2)
+with open(os.path.join(root,'Evidence','entrega08_character_import.json'),'w',encoding='utf-8') as out: json.dump(manifest,out,indent=2)
 unreal.log('CE_RIG_IMPORT_READY '+str(manifest))

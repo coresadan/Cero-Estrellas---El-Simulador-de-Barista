@@ -1,4 +1,4 @@
-param([switch]$Packaged,[string]$EvidenceName='DialogoEditor',[string]$EngineRoot='F:\Games\UE_5.8')
+param([switch]$Packaged,[switch]$Offscreen,[string]$EvidenceName='DialogoEditor',[string]$EngineRoot='F:\Games\UE_5.8')
 $ErrorActionPreference='Stop'
 $ceRoot=Split-Path -Parent $PSScriptRoot
 $ceEvidence=Join-Path $ceRoot ('Evidence/'+$EvidenceName)
@@ -11,6 +11,7 @@ if($Packaged){$ceExe=Join-Path $ceRoot 'Release/Windows/CeroEstrellas.exe'}else{
     $ceExe=Join-Path $EngineRoot 'Engine/Binaries/Win64/UnrealEditor.exe'
     $ceArgs=@(('"'+(Join-Path $ceRoot 'CeroEstrellas.uproject')+'"'),'-game')+$ceArgs
 }
+if($Offscreen){$ceArgs += '-RenderOffScreen'}
 $ceProcess=Start-Process -FilePath $ceExe -ArgumentList $ceArgs -WorkingDirectory $ceRoot -WindowStyle Hidden -PassThru -Wait
 if($ceProcess.ExitCode -ne 0){throw 'Ha fallado la prueba de dialogo. Revisa runtime.log.'}
 if(!(Test-Path $ceResult) -or (Get-Item $ceResult).LastWriteTimeUtc -le $ceBefore){throw 'No hay informe actualizado.'}

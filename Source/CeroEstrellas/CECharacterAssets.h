@@ -12,4 +12,6 @@ class CEROESTRELLAS_API UCECharacterAssets : public UBlueprintFunctionLibrary
 public:
     UFUNCTION(BlueprintCallable,Category="CeroEstrellas|Authoring")
     static bool PrepareSkeleton(USkeletalMesh* Mesh);
+    UFUNCTION(BlueprintCallable,Category="CeroEstrellas|Authoring")
+    static bool PreparePhysics(USkeletalMesh* Mesh);
 };

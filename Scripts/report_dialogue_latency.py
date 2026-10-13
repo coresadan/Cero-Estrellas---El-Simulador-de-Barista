@@ -4,6 +4,7 @@ from pathlib import Path
 p=argparse.ArgumentParser()
 p.add_argument('evidence',nargs='?',default='Entrega05DialogoFinal')
 p.add_argument('--output',default='entrega05_dialogue_latency.json')
+p.add_argument('--baseline',default='dialogue_latency.json')
 a=p.parse_args()
 root=Path(__file__).resolve().parent.parent
 folder=root/'Evidence'/a.evidence
@@ -33,10 +34,10 @@ for path in files:
 assert len(rows)==len(timings)==report['validated_live_replies']==8, 'Incomplete or mismatched evidence.'
 for row,(first,complete) in zip(rows,timings):
     row.update(first_visible_seconds=float(first),validated_seconds=float(complete))
-baseline=read_json(root/'Evidence/dialogue_latency.json')
-previous=statistics.median(row['total_seconds'] for row in baseline)
+baseline=read_json(root/'Evidence'/a.baseline)
+previous=statistics.median(baseline['replies'][i]['backend_seconds'] for i in [0,4,5,6,7]) if isinstance(baseline,dict) else statistics.median(row['total_seconds'] for row in baseline)
 matched=statistics.median(rows[i]['backend_seconds'] for i in [0,4,5,6,7])
-summary={'version':report['version'],'evidence':a.evidence,'model':read_json(files[0])['model'],
+summary={'version':report['version'],'evidence':a.evidence,'baseline':a.baseline,'model':read_json(files[0])['model'],
     'followup_visible_seconds':{'min':min(r['first_visible_seconds'] for r in rows[1:]),
         'max':max(r['first_visible_seconds'] for r in rows[1:])},
     'followup_validated_seconds':{'min':min(r['validated_seconds'] for r in rows[1:]),

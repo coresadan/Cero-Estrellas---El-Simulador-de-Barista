@@ -25,6 +25,8 @@ void UCECafeSubsystem::Subtitle(const FString& Id,const FString& Name,const FStr
 
 void UCECafeSubsystem::Notify(const FString& Text)
 {
+    // Keep the shift conclusion readable while customers continue their stories.
+    if(bShiftFinished && GetWorld()->GetTimeSeconds()<ShiftDuration+18.f && !Text.StartsWith(TEXT("TURNO COMPLETADO"))) return;
     Feedback=Text; FeedbackUntil=GetWorld()->GetTimeSeconds()+5.f;
 }
 void UCECafeSubsystem::Sound(const TCHAR* Name, FVector Location, float Volume)
@@ -108,6 +110,24 @@ void UCECafeSubsystem::TickRadio()
     const TCHAR* Challenges[]={TEXT("Sirve 2 desayunos para financiar tu sabotaje"),TEXT("Derrama 150 ml: prepara la pista de patinaje"),TEXT("Haz caer a un cliente: charco, silla o empujón"),TEXT("Encadena 4 incidentes en menos de 9 s entre ellos"),TEXT("Ascenso involuntario. Sigue saboteando el turno")};
     Challenge=Challenges[FMath::Clamp(ChallengeStep,0,4)];
     ShiftLevel=FMath::Clamp(1+ViralPoints/1500+ShiftPhase,1,5);
+    TickBusiness();
+}
+
+void UCECafeSubsystem::TickBusiness(bool bForce)
+{
+    const float Now=GetWorld()->GetTimeSeconds();
+    if(BusinessEvents>=3 || bShiftFinished || (!bForce && (Now<NextBusinessAt || ViralPoints<1000+BusinessEvents*1500))) return;
+    SpecialEvent=++BusinessEvents; BusinessUntil=Now+80.f; NextBusinessAt=Now+90.f;
+    const TCHAR* Titles[]={TEXT(""),TEXT("VISITA DEL CRÍTICO / Prueba de paciencia"),TEXT("EXPERIENCIA AGRESIVA / Vienen a ser maltratados"),TEXT("DEGUSTACIÓN CORPORATIVA / Desayunos de exhibición")};
+    const TCHAR* Lines[]={TEXT(""),TEXT("¡Ha llegado un crítico! Su cámara convierte cualquier desastre en una campaña. Dale una experiencia inolvidable."),TEXT("¡Tenemos reservas para la experiencia agresiva! Quieren desayunar y sentirse atacados por la innovación."),TEXT("¡Degustación corporativa aprobada! Prepara desayunos, crea confianza y sorpréndelos con tu creatividad destructiva.")};
+    BusinessTitle=Titles[SpecialEvent]; Notify(BusinessTitle); FeedbackUntil=Now+9.f;
+    if(Now>=BossCooldownUntil && Now>=BossSubtitleUntil) {
+        auto* Voice=LoadObject<USoundBase>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Audio/Boss_Event_%d.Boss_Event_%d"),SpecialEvent,SpecialEvent));
+        BossSubtitle=Lines[SpecialEvent]; const float Duration=Voice ? Voice->GetDuration() : 8.f;
+        if(Voice) UGameplayStatics::PlaySound2D(GetWorld(),Voice,.8f);
+        BossSubtitleUntil=Now+Duration+.5f; BossCooldownUntil=FMath::Max(Now+50.f,BossSubtitleUntil+25.f);
+    }
+    UE_LOG(LogTemp,Display,TEXT("CE_BUSINESS_EVENT kind=%d score=%d until=%.2f"),SpecialEvent,ViralPoints,BusinessUntil);
 }
 void UCECafeSubsystem::Praise(FName Kind)
 {

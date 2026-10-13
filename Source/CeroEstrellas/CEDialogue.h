@@ -52,6 +52,10 @@ public:
     double ResponseSeconds = 0;
     int32 ValidReplies = 0;
     int32 PlayedVoices = 0;
+    int32 ServiceReplies = 0;
+    int32 ServicePlayedVoices = 0;
+    int32 DiscardedStaleVoices = 0;
+    bool LastVoiceCacheHit = false;
     bool bVoiceEnabled = true;
     bool bRecording = false;
     bool bLastReplyFromOllama = false;
@@ -84,10 +88,12 @@ private:
     bool bEditing = false;
     bool bRecordingOnTheMove = false;
     int32 Generation = 0;
+    int32 SpeechGeneration = 0;
     float RecordStartedAt = 0;
     UFUNCTION() void OnChaos(const FCEChaosEvent& Event);
     void StopRecording(bool bSend);
     void CancelRequests();
     void SpeakReply(const FString& Text, int32 Turn);
     void BuildPanel();
+    bool TryServiceReply(const FString& Text,int32 Turn);
 };

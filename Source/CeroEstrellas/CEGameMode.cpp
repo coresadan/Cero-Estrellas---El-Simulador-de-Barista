@@ -37,7 +37,8 @@ void ACEGameMode::BeginPlay()
     bDialogueSmoke=FParse::Param(FCommandLine::Get(),TEXT("CeroDialogueTest"));
     bSmoke|=bDialogueSmoke;
     bLoopSmoke=bSmoke;
-    UE_LOG(LogTemp,Display,TEXT("CE_READY version=0.6.0 smoke=%d"),bSmoke);
+    if(FParse::Param(FCommandLine::Get(),TEXT("CeroPolishOnly"))) SmokeStage=34;
+    UE_LOG(LogTemp,Display,TEXT("CE_READY version=0.8.0 smoke=%d"),bSmoke);
 }
 
 void ACEGameMode::Tick(float DeltaSeconds)
@@ -59,6 +60,7 @@ void ACEGameMode::Tick(float DeltaSeconds)
     if(bSmoke && GetWorld()->GetTimeSeconds()>10.f && FrameSamples.Num()<36000) FrameSamples.Add(DeltaSeconds*1000.f);
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->TickRadio();
     TickArrivals();
+    TickTickets();
     if (bSmoke && GetWorld()->GetTimeSeconds()>=SmokeNextAt) SmokeStep();
 }
 
@@ -88,9 +90,11 @@ void ACEGameMode::BuildCafe()
         Component->SetText(FText::FromString(Text));
         Component->SetWorldSize(Size);
         Component->SetHorizontalAlignment(EHTA_Center);
+        Component->SetVerticalAlignment(EVRTA_TextTop);
         Component->SetTextRenderColor(Color);
         Component->RegisterComponent();
         Actor->SetActorLocationAndRotation(Location,Rotation);
+        return Component;
     };
     // Compact L-shaped work area. All geometry is inexpensive, intentionally stylised.
     Block(FVector(120,0,-10),FVector(1380,1200,20),Cream);
@@ -181,6 +185,14 @@ void ACEGameMode::BuildCafe()
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Liquids=Liquids;
     // Syrup bottles and a bakery stand, accessible from the barista's side.
     Station(ECEStationKind::Pastries,FVector(45,95,121));
+    Station(ECEStationKind::Sugar,FVector(-380,-95,122));
+    Station(ECEStationKind::Syrup,FVector(-380,130,122));
+    Station(ECEStationKind::Frother,FVector(-380,-420,123));
+    for(int32 i=0;i<3;++i) {
+        const FVector P(-15,-235+i*75.f,110.7f);
+        Block(P,FVector(36,62,.7f),Cream,false);
+        OrderTickets.Add(Sign(TEXT("COMANDA"),P+FVector(-15,0,.5f),2.7f,FColor(45,56,49),FRotator(90,180,0)));
+    }
     Block(FVector(-145,-384,215),FVector(195,3,57),Deep,false);
     Sign(TEXT("PREPARACIÓN\n1 MOLER  2 PRENSAR  3 EXTRAER\nLATTE: JARRA / VAPOR / VERTER"),FVector(-145,-381,236),6.5f,FColor(232,216,182),FRotator(0,90,0));
     // Main wall graphic and corporate slogans.
@@ -270,7 +282,7 @@ void ACEGameMode::BuildCafe()
     {
         auto* Light=GetWorld()->SpawnActor<APointLight>(P,FRotator::ZeroRotator);
         auto* Point=Cast<UPointLightComponent>(Light->GetLightComponent());
-        Point->SetIntensity(6500.f);
+        Point->SetIntensity(7200.f);
         Point->SetAttenuationRadius(700.f);
         Point->SetLightColor(FLinearColor(1.f,.91f,.79f));
         Point->SetCastShadows(P.X==330.f && P.Y==200.f);
@@ -281,8 +293,8 @@ void ACEGameMode::BuildCafe()
     }
     auto* WindowFill=GetWorld()->SpawnActor<APointLight>(FVector(220,420,240),FRotator::ZeroRotator);
     auto* Fill=Cast<UPointLightComponent>(WindowFill->GetLightComponent());
-    Fill->SetIntensity(3200.f); Fill->SetAttenuationRadius(1000.f); Fill->SetLightColor(FLinearColor(.72f,.86f,1.f)); Fill->SetCastShadows(false);
-    UE_LOG(LogTemp,Display,TEXT("CE_CAFE_BUILT version=0.6 stations=9 skinned_characters=3 hands=2 dialogue_on_the_move=1"));
+    Fill->SetIntensity(3900.f); Fill->SetAttenuationRadius(1000.f); Fill->SetLightColor(FLinearColor(.72f,.86f,1.f)); Fill->SetCastShadows(false);
+    UE_LOG(LogTemp,Display,TEXT("CE_CAFE_BUILT version=0.8 stations=12 skinned_characters=3 hands=2 dialogue_on_the_move=1"));
 }
 
 void ACEGameMode::TickArrivals()
@@ -294,12 +306,14 @@ void ACEGameMode::TickArrivals()
     for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(It->SeatSlot>=0 && It->SeatSlot<3) Taken[It->SeatSlot]=true;
     int32 Slot=INDEX_NONE; for(int32 i=0;i<3;++i) if(!Taken[i]) { Slot=i; break; }
     if(Slot==INDEX_NONE) { NextArrivalAt=Now+3.f; return; }
-    const int32 Archetype=CustomerSerial++%3;
+    const int32 Look=CustomerSerial++%9;
+    const int32 Archetype=Look%3;
     const FString Names[]={TEXT("CRIPTO-BRO"),TEXT("HIPSTER PURISTA"),TEXT("INFLUENCER")};
     const FLinearColor Colors[]={FLinearColor(.09f,.22f,.25f),FLinearColor(.38f,.22f,.12f),FLinearColor(.53f,.28f,.35f)};
     auto* Customer=GetWorld()->SpawnActor<ACECustomer>(FVector(620,650,92),FRotator::ZeroRotator);
-    Customer->Configure(FString::Printf(TEXT("cliente-%03d"),CustomerSerial),Names[Archetype],Colors[Archetype],Archetype);
+    Customer->Configure(FString::Printf(TEXT("cliente-%03d"),CustomerSerial),Names[Archetype],Colors[Archetype],Archetype,Look);
     Customer->BeginVisit(Slot,static_cast<ECEDrink>((CustomerSerial-1)%3),(CustomerSerial%2)==0);
+    if(!Customer->VisitRole.IsEmpty()) Customer->DisplayName+=TEXT(" / ")+Customer->VisitRole;
     if(!IsValid(SmokeCustomer)) SmokeCustomer=Customer;
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>(); Cafe->Sound(TEXT("Door"),FVector(620,560,160));
     Cafe->Notify(TEXT("Ha entrado un cliente. Acércate y pulsa F para tomar su pedido."));
@@ -310,4 +324,17 @@ void ACEGameMode::TickArrivals()
     Laptop->Tags.Add(FName(*FString::Printf(TEXT("seat%d"),Slot)));
     NextArrivalAt=Now+FMath::Max(10.f,18.f-(Cafe->ShiftLevel-1)*1.5f);
     UE_LOG(LogTemp,Display,TEXT("CE_ARRIVAL id=%s slot=%d order=%s"),*Customer->CustomerId,Slot,*Customer->OrderText());
+}
+
+void ACEGameMode::TickTickets()
+{
+    const float Now=GetWorld()->GetTimeSeconds(); if(Now<NextTicketAt) return; NextTicketAt=Now+.3f;
+    for(int32 i=0;i<OrderTickets.Num();++i) {
+        FString Text=FString::Printf(TEXT("MESA %d\nSIN PEDIDO"),i+1);
+        for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(It->SeatSlot==i && !It->bLeaving && It->bOrderKnown) {
+            Text=FString::Printf(TEXT("MESA %d\n%s\n%s"),i+1,*It->OrderText().Replace(TEXT(" · "),TEXT("\n")),It->State==ECECustomerState::Eating ? TEXT("SERVIDO") : *It->SpecialRequest);
+            break;
+        }
+        OrderTickets[i]->SetText(FText::FromString(Text));
+    }
 }

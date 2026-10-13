@@ -1,3 +1,5 @@
+> Informe histórico de la versión 0.6. La entrega actual y sus resultados están en [POLISH_07.md](POLISH_07.md).
+
 # Revisión jugable y visual 0.6
 
 ## Cambios integrados

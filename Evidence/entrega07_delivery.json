@@ -1,0 +1,56 @@
+{
+  "version": "0.7.0",
+  "created_utc": "2026-10-12T12:23:39.125652+00:00",
+  "engine": "5.8.3",
+  "launcher": "Jugar.bat",
+  "executable": "Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "64d90b424e3db45f35499dadc5408be4c2456e60e32159c788e7d6ea7e865466",
+  "matches_compiled_binary": true,
+  "newest_source": "Source\\CeroEstrellas\\CEDialogueSmoke.cpp",
+  "newest_source_utc": "2026-10-12T08:53:18.889081+00:00",
+  "binary_utc": "2026-10-12T12:15:01.944888+00:00",
+  "source_older_than_binary": true,
+  "scenarios": [
+    {
+      "report": "Evidence/Entrega07Playable/smoke_result.json",
+      "checks": 99,
+      "passed": true,
+      "final_binary": false,
+      "note": "Full shift precedes late capsule query and stale speech guards; final quick and dialogue verify those guards."
+    },
+    {
+      "report": "Evidence/Entrega07FinalQuick/smoke_result.json",
+      "checks": 96,
+      "passed": true,
+      "final_binary": true,
+      "note": "Final binary tested."
+    },
+    {
+      "report": "Evidence/Entrega07Dialogo/dialogue_result.json",
+      "checks": 40,
+      "passed": true,
+      "final_binary": true,
+      "note": "Final binary tested."
+    }
+  ],
+  "deformation_report": "Evidence/entrega07_deformation.json",
+  "latency_report": "Evidence/entrega07_dialogue_latency.json",
+  "screenshots_reviewed": [
+    "Evidence/Entrega07FinalQuick/12_caderas_y_manos_corregidas.png",
+    "Evidence/Entrega07FinalQuick/13_latte_espuma_y_extras.png",
+    "Evidence/Entrega07FinalQuick/14_cliente_protege_desayuno.png",
+    "Evidence/Entrega07FinalQuick/15_caida_fisica_real.png",
+    "Evidence/Entrega07FinalQuick/16_eventos_y_comandas.png",
+    "Evidence/Entrega07Dialogo/01_dialogar_respuesta_real.png",
+    "Evidence/Entrega07Dialogo/02_memoria_y_contexto_fisico.png",
+    "Evidence/Entrega07Dialogo/05_respuesta_de_servicio.png"
+  ],
+  "backend_stop_check": "No project backend processes remained after stop. Jugar.bat also starts them.",
+  "human_playthrough": false,
+  "human_microphone_conversation_verified": false,
+  "known_limits": [
+    "Procedural stylized locomotion, at most two full simultaneous ragdolls, bounded fake liquids.",
+    "Free dialogue can contain semantic errors; observed apology attributed to attacked customer.",
+    "Generated reply latency varies; authored service replies are counted separately."
+  ]
+}

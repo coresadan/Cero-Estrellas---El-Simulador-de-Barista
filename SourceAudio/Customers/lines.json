@@ -3,18 +3,30 @@
     "spill": "¡Mi camisa! ¡Esto no cotiza!",
     "hit": "¡Eh! ¡Mis inversiones!",
     "fall": "¡Me caigo! ¡Vaya desplome!",
-    "witness": "¡Esto es una burbuja de café!"
+    "witness": "¡Esto es una burbuja de café!",
+    "order": "Un desayuno que dé buenos rendimientos.",
+    "defend": "¡Mi portátil queda fuera de tu zona de riesgo!",
+    "thanks": "Bien. Ahora puedo volver a mis inversiones.",
+    "chat": "¿A ti también te han servido una crisis existencial?"
   },
   {
     "spill": "¡Qué acidez tan agresiva!",
     "hit": "¡No pedí esta performance!",
     "fall": "¡El suelo no es una mesa!",
-    "witness": "Esto merece una crítica demoledora."
+    "witness": "Esto merece una crítica demoledora.",
+    "order": "Espero una extracción con criterio.",
+    "defend": "Voy a apartar mi desayuno. Por si acaso.",
+    "thanks": "Esta taza tiene una narrativa aceptable.",
+    "chat": "Lo llamaré degustación del desencanto."
   },
   {
     "spill": "¡Mi outfit! ¡Lo has empapado!",
     "hit": "¡Eh! ¡Eso está grabado!",
     "fall": "¡Me caigo! ¡Sujeta el móvil!",
-    "witness": "¡No cortéis! ¡Esto se hace viral!"
+    "witness": "¡No cortéis! ¡Esto se hace viral!",
+    "order": "Que salga bonito. Voy a grabarlo.",
+    "defend": "¡No manches la taza antes de la foto!",
+    "thanks": "Esta sí puede salir en mi historia.",
+    "chat": "¿Puedes salir en mi directo? Esto necesita testigos."
   }
 ]

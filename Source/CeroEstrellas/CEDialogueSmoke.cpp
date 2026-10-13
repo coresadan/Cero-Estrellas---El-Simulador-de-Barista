@@ -99,7 +99,7 @@ void ACEGameMode::DialogueSmokeStep()
     case 6:
         if(Wait()) break;
         Check(TEXT("dialogue_reacts_to_physical_context"),D->LastReply.Contains(TEXT("café"),ESearchCase::IgnoreCase) || D->LastReply.Contains(TEXT("camisa"),ESearchCase::IgnoreCase) || D->LastReply.Contains(TEXT("mancha"),ESearchCase::IgnoreCase));
-        Check(TEXT("customer_does_not_claim_to_have_spilled_on_player"),!D->LastReply.Contains(TEXT("te he echado"),ESearchCase::IgnoreCase) && !D->LastReply.Contains(TEXT("te he derramado"),ESearchCase::IgnoreCase) && !D->LastReply.Contains(TEXT("eché"),ESearchCase::IgnoreCase));
+        Check(TEXT("customer_does_not_claim_to_have_spilled_on_player"),!D->LastReply.Contains(TEXT("te he echado"),ESearchCase::IgnoreCase) && !D->LastReply.Contains(TEXT("te he derramado"),ESearchCase::IgnoreCase) && !D->LastReply.Contains(TEXT("eché"),ESearchCase::IgnoreCase) && !D->LastReply.Contains(TEXT("no fue intención"),ESearchCase::IgnoreCase) && !D->LastReply.Contains(TEXT("no fue mi intención"),ESearchCase::IgnoreCase));
         Check(TEXT("AI_anger_change_stays_within_gameplay_bounds"),SmokeCustomer->Anger>=.549f && SmokeCustomer->Anger<=.951f);
         Check(TEXT("ordinary_dialogue_does_not_trigger_boss"),Cafe->PraiseCount==0);
         D->EditConversation(); Shot(TEXT("02_memoria_y_contexto_fisico")); ++SmokeStage; SmokeNextAt=Now+6.f; break;
@@ -146,13 +146,22 @@ void ACEGameMode::DialogueSmokeStep()
         D->Open(SmokeCustomer); SmokeCustomer->bLeaving=true; ++SmokeStage; SmokeNextAt=Now+.3f; break;
     case 12:
     {
+        if(!LoopChecks.Contains(TEXT("departing_customer_closes_conversation"))) {
         Check(TEXT("departing_customer_closes_conversation"),!D->IsOpen());
+        SmokeCustomer->bLeaving=false; SmokeCustomer->Anger=.4f; SmokeCustomer->DialogueDepartureAt=0;
+        D->Open(SmokeCustomer); D->bVoiceEnabled=true; D->Submit(TEXT("gracias"));
+        Cafe->Observe(TEXT("customer_hit"),SmokeCustomer->CustomerId,TEXT("Golpe durante síntesis de voz"),.1f);
+        SmokeStage=18; SmokeNextAt=Now+2.5f; break;
+        }
         const TCHAR* Meshes[]={TEXT("SM_Cup"),TEXT("SM_Pitcher"),TEXT("SM_Croissant"),TEXT("SM_BevelCube"),TEXT("SM_Head"),TEXT("SM_Torso"),TEXT("SM_Sleeve"),TEXT("SM_Forearm"),TEXT("SM_Hand"),TEXT("SM_Trouser"),TEXT("SM_Shin"),TEXT("SM_Shoe"),TEXT("SM_Hair"),TEXT("SM_Glasses"),TEXT("SM_Wand"),TEXT("SM_Bottle"),TEXT("SM_Pot"),TEXT("SM_Leaf"),TEXT("SM_Hopper"),TEXT("SM_SeatBack"),TEXT("SM_TrayRim"),TEXT("SM_Filter"),TEXT("SM_FilterGrip"),TEXT("SM_SteamKnob")};
         bool Loaded=true; for(const auto* N:Meshes) Loaded&=LoadObject<UStaticMesh>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Meshes/%s.%s"),N,N))!=nullptr;
         Check(TEXT("all_24_authored_models_available"),Loaded);
         bool Passed=true; auto Report=MakeShared<FJsonObject>(); for(const auto& P:LoopChecks){Report->SetBoolField(P.Key,P.Value); Passed&=P.Value;}
-        Report->SetBoolField(TEXT("passed"),Passed); Report->SetStringField(TEXT("version"),TEXT("0.6.0"));
+        Report->SetBoolField(TEXT("passed"),Passed); Report->SetStringField(TEXT("version"),TEXT("0.8.0"));
         Report->SetNumberField(TEXT("validated_live_replies"),D->ValidReplies); Report->SetNumberField(TEXT("played_Piper_voices"),D->PlayedVoices);
+        Report->SetNumberField(TEXT("authored_service_replies"),D->ServiceReplies);
+        Report->SetNumberField(TEXT("authored_service_voices_played"),D->ServicePlayedVoices);
+        Report->SetNumberField(TEXT("stale_synthesized_voices_discarded"),D->DiscardedStaleVoices);
         Report->SetBoolField(TEXT("microphone_device_opened"),bSmokeMicrophoneAvailable);
         Report->SetBoolField(TEXT("human_microphone_conversation_verified"),false); Report->SetBoolField(TEXT("human_playthrough"),false);
         FrameSamples.Sort(); if(!FrameSamples.IsEmpty()) {
@@ -165,5 +174,15 @@ void ACEGameMode::DialogueSmokeStep()
         UE_LOG(LogTemp,Display,TEXT("CE_DIALOGUE_RESULT passed=%d checks=%d"),Passed,LoopChecks.Num());
         bSmoke=false; FPlatformMisc::RequestExitWithStatus(false,Passed ? 0 : 1); break;
     }
+    case 18:
+        Check(TEXT("new_physical_incident_discards_late_synthesized_voice"),D->DiscardedStaleVoices>=1 && D->ServicePlayedVoices==0);
+        D->Submit(TEXT("gracias")); SmokeStage=19; SmokeNextAt=Now+2.f; break;
+    case 19:
+        Check(TEXT("authored_service_reply_reaches_real_Piper_playback"),D->ServiceReplies==2 && D->ServicePlayedVoices>=1);
+        Check(TEXT("repeated_service_reply_reuses_voice_cache"),D->LastVoiceCacheHit);
+        D->EditConversation(); Shot(TEXT("05_respuesta_de_servicio")); SmokeStage=20; SmokeNextAt=Now+.4f; break;
+    case 20:
+        D->ResumePlay();
+        D->Close(); SmokeStage=12; SmokeNextAt=Now+.3f; break;
     }
 }

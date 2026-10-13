@@ -1,20 +1,26 @@
 [
   {
     "mesh": "SK_Crypto",
-    "vertices": 21628,
+    "vertices": 28337,
     "bones": 18,
-    "original": true
+    "original": true,
+    "trouser_vertices": 6599,
+    "trouser_arm_influences": 0
   },
   {
     "mesh": "SK_Hipster",
-    "vertices": 21388,
+    "vertices": 27951,
     "bones": 18,
-    "original": true
+    "original": true,
+    "trouser_vertices": 6599,
+    "trouser_arm_influences": 0
   },
   {
     "mesh": "SK_Influencer",
-    "vertices": 21537,
+    "vertices": 28000,
     "bones": 18,
-    "original": true
+    "original": true,
+    "trouser_vertices": 6599,
+    "trouser_arm_influences": 0
   }
 ]

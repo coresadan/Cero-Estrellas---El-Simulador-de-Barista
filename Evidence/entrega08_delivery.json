@@ -1,0 +1,70 @@
+{
+  "version": "0.8.0",
+  "engine": "5.8.3",
+  "launcher": "Jugar.bat",
+  "executable": "Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "91be5e87b4716f9e2ba0c50553d7b920cf55233d8935d9c99914bf8af60e93a2",
+  "matches_compiled_binary": true,
+  "newest_source": "Source\\CeroEstrellas\\CEPolishSmoke.cpp",
+  "newest_source_utc": "2026-10-13T18:57:52.074598+00:00",
+  "binary_utc": "2026-10-13T19:02:23.711047+00:00",
+  "source_older_than_binary": true,
+  "created_utc": "2026-10-13T19:16:45.426467+00:00",
+  "scenarios": [
+    {
+      "report": "Evidence/Entrega08Delivery/smoke_result.json",
+      "checks": 116,
+      "passed": true,
+      "final_binary": true,
+      "full_shift_exercised": true,
+      "render_offscreen": true
+    },
+    {
+      "report": "Evidence/Entrega08DeliveryDialogo/dialogue_result.json",
+      "checks": 40,
+      "passed": true,
+      "final_binary": true,
+      "render_offscreen": true,
+      "validated_live_replies": 8
+    }
+  ],
+  "direct_story_backend_report": "Evidence/Entrega08Stories/story_dialogue_result.json",
+  "direct_story_backend_scope": "Five real backend requests; separate from Unreal end-to-end dialogue scenario.",
+  "deformation_report": "Evidence/entrega08_deformation.json",
+  "latency_report": "Evidence/entrega08_dialogue_latency.json",
+  "resource_reports": [
+    "Evidence/Entrega08Delivery/resources_summary.json",
+    "Evidence/Entrega08DeliveryDialogo/resources_summary.json"
+  ],
+  "build_log": "Evidence/entrega08_delivery_package_build.log",
+  "screenshots_reviewed": [
+    "Evidence/Entrega08Delivery/13_latte_espuma_y_extras.png",
+    "Evidence/Entrega08Delivery/17_mostrador_despejado.png",
+    "Evidence/Entrega08Delivery/18_clientela_extravagante.png",
+    "Evidence/Entrega08Delivery/15_caida_fisica_real.png",
+    "Evidence/Entrega08Delivery/19_contacto_y_caida_en_cadena.png",
+    "Evidence/Entrega08Delivery/11_despido_denegado.png",
+    "Evidence/Entrega08DeliveryDialogo/01_dialogar_respuesta_real.png",
+    "Evidence/Entrega08DeliveryDialogo/02_memoria_y_contexto_fisico.png",
+    "Evidence/Entrega08DeliveryDialogo/03_transcripcion_whisper.png"
+  ],
+  "human_playthrough": false,
+  "human_microphone_conversation_verified": false,
+  "known_limits": [
+    "Three original base bodies with nine appearance/personality combinations; procedural animation, at most two full ragdolls.",
+    "Bounded liquid segments and puddles, not continuous fluid simulation.",
+    "Free generated dialogue remains slow and can contain semantic errors; immediate authored replies are counted separately.",
+    "Offscreen resource measurement does not guarantee native-window performance.",
+    "Some QA gallery screenshots retain props from scene setup."
+  ],
+  "diagnostic_runs_not_counted_as_delivery": [
+    {
+      "report": "Evidence/Entrega08FullShift/smoke_result.json",
+      "note": "Failed closing caption priority; fixed and verified in final full run."
+    },
+    {
+      "report": "Evidence/Entrega08ReleaseFinal/smoke_result.json",
+      "note": "Four failed extras checks caused by fixture pickup spill; stable physical pickup fixture verified in final full run."
+    }
+  ]
+}

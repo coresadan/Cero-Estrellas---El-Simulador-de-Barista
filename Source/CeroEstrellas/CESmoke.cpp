@@ -25,10 +25,10 @@
 #include "InputKeyEventArgs.h"
 #include "EngineUtils.h"
 #include "CEDialogue.h"
-#include "Components/PoseableMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMesh.h"
 
-void ACEGameMode::SmokeStep() { if(bDialogueSmoke) DialogueSmokeStep(); else LoopSmokeStep(); }
+void ACEGameMode::SmokeStep() { if(bDialogueSmoke) DialogueSmokeStep(); else if(SmokeStage>=34 && SmokeStage<=43) PolishSmokeStep(); else LoopSmokeStep(); }
 void ACEGameMode::LoopSmokeStep()
 {
     auto* PC=UGameplayStatics::GetPlayerController(this,0);
@@ -67,9 +67,10 @@ void ACEGameMode::LoopSmokeStep()
         Check(TEXT("grinder_doses_coffee"),Player->Held && Player->Held->bGroundDose && Grinder->DosesLeft==11);
         EspressoMachine->Use(Player);
         Check(TEXT("uncompressed_dose_rejected"),Player->Held && !EspressoMachine->bDoseReady);
-        Aim(TampStation->GetActorLocation()); Tap(EKeys::F);
+        Aim(TampStation->GetActorLocation()); Key(EKeys::F,IE_Pressed);
         bSmokeGrab=true; SmokeStage=3; SmokeNextAt=Now+.7f; break;
         }
+        Key(EKeys::F,IE_Released);
         Check(TEXT("F_tamps_ground_dose"),Player->Held && Player->Held->bTamped);
         Player->SetActorLocation(FVector(-155,-195,92)); Aim(EspressoMachine->GetActorLocation()+FVector(0,32,12));
         SmokeNextAt=Now+.7f; break;
@@ -294,8 +295,7 @@ void ACEGameMode::LoopSmokeStep()
         Player->SetActorLocation(FVector(190,500,92)); Aim(SmokeWitness->HeadLocation());
         Shot(TEXT("09_directo_del_desastre")); SmokeNextAt=Now+.8f; break;
     case 30:
-        if(FParse::Param(FCommandLine::Get(),TEXT("CeroQuickSmoke"))) { SmokeStage=34; SmokeNextAt=Now+1.f; break; }
-        SmokeNextAt=FMath::Max(Now+1.f,241.f); break;
+        SmokeStage=34; SmokeNextAt=Now+1.f; break;
     case 31:
     {
         Check(TEXT("shift_escalates_into_viral_phase_on_real_clock"),Cafe->ShiftPhase==2);
@@ -311,6 +311,11 @@ void ACEGameMode::LoopSmokeStep()
         SmokeNextAt=481.f; break;
     case 33:
         Check(TEXT("full_eight_minute_shift_finishes_without_game_over"),Cafe->bShiftFinished && IsValid(Player) && Cafe->Feedback.Contains(TEXT("Despido denegado")));
+        {
+            const FString Conclusion=Cafe->Feedback;
+            Cafe->Notify(TEXT("HISTORIA / Un cliente acaba de resolver su entrevista."));
+            Check(TEXT("shift_conclusion_survives_customer_story_notifications"),Cafe->Feedback==Conclusion && Conclusion.Contains(TEXT("Despido denegado")));
+        }
         Shot(TEXT("11_despido_denegado")); SmokeNextAt=Now+1.f; break;
     default:
     {
@@ -336,7 +341,7 @@ void ACEGameMode::LoopSmokeStep()
         bool Passed=true; auto Report=MakeShared<FJsonObject>();
         for(const auto& Pair:LoopChecks) { Report->SetBoolField(Pair.Key,Pair.Value); Passed=Passed && Pair.Value; }
         Report->SetBoolField(TEXT("passed"),Passed); Report->SetStringField(TEXT("engine"),FEngineVersion::Current().ToString());
-        Report->SetStringField(TEXT("version"),TEXT("0.6.0")); Report->SetBoolField(TEXT("human_playthrough"),false);
+        Report->SetStringField(TEXT("version"),TEXT("0.8.0")); Report->SetBoolField(TEXT("human_playthrough"),false);
         Report->SetBoolField(TEXT("full_shift_exercised"),!FParse::Param(FCommandLine::Get(),TEXT("CeroQuickSmoke")));
         Report->SetBoolField(TEXT("dialogue_not_exercised_in_this_scenario"),true); Report->SetNumberField(TEXT("floor_liquid_ml"),Cafe->Liquids->FloorMl);
         FrameSamples.Sort(); if(!FrameSamples.IsEmpty()) {

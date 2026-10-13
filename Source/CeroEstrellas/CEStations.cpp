@@ -25,6 +25,7 @@ ACEStation::ACEStation()
     Body->SetCollisionObjectType(ECC_WorldStatic);
     Screen=CreateDefaultSubobject<UTextRenderComponent>(TEXT("Instructions")); Screen->SetupAttachment(Body);
     Screen->SetWorldSize(3.6f); Screen->SetHorizontalAlignment(EHTA_Center); Screen->SetTextRenderColor(FColor(210,227,209));
+    Screen->SetVerticalAlignment(EVRTA_TextCenter);
     WorkingSound=CreateDefaultSubobject<UAudioComponent>(TEXT("ApplianceSound")); WorkingSound->SetupAttachment(Body);
     WorkingSound->bAutoActivate=false; WorkingSound->SetVolumeMultiplier(.35f);
     WorkingSound->bOverrideAttenuation=true;
@@ -73,7 +74,7 @@ void ACEStation::Configure(ECEStationKind InKind)
     }
     if(Kind==ECEStationKind::Tamper)
     {
-        Add(TEXT("Cylinder"),FVector(0,0,12),FVector(.15f,.15f,.045f),Steel);
+        MovingTool=Add(TEXT("Cylinder"),FVector(0,0,12),FVector(.15f,.15f,.045f),Steel); ToolRestZ=MovingTool->GetRelativeLocation().Z;
         Add(TEXT("Cylinder"),FVector(0,0,20),FVector(.055f,.055f,.15f),Black);
         Add(TEXT("Sphere"),FVector(0,0,29),FVector(.13f,.13f,.10f),FLinearColor(.3f,.12f,.035f));
     }
@@ -89,9 +90,14 @@ void ACEStation::Configure(ECEStationKind InKind)
     {
         Add(TEXT("Cylinder"),FVector(0,29,2),FVector(.05f,.05f,.40f),Steel);
         Add(TEXT("Cube"),FVector(0,33,-15),FVector(.045f,.16f,.045f),Steel);
-        Add(TEXT("Sphere"),FVector(0,26,23),FVector(.12f,.07f,.12f),Kind==ECEStationKind::Milk ? FLinearColor(.84f,.75f,.54f) : Orange);
+        MovingTool=Add(TEXT("Sphere"),FVector(0,26,23),FVector(.12f,.07f,.12f),Kind==ECEStationKind::Milk ? FLinearColor(.84f,.75f,.54f) : Orange);
         Add(TEXT("SM_Wand"),FVector(-12,24,-4),FVector(.8f),Steel);
         Add(TEXT("Cube"),FVector(0,40,-30),FVector(.39f,.29f,.025f),Steel);
+    }
+    if(Kind==ECEStationKind::Sugar || Kind==ECEStationKind::Syrup || Kind==ECEStationKind::Frother) {
+        Add(Kind==ECEStationKind::Syrup ? TEXT("SM_Bottle") : TEXT("Cylinder"),FVector(0,0,20),FVector(.30f,.30f,.36f),Kind==ECEStationKind::Syrup ? FLinearColor(.37f,.14f,.03f) : Steel);
+        MovingTool=Add(TEXT("Cylinder"),FVector(0,0,43),FVector(.07f,.07f,.08f),Black); ToolRestZ=MovingTool->GetRelativeLocation().Z;
+        Add(TEXT("Cube"),FVector(0,14,44),FVector(.04f,.28f,.03f),Steel);
     }
     if(Kind==ECEStationKind::Cups || Kind==ECEStationKind::Trays || Kind==ECEStationKind::Pastries)
     {
@@ -118,7 +124,10 @@ FString ACEStation::Status() const
     case ECEStationKind::Espresso: return bDoseReady ? TEXT("DOSIS LISTA / COLOCA TAZA\nF: EXTRAER 60 ml") : TEXT("GRUPO / 93 C\nINSERTA PORTAFILTRO DOSIFICADO");
     case ECEStationKind::Grinder: return FString::Printf(TEXT("MOLINILLO / %d DOSIS\nF: MOLER EN PORTAFILTRO"),DosesLeft);
     case ECEStationKind::Milk: return TEXT("LANZA DE VAPOR\nJARRA → CALENTAR → VERTER");
-    case ECEStationKind::Tamper: return TEXT("PRENSADO / 18 g\nF: COMPACTAR DOSIS");
+    case ECEStationKind::Tamper: return TEXT("PRENSADO / 18 g\nMANTÉN F: COMPACTAR DOSIS");
+    case ECEStationKind::Sugar: return TEXT("AZÚCAR / DOSIS 2 g\nF: ENDULZAR TAZA");
+    case ECEStationKind::Syrup: return TEXT("SIROPE / DOSIS 6 ml\nF: BOMBEAR EN TAZA");
+    case ECEStationKind::Frother: return TEXT("ESPUMADOR\nF: BATIR LECHE CALIENTE");
     case ECEStationKind::Water: return TEXT("AGUA CALIENTE\nF: +100 ml / 85 C");
     case ECEStationKind::Cups: return TEXT("TAZAS LIMPIAS\nF: COGER NUEVA");
     case ECEStationKind::Trays: return TEXT("BANDEJAS\nF: COGER NUEVA");
@@ -130,7 +139,7 @@ FString ACEStation::Prompt(const ACEPlayer* Player) const
 {
     if(Kind==ECEStationKind::Milk && !Player->Held && WorkLeft<=0.f && !CupUnderSpout()) return TEXT("[ F ] Coger jarra con 120 ml de leche fría");
     if(Kind==ECEStationKind::Milk && Player->Held && Player->Held->Kind==ECEPropKind::Pitcher) return TEXT("[ F ] Colocar jarra bajo la lanza · F otra vez calentar");
-    if(WorkLeft>0.f) return TEXT("[ F ] En marcha · no retires la taza");
+    if(WorkLeft>0.f) return Kind==ECEStationKind::Tamper ? TEXT("Mantén F: presión · suelta para interrumpir") : Kind==ECEStationKind::Espresso ? TEXT("F: detener extracción · E: retirar taza") : TEXT("En marcha · E: retirar jarra");
     if(Kind==ECEStationKind::Espresso && Player->Held && Player->Held->Kind==ECEPropKind::Portafilter) return TEXT("[ F ] Acoplar portafiltro / preparar extracción");
     if((Kind==ECEStationKind::Espresso || Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water) && Player->Held && Player->Held->Kind==ECEPropKind::Cup) return TEXT("[ F ] Colocar taza bajo el surtidor");
     if(Kind==ECEStationKind::Grinder && !Player->Held) return DosesLeft==0 ? TEXT("[ F ] Rellenar tolva de granos") : TEXT("[ F ] Coger portafiltro limpio");
@@ -147,13 +156,30 @@ void ACEStation::PlaceCup(ACEPlayer* Player)
 void ACEStation::Use(ACEPlayer* Player)
 {
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
-    if(!Player || WorkLeft>0.f) return;
+    if(!Player) return;
+    if(WorkLeft>0.f) {
+        if(Kind==ECEStationKind::Espresso) { WorkLeft=0; WorkingSound->Stop(); bDoseReady=false; if(IsValid(Filter)) { Filter->bGroundDose=false; Filter->bTamped=false; } Cafe->Notify(FString::Printf(TEXT("Extracción detenida: %.0f ml. Puedes provocar un café corto."),ExtractedMl)); }
+        return;
+    }
+    if(Kind==ECEStationKind::Sugar || Kind==ECEStationKind::Syrup || Kind==ECEStationKind::Frother) {
+        auto* Cup=Player->Held.Get();
+        if(!Cup || !Cup->IsContainer() || Cup->VolumeMl()<1) { Cafe->Notify(TEXT("Acerca una taza o jarra con líquido y pulsa F.")); return; }
+        if(Kind==ECEStationKind::Sugar) { Cup->SugarGrams=FMath::Min(20.f,Cup->SugarGrams+2.f); ++Dispensed; WorkLeft=.35f; Cafe->Notify(TEXT("Azúcar añadido: 2 g.")); }
+        else if(Kind==ECEStationKind::Syrup) { const float Added=Cup->AddLiquid(0,0,6,20); Cup->SyrupMl+=Added; ++Dispensed; WorkLeft=.35f; Cafe->Notify(Added>0 ? TEXT("Una pulsación de sirope.") : TEXT("La taza está llena: vierte un poco primero.")); }
+        else {
+            if(Cup->MilkMl<30 || Cup->Temperature<50) { Cafe->Notify(TEXT("La espuma necesita leche caliente: jarra → vapor → espumador.")); return; }
+            WorkingCup=Cup; WorkLeft=1.5f; WorkingSound->SetSound(LoadObject<USoundBase>(nullptr,TEXT("/Game/Prototype/Audio/FX/Steam.Steam"))); WorkingSound->Play();
+        }
+        Cup->UpdateLiquidVisual(); Cafe->Sound(TEXT("Click"),GetActorLocation()); return;
+    }
     if(Kind==ECEStationKind::Tamper)
     {
         if(!Player->Held || Player->Held->Kind!=ECEPropKind::Portafilter || !Player->Held->bGroundDose)
         { Cafe->Notify(TEXT("Muele una dosis y trae el portafiltro al prensador.")); return; }
-        Player->Held->bTamped=true; Player->Held->UpdateLiquidVisual();
-        Cafe->Sound(TEXT("Thump"),GetActorLocation(),.3f); Cafe->Notify(TEXT("Dosis compactada. Ahora acopla el portafiltro en el grupo.")); return;
+        Filter=Player->Held; Player->Release(); Filter->Body->SetSimulatePhysics(false);
+        Filter->SetActorLocationAndRotation(GetActorLocation()+FVector(0,0,6),FRotator::ZeroRotator);
+        Filter->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform); TampPressure=0; WorkLeft=.55f;
+        Cafe->Sound(TEXT("Thump"),GetActorLocation(),.3f); Cafe->Notify(TEXT("Prensando la dosis...")); return;
     }
     if(Kind==ECEStationKind::Milk)
     {
@@ -201,8 +227,8 @@ void ACEStation::Use(ACEPlayer* Player)
         if(!Player->Held->bGroundDose || !Player->Held->bTamped) { Cafe->Notify(TEXT("Muele y PRENSA la dosis antes de acoplarla. El prensador está delante de la máquina.")); return; }
         if(IsValid(Filter)) { Filter->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); Filter->Destroy(); }
         Filter=Player->Held; Player->Release(); Filter->Body->SetSimulatePhysics(false);
-        Filter->SetActorLocationAndRotation(GetActorLocation()+FVector(0,44,3),FRotator(0,90,0));
-        Filter->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform); bDoseReady=true; Cafe->Sound(TEXT("Click"),GetActorLocation()); return;
+        Filter->SetActorLocationAndRotation(GetActorLocation()+FVector(0,44,3),FRotator::ZeroRotator);
+        Filter->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform); bDoseReady=true; LockLeft=.45f; Cafe->Sound(TEXT("Click"),GetActorLocation()); return;
     }
     if(Kind==ECEStationKind::Espresso && !bDoseReady)
     {
@@ -211,30 +237,49 @@ void ACEStation::Use(ACEPlayer* Player)
     }
     WorkingCup=CupUnderSpout();
     if(!WorkingCup) { Cafe->Notify(TEXT("No hay taza bajo el surtidor. También puedes extraer directamente al suelo...")); }
-    WorkLeft=Kind==ECEStationKind::Espresso ? 3.2f : 2.5f; TransferAccumulator=0.f;
+    WorkLeft=Kind==ECEStationKind::Espresso ? 3.2f : 2.5f; TransferAccumulator=0.f; ExtractedMl=0.f;
     WorkingSound->SetSound(LoadObject<USoundBase>(nullptr,Kind==ECEStationKind::Espresso ? TEXT("/Game/Prototype/Audio/FX/Brew.Brew") : TEXT("/Game/Prototype/Audio/FX/Steam.Steam"))); WorkingSound->Play();
 }
 void ACEStation::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     const float Now=GetWorld()->GetTimeSeconds();
+    if(LockLeft>0 && IsValid(Filter)) { LockLeft=FMath::Max(0.f,LockLeft-DeltaSeconds); Filter->SetActorRotation(FRotator(0,90.f*(1.f-LockLeft/.45f),0)); }
+    if(MovingTool) {
+        if(Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water) MovingTool->SetRelativeRotation(FRotator(0,0,WorkLeft>0 ? 90.f : 0.f));
+        else { FVector P=MovingTool->GetRelativeLocation(); P.Z=ToolRestZ-(WorkLeft>0 ? FMath::Sin(FMath::Clamp(WorkLeft/.55f,0.f,1.f)*PI)*6.f : 0.f)/Body->GetComponentScale().Z; MovingTool->SetRelativeLocation(P); }
+    }
+    if(Kind==ECEStationKind::Tamper && WorkLeft>0.f) {
+        auto* Player=Cast<ACEPlayer>(UGameplayStatics::GetPlayerPawn(this,0));
+        if(!Player || !Player->bInteractHeld || FVector::Dist2D(Player->GetActorLocation(),GetActorLocation())>230.f || !IsValid(Filter) || Filter->bHeld) {
+            WorkLeft=0; if(IsValid(Filter) && !Filter->bHeld) { Filter->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); Filter->Body->SetSimulatePhysics(true); }
+            GetWorld()->GetSubsystem<UCECafeSubsystem>()->Notify(TEXT("Prensado interrumpido. Agarra el filtro y mantén F para completar."));
+        }
+    }
     if(WorkLeft>0.f)
     {
         const float Step=FMath::Min(DeltaSeconds,WorkLeft); WorkLeft=FMath::Max(0.f,WorkLeft-Step);
-        if(Kind==ECEStationKind::Milk)
+        if(Kind==ECEStationKind::Frother) {
+            if(IsValid(WorkingCup)) { WorkingCup->FoamMl=FMath::Min(60.f,WorkingCup->FoamMl+Step*22.f); WorkingCup->UpdateLiquidVisual(); }
+        }
+        else if(Kind==ECEStationKind::Milk)
         {
             if(IsValid(WorkingCup) && CupUnderSpout()==WorkingCup)
             {
                 WorkingCup->Temperature=FMath::Min(65.f,WorkingCup->Temperature+Step*25.f);
+                if(WorkingCup->Temperature>50.f) WorkingCup->FoamMl=FMath::Min(20.f,WorkingCup->FoamMl+Step*8.f);
                 WorkingCup->UpdateLiquidVisual();
             }
         }
+        else if(Kind==ECEStationKind::Tamper) { TampPressure=FMath::Clamp(1.f-WorkLeft/.55f,0.f,1.f); }
+        else if(Kind==ECEStationKind::Sugar || Kind==ECEStationKind::Syrup) { }
         else if(Kind!=ECEStationKind::Grinder)
         {
             TransferAccumulator+=Step;
             if(TransferAccumulator>=.025f || WorkLeft<=0.f)
             {
                 const float Amount=TransferAccumulator*(Kind==ECEStationKind::Espresso ? 60.f/3.2f : 40.f);
+                if(Kind==ECEStationKind::Espresso) ExtractedMl+=Amount;
                 auto* Liquid=GetWorld()->GetSubsystem<UCECafeSubsystem>()->Liquids.Get();
                 const float E=Kind==ECEStationKind::Espresso ? Amount : 0.f, M=Kind==ECEStationKind::Milk ? Amount : 0.f, W=Kind==ECEStationKind::Water ? Amount : 0.f;
                 if(Liquid) Liquid->Emit(CupPosition()+FVector(0,0,24),FVector(0,0,-70),E,M,W,Kind==ECEStationKind::Espresso ? 93.f : Kind==ECEStationKind::Milk ? 65.f : 85.f,Kind==ECEStationKind::Espresso ? Filter.Get() : nullptr);
@@ -244,6 +289,9 @@ void ACEStation::Tick(float DeltaSeconds)
         if(WorkLeft<=0.f)
         {
             WorkingSound->Stop();
+            if(Kind==ECEStationKind::Tamper && IsValid(Filter)) { Filter->bTamped=true; Filter->UpdateLiquidVisual();
+                Filter->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+                if(auto* Player=Cast<ACEPlayer>(UGameplayStatics::GetPlayerPawn(this,0))) { if(!Player->Held) Player->Hold(Filter); else Filter->Body->SetSimulatePhysics(true); } GetWorld()->GetSubsystem<UCECafeSubsystem>()->Notify(TEXT("Dosis prensada. Acopla el portafiltro en el grupo.")); }
             if(Kind==ECEStationKind::Grinder && IsValid(Filter)) { Filter->bGroundDose=true; Filter->bTamped=false; Filter->UpdateLiquidVisual(); --DosesLeft; }
             if(Kind==ECEStationKind::Espresso)
             {

@@ -123,7 +123,8 @@ void UCEDialogueComponent::EndPlay(const EEndPlayReason::Type Reason) {
 }
 void UCEDialogueComponent::OnChaos(const FCEChaosEvent& Event) {
     if(Event.Severity<=0) return; Events.Add(Event); if(Events.Num()>64) Events.RemoveAt(0);
-    if(Target.IsValid() && Target->CustomerId==Event.CustomerId && Event.Kind==TEXT("customer_hit")) {
+    if(Target.IsValid() && Target->CustomerId==Event.CustomerId && (Event.Kind==TEXT("customer_hit") || Event.Kind==TEXT("customer_fallen") || Event.Kind==TEXT("customer_slipped") || Event.Kind==TEXT("laptop_destroyed"))) {
+        ++SpeechGeneration;
         if(Speaker) Speaker->Stop(); Target->VoiceUntil=0;
         // A new physical interruption invalidates an answer to old facts.
         if(bBusy && ReplyStream) { CancelRequests(); Target->ThinkingUntil=0; Status=TEXT("El cliente reacciona al golpe. Puedes volver a hablarle."); }
@@ -269,6 +270,34 @@ bool UCEDialogueComponent::SetDraft(const FString& Text) {
     return true;
 }
 bool UCEDialogueComponent::SubmitDraft() { return Input && Submit(Draft); }
+bool UCEDialogueComponent::TryServiceReply(const FString& Text,int32 Turn)
+{
+    FString Key=Text.ToLower().TrimStartAndEnd();
+    for(const TCHAR* P:{TEXT("¿"),TEXT("?"),TEXT("¡"),TEXT("!"),TEXT(".")}) Key=Key.Replace(P,TEXT(""));
+    FString Answer; float Change=0.f;
+    if(Key==TEXT("qué has pedido") || Key==TEXT("que has pedido") || Key==TEXT("cuál es tu pedido") || Key==TEXT("cual es tu pedido") || Key==TEXT("qué te pongo") || Key==TEXT("que te pongo") || Key==TEXT("qué vas a tomar") || Key==TEXT("que vas a tomar") || Key==TEXT("me recuerdas tu pedido")) Answer=TEXT("He pedido ")+Target->OrderText()+TEXT(".");
+    else if(Key==TEXT("gracias") || Key==TEXT("muchas gracias") || Key==TEXT("muchísimas gracias")) Answer=Target->Archetype()==1 ? TEXT("De nada. La cortesía también necesita una buena extracción.") : TEXT("De nada. Ahora podríamos ocuparnos de mi desayuno.");
+    else if(Key==TEXT("perdón") || Key==TEXT("perdon") || Key==TEXT("lo siento") || Key==TEXT("lo siento mucho") || Key==TEXT("perdón por el café") || Key==TEXT("perdon por el cafe")) { Answer=Target->WetMl>0 ? TEXT("Acepto la disculpa. Mi camisa sigue mojada.") : TEXT("Acepto tus disculpas. Seguimos con el desayuno."); Change=-.1f; }
+    else if(Key==TEXT("dónde estamos") || Key==TEXT("donde estamos")) Answer=TEXT("Soy cliente de Cero Estrellas; tú eres mi camarero.");
+    else if(Key==TEXT("por qué has venido") || Key==TEXT("por que has venido") || Key==TEXT("qué te pasa") || Key==TEXT("que te pasa") || Key==TEXT("cuéntame tu historia") || Key==TEXT("cuentame tu historia")) Answer=Target->StoryAnswer();
+    else if(Key==TEXT("buena suerte") || Key==TEXT("ánimo") || Key==TEXT("animo") || Key==TEXT("tranquilo") || Key==TEXT("tranquila")) { Answer=Target->StoryId==0 ? TEXT("Gracias. Ensayaré pedir un sueldo, no permiso para existir.") : Target->StoryId==3 ? TEXT("Gracias. Mi audición tendrá menos gritos si el café llega a la taza.") : TEXT("Gracias. Un desayuno decente ya sería un buen comienzo."); Change=-.1f; }
+    else return false;
+    auto Words=MakeShared<FJsonObject>(); Words->SetStringField(TEXT("texto"),Answer.Left(100));
+    auto Reaction=MakeShared<FJsonObject>(); Reaction->SetStringField(TEXT("emocion"),TEXT("neutral")); Reaction->SetNumberField(TEXT("cambio_enfado"),Change); Reaction->SetBoolField(TEXT("quiere_irse"),false);
+    auto Reply=MakeShared<FJsonObject>(); Reply->SetObjectField(TEXT("dialogo"),Words); Reply->SetObjectField(TEXT("reaccion"),Reaction);
+    const FString Json=Encode(Reply); FString Emotion; bool Leave=false;
+    if(!ValidateReply(NormalizeProviderReply(Json),Answer,Emotion,Change,Leave)) return false;
+    bBusy=false; LastReply=Answer; LastEmotion=Emotion; PreviewReply.Empty(); ++ServiceReplies;
+    Target->ThinkingUntil=0; Target->ApplyDialogue(Answer,Emotion,Change,false);
+    auto& Turns=History.FindOrAdd(Target->CustomerId); Turns.Add(FCEConversationTurn{Text,Answer,Json});
+    int32 Characters=0; for(const auto& T:Turns) Characters+=T.PlayerText.Len()+T.ReplyText.Len();
+    while(Turns.Num()>1 && (Turns.Num()>8 || Characters>1800)) { Characters-=Turns[0].PlayerText.Len()+Turns[0].ReplyText.Len(); Turns.RemoveAt(0); }
+    if(History.Num()>24) for(auto It=History.CreateIterator();It;++It) if(It.Key()!=Target->CustomerId) { It.RemoveCurrent(); break; }
+    FirstTextSeconds=ResponseSeconds=FPlatformTime::Seconds()-TurnStartedAt;
+    Status=TEXT("Tu turno. Puedes seguir hablando."); ResumePlay();
+    if(bVoiceEnabled) SpeakReply(Answer,Turn);
+    UE_LOG(LogTemp,Display,TEXT("CE_SERVICE_REPLY customer=%s authored=1 chars=%d"),*Target->CustomerId,Answer.Len()); return true;
+}
 bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     if(!Target.IsValid() || Target->bLeaving || bBusy || bRecording) return false;
     const FString Text=Raw.TrimStartAndEnd();
@@ -277,6 +306,8 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     TurnStartedAt=FPlatformTime::Seconds(); FirstTextSeconds=0; ResponseSeconds=0;
     LastPlayerText=Text; LastReply.Empty(); bLastReplyFromOllama=false;
     Target->DialogueHoldUntil=GetWorld()->GetTimeSeconds()+90.f;
+    if(!bRetry) Target->StoryConversation(Text);
+    if(!bRetry && TryServiceReply(Text,Turn)) return true;
     Status=TEXT("El cliente está pensando..."); Target->ThinkingUntil=GetWorld()->GetTimeSeconds()+90.f;
     auto Context=MakeShared<FJsonObject>();
     // Identity selects the history on the engine side; the order is already in
@@ -284,6 +315,7 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     if(Target->Anger>.5f) Context->SetStringField(TEXT("animo_actual"),TEXT("molesto"));
     if(Target->HitCount>0) Context->SetNumberField(TEXT("impactos_recibidos"),Target->HitCount);
     if(Target->WetMl>0) Context->SetStringField(TEXT("ropa_empapada_de"),Target->ReceivedLiquid);
+    if(!Target->VisitRole.IsEmpty()) Context->SetStringField(TEXT("motivo_de_la_visita"),Target->VisitRole);
     if(Target->bFilming) Context->SetBoolField(TEXT("grabando_desastre_ajeno"),true);
     if(!Target->SpecialRequest.IsEmpty()) Context->SetStringField(TEXT("preferencia_del_pedido"),Target->SpecialRequest);
     if(Target->bDrinkServed) Context->SetBoolField(TEXT("desayuno_servido"),true);
@@ -291,10 +323,15 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     TArray<TSharedPtr<FJsonValue>> Incidents;
     for(const auto& Event:Events) if(Event.CustomerId==Target->CustomerId && (Event.Kind==TEXT("customer_hit") || Event.Kind==TEXT("customer_fallen") || Event.Kind==TEXT("customer_slipped") || Event.Kind==TEXT("laptop_destroyed") || Event.Kind==TEXT("pastry_stuck"))) {
         auto O=MakeShared<FJsonObject>(); O->SetStringField(TEXT("accion"),Event.Kind.ToString()); O->SetStringField(TEXT("objeto"),Event.ObjectName); O->SetNumberField(TEXT("gravedad"),Event.Severity); Incidents.Add(MakeShared<FJsonValueObject>(O));
-        if(Incidents.Num()>8) Incidents.RemoveAt(0);
+        if(Incidents.Num()>4) Incidents.RemoveAt(0);
     }
     Context->SetArrayField(TEXT("incidentes_recibidos"),Incidents);
-    const TCHAR* Personalities[]={TEXT("Inversor cripto engreído, sarcástico; presumes de NFTs."),TEXT("Hipster del café, pedante."),TEXT("Influencer pasivo-agresiva; te importan outfit y seguidores.")};
+    if(Target->StoryId>=0) {
+        auto Story=MakeShared<FJsonObject>(); Story->SetStringField(TEXT("situacion"),Target->StorySetup);
+        Story->SetBoolField(TEXT("recibiste_apoyo"),Target->bStoryHelped); Story->SetBoolField(TEXT("resuelta"),Target->bStoryResolved);
+        if(Target->bStoryResolved) Story->SetStringField(TEXT("desenlace"),Target->StoryOutcome);
+        Context->SetObjectField(TEXT("historia_cotidiana"),Story);
+    }
     auto Body=MakeShared<FJsonObject>(); Body->SetStringField(TEXT("model"),Model); Body->SetBoolField(TEXT("stream"),true); Body->SetBoolField(TEXT("think"),false); Body->SetStringField(TEXT("keep_alive"),TEXT("20m"));
     // Constrain generation as well as validating on the engine side: a typo in
     // a field name must not cause a second full inference and delay the reply.
@@ -304,7 +341,7 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     auto Options=MakeShared<FJsonObject>(); Options->SetNumberField(TEXT("num_gpu"),0); Options->SetNumberField(TEXT("num_thread"),6); Options->SetNumberField(TEXT("num_ctx"),2048); Options->SetNumberField(TEXT("num_predict"),128); Options->SetNumberField(TEXT("temperature"),.1); Body->SetObjectField(TEXT("options"),Options);
     // Keep instructions and previous messages stable; changing facts belong to
     // this turn's user message, which is preserved verbatim for prefix reuse.
-    const FString System=FString(TEXT("Eres cliente del restaurante Cero Estrellas; hablas con tu camarero, el usuario. "))+Personalities[Target->Archetype()]+TEXT(" Tu pedido: ")+Target->OrderText()+TEXT(". Responde TODAS sus preguntas sobre cualquier tema, recuerda la conversación. Respuesta en español, hasta 100 caracteres, sin añadir preguntas. Hablas en primera persona de TU desayuno y en segunda persona de las cosas del camarero. Los incidentes recibidos los provoca el camarero contra ti; no inventes incidentes. Devuelve solo JSON: {\"dialogo\":{\"texto\":\"respuesta\"},\"reaccion\":{\"emocion\":\"neutral\",\"cambio_enfado\":0,\"quiere_irse\":false}}. emocion: neutral/enfadado/humillado/triste/divertido; cambio_enfado entre -0.1 y 0.3. Disculpas reducen enfado; preguntas normales no lo aumentan.");
+    const FString System=FString(TEXT("Eres cliente del restaurante Cero Estrellas; hablas con tu camarero, el usuario. "))+Target->GuestPersonality()+TEXT(" Tu pedido: ")+Target->OrderText()+TEXT(". Responde TODAS sus preguntas sobre cualquier tema, recuerda la conversación. Respuesta en español, hasta 80 caracteres, sin preguntas. TU desayuno es tuyo; el camarero es el usuario. Él provoca los incidentes recibidos; tú eres la víctima. No inventes hechos. Sigue el schema JSON. Disculpas reducen enfado; preguntas normales no lo aumentan.");
     TArray<TSharedPtr<FJsonValue>> Messages; Messages.Add(Message(TEXT("system"),System));
     // A neutral identity example reinforces the roles without planting a spill
     // or an insult that the model might repeat during unrelated questions.
@@ -319,7 +356,7 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     }
     const FString UserMessage=TEXT("[Estado del cliente; incidentes recibidos del camarero]\n")+Encode(Context)+TEXT("\nCamarero: ")+Text;
     Messages.Add(Message(TEXT("user"),UserMessage));
-    const FString Perspective=Incidents.IsEmpty() ? FString() : TEXT("Tú eres el cliente que RECIBIÓ los incidentes. El camarero te habla. Si hablas del incidente, contesta como víctima: el camarero actúa, tú reaccionas. No repitas su frase ni hables como si tú fueras él.");
+    const FString Perspective=Incidents.IsEmpty() ? FString() : TEXT("Tú eres el cliente que RECIBIÓ los incidentes. El camarero te habla. Si hablas del incidente, contesta como víctima: el camarero actúa, tú reaccionas. No repitas su frase ni hables como si tú fueras él. NO pidas disculpas por causar el incidente ni digas que no fue tu intención: tú no lo causaste. Responde qué recibiste y acepta o rechaza SU disculpa.");
     if(!Perspective.IsEmpty()) Messages.Add(Message(TEXT("system"),Perspective));
     Body->SetArrayField(TEXT("messages"),Messages);
     TestTrace(Encode(Body),TEXT("request"),Turn);
@@ -339,7 +376,7 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
         TestTrace(StreamEnvelope,TEXT("response"),Turn);
         const auto Envelope=Decode(StreamEnvelope); const TSharedPtr<FJsonObject>* Msg=nullptr; FString Json;
         FString Answer,Emotion; float Anger=0; bool Leave=false;
-        if(!Envelope || !Envelope->TryGetObjectField(TEXT("message"),Msg) || !(*Msg)->TryGetStringField(TEXT("content"),Json) || !ValidateReply(NormalizeProviderReply(Json),Answer,Emotion,Anger,Leave)) {
+        if(!Envelope || !Envelope->TryGetObjectField(TEXT("message"),Msg) || !(*Msg)->TryGetStringField(TEXT("content"),Json) || !ValidateReply(NormalizeProviderReply(Json),Answer,Emotion,Anger,Leave) || (Target->HitCount>0 && (Answer.Contains(TEXT("no fue intención"),ESearchCase::IgnoreCase) || Answer.Contains(TEXT("no fue mi intención"),ESearchCase::IgnoreCase) || Answer.Contains(TEXT("te he derramado"),ESearchCase::IgnoreCase) || Answer.Contains(TEXT("te he echado"),ESearchCase::IgnoreCase)))) {
             FString Reason; if(Envelope) Envelope->TryGetStringField(TEXT("done_reason"),Reason);
             UE_LOG(LogTemp,Warning,TEXT("CE_DIALOGUE_INVALID done_reason=%s chars=%d retry=%d"),*Reason,Json.Len(),bRetry);
             if(!bRetry) {
@@ -355,9 +392,9 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
         if(Emotion==TEXT("neutral") || Emotion==TEXT("divertido")) Anger=FMath::Min(Anger,0.f);
         auto& Turns=History.FindOrAdd(Target->CustomerId); Turns.Add(FCEConversationTurn{Text,Answer,Json});
         int32 HistoryChars=0; for(const auto& T:Turns) HistoryChars+=T.PlayerText.Len()+T.ReplyText.Len();
-        // More short exchanges fit without evicting a cached prefix after six
-        // replies. Long exchanges still have a bounded prompt and memory cost.
-        while(Turns.Num()>1 && (Turns.Num()>12 || HistoryChars>2500)) {
+        // Bound the selected history to eight exchanges; ordinary short turns
+        // retain the stable prefix. Long conversations have a bounded CPU cost.
+        while(Turns.Num()>1 && (Turns.Num()>8 || HistoryChars>1800)) {
             HistoryChars-=Turns[0].PlayerText.Len()+Turns[0].ReplyText.Len(); Turns.RemoveAt(0);
         }
         if(History.Num()>24) { for(auto It=History.CreateIterator();It;++It) if(It.Key()!=Target->CustomerId) { It.RemoveCurrent(); break; } }
@@ -368,9 +405,11 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     if(!Request->ProcessRequest()) { bBusy=false; Target->ThinkingUntil=0.f; Status=TEXT("No se ha podido enviar. Inténtalo de nuevo."); return false; } ResumePlay(); return true;
 }
 void UCEDialogueComponent::SpeakReply(const FString& Text,int32 Turn) {
+    const int32 SpeechTurn=++SpeechGeneration;
     auto Body=MakeShared<FJsonObject>(); Body->SetStringField(TEXT("text"),Text);
     auto R=FHttpModule::Get().CreateRequest(); R->SetURL(TEXT("http://127.0.0.1:11435/speak")); R->SetVerb(TEXT("POST")); R->SetHeader(TEXT("Content-Type"),TEXT("application/json")); R->SetContentAsString(Encode(Body)); R->SetTimeout(30);
-    R->OnProcessRequestComplete().BindWeakLambda(this,[this,Turn](FHttpRequestPtr,FHttpResponsePtr Response,bool OK) {
+    R->OnProcessRequestComplete().BindWeakLambda(this,[this,Turn,SpeechTurn](FHttpRequestPtr,FHttpResponsePtr Response,bool OK) {
+        if(SpeechTurn!=SpeechGeneration) { if(OK && Response && Response->GetResponseCode()==200) ++DiscardedStaleVoices; return; }
         if(Turn!=Generation || !Target.IsValid() || !bVoiceEnabled || bRecording) return;
         if(!OK || !Response || Response->GetResponseCode()!=200) { Status=TEXT("La voz no está disponible. Puedes leer la respuesta y seguir hablando."); return; }
         auto Data=Response->GetContent(); FWaveModInfo Wave;
@@ -378,7 +417,10 @@ void UCEDialogueComponent::SpeakReply(const FString& Text,int32 Turn) {
         Voice=NewObject<USoundWaveProcedural>(this); Voice->SetSampleRate(*Wave.pSamplesPerSec); Voice->NumChannels=1;
         Voice->Duration=float(Wave.SampleDataSize)/(*Wave.pSamplesPerSec*2); Voice->QueueAudio(Wave.SampleDataStart,Wave.SampleDataSize);
         Speaker->SetWorldLocation(Target->HeadLocation()); Speaker->SetPitchMultiplier(Target->Archetype()==0 ? .94f : Target->Archetype()==1 ? 1.02f : 1.12f);
-        Speaker->SetSound(Voice); Speaker->Play(); ++PlayedVoices; Target->VoiceStarted(Voice->Duration/Speaker->PitchMultiplier);
+        Speaker->SetSound(Voice); Speaker->Play(); ++PlayedVoices;
+        if(!bLastReplyFromOllama) ++ServicePlayedVoices;
+        LastVoiceCacheHit=Response->GetHeader(TEXT("X-Voice-Cache"))==TEXT("hit");
+        Target->VoiceStarted(Voice->Duration/Speaker->PitchMultiplier);
         TArray<float> Envelope; const int32 Frames=Wave.SampleDataSize/2, Window=FMath::Max(1,int32(*Wave.pSamplesPerSec/30));
         for(int32 Start=0;Start<Frames;Start+=Window) {
             double Energy=0; int32 Count=0;

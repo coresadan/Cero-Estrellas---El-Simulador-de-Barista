@@ -32,8 +32,8 @@ def surface(name,albedo,height,rough,metal=0,strength=1):
 warp=noise(3)*.9+noise(12)*.13
 grain=np.sin(2*np.pi*(y*72+warp*.8+np.sin(x*2*np.pi)*.6))
 growth=np.sin(2*np.pi*(y*13+warp*.35))
-wood=np.clip(.86+grain*.065+growth*.07+noise(70)*.012,.6,1)
-surface('Wood',wood,grain*.09+growth*.04,.39+noise(18)*.045,strength=2.5)
+wood=np.clip(.90+grain*.045+growth*.05+noise(70)*.01,.65,1)
+surface('Wood',wood,grain*.09+growth*.04,.48+noise(18)*.03,strength=.75)
 flecks=np.clip(noise(170),-2,2)
 stone=.91+noise(9)*.025+flecks*.032
 surface('Stone',stone,flecks*.07,.5+noise(80)*.08,strength=.7)

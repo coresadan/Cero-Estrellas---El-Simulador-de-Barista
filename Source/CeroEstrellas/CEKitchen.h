@@ -21,7 +21,7 @@ private:
 };
 
 UENUM()
-enum class ECEStationKind : uint8 { Grinder, Espresso, Milk, Water, Cups, Trays, Pastries, Bin, Tamper };
+enum class ECEStationKind : uint8 { Grinder, Espresso, Milk, Water, Cups, Trays, Pastries, Bin, Tamper, Sugar, Syrup, Frother };
 
 // Stations expose contextual interaction; physical containers stay independent actors.
 UCLASS()
@@ -47,6 +47,11 @@ public:
     bool bDoseReady = false;
     int32 DosesLeft = 12;
     int32 Dispensed = 0;
+    UPROPERTY() TObjectPtr<UStaticMeshComponent> MovingTool;
+    float ToolRestZ = 0.f;
+    float LockLeft = 0.f;
+    float TampPressure = 0.f;
+    float ExtractedMl = 0.f;
 private:
     float TransferAccumulator = 0.f;
     float ScreenNextAt = 0.f;
@@ -63,6 +68,9 @@ struct FCELiquidDrop
     float Milk = 0.f;
     float Water = 0.f;
     float Temperature = 20.f;
+    float Foam = 0.f;
+    float Sugar = 0.f;
+    float Syrup = 0.f;
     bool bAlive = false;
     TWeakObjectPtr<ACEProp> Source;
 };

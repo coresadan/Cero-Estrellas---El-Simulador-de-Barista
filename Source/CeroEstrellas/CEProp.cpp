@@ -6,7 +6,7 @@
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "EngineUtils.h"
-#include "Components/PoseableMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 
 ACEProp::ACEProp()
 {
@@ -47,6 +47,9 @@ void ACEProp::Configure(ECEPropKind InKind)
         Coffee=Add(TEXT("Cylinder"),FVector(0,0,-9),FVector(.185f,.185f,.012f),FLinearColor(.08f,.023f,.01f));
         Coffee->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.08f,.023f,.01f),TEXT("M_Ceramic")));
         Coffee->SetVisibility(false);
+        Foam=Add(TEXT("Sphere"),FVector(0,0,10),FVector(.17f,.17f,.035f),FLinearColor(.93f,.87f,.70f));
+        Foam->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.93f,.87f,.70f),TEXT("M_Fabric")));
+        Foam->SetVisibility(false);
         // Hollow handles and the milk spout are now part of the authored shell.
     }
     if(bChair)
@@ -118,6 +121,12 @@ void ACEProp::UpdateLiquidVisual()
     }
     if(!IsContainer() || !Coffee) return;
     Coffee->SetVisibility(bHasCoffee && !bBroken);
+    if(Foam) {
+        Foam->SetVisibility(bHasCoffee && FoamMl>.5f && !bBroken);
+        const float Z=-9.f+VolumeMl()/CapacityMl()*19.f;
+        Foam->SetRelativeLocation(FVector(0,0,Z+FoamMl*.07f)/Body->GetComponentScale());
+        Foam->SetRelativeScale3D(FVector(.17f,.17f,.012f+FoamMl*.0018f)/Body->GetComponentScale());
+    }
     Coffee->SetRelativeLocation(FVector(0,0,-9.f+VolumeMl()/CapacityMl()*19.f)/Body->GetComponentScale());
     const float MilkRatio=MilkMl/FMath::Max(1.f,VolumeMl());
     if(auto* Mat=Cast<UMaterialInstanceDynamic>(Coffee->GetMaterial(0))) Mat->SetVectorParameterValue(TEXT("Tint"),FMath::Lerp(FLinearColor(.055f,.015f,.005f),FLinearColor(.87f,.76f,.51f),MilkRatio));
@@ -167,6 +176,7 @@ void ACEProp::Tick(float DeltaSeconds)
                 }
                 if(Liquid->Emit(Lip,Flow,EspressoMl*Ratio,MilkMl*Ratio,WaterMl*Ratio,Temperature,this))
                 {
+                    FoamMl*=1.f-Ratio; SugarGrams*=1.f-Ratio; SyrupMl*=1.f-Ratio;
                     EspressoMl*=1.f-Ratio; MilkMl*=1.f-Ratio; WaterMl*=1.f-Ratio; UpdateLiquidVisual();
                 }
                 DropAccumulator=0.f;
@@ -213,7 +223,7 @@ void ACEProp::Hit(UPrimitiveComponent* HitComponent,AActor* OtherActor,UPrimitiv
                 Cafe->Liquids->Emit(GetActorLocation()+FVector(0,0,5),FVector(30,0,-40),EspressoMl,MilkMl,WaterMl,Temperature,this);
                 EspressoMl=MilkMl=WaterMl=0.f; UpdateLiquidVisual();
             }
-            Body->SetVisibility(false); Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+            Body->SetSimulatePhysics(false); Body->SetVisibility(false); Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
             for(auto Detail:Details) Detail->SetVisibility(false);
             int32 Count=0; for(TActorIterator<AActor> It(GetWorld());It;++It) if(It->ActorHasTag(TEXT("CeramicShard"))) ++Count;
             for(int32 i=0;i<6 && Count+i<36;++i)

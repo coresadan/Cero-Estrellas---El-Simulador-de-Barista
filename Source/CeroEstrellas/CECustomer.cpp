@@ -16,9 +16,9 @@ ACECustomer::ACECustomer()
     Bubble->SetRelativeLocation(FVector(0,0,98)); Bubble->SetHorizontalAlignment(EHTA_Center);
     Bubble->SetWorldSize(8.f); Bubble->SetTextRenderColor(FColor(255,229,183));
 }
-void ACECustomer::Configure(const FString& Id,const FString& Name,const FLinearColor& Outfit,int32 Archetype)
+void ACECustomer::Configure(const FString& Id,const FString& Name,const FLinearColor& Outfit,int32 Archetype,int32 Look)
 {
-    CustomerId=Id; DisplayName=Name; Personality=FMath::Clamp(Archetype,0,2); StartPosition=GetActorLocation();
+    LookIndex=Look; CustomerId=Id; DisplayName=Name; Personality=FMath::Clamp(Archetype,0,2); StartPosition=GetActorLocation();
     if(!BuildRig(Outfit)) UE_LOG(LogTemp,Error,TEXT("CE_RIG_MISSING customer=%s"),*Id);
     Bubble->SetVisibility(false);
 }
@@ -26,18 +26,35 @@ void ACECustomer::BeginVisit(int32 Slot,ECEDrink Drink,bool bPastry)
 {
     SeatSlot=Slot; RequestedDrink=Drink; bWantsPastry=bPastry; Patience=110.f+Slot*12;
     const int32 Phase=GetWorld()->GetSubsystem<UCECafeSubsystem>()->ShiftPhase;
+    auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
+    if(GetWorld()->GetTimeSeconds()<Cafe->BusinessUntil) {
+        VisitRole=Cafe->SpecialEvent==1 ? TEXT("CRÍTICO EN INCÓGNITO") : Cafe->SpecialEvent==2 ? TEXT("BUSCA EXPERIENCIA AGRESIVA") : TEXT("DEGUSTACIÓN CORPORATIVA");
+        if(Cafe->SpecialEvent==1) { MinServingTemperature=60.f; Patience=85.f; }
+        if(Cafe->SpecialEvent==2) Patience=150.f;
+    }
     if(Phase>=1 && GetTypeHash(CustomerId)%2==0) { MinServingTemperature=60.f; SpecialRequest=TEXT("Bien caliente: más de 60 C."); }
     else if(Phase>=2) { MinServingVolume=Drink==ECEDrink::Espresso ? 55.f : 170.f; SpecialRequest=Drink==ECEDrink::Espresso ? TEXT("Espresso largo: al menos 55 ml.") : TEXT("Taza bien llena: al menos 170 ml."); }
     Patience=FMath::Max(70.f,Patience-Phase*10.f);
+    if(Phase>=1 && Drink==ECEDrink::Latte && GetTypeHash(CustomerId)%3==0) { bWantsFoam=true; SpecialRequest=TEXT("Espuma cremosa, al menos una capa."); }
+    else if(Phase>=2 && GetTypeHash(CustomerId)%3==1) { bWantsSugar=true; SpecialRequest=TEXT("Dos gramos de azúcar, por favor."); }
+    else if(Phase>=2) { bWantsSyrup=true; SpecialRequest=TEXT("Una pulsación de sirope."); }
+    TArray<FString> Requirements;
+    if(MinServingTemperature>45.f) Requirements.Add(FString::Printf(TEXT("> %.0f C"),MinServingTemperature));
+    if(MinServingVolume>0) Requirements.Add(FString::Printf(TEXT("%.0f ml mín."),MinServingVolume));
+    if(bWantsFoam) Requirements.Add(TEXT("espuma"));
+    if(bWantsSugar) Requirements.Add(TEXT("azúcar 2 g"));
+    if(bWantsSyrup) Requirements.Add(TEXT("sirope 6 ml"));
+    SpecialRequest=FString::Join(Requirements,TEXT(" / "));
     const float Ys[]={-100.f,220.f,-405.f};
     // A separate aisle allows later arrivals to pass customers waiting at the counter.
     Route={FVector(620,455,92),FVector(245,455,92),FVector(245,Ys[Slot],92),FVector(165,Ys[Slot],92)}; RouteIndex=0; State=ECECustomerState::Arriving;
-    Speak(TEXT("Buenos días.\nNecesito desayunar."),4.f);
+    InitStory();
+    Speak(StorySetup.IsEmpty() ? TEXT("Buenos días.\nNecesito desayunar.") : StorySetup,5.f);
 }
 FString ACECustomer::OrderText() const
 {
     const TCHAR* Drinks[]={TEXT("Espresso · 60 ml"),TEXT("Americano · café + agua"),TEXT("Latte · café + leche")};
-    return FString(Drinks[static_cast<int32>(RequestedDrink)])+(bWantsPastry ? TEXT(" + cruasán") : TEXT(""));
+    return FString(Drinks[static_cast<int32>(RequestedDrink)])+(bWantsPastry ? TEXT(" + cruasán") : TEXT(""))+(bWantsFoam ? TEXT(" / espuma") : bWantsSugar ? TEXT(" / azúcar") : bWantsSyrup ? TEXT(" / sirope") : TEXT(""));
 }
 void ACECustomer::Speak(const FString& Text,float Duration)
 {
@@ -68,6 +85,7 @@ void ACECustomer::TakeOrder()
         if(bOrderKnown) Speak(OrderText(),5.f); return;
     }
     bOrderKnown=true; ++GetWorld()->GetSubsystem<UCECafeSubsystem>()->OrdersTaken;
+    ImmediateVoice(TEXT("order"));
     Speak(OrderText()+TEXT("\n")+(SpecialRequest.IsEmpty() ? TEXT("Y que esté caliente, por favor.") : SpecialRequest),7.f);
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Notify(TEXT("Pedido anotado: ")+OrderText());
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Sound(TEXT("Order"),GetActorLocation());
@@ -85,10 +103,12 @@ bool ACECustomer::Serve(ACEProp* Item)
     {
         const bool bHot=Item->Temperature>MinServingTemperature && Item->VolumeMl()>=MinServingVolume;
         const bool bRecipe=RequestedDrink==ECEDrink::Espresso ? Item->EspressoMl>=45.f && Item->MilkMl<15.f && Item->WaterMl<25.f : RequestedDrink==ECEDrink::Americano ? Item->EspressoMl>=40.f && Item->WaterMl>=65.f && Item->MilkMl<15.f : Item->EspressoMl>=40.f && Item->MilkMl>=65.f;
-        if(!bRecipe || !bHot || Item->bBroken)
+        const bool Extras=(!bWantsFoam || Item->FoamMl>=3.f) && (!bWantsSugar || Item->SugarGrams>=2.f) && (!bWantsSyrup || Item->SyrupMl>=5.f);
+        if(!bRecipe || !bHot || !Extras || Item->bBroken)
         {
-            ++Cafe->WrongOrders; Anger+=.3f; Speak(!bHot ? TEXT("¿Me traes esto frío?\n¿Es una prueba de paciencia?") : TEXT("No es lo que he pedido.\nQuiero hablar con la encargada."));
-            Cafe->Notify(TEXT("Pedido incorrecto: revisa receta, cantidad y temperatura."));
+            const FString Reason=Item->Temperature<=MinServingTemperature ? TEXT("El café está demasiado frío.") : Item->VolumeMl()<MinServingVolume ? TEXT("Pedí una taza más llena.") : !Extras ? TEXT("Faltan los extras de mi pedido.") : TEXT("No es la bebida que he pedido.");
+            ++Cafe->WrongOrders; Anger+=.3f; Speak(Reason+TEXT(" Revisa mi comanda."));
+            Cafe->Notify(TEXT("Pedido incorrecto: revisa receta, temperatura y los extras de la comanda."));
             if(Anger>=1.f) Leave(true); return false;
         }
         bDrinkServed=true; bAccepted=true;
@@ -103,7 +123,9 @@ bool ACECustomer::Serve(ACEProp* Item)
     if(Item->Kind==ECEPropKind::Cup) { ServedCup=Item; ServedCupPosition=Item->GetActorLocation(); }
     if(bDrinkServed && (!bWantsPastry || bPastryServed))
     {
-        ++Cafe->OrdersServed; State=ECECustomerState::Eating; EatUntil=GetWorld()->GetTimeSeconds()+14.f;
+        ++Cafe->OrdersServed; Trust=FMath::Min(1.f,Trust+.35f); State=ECECustomerState::Eating; EatUntil=GetWorld()->GetTimeSeconds()+(VisitRole==TEXT("DEGUSTACIÓN CORPORATIVA") ? 8.f : 14.f);
+        ImmediateVoice(TEXT("thanks"));
+        if(VisitRole==TEXT("CRÍTICO EN INCÓGNITO")) { Cafe->ViralPoints+=250; Cafe->Notify(TEXT("El crítico aprueba el desayuno. Marketing exige que lo arruines ahora.")); }
         Route.Reset(); Speak(TEXT("Gracias. Era tan difícil\nhacerlo bien, ¿verdad?")); Cafe->Sound(TEXT("Order"),GetActorLocation()); Cafe->Notify(TEXT("Desayuno servido. Otro día sin poder irte a casa."));
     }
     else Speak(TEXT("Bien. Ahora falta\nel resto del desayuno."));
@@ -119,7 +141,10 @@ void ACECustomer::Taunt()
 void ACECustomer::React(FName Kind,const FString& ObjectName,float Severity)
 {
     if(bLeaving) return;
-    Anger+=Kind==TEXT("coffee_spill") ? Severity : Severity*1.3f;
+    const float Tolerance=VisitRole==TEXT("BUSCA EXPERIENCIA AGRESIVA") ? .45f : VisitRole==TEXT("CRÍTICO EN INCÓGNITO") ? 1.2f : 1.f;
+    if(Severity>=.3f) { WipeUntil=GetWorld()->GetTimeSeconds()+3.f; ResolveStory(false); }
+    Anger+=(Kind==TEXT("coffee_spill") ? Severity : Severity*1.3f)*Tolerance;
+    if(Trust>.2f && Severity>.3f) { GetWorld()->GetSubsystem<UCECafeSubsystem>()->ViralPoints+=100; Trust=0.f; }
     const float Now=GetWorld()->GetTimeSeconds();
     if(Now<NextReactionAt && Kind==TEXT("coffee_spill")) { if(Anger>=1.f) Leave(true); return; }
     NextReactionAt=Now+.8f; ++HitCount;
@@ -129,6 +154,7 @@ void ACECustomer::React(FName Kind,const FString& ObjectName,float Severity)
     const TCHAR* Lines[]={TEXT("¡Mis inversiones!\n¡Esto va a salir muy caro!"),TEXT("¿Es una performance?\n¡He dicho sin agresiones!"),TEXT("¡Mi ropa! ¡Mi directo!\n¡Me has arruinado el día!")};
     Speak(Kind==TEXT("customer_slipped") ? TEXT("¡Me resbalo!\n¡Poned una señal!") : Lines[Personality],5.f);
     if(Severity>=.75f && Kind!=TEXT("coffee_spill")) Fall(GetActorForwardVector());
+    else if(Kind!=TEXT("coffee_spill")) PhysicalRecoil(GetActorForwardVector());
     if(Kind==TEXT("laptop_destroyed") || Anger>=1.f) Leave(true);
     UE_LOG(LogTemp,Display,TEXT("CE_CUSTOMER_REACT id=%s hits=%d anger=%.2f leaving=%d"),*CustomerId,HitCount,Anger,bLeaving);
 }
@@ -154,7 +180,9 @@ void ACECustomer::Witness(ACECustomer* Victim)
 void ACECustomer::Fall(const FVector& Direction)
 {
     const float Now=GetWorld()->GetTimeSeconds(); if(Now<FallenUntil+1.f) return;
+    ResolveStory(false);
     bSeated=false; FallenUntil=Now+3.f; LastSlipAt=Now;
+    StartPhysicalFall(Direction);
     ImmediateVoice(TEXT("fall"));
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>(); ++Cafe->Falls;
     Anger+=.25f; Speak(TEXT("¡EL SUELO NO FORMABA\nPARTE DEL DESAYUNO!"),3.f);
@@ -184,6 +212,8 @@ void ACECustomer::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     const float Now=GetWorld()->GetTimeSeconds(); bool bWalking=false;
+    TickSocial(DeltaSeconds);
+    TickStory(DeltaSeconds);
     if(bSeated && !bLeaving && Anger>.3f && Now>NextProtectAt) if(auto* Player=Cast<ACEPlayer>(UGameplayStatics::GetPlayerPawn(this,0)))
         if(Player->bPouring && FVector::Dist2D(Player->GetActorLocation(),GetActorLocation())<210.f) {
             NextProtectAt=Now+12.f; ProtectUntil=Now+1.2f;
@@ -223,7 +253,7 @@ void ACECustomer::Tick(float DeltaSeconds)
             if(RouteIndex>=Route.Num())
             {
                 SetActorRotation(FRotator::ZeroRotator);
-                if(State==ECECustomerState::Arriving) { State=ECECustomerState::Ordering; Speak(TEXT("¿Me tomas nota?\nF para escuchar el pedido."),6.f); }
+                if(State==ECECustomerState::Arriving) { State=ECECustomerState::Ordering; Speak(StorySetup.IsEmpty() ? TEXT("¿Me tomas nota?\nF para escuchar el pedido.") : StorySetup+TEXT(" F: tomar pedido."),6.f); }
                 else if(State==ECECustomerState::WalkingToTable) State=ECECustomerState::Waiting;
                 else if(bLeaving) { GetWorld()->GetSubsystem<UCECafeSubsystem>()->ConfirmDeparture(CustomerId,bDisasterExit); Destroy(); return; }
             }

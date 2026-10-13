@@ -52,7 +52,7 @@ def join_surface(parts, slot, fuse=False):
         ob.data.remesh_voxel_size=.65; bpy.ops.object.voxel_remesh()
         mod=ob.modifiers.new('Tailoring','SMOOTH'); mod.factor=.6; mod.iterations=3
         bpy.ops.object.modifier_apply(modifier=mod.name)
-        mod=ob.modifiers.new('Cafe polygon budget','DECIMATE'); mod.ratio=.28
+        mod=ob.modifiers.new('Cafe polygon budget','DECIMATE'); mod.ratio=.48 if slot in [0,1] else .28
         bpy.ops.object.modifier_apply(modifier=mod.name)
     ob.data.materials.clear(); ob.data.materials.append(materials[slot])
     for p in ob.data.polygons: p.use_smooth=True
@@ -70,24 +70,29 @@ bones=[('root',None,(0,0,0),(0,0,12)), ('pelvis','root',(0,0,77),(0,0,94)),
        ('spine','pelvis',(0,0,104),(0,0,122)), ('chest','spine',(0,0,126),(0,0,136)),
        ('neck','chest',(0,0,139),(0,0,147)), ('head','neck',(0,0,155),(0,0,171))]
 for sign,side in [(-1,'l'),(1,'r')]:
-    bones.extend([(f'upperarm_{side}','chest',(0,sign*20,126),(0,sign*25,104)),
-                  (f'forearm_{side}',f'upperarm_{side}',(0,sign*25,104),(0,sign*27,83)),
-                  (f'hand_{side}',f'forearm_{side}',(0,sign*27,83),(0,sign*27,75)),
+    bones.extend([(f'upperarm_{side}','chest',(0,sign*23,126),(0,sign*28,104)),
+                  (f'forearm_{side}',f'upperarm_{side}',(0,sign*28,104),(0,sign*31,83)),
+                  (f'hand_{side}',f'forearm_{side}',(0,sign*31,83),(0,sign*31,75)),
                   (f'thigh_{side}','pelvis',(0,sign*10,77),(0,sign*10,43)),
                   (f'shin_{side}',f'thigh_{side}',(0,sign*10,43),(0,sign*10,9)),
                   (f'foot_{side}',f'shin_{side}',(0,sign*10,9),(-13,sign*10,4))])
 
 manifest=[]
 for index,(name,width) in enumerate([('SK_Crypto',1.0),('SK_Hipster',.92),('SK_Influencer',.85)]):
-    torso=loft([(0,0,78,12*width,15),(0,0,86,13*width,17),(0,0,105,15*width,20),
-                (0,0,124,14*width,23),(0,0,130,11*width,19),(0,0,137,5.5,7)])
-    cloth=[torso]; trousers=[ellipsoid((0,0,78),(13,18,12))]
+    torso=loft([(0,0,80,11*width,14),(0,0,87,12*width,15),(0,0,105,14*width,18),
+                (0,0,124,13*width,21),(0,0,130,10*width,18),(0,0,137,5.5,7)])
+    cloth=[torso]; trousers=[ellipsoid((0,0,77),(11.5,16,10))]
     skin=[loft([(0,0,132,5.5,6),(0,0,145,5.7,6)]), duplicate('SM_Head',(-1,0,155),(.65,.58,.56))]
     hands=[]; shoes=[]
     for sign in [-1,1]:
-        cloth.append(loft([(0,sign*20,128,7.8,8),(0,sign*23,117,7,7.5),(0,sign*25,103,5.8,6)]))
-        skin.append(loft([(0,sign*25,105,5.4,5.6),(0,sign*26,95,4.8,5),(0,sign*27,83,3.3,3.8)]))
-        hands.append(duplicate('SM_Hand',(0,sign*27,78),(.17,.15,.12)))
+        cloth.append(loft([(0,sign*23,128,7.1,7.2),(0,sign*26,117,6.6,6.9),(0,sign*28,103,5.5,5.7)]))
+        skin.append(loft([(0,sign*28,105,5.1,5.3),(0,sign*29.5,95,4.5,4.6),(0,sign*31,83,3.1,3.3)]))
+        # Palm and fingers belong to the continuous skin surface, so no cap
+        # floats between wrist and hand when the elbow flexes.
+        skin.append(ellipsoid((-.6,sign*31,79.5),(3.2,3.6,4.8)))
+        for finger in range(4):
+            skin.append(ellipsoid((-1,sign*31+(finger-1.5)*1.5,73.6),(1.15,.88,2.9)))
+        skin.append(ellipsoid((-3.2,sign*33,79),(1.8,1.25,2.7)))
         trousers.append(loft([(0,sign*10,79,9.3,9),(0,sign*10,60,8.2,8),(0,sign*10,43,6.8,6.9),
                               (0,sign*10,27,6.3,6.3),(0,sign*10,10,5.3,5.8)]))
         shoes.append(duplicate('SM_Shoe',(-4,sign*10,5),(.28,.32,.26)))
@@ -95,19 +100,36 @@ for index,(name,width) in enumerate([('SK_Crypto',1.0),('SK_Hipster',.92),('SK_I
     for v in hair.data.vertices:
         if v.co.x<0: v.co.z=max(-2,v.co.z)
     surfaces=[join_surface(cloth,0,True),join_surface(skin,1,True),join_surface(trousers,2,True),
-              join_surface([hair]+([ellipsoid((9,0,150),(5,12,18))] if index==2 else []),3),join_surface(shoes,4),join_surface(hands,1)]
+              join_surface([hair]+([ellipsoid((9,0,150),(5,12,18))] if index==2 else []),3),join_surface(shoes,4)]
     # Weights blend around elbow/knee and spine; faces/accessories remain on the head.
     for ob in surfaces:
         for bone,_,_,_ in bones: ob.vertex_groups.new(name=bone)
         for v in ob.data.vertices:
             x,y,z=v.co; side='l' if y<0 else 'r'
-            if ob.data.materials[0].name.startswith('Hair') or z>147: weights={'head':1}
+            surface=ob.data.materials[0].name.split('.')[0]
+            # Material regions are authoritative. The previous spatial rule
+            # assigned the outside of trousers to hand/arm bones: swinging an
+            # arm literally pulled the hip fabric like an elastic pocket.
+            if surface=='Trousers':
+                if z>76: weights={'pelvis':1}
+                elif z>67:
+                    t=(76-z)/9; weights={'pelvis':1-t,f'thigh_{side}':t}
+                elif z>50: weights={f'thigh_{side}':1}
+                elif z>36:
+                    t=(50-z)/14; weights={f'thigh_{side}':1-t,f'shin_{side}':t}
+                else: weights={f'shin_{side}':1}
+            elif surface=='Clothing' and abs(y)<20 and z<105:
+                t=max(0,min(1,(z-88)/17)); weights={'pelvis':1-t,'spine':t}
+            elif surface=='Leather': weights={f'foot_{side}':1}
+            elif surface=='Hair' or z>147: weights={'head':1}
             elif z>134 and abs(y)<12: weights={'neck':1}
-            elif abs(y)>18 and z>67:
+            elif abs(y)>21 and z>67:
                 if z>112: weights={f'upperarm_{side}':1}
                 elif z>98:
                     t=max(0,min(1,(112-z)/14)); weights={f'upperarm_{side}':1-t,f'forearm_{side}':t}
-                elif z>85: weights={f'forearm_{side}':1}
+                elif z>87: weights={f'forearm_{side}':1}
+                elif z>80:
+                    t=(87-z)/7; weights={f'forearm_{side}':1-t,f'hand_{side}':t}
                 else: weights={f'hand_{side}':1}
             elif z<85:
                 if z>70: weights={'pelvis':1}
@@ -134,7 +156,15 @@ for index,(name,width) in enumerate([('SK_Crypto',1.0),('SK_Hipster',.92),('SK_I
     bpy.ops.export_scene.fbx(filepath=str(OUT/(name+'.fbx')), use_selection=True, object_types={'ARMATURE','MESH'},
         add_leaf_bones=False, bake_anim=False, axis_forward='Y', axis_up='Z', use_mesh_modifiers=True,
         apply_unit_scale=True, apply_scale_options='FBX_SCALE_ALL',mesh_smooth_type='FACE')
-    manifest.append({'mesh':name,'vertices':len(mesh.data.vertices),'bones':len(bones),'original':True})
+    invalid=0; pants=0; trouser_indices=set()
+    for polygon in mesh.data.polygons:
+        if mesh.data.materials[polygon.material_index].name.split('.')[0]=='Trousers': trouser_indices.update(polygon.vertices)
+    for v in mesh.data.vertices:
+        if v.index in trouser_indices:
+            pants+=1
+            invalid+=any(mesh.vertex_groups[g.group].name.startswith(('upperarm','forearm','hand')) and g.weight>0 for g in v.groups)
+    assert invalid==0, 'Trouser vertices must never follow arms or hands'
+    manifest.append({'mesh':name,'vertices':len(mesh.data.vertices),'bones':len(bones),'original':True,'trouser_vertices':pants,'trouser_arm_influences':invalid})
     rig.hide_set(True); mesh.hide_set(True)
 
 # Curled fingers and palm, a dedicated grip instead of an open dangling hand.

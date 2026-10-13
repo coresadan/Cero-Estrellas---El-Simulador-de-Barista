@@ -53,6 +53,10 @@ bool ACELiquidSystem::Emit(FVector Origin, FVector Velocity, float Espresso, flo
         if(Drop.bAlive) continue;
         Drop.Position=Origin; Drop.Velocity=Velocity; Drop.Age=0.f;
         Drop.Espresso=Espresso; Drop.Milk=Milk; Drop.Water=Water; Drop.Temperature=Degrees;
+        const float Fraction=Source && Source->IsContainer() ? (Espresso+Milk+Water)/FMath::Max(.01f,Source->VolumeMl()) : 0.f;
+        Drop.Foam=Source ? Source->FoamMl*Fraction : 0.f;
+        Drop.Sugar=Source ? Source->SugarGrams*Fraction : 0.f;
+        Drop.Syrup=Source ? Source->SyrupMl*Fraction : 0.f;
         Drop.Color=FMath::Lerp(FLinearColor(.09f,.025f,.008f),FLinearColor(.88f,.81f,.61f),FMath::Clamp(Milk/(Espresso+Milk+Water),0.f,1.f));
         if(Espresso<.01f && Milk<.01f) Drop.Color=FLinearColor(.35f,.65f,.7f);
         Drop.Source=Source; Drop.bAlive=true; Cursor=(Index+1)%Particles.Num();
@@ -104,6 +108,9 @@ void ACELiquidSystem::Impact(FCELiquidDrop& Drop, const FHitResult& Hit)
         if(Cup->IsContainer() && !Cup->bBroken && Cup->GetActorUpVector().Z>.7f && Drop.Velocity.Z<0.f && Hit.ImpactPoint.Z>=Cup->GetActorLocation().Z+7.f)
         {
             const float Added=Cup->AddLiquid(Drop.Espresso,Drop.Milk,Drop.Water,Drop.Temperature);
+            const float Accepted=Added/FMath::Max(.01f,Volume);
+            Cup->FoamMl+=Drop.Foam*Accepted; Cup->SugarGrams+=Drop.Sugar*Accepted; Cup->SyrupMl+=Drop.Syrup*Accepted;
+            Cup->UpdateLiquidVisual();
             TransferredMl+=Added;
             if(Added<Volume-.01f)
             {

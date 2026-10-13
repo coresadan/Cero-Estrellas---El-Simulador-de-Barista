@@ -1,0 +1,109 @@
+{
+  "request": {
+    "model": "qwen3:4b-instruct",
+    "stream": false,
+    "think": false,
+    "keep_alive": "20m",
+    "format": {
+      "type": "object",
+      "properties": {
+        "dialogo": {
+          "type": "object",
+          "properties": {
+            "texto": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "texto"
+          ],
+          "additionalProperties": false
+        },
+        "reaccion": {
+          "type": "object",
+          "properties": {
+            "emocion": {
+              "type": "string",
+              "enum": [
+                "neutral",
+                "enfadado",
+                "humillado",
+                "triste",
+                "divertido"
+              ]
+            },
+            "cambio_enfado": {
+              "type": "number",
+              "enum": [
+                -0.1,
+                0,
+                0.1,
+                0.2,
+                0.3
+              ]
+            },
+            "quiere_irse": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "emocion",
+            "cambio_enfado",
+            "quiere_irse"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "dialogo",
+        "reaccion"
+      ],
+      "additionalProperties": false
+    },
+    "options": {
+      "num_gpu": 0,
+      "num_thread": 6,
+      "num_ctx": 2048,
+      "num_predict": 128,
+      "temperature": 0.1
+    },
+    "messages": [
+      {
+        "role": "system",
+        "content": "Eres cliente del restaurante Cero Estrellas; hablas con tu camarero, el usuario. Punk que acaba de salir de una oficina; rebelde, habla de nóminas. Tu pedido: Latte · café + leche + cruasán. Responde en español, hasta 80 caracteres. No inventes hechos. Sigue el schema JSON."
+      },
+      {
+        "role": "user",
+        "content": "[Estado del cliente; incidentes recibidos del camarero]\n{\"animo_actual\":\"neutral\",\"incidentes_recibidos\":[],\"historia_cotidiana\":{\"situacion\":\"Tengo una entrevista. Mi currículum dice que tolero la presión.\",\"recibiste_apoyo\":false,\"resuelta\":false}}\nCamarero: ¿Qué tienes que hacer después de desayunar?"
+      }
+    ]
+  },
+  "provider": {
+    "model": "qwen3:4b-instruct",
+    "created_at": "2026-10-12T14:23:53.2282012Z",
+    "message": {
+      "role": "assistant",
+      "content": "{\"dialogo\": {\"texto\": \"Tengo una entrevista. Tolerar la presión es mi fortaleza.\"},\"reaccion\": {\"cambio_enfado\": 0,\"emocion\": \"neutral\",\"quiere_irse\": false}}"
+    },
+    "done": true,
+    "done_reason": "stop",
+    "total_duration": 15708725200,
+    "load_duration": 10767200,
+    "prompt_eval_count": 178,
+    "prompt_eval_cached_count": 24,
+    "prompt_eval_duration": 4772921000,
+    "eval_count": 55,
+    "eval_duration": 10837783000
+  },
+  "check": {
+    "story": "ENTREVISTA EN DIEZ MINUTOS",
+    "profile": 3,
+    "question": "¿Qué tienes que hacer después de desayunar?",
+    "answer": "Tengo una entrevista. Tolerar la presión es mi fortaleza.",
+    "contract_valid": true,
+    "mentions_story_context": true,
+    "seconds": 15.72
+  }
+}

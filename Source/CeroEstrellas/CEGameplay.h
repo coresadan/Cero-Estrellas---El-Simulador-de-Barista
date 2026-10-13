@@ -16,9 +16,10 @@ class USoundBase;
 class ACEStation;
 class ACELiquidSystem;
 class UCEDialogueComponent;
-class UPoseableMeshComponent;
+class USkeletalMeshComponent;
 class UAudioComponent;
 class UMaterialInstanceDynamic;
+class UPhysicalAnimationComponent;
 
 UENUM(BlueprintType)
 enum class ECEPropKind : uint8 { Cup, Pastry, Tray, Portafilter, Laptop, Pitcher, Chair };
@@ -70,6 +71,9 @@ public:
     UPROPERTY(BlueprintReadOnly) FString ShiftTitle = TEXT("APERTURA / Un desayuno tranquilo");
     UPROPERTY(BlueprintReadOnly) float ShiftDuration = 480.f;
     UPROPERTY(BlueprintReadOnly) bool bShiftFinished = false;
+    UPROPERTY(BlueprintReadOnly) int32 StoriesHelped = 0;
+    UPROPERTY(BlueprintReadOnly) int32 StoriesRuined = 0;
+    UPROPERTY(BlueprintReadOnly) FString LastStoryOutcome;
     UPROPERTY(BlueprintReadOnly) int32 ChainReactions = 0;
     UPROPERTY(BlueprintReadOnly) int32 FilmedDisasters = 0;
     UPROPERTY(BlueprintReadOnly) FString CustomerSubtitle;
@@ -87,6 +91,12 @@ public:
     UFUNCTION(BlueprintCallable) void Observe(FName Kind, const FString& CustomerId, const FString& ObjectName, float Severity);
     void ConfirmDeparture(const FString& CustomerId, bool bDisaster=true);
     void TickRadio();
+    void TickBusiness(bool bForce=false);
+    UPROPERTY(BlueprintReadOnly) int32 SpecialEvent = 0;
+    UPROPERTY(BlueprintReadOnly) int32 BusinessEvents = 0;
+    UPROPERTY(BlueprintReadOnly) FString BusinessTitle;
+    float BusinessUntil = 0.f;
+    float NextBusinessAt = 150.f;
 private:
     void Praise(FName Kind);
     TSet<FString> Departures;
@@ -123,6 +133,9 @@ public:
     UPROPERTY(BlueprintReadOnly) float MilkMl = 0.f;
     UPROPERTY(BlueprintReadOnly) float WaterMl = 0.f;
     UPROPERTY(BlueprintReadOnly) float Temperature = 20.f;
+    UPROPERTY(BlueprintReadOnly) float FoamMl = 0.f;
+    UPROPERTY(BlueprintReadOnly) float SugarGrams = 0.f;
+    UPROPERTY(BlueprintReadOnly) float SyrupMl = 0.f;
     UPROPERTY(BlueprintReadOnly) bool bGroundDose = false;
     UPROPERTY(BlueprintReadOnly) bool bTamped = false;
     UPROPERTY(BlueprintReadOnly) bool bBroken = false;
@@ -137,6 +150,7 @@ public:
 private:
     UFUNCTION() void Hit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& HitResult);
     UPROPERTY() TObjectPtr<UStaticMeshComponent> Coffee;
+    UPROPERTY() TObjectPtr<UStaticMeshComponent> Foam;
     TArray<TObjectPtr<UStaticMeshComponent>> Details;
     bool bThrown = false;
     float LastHitAt = -100.f;
@@ -151,7 +165,7 @@ class CEROESTRELLAS_API ACECustomer : public AActor
     GENERATED_BODY()
 public:
     ACECustomer();
-    void Configure(const FString& Id, const FString& Name, const FLinearColor& Outfit, int32 Archetype);
+    void Configure(const FString& Id, const FString& Name, const FLinearColor& Outfit, int32 Archetype, int32 Look=-1);
     virtual void Tick(float DeltaSeconds) override;
     void React(FName Kind, const FString& ObjectName, float Severity);
     void TakeOrder();
@@ -170,7 +184,40 @@ public:
     void SetSpeechEnvelope(const TArray<float>& Levels,float Duration);
     void ImmediateVoice(const TCHAR* Cue);
     FVector HeadLocation() const;
-    UPROPERTY(VisibleAnywhere) TObjectPtr<UPoseableMeshComponent> Rig;
+    UPROPERTY(VisibleAnywhere) TObjectPtr<USkeletalMeshComponent> Rig;
+    bool StartPhysicalFall(const FVector& Direction);
+    void EndPhysicalFall();
+    void PhysicalRecoil(const FVector& Direction);
+    UPROPERTY(BlueprintReadOnly) bool bPhysicalFall = false;
+    UPROPERTY(BlueprintReadOnly) int32 PhysicalFalls = 0;
+    UPROPERTY(BlueprintReadOnly) FString VisitRole;
+    UPROPERTY(BlueprintReadOnly) float Trust = 0.f;
+    UPROPERTY(BlueprintReadOnly) int32 DefensiveMoves = 0;
+    UPROPERTY(BlueprintReadOnly) int32 SocialExchanges = 0;
+    UPROPERTY(BlueprintReadOnly) bool bWantsFoam = false;
+    UPROPERTY(BlueprintReadOnly) bool bWantsSugar = false;
+    UPROPERTY(BlueprintReadOnly) bool bWantsSyrup = false;
+    void TickSocial(float DeltaSeconds);
+    void InitStory(int32 ForceStory=-1);
+    void TickStory(float DeltaSeconds);
+    void StoryConversation(const FString& Text);
+    void ResolveStory(bool bSuccess);
+    FString StoryAnswer() const;
+    FString GuestPersonality() const;
+    UPROPERTY(BlueprintReadOnly) int32 LookIndex = -1;
+    UPROPERTY(BlueprintReadOnly) int32 StoryId = -1;
+    UPROPERTY(BlueprintReadOnly) FString StoryTitle;
+    UPROPERTY(BlueprintReadOnly) FString StorySetup;
+    UPROPERTY(BlueprintReadOnly) FString StoryObjective;
+    UPROPERTY(BlueprintReadOnly) FString StoryOutcome;
+    UPROPERTY(BlueprintReadOnly) bool bStoryResolved = false;
+    UPROPERTY(BlueprintReadOnly) bool bStoryHelped = false;
+    UPROPERTY(BlueprintReadOnly) float WipeUntil = 0.f;
+    UPROPERTY(BlueprintReadOnly) int32 SeatAdjustments = 0;
+    float NextSeatAdjustAt = 0.f;
+    float StoryStartedAt = 0.f;
+    float GestureAttention = 0.f;
+    bool IsBodyConsistent(float MaxJointError=12.f) const;
     UPROPERTY(BlueprintReadOnly) float WetMl = 0.f;
     UPROPERTY(BlueprintReadOnly) FString ReceivedLiquid;
     UPROPERTY(BlueprintReadOnly) bool bFilming = false;
@@ -204,6 +251,8 @@ public:
     UPROPERTY(BlueprintReadOnly) int32 HitCount = 0;
     UPROPERTY(VisibleAnywhere) TObjectPtr<UCapsuleComponent> Collision;
 private:
+    UFUNCTION() void RagdollContact(UPrimitiveComponent* HitComponent,AActor* OtherActor,UPrimitiveComponent* OtherComponent,FVector Impulse,const FHitResult& Hit);
+    float LastRagdollContactAt = -100.f;
     UPROPERTY() TObjectPtr<UTextRenderComponent> Bubble;
     int32 Personality = 0;
     float ExitStartAt = 0.f;
@@ -239,6 +288,9 @@ private:
     float PoseFall = 0.f;
     float PoseGesture = 0.f;
     float PoseHeadYaw = 0.f;
+    float WalkPhase = 0.f;
+    float PoseWalk = 0.f;
+    FVector LastMotionLocation = FVector::ZeroVector;
     float FilmingUntil = 0.f;
     float LastChainAt = -100.f;
     bool bTakingSip = false;
@@ -250,6 +302,17 @@ private:
     float ImmediateVoiceAt = -100.f;
     float ProtectUntil = 0.f;
     float NextProtectAt = 0.f;
+    float NextSocialAt = 0.f;
+    float NextDefendAt = 0.f;
+    float Suspicion = 0.f;
+    float RecoilUntil = 0.f;
+    float RecoverUntil = 0.f;
+    bool bHeadPhysics = false;
+    UPROPERTY() TObjectPtr<UPhysicalAnimationComponent> PhysicalDriver;
+    TArray<FTransform> RecoveryPose;
+    float FootGroundOffsets[2] = {0.f,0.f};
+    float FallSeatBlend = 0.f;
+    FVector FallOrigin;
     void Leave(bool bDisaster);
     void Animate(float DeltaSeconds, bool bWalking);
 };
@@ -279,6 +342,13 @@ public:
     UPROPERTY(VisibleAnywhere) TObjectPtr<UCEDialogueComponent> Dialogue;
     UPROPERTY(BlueprintReadOnly) TObjectPtr<ACEProp> Held;
     bool bPouring = false;
+    bool bInteractHeld = false;
+    void ReleaseInteraction() { bInteractHeld=false; }
+    bool bShowOrderList = false;
+    bool bShowHelp = false;
+    void ShowOrders() { bShowOrderList=true; }
+    void HideOrders() { bShowOrderList=false; }
+    void ToggleHelp() { bShowHelp=!bShowHelp; }
     float SlipUntil = 0.f;
     int32 VisibleHands() const;
     void AnimateHands(float DeltaSeconds);
@@ -321,12 +391,15 @@ public:
     virtual void BeginPlay() override;
     virtual void Tick(float DeltaSeconds) override;
     void TickArrivals();
+    void TickTickets();
     bool bLoopSmoke = false;
 private:
     void BuildCafe();
     void SmokeStep();
     void LoopSmokeStep();
     void DialogueSmokeStep();
+    void PolishSmokeStep();
+    bool bPolishChecksCompleted = false;
     bool bDialogueSmoke = false;
     bool bSmokeMicrophoneAvailable = false;
     bool bSmoke = false;
@@ -359,4 +432,6 @@ private:
     FVector LoopPreviousCustomerPosition;
     int32 LoopFirstBossPhrase = -1;
     TArray<float> FrameSamples;
+    UPROPERTY() TArray<TObjectPtr<UTextRenderComponent>> OrderTickets;
+    float NextTicketAt = 0.f;
 };
