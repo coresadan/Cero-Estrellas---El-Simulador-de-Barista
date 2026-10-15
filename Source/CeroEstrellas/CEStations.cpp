@@ -38,6 +38,7 @@ void ACEStation::Configure(ECEStationKind InKind)
 {
     Kind=InKind;
     Body->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Game/Prototype/Meshes/SM_BevelCube.SM_BevelCube")));
+    if(Kind==ECEStationKind::Espresso) Body->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Game/Prototype/Meshes/SM09_EspressoShell.SM09_EspressoShell")));
     const FVector Size=Kind==ECEStationKind::Tamper ? FVector(38,42,12) : Kind==ECEStationKind::Espresso ? FVector(145,65,66) : Kind==ECEStationKind::Grinder ? FVector(38,44,70) : Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water ? FVector(42,48,64) : Kind==ECEStationKind::Trays ? FVector(75,80,30) : Kind==ECEStationKind::Bin ? FVector(50,50,70) : FVector(70,70,25);
     Body->SetWorldScale3D(Size/100.f);
     Body->SetMaterial(0,CEVisual::Material(this,Kind==ECEStationKind::Bin ? FLinearColor(.12f,.18f,.17f) : FLinearColor(.16f,.22f,.22f),false,Kind==ECEStationKind::Espresso || Kind==ECEStationKind::Grinder || Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water));
@@ -59,8 +60,14 @@ void ACEStation::Configure(ECEStationKind InKind)
         Add(TEXT("Cylinder"),FVector(0,46,7),FVector(.27f,.27f,.12f),Steel);
         Add(TEXT("Cylinder"),FVector(-5,46,-4),FVector(.04f,.04f,.12f),Steel);
         Add(TEXT("Cylinder"),FVector(5,46,-4),FVector(.04f,.04f,.12f),Steel);
-        auto* Gauge=Add(TEXT("Cylinder"),FVector(-46,34,11),FVector(.18f,.18f,.02f),FLinearColor(.86f,.81f,.68f)); Gauge->SetRelativeRotation(FRotator(0,0,90));
-        auto* Needle=Add(TEXT("Cube"),FVector(-46,35,13),FVector(.01f,.01f,.07f),Orange); Needle->SetRelativeRotation(FRotator(15,0,0));
+        auto* Gauge=Add(TEXT("Cylinder"),FVector(-46,38,11),FVector(.18f,.18f,.02f),FLinearColor(.86f,.81f,.68f)); Gauge->SetRelativeRotation(FRotator(0,0,90));
+        GaugeNeedle=Add(TEXT("Cube"),FVector(-46,39.6f,11),FVector(.01f,.01f,.07f),Orange); GaugeNeedle->SetRelativeRotation(FRotator(15,0,0));
+        Add(TEXT("SM09_GaugeRim"),FVector(-46,39,11),FVector(.20f,.20f,.025f),Steel)->SetRelativeRotation(FRotator(0,0,90));
+        ControlKnob=Add(TEXT("SM09_Knob"),FVector(52,37,12),FVector(.12f,.12f,.1f),Black); ControlKnob->SetRelativeRotation(FRotator(0,0,90));
+        for(int32 Mark=0;Mark<7;++Mark) {
+            const float A=(-70.f+Mark*23.f)*PI/180.f;
+            Add(TEXT("Cube"),FVector(-46+FMath::Sin(A)*6.5f,39.4f,11+FMath::Cos(A)*6.5f),FVector(.007f,.006f,.018f),Black)->SetRelativeRotation(FRotator(-70.f+Mark*23.f,0,0));
+        }
         for(int32 i=0;i<3;++i) Add(TEXT("Sphere"),FVector(30+i*14,34,12),FVector(.06f,.035f,.06f),i==0 ? Orange : Steel,true);
         Add(TEXT("Cube"),FVector(0,0,36),FVector(1.4f,.58f,.025f),Steel);
         for(int32 Side:{-1,1})
@@ -121,7 +128,7 @@ FString ACEStation::Status() const
     if(WorkLeft>0.f) return FString::Printf(TEXT("%s / %.1f s"),Kind==ECEStationKind::Grinder ? TEXT("MOLIENDO") : Kind==ECEStationKind::Espresso ? TEXT("EXTRAYENDO / 9 BAR") : TEXT("CALENTANDO"),WorkLeft);
     switch(Kind)
     {
-    case ECEStationKind::Espresso: return bDoseReady ? TEXT("DOSIS LISTA / COLOCA TAZA\nF: EXTRAER 60 ml") : TEXT("GRUPO / 93 C\nINSERTA PORTAFILTRO DOSIFICADO");
+    case ECEStationKind::Espresso: return bDoseReady ? FString::Printf(TEXT("DOSIS LISTA / %.0f ml\nRUEDA: AJUSTAR / F: EXTRAER"),ExtractionTargetMl) : TEXT("GRUPO / 93 C\nINSERTA PORTAFILTRO DOSIFICADO");
     case ECEStationKind::Grinder: return FString::Printf(TEXT("MOLINILLO / %d DOSIS\nF: MOLER EN PORTAFILTRO"),DosesLeft);
     case ECEStationKind::Milk: return TEXT("LANZA DE VAPOR\nJARRA → CALENTAR → VERTER");
     case ECEStationKind::Tamper: return TEXT("PRENSADO / 18 g\nMANTÉN F: COMPACTAR DOSIS");
@@ -135,6 +142,17 @@ FString ACEStation::Status() const
     default: return TEXT("RESIDUOS\nF: TIRAR OBJETO");
     }
 }
+void ACEStation::AdjustSetting(int32 Direction)
+{
+    if(WorkLeft>0.f || Direction==0) return;
+    if(Kind==ECEStationKind::Espresso) {
+        ExtractionTargetMl=FMath::Clamp(ExtractionTargetMl+(Direction>0 ? 30.f : -30.f),30.f,90.f);
+        GetWorld()->GetSubsystem<UCECafeSubsystem>()->Notify(FString::Printf(TEXT("Selector de extracción: %.0f ml. Rueda: ajustar; F: preparar."),ExtractionTargetMl));
+    } else if(Kind==ECEStationKind::Milk) {
+        MilkTargetDegrees=FMath::Clamp(MilkTargetDegrees+(Direction>0 ? 10.f : -10.f),55.f,75.f);
+        GetWorld()->GetSubsystem<UCECafeSubsystem>()->Notify(FString::Printf(TEXT("Vapor: objetivo %.0f °C. Rueda: ajustar."),MilkTargetDegrees));
+    }
+}
 FString ACEStation::Prompt(const ACEPlayer* Player) const
 {
     if(Kind==ECEStationKind::Milk && !Player->Held && WorkLeft<=0.f && !CupUnderSpout()) return TEXT("[ F ] Coger jarra con 120 ml de leche fría");
@@ -144,7 +162,7 @@ FString ACEStation::Prompt(const ACEPlayer* Player) const
     if((Kind==ECEStationKind::Espresso || Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water) && Player->Held && Player->Held->Kind==ECEPropKind::Cup) return TEXT("[ F ] Colocar taza bajo el surtidor");
     if(Kind==ECEStationKind::Grinder && !Player->Held) return DosesLeft==0 ? TEXT("[ F ] Rellenar tolva de granos") : TEXT("[ F ] Coger portafiltro limpio");
     if(Kind==ECEStationKind::Espresso && !bDoseReady && IsValid(Filter)) return TEXT("[ F ] Retirar portafiltro usado · volver a moler");
-    FString OneLine=Status(); OneLine.ReplaceInline(TEXT("\n"),TEXT(" · ")); return TEXT("[ F ] ")+OneLine;
+    FString OneLine=Status(); OneLine.ReplaceInline(TEXT("\n"),TEXT(" · ")); return TEXT("[ F ] ")+OneLine+(Kind==ECEStationKind::Espresso ? TEXT(" · RUEDA: cantidad") : Kind==ECEStationKind::Milk ? TEXT(" · RUEDA: temperatura") : TEXT(""));
 }
 void ACEStation::PlaceCup(ACEPlayer* Player)
 {
@@ -237,13 +255,16 @@ void ACEStation::Use(ACEPlayer* Player)
     }
     WorkingCup=CupUnderSpout();
     if(!WorkingCup) { Cafe->Notify(TEXT("No hay taza bajo el surtidor. También puedes extraer directamente al suelo...")); }
-    WorkLeft=Kind==ECEStationKind::Espresso ? 3.2f : 2.5f; TransferAccumulator=0.f; ExtractedMl=0.f;
+    WorkLeft=Kind==ECEStationKind::Espresso ? ExtractionTargetMl/(60.f/3.2f) : 2.5f; TransferAccumulator=0.f; ExtractedMl=0.f;
     WorkingSound->SetSound(LoadObject<USoundBase>(nullptr,Kind==ECEStationKind::Espresso ? TEXT("/Game/Prototype/Audio/FX/Brew.Brew") : TEXT("/Game/Prototype/Audio/FX/Steam.Steam"))); WorkingSound->Play();
 }
 void ACEStation::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     const float Now=GetWorld()->GetTimeSeconds();
+    PressureBars=FMath::FInterpTo(PressureBars,Kind==ECEStationKind::Espresso && WorkLeft>0 ? 9.f : 0.f,DeltaSeconds,4.f);
+    if(GaugeNeedle) GaugeNeedle->SetRelativeRotation(FRotator(FMath::Lerp(-60.f,60.f,PressureBars/10.f),0,0));
+    if(ControlKnob) ControlKnob->SetRelativeRotation(FRotator((ExtractionTargetMl-60.f)*.7f,0,90));
     if(LockLeft>0 && IsValid(Filter)) { LockLeft=FMath::Max(0.f,LockLeft-DeltaSeconds); Filter->SetActorRotation(FRotator(0,90.f*(1.f-LockLeft/.45f),0)); }
     if(MovingTool) {
         if(Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water) MovingTool->SetRelativeRotation(FRotator(0,0,WorkLeft>0 ? 90.f : 0.f));
@@ -266,7 +287,7 @@ void ACEStation::Tick(float DeltaSeconds)
         {
             if(IsValid(WorkingCup) && CupUnderSpout()==WorkingCup)
             {
-                WorkingCup->Temperature=FMath::Min(65.f,WorkingCup->Temperature+Step*25.f);
+                WorkingCup->Temperature=FMath::Min(MilkTargetDegrees,WorkingCup->Temperature+Step*25.f);
                 if(WorkingCup->Temperature>50.f) WorkingCup->FoamMl=FMath::Min(20.f,WorkingCup->FoamMl+Step*8.f);
                 WorkingCup->UpdateLiquidVisual();
             }

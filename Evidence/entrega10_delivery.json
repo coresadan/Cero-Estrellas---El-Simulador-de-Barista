@@ -1,0 +1,79 @@
+{
+  "version": "0.10.0",
+  "engine": "5.8.3",
+  "created_utc": "2026-10-15T04:41:22.762380+00:00",
+  "launcher": "Jugar.bat",
+  "executable": "Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "df7c3b788ef28ba3f0f91ea55d2fd59b5d1c60728169757b02f35070563d5ae7",
+  "matches_compiled_binary": true,
+  "source_older_than_binary": true,
+  "binary_utc": "2026-10-15T04:32:56.033726+00:00",
+  "scenarios": [
+    {
+      "report": "Evidence\\Entrega10DeliveryFinal\\smoke_result.json",
+      "checks": 151,
+      "passed": true,
+      "final_binary": false,
+      "full_shift_exercised": true,
+      "scope": "Eight-minute shift before final palm contact, light mobility and dialogue guards; not the delivered executable."
+    },
+    {
+      "report": "Evidence\\Entrega10Closure\\smoke_result.json",
+      "checks": 146,
+      "passed": true,
+      "final_binary": true,
+      "full_shift_exercised": false
+    },
+    {
+      "report": "Evidence\\Entrega10DialogueVerified\\dialogue_result.json",
+      "checks": 43,
+      "passed": true,
+      "final_binary": true,
+      "full_shift_exercised": false,
+      "validated_live_replies": 8,
+      "prewarmed_voices": 8
+    }
+  ],
+  "deformation_report": "Evidence/entrega10_deformation.json",
+  "lod_report": "Evidence/entrega10_lods.json",
+  "exact_voice_recordings": 192,
+  "voice_audit": "Evidence/entrega10_voice_audit.json",
+  "latency_report": "Evidence/entrega10_dialogue_latency.json",
+  "backend_health": "Evidence/entrega10_backend_health.json",
+  "resolution_audit": "Evidence/entrega10_resolution_audit.json",
+  "liquid_comparison": "Evidence/Entrega10Closure/liquid_comparison.json",
+  "resource_reports": [
+    "Evidence/Entrega10Closure/resources_summary.json",
+    "Evidence/Entrega10DialogueVerified/resources_summary.json"
+  ],
+  "editor_build_log": "Evidence/entrega10_closure_editor_build.log",
+  "build_log": "Evidence/entrega10_closure_package_build.log",
+  "content_cook_log": "Evidence/entrega10_package_build.log",
+  "screenshots_reviewed": [
+    "Evidence/Entrega10Closure/01_turno_abierto.png",
+    "Evidence/Entrega10Closure/04_liquido_y_charcos.png",
+    "Evidence/Entrega10Closure/12_caderas_y_manos_corregidas.png",
+    "Evidence/Entrega10Closure/15_caida_fisica_real.png",
+    "Evidence/Entrega10Closure/18_clientela_extravagante.png",
+    "Evidence/Entrega10Closure/22_caida_y_campana.png",
+    "Evidence/Entrega10DialogueVerified/02_memoria_y_contexto_fisico.png"
+  ],
+  "render_offscreen": true,
+  "human_playthrough": false,
+  "human_microphone_conversation_verified": false,
+  "known_limits": [
+    "Nine original stylized bodies; procedural animation, not motion capture or photorealistic humans.",
+    "Bounded liquid packets and opaque surfaces, not continuous fluid simulation.",
+    "Shared base TTS voice with pitch variations; dynamic non-dialogue lines without exact recordings remain captioned.",
+    "Free generation still takes seconds; this measurement does not demonstrate a language generation speed improvement.",
+    "Perspective guards catch explicit contradictions, not all semantic errors.",
+    "Offscreen capped frame timings are not a native-window benchmark; desktop VRAM includes other apps and game RAM excludes backend processes."
+  ],
+  "diagnostic_runs_not_counted": [
+    "Entrega10Delivery: interrupted after drying changed the durable wetness fact, subsequently fixed.",
+    "Entrega10FinalGraphics: functional pass, rejected visual result after light/scenery mobility changes.",
+    "Entrega10ReleaseVerified: rotated previously disturbed laptop contaminated the new-arrival check; failed and not counted.",
+    "Entrega10DialogueFinal: one role-correction failure, subsequently added to perspective rejection and retested.",
+    "Entrega10Dialogue1080 and Entrega10Contact1080: actual 888x500, not 1080p performance evidence."
+  ]
+}

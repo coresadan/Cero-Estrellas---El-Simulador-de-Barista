@@ -65,6 +65,8 @@ void ACEPlayer::SetupPlayerInputComponent(UInputComponent* Input)
     Input->BindAction(TEXT("VoiceDialogue"), IE_Pressed, this, &ACEPlayer::TalkVoice);
     Input->BindAction(TEXT("OrderList"),IE_Pressed,this,&ACEPlayer::ShowOrders);
     Input->BindAction(TEXT("OrderList"),IE_Released,this,&ACEPlayer::HideOrders);
+    Input->BindKey(EKeys::MouseScrollUp,IE_Pressed,this,&ACEPlayer::AdjustApplianceUp);
+    Input->BindKey(EKeys::MouseScrollDown,IE_Pressed,this,&ACEPlayer::AdjustApplianceDown);
     Input->BindAction(TEXT("Help"),IE_Pressed,this,&ACEPlayer::ToggleHelp);
     Input->BindAction(TEXT("Sprint"), IE_Pressed, this, &ACEPlayer::SprintOn);
     Input->BindAction(TEXT("Sprint"), IE_Released, this, &ACEPlayer::SprintOff);
@@ -250,3 +252,6 @@ void ACEPlayer::Tick(float DeltaSeconds)
     }
     Handle->SetTargetLocationAndRotation(Target, Rotation);
 }
+
+void ACEPlayer::AdjustApplianceUp() { if(Dialogue->IsEditing()) return; auto* Focus=FocusActor(330.f); auto* Station=Cast<ACEStation>(Focus); if(!Station && Focus) Station=Cast<ACEStation>(Focus->GetAttachParentActor()); if(Station) Station->AdjustSetting(1); }
+void ACEPlayer::AdjustApplianceDown() { if(Dialogue->IsEditing()) return; auto* Focus=FocusActor(330.f); auto* Station=Cast<ACEStation>(Focus); if(!Station && Focus) Station=Cast<ACEStation>(Focus->GetAttachParentActor()); if(Station) Station->AdjustSetting(-1); }

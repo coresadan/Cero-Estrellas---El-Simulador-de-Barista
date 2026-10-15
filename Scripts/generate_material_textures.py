@@ -2,7 +2,7 @@
 No external artwork; 512 px maps with mipmaps keep the cafe within a modest GPU budget.
 """
 from pathlib import Path
-import json, struct
+import json, struct, math
 import numpy as np
 root=Path(__file__).resolve().parent.parent
 out=root/'SourceTextures'; out.mkdir(exist_ok=True)
@@ -29,11 +29,12 @@ def surface(name,albedo,height,rough,metal=0,strength=1):
     tga(name+'_N',normal*.5+.5)
     orm=np.stack((np.clip(1-abs(height-height.mean())*.03,.92,1),np.clip(rough,.1,.98),np.ones_like(x)*metal),axis=2)
     tga(name+'_ORM',orm)
-warp=noise(3)*.9+noise(12)*.13
-grain=np.sin(2*np.pi*(y*72+warp*.8+np.sin(x*2*np.pi)*.6))
-growth=np.sin(2*np.pi*(y*13+warp*.35))
-wood=np.clip(.90+grain*.045+growth*.05+noise(70)*.01,.65,1)
-surface('Wood',wood,grain*.09+growth*.04,.48+noise(18)*.03,strength=.75)
+# Tight walnut grain with long fibres and restrained relief. No broad sine bands.
+warp=noise(3)*.10+noise(14)*.025
+fiber=np.sin(2*np.pi*(y*190+warp+np.sin(x*math.tau)*.05))
+fine=noise(140); broad=noise(8)
+wood=np.clip(.88+fiber*.014+broad*.035+fine*.012,.72,.97)
+surface('Wood',wood,fiber*.012+fine*.008,.57+noise(18)*.025,strength=.35)
 flecks=np.clip(noise(170),-2,2)
 stone=.91+noise(9)*.025+flecks*.032
 surface('Stone',stone,flecks*.07,.5+noise(80)*.08,strength=.7)

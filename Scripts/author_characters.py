@@ -78,29 +78,45 @@ for sign,side in [(-1,'l'),(1,'r')]:
                   (f'foot_{side}',f'shin_{side}',(0,sign*10,9),(-13,sign*10,4))])
 
 manifest=[]
-for index,(name,width) in enumerate([('SK_Crypto',1.0),('SK_Hipster',.92),('SK_Influencer',.85)]):
+profiles=[('SK_Crypto',1.12),('SK_Hipster',.88),('SK_Influencer',.96),('SK_Punk',.95),
+          ('SK_Astronaut',1.18),('SK_Diva',1.05),('SK_Biker',1.20),('SK_Granny',.86),('SK_Magician',.91)]
+for index,(name,width) in enumerate(profiles):
     torso=loft([(0,0,80,11*width,14),(0,0,87,12*width,15),(0,0,105,14*width,18),
                 (0,0,124,13*width,21),(0,0,130,10*width,18),(0,0,137,5.5,7)])
-    cloth=[torso]; trousers=[ellipsoid((0,0,77),(11.5,16,10))]
-    skin=[loft([(0,0,132,5.5,6),(0,0,145,5.7,6)]), duplicate('SM_Head',(-1,0,155),(.65,.58,.56))]
+    # Shoulder bridges and tailored seams deform with chest and arm together.
+    cloth=[torso,ellipsoid((0,-19,125),(6,5,5.5)),ellipsoid((0,19,125),(6,5,5.5))]; trousers=[ellipsoid((0,0,77),(11.5*width,16,10))]
+    # One continuous face with a defined jaw, cheeks, bridge and nose.
+    # Eye/mouth landmarks stay constant so accessories do not float on variants.
+    jaw_width=[9.7,8.4,8.8,8.5,10.5,9.4,10.8,8.6,8.1][index]
+    skin=[loft([(0,0,132,5,5.4),(0,0,144,5,5.4)]),
+          ellipsoid((1,0,156),(11.8,jaw_width+1.9,14.3)),
+          ellipsoid((-2,0,146.5),(8.8,jaw_width,6.6)),
+          ellipsoid((-7,-5,151),(4,4.5,5)),ellipsoid((-7,5,151),(4,4.5,5)),
+          ellipsoid((-10.4,0,155),(2.4,1.7,4.3)),ellipsoid((-12.4,0,152),(2.2,2.6,2)),
+          ellipsoid((-10.2,0,148),(2.1,4,2.4)),
+          ellipsoid((-9.6,-4.8,160),(2.7,3.6,1.8)),ellipsoid((-9.6,4.8,160),(2.7,3.6,1.8))]
     hands=[]; shoes=[]
     for sign in [-1,1]:
-        cloth.append(loft([(0,sign*23,128,7.1,7.2),(0,sign*26,117,6.6,6.9),(0,sign*28,103,5.5,5.7)]))
-        skin.append(loft([(0,sign*28,105,5.1,5.3),(0,sign*29.5,95,4.5,4.6),(0,sign*31,83,3.1,3.3)]))
+        cloth.append(loft([(0,sign*23,128,6.3,6.1),(0,sign*26,117,5.7,5.8),(0,sign*28,103,4.7,4.8)]))
+        skin.append(loft([(0,sign*28,105,4.5,4.6),(0,sign*29.5,95,3.8,3.9),(0,sign*31,83,2.6,2.7)]))
         # Palm and fingers belong to the continuous skin surface, so no cap
         # floats between wrist and hand when the elbow flexes.
-        skin.append(ellipsoid((-.6,sign*31,79.5),(3.2,3.6,4.8)))
+        skin.append(ellipsoid((-.6,sign*31,79.5),(2.7,3.1,4.3)))
         for finger in range(4):
             skin.append(ellipsoid((-1,sign*31+(finger-1.5)*1.5,73.6),(1.15,.88,2.9)))
         skin.append(ellipsoid((-3.2,sign*33,79),(1.8,1.25,2.7)))
         trousers.append(loft([(0,sign*10,79,9.3,9),(0,sign*10,60,8.2,8),(0,sign*10,43,6.8,6.9),
                               (0,sign*10,27,6.3,6.3),(0,sign*10,10,5.3,5.8)]))
         shoes.append(duplicate('SM_Shoe',(-4,sign*10,5),(.28,.32,.26)))
-    hair=ellipsoid((2,0,164),(13.6,12.6,10.1))
-    for v in hair.data.vertices:
-        if v.co.x<0: v.co.z=max(-2,v.co.z)
+    hair=loft([(3,0,159,10.2,jaw_width+1.7),(2,0,165,11.5,jaw_width+2.1),
+               (3,0,171,8.3,jaw_width*.8),(3,0,174,.6,.6)])
+    hair_parts=[hair]
+    if index==2: hair_parts.append(loft([(8,0,140,4,9),(9,0,154,4.5,11),(5,0,165,8,11)]))
+    if index in [0,1,8]: hair_parts.append(ellipsoid((-7,-3,166),(4,8,3.2)))
+    if index==7:
+        for side in [-1,1]: hair_parts.append(ellipsoid((5,side*10,160),(5,5,5)))
     surfaces=[join_surface(cloth,0,True),join_surface(skin,1,True),join_surface(trousers,2,True),
-              join_surface([hair]+([ellipsoid((9,0,150),(5,12,18))] if index==2 else []),3),join_surface(shoes,4)]
+              join_surface(hair_parts,3),join_surface(shoes,4)]
     # Weights blend around elbow/knee and spine; faces/accessories remain on the head.
     for ob in surfaces:
         for bone,_,_,_ in bones: ob.vertex_groups.new(name=bone)
@@ -120,8 +136,10 @@ for index,(name,width) in enumerate([('SK_Crypto',1.0),('SK_Hipster',.92),('SK_I
                 else: weights={f'shin_{side}':1}
             elif surface=='Clothing' and abs(y)<20 and z<105:
                 t=max(0,min(1,(z-88)/17)); weights={'pelvis':1-t,'spine':t}
+            elif surface=='Clothing' and z>116 and 17<abs(y)<24:
+                t=max(0,min(1,(abs(y)-17)/7)); weights={'chest':1-t,f'upperarm_{side}':t}
             elif surface=='Leather': weights={f'foot_{side}':1}
-            elif surface=='Hair' or z>147: weights={'head':1}
+            elif surface=='Hair' or z>147 or (surface=='Skin' and z>137 and (x<-6 or abs(y)>6 or z>145)): weights={'head':1}
             elif z>134 and abs(y)<12: weights={'neck':1}
             elif abs(y)>21 and z>67:
                 if z>112: weights={f'upperarm_{side}':1}

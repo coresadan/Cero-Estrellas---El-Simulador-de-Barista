@@ -100,3 +100,28 @@ El [escenario empaquetado definitivo](../Evidence/Entrega08DeliveryDialogo/dialo
 [Latencias](../Evidence/entrega08_dialogue_latency.json): texto visible en 5,05–12,16 s y respuesta validada en 14,10–26,06 s en turnos posteriores. Mediana comparable 18,34 s frente a 17,19 s en 0.7; la generación libre no mejoró en esta medición. Los atajos de servicio e historia evitan la inferencia y recuperan el control de inmediato.
 
 El [informe de revisión](POLISH_08.md) contiene los resultados del turno completo, recursos, capturas y límites. La [prueba directa de las cinco historias](../Evidence/Entrega08Stories/story_dialogue_result.json) comprueba el backend por separado; no se presenta como una partida narrativa end-to-end. El micrófono abre y detiene su dispositivo, y Whisper transcribe el WAV confirmado; sigue pendiente la conversación humana por micrófono.
+
+## Contexto y atajos 0.9
+
+El contexto narrativo incluye la etapa y el texto de la situación actual. Se añaden promesas de servicio y la identidad del acompañante. Los atajos reconocen saludos, preguntas sobre un incidente, apoyo y consulta de la promesa. Siguen contabilizados como respuestas autoradas. La instrucción conserva hasta 80 caracteres y el contrato de validación de 100. La variante de 64 caracteres produjo una inversión de papeles en la prueba real y se descartó. La validación de perspectiva rechaza algunas contradicciones explícitas y una disculpa de la víctima por el café recibido; el único reintento añade una instrucción factual y su tiempo se cuenta desde el primer intento. Las historias y las campañas siguen bajo autoridad de Unreal.
+
+El [informe actual](POLISH_09.md) documenta la nueva entrega y sus comprobaciones. Los apartados de evidencia 0.7 y 0.8 conservan sus fechas y resultados originales.
+
+## Evidencia de cierre 0.9
+
+El [diálogo definitivo](../Evidence/Entrega09DialogoReady/dialogue_result.json) pasa 42/42 comprobaciones y ocho respuestas reales, con dos regresiones de perspectiva adicionales. [Medición](../Evidence/entrega09_dialogue_latency.json): mediana comparable 15,55 s frente a 18,34 s; la generación continúa tardando segundos. Las trazas aceptadas se separan de los intentos rechazados y el reloj conserva el tiempo de un reintento. [POLISH_09](POLISH_09.md) documenta el fallo de la variante corta, las capturas y las comprobaciones humanas pendientes.
+
+## Voz y conversaciones 0.10
+
+Al terminar el campo de texto del flujo, Unreal solicita su voz a la caché mientras continúa llegando la emoción. Esta preparación no reproduce nada: el JSON completo, la perspectiva, el destinatario y la generación vigente siguen siendo obligatorios para emitir la voz y aplicar la reacción. Cerrar, grabar o cancelar una respuesta invalida también la preparación. La síntesis usa el mismo límite y caché del servicio de voz; no abre una segunda inferencia de lenguaje.
+
+Las frases escritas de las historias y reacciones tienen grabaciones identificadas por MD5 de sus bytes UTF-8. `Speak` busca la grabación exacta; una frase dinámica sin grabación mantiene su subtítulo. Las respuestas de conversación usan Piper y su texto validado. Las exclamaciones genéricas anteriores dejan de reproducirse sobre subtítulos distintos. Se añaden atajos para preguntar cómo ayudar y qué pertenencias lleva el cliente; devolver un objeto real puede aportar la ayuda narrativa.
+
+
+La revisión 0.10 también rechaza la inversión explícita «Tú pides, no yo» y la atribución «Mi desayuno es tuyo», además de los rechazos anteriores. Una regresión reproduce la respuesta fallida; sigue habiendo un solo reintento. El banco contiene 192 frases, no 192 voces. Piper ejecuta ONNX en CPU con un hilo de cálculo, uno de coordinación y espera activa desactivada. La voz anticipada aprovecha el texto terminado sin omitir la validación del turno completo.
+
+## Evidencia de cierre 0.10
+
+[Paquete definitivo](../Evidence/Entrega10DialogueVerified/dialogue_result.json): 43/43 comprobaciones, ocho respuestas generadas validadas y ocho preparaciones de voz, con dos respuestas de servicio contabilizadas aparte. La corrección del pedido rechaza una inversión de papeles, utiliza un reintento y termina en «He pedido un latte con cruasán». El [informe de latencia](../Evidence/entrega10_dialogue_latency.json) conserva el reloj desde el primer intento: validación en 12,97–28,92 s para los turnos posteriores. La mediana comparable es 17,78 s frente a 15,55 s en 0.9; no demuestra una mejora de velocidad de generación. Las [cinco capturas](../Evidence/entrega10_resolution_audit.json) del diálogo son realmente 1920 × 1080, con `-ForceRes`.
+
+El escenario verifica HTTP, Piper, Whisper con WAV de prueba, apertura/cierre del dispositivo de micrófono y cancelación de voz pendiente. No es una conversación humana por micrófono. [POLISH_10](POLISH_10.md) separa el turno completo histórico, las comprobaciones actuales, los recursos medidos y los diagnósticos fallidos.

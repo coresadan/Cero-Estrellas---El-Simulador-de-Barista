@@ -15,7 +15,8 @@ report=read_json(folder/'dialogue_result.json')
 assert report['passed'], 'Only summarize a completed, passing conversation scenario.'
 timings=re.findall(r'CE_DIALOGUE_REPLY .*?first_text=([\d.]+) complete=([\d.]+)',
                    (folder/'runtime.log').read_text(encoding='utf-8-sig',errors='replace'))
-files=sorted(folder.glob('response_*.json'),key=lambda path:int(path.stem.split('_')[-1]))
+accepted=list(folder.glob('accepted_*.json'))
+files=sorted(accepted or folder.glob('response_*.json'),key=lambda path:int(path.stem.split('_')[-1]))
 rows=[]
 for path in files:
     envelope=read_json(path)
@@ -37,7 +38,7 @@ for row,(first,complete) in zip(rows,timings):
 baseline=read_json(root/'Evidence'/a.baseline)
 previous=statistics.median(baseline['replies'][i]['backend_seconds'] for i in [0,4,5,6,7]) if isinstance(baseline,dict) else statistics.median(row['total_seconds'] for row in baseline)
 matched=statistics.median(rows[i]['backend_seconds'] for i in [0,4,5,6,7])
-summary={'version':report['version'],'evidence':a.evidence,'baseline':a.baseline,'model':read_json(files[0])['model'],
+summary={'version':report['version'],'evidence':a.evidence,'baseline':a.baseline,'rejected_attempts':max(0,len(list(folder.glob('response_*.json')))-len(files)),'model':read_json(files[0])['model'],
     'followup_visible_seconds':{'min':min(r['first_visible_seconds'] for r in rows[1:]),
         'max':max(r['first_visible_seconds'] for r in rows[1:])},
     'followup_validated_seconds':{'min':min(r['validated_seconds'] for r in rows[1:]),

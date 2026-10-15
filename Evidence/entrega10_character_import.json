@@ -1,0 +1,42 @@
+[
+  {
+    "asset": "/Game/Prototype/Characters/SK_Crypto.SK_Crypto",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Hipster.SK_Hipster",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Influencer.SK_Influencer",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Punk.SK_Punk",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Astronaut.SK_Astronaut",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Diva.SK_Diva",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Biker.SK_Biker",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Granny.SK_Granny",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Characters/SK_Magician.SK_Magician",
+    "skeletal": true
+  },
+  {
+    "asset": "/Game/Prototype/Meshes/SM_GripHand.SM_GripHand",
+    "skeletal": false
+  }
+]

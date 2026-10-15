@@ -1,0 +1,9 @@
+{
+  "version": "0.10.0",
+  "executable": "D:\\Trabajo\\Cero Estrellas - El Simulador de Barista\\Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "df7c3b788ef28ba3f0f91ea55d2fd59b5d1c60728169757b02f35070563d5ae7",
+  "compiled_binary_matches": true,
+  "latest_source_older_than_binary": true,
+  "latest_source": "D:\\Trabajo\\Cero Estrellas - El Simulador de Barista\\Source\\CeroEstrellas\\CEGameMode.cpp",
+  "binary_utc": "2026-10-15T04:32:56.033726+00:00"
+}

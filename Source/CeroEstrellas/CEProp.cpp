@@ -19,14 +19,16 @@ ACEProp::ACEProp()
 void ACEProp::Configure(ECEPropKind InKind)
 {
     Kind=InKind;
+    const bool bPersonal=Kind==ECEPropKind::Notebook || Kind==ECEPropKind::Flower || Kind==ECEPropKind::Bag;
     const bool bCup=Kind==ECEPropKind::Cup, bFilter=Kind==ECEPropKind::Portafilter, bTray=Kind==ECEPropKind::Tray, bLaptop=Kind==ECEPropKind::Laptop, bPitcher=Kind==ECEPropKind::Pitcher, bChair=Kind==ECEPropKind::Chair;
     const TCHAR* Shape=(bCup || bPitcher || bFilter) ? TEXT("Cylinder") : (bTray || bLaptop || bChair) ? TEXT("Cube") : TEXT("Sphere");
     UStaticMesh* Mesh=nullptr;
-    const TCHAR* Authored=bCup ? TEXT("SM_Cup") : bPitcher ? TEXT("SM_Pitcher") : bFilter ? TEXT("SM_Filter") : Kind==ECEPropKind::Pastry ? TEXT("SM_Croissant") : bTray || bChair || bLaptop ? TEXT("SM_BevelCube") : nullptr;
+    const TCHAR* Authored=bCup ? TEXT("SM_Cup") : bPitcher ? TEXT("SM_Pitcher") : bFilter ? TEXT("SM_Filter") : Kind==ECEPropKind::Pastry ? TEXT("SM_Croissant") : bTray || bChair || bLaptop || bPersonal ? TEXT("SM_BevelCube") : nullptr;
     if(Authored) Mesh=LoadObject<UStaticMesh>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Meshes/%s.%s"),Authored,Authored));
     if(!Mesh) Mesh=LoadObject<UStaticMesh>(nullptr,*FString::Printf(TEXT("/Engine/BasicShapes/%s.%s"),Shape,Shape));
     Body->SetStaticMesh(Mesh);
     Body->SetWorldScale3D(bCup || bFilter ? FVector(1.f) : bPitcher ? FVector(1.15f,1.15f,1.15f) : bChair ? FVector(.52f,.55f,.07f) : bTray ? FVector(1.1f,.7f,.035f) : bLaptop ? FVector(.42f,.32f,.035f) : FVector(.32f,.18f,.12f));
+    if(bPersonal) Body->SetWorldScale3D(Kind==ECEPropKind::Bag ? FVector(.28f,.19f,.27f) : Kind==ECEPropKind::Notebook ? FVector(.24f,.18f,.018f) : FVector(.10f,.10f,.04f));
     const FLinearColor Color=bCup ? FLinearColor(.82f,.78f,.67f) : bTray ? FLinearColor(.06f,.25f,.22f) : bChair ? FLinearColor(.025f,.19f,.16f) : bPitcher ? FLinearColor(.65f,.68f,.67f) : bFilter || bLaptop ? FLinearColor(.23f,.27f,.28f) : FLinearColor(.8f,.35f,.07f);
     Body->SetMaterial(0,CEVisual::Material(this,Color,false,bFilter || bLaptop || bPitcher));
     if(bCup) Body->SetMaterial(0,CEVisual::Surface(this,Color,TEXT("M_Ceramic")));
@@ -38,6 +40,7 @@ void ACEProp::Configure(ECEPropKind InKind)
     Body->SetLinearDamping(.15f); Body->SetAngularDamping(.45f);
     if(bChair) { Body->SetCollisionResponseToChannel(ECC_WorldDynamic,ECR_Ignore); Body->SetCollisionResponseToChannel(ECC_Pawn,ECR_Block); }
     DisplayName=bPitcher ? TEXT("Jarra de leche") : bChair ? TEXT("Silla del cliente") : bCup ? TEXT("Taza vacía") : bTray ? TEXT("Bandeja") : bFilter ? TEXT("Portafiltro vacío") : bLaptop ? TEXT("Portátil del cliente") : TEXT("Cruasán recién hecho");
+    if(bPersonal) DisplayName=Kind==ECEPropKind::Notebook ? TEXT("Cuaderno del cliente") : Kind==ECEPropKind::Flower ? TEXT("Flor de la cita") : TEXT("Bolso del cliente");
     auto Add=[this](const TCHAR* S,FVector L,FVector Scale,FLinearColor C)
     {
         auto* Part=CEVisual::Part(this,S,L/Body->GetComponentScale(),Scale/Body->GetComponentScale(),C); Details.Add(Part); return Part;
@@ -47,8 +50,8 @@ void ACEProp::Configure(ECEPropKind InKind)
         Coffee=Add(TEXT("Cylinder"),FVector(0,0,-9),FVector(.185f,.185f,.012f),FLinearColor(.08f,.023f,.01f));
         Coffee->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.08f,.023f,.01f),TEXT("M_Ceramic")));
         Coffee->SetVisibility(false);
-        Foam=Add(TEXT("Sphere"),FVector(0,0,10),FVector(.17f,.17f,.035f),FLinearColor(.93f,.87f,.70f));
-        Foam->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.93f,.87f,.70f),TEXT("M_Fabric")));
+        Foam=Add(TEXT("Cylinder"),FVector(0,0,10),FVector(.17f,.17f,.035f),FLinearColor(.93f,.87f,.70f));
+        Foam->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.93f,.87f,.70f),TEXT("M09_Foam")));
         Foam->SetVisibility(false);
         // Hollow handles and the milk spout are now part of the authored shell.
     }
@@ -98,6 +101,21 @@ void ACEProp::Configure(ECEPropKind InKind)
         Screen->SetMaterial(0,CEVisual::Surface(this,FLinearColor::White,TEXT("M_Screen")));
         for(int32 Row=0;Row<4;++Row) Add(TEXT("Cube"),FVector(-8+Row*5,0,2),FVector(.02f,.25f,.009f),FLinearColor(.025f,.03f,.03f));
     }
+    if(Kind==ECEPropKind::Notebook) {
+        Body->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.12f,.23f,.28f),TEXT("M_Fabric")));
+        Add(TEXT("Cube"),FVector(0,0,1.1f),FVector(.225f,.164f,.008f),FLinearColor(.82f,.79f,.69f));
+        for(int32 Line=0;Line<5;++Line) Add(TEXT("Cube"),FVector(-7+Line*3,0,1.6f),FVector(.004f,.12f,.002f),FLinearColor(.29f,.34f,.32f));
+    }
+    if(Kind==ECEPropKind::Flower) {
+        Add(TEXT("Cylinder"),FVector(0,0,9),FVector(.012f,.012f,.19f),FLinearColor(.08f,.28f,.09f));
+        for(int32 Petal=0;Petal<6;++Petal) Add(TEXT("Sphere"),FVector(FMath::Cos(Petal*PI/3)*3,FMath::Sin(Petal*PI/3)*3,18),FVector(.055f,.055f,.022f),FLinearColor(.73f,.08f,.19f));
+        Add(TEXT("Sphere"),FVector(0,0,18.8f),FVector(.035f,.035f,.022f),FLinearColor(.85f,.57f,.12f));
+    }
+    if(Kind==ECEPropKind::Bag) {
+        Body->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.19f,.10f,.065f),TEXT("M_Fabric")));
+        for(float Side:{-1.f,1.f}) Add(TEXT("Cube"),FVector(Side*6,0,18),FVector(.015f,.025f,.12f),FLinearColor(.09f,.055f,.035f));
+        Add(TEXT("Cube"),FVector(0,0,24),FVector(.135f,.025f,.015f),FLinearColor(.09f,.055f,.035f));
+    }
     // Pastry folds and crescent silhouette are baked into SM_Croissant.
 }
 float ACEProp::AddLiquid(float Espresso,float Milk,float Water,float Degrees)
@@ -124,13 +142,28 @@ void ACEProp::UpdateLiquidVisual()
     if(Foam) {
         Foam->SetVisibility(bHasCoffee && FoamMl>.5f && !bBroken);
         const float Z=-9.f+VolumeMl()/CapacityMl()*19.f;
-        Foam->SetRelativeLocation(FVector(0,0,Z+FoamMl*.07f)/Body->GetComponentScale());
-        Foam->SetRelativeScale3D(FVector(.17f,.17f,.012f+FoamMl*.0018f)/Body->GetComponentScale());
+        Foam->SetRelativeLocation(FVector(0,0,Z+.35f)/Body->GetComponentScale());
+        Foam->SetRelativeScale3D(FVector(.17f,.17f,.006f+FoamMl*.00008f)/Body->GetComponentScale());
     }
     Coffee->SetRelativeLocation(FVector(0,0,-9.f+VolumeMl()/CapacityMl()*19.f)/Body->GetComponentScale());
     const float MilkRatio=MilkMl/FMath::Max(1.f,VolumeMl());
     if(auto* Mat=Cast<UMaterialInstanceDynamic>(Coffee->GetMaterial(0))) Mat->SetVectorParameterValue(TEXT("Tint"),FMath::Lerp(FLinearColor(.055f,.015f,.005f),FLinearColor(.87f,.76f,.51f),MilkRatio));
     DisplayName=Kind==ECEPropKind::Pitcher ? (Temperature>=55.f ? TEXT("Jarra de leche caliente") : TEXT("Jarra de leche fría")) : !bHasCoffee ? TEXT("Taza vacía") : MilkMl>30.f ? TEXT("Café con leche") : WaterMl>50.f ? TEXT("Americano") : EspressoMl>5.f ? TEXT("Espresso") : TEXT("Agua caliente");
+}
+void ACEProp::AnimateLiquidSurface(float Delta)
+{
+    if(!Coffee || !IsContainer()) return;
+    const FVector Velocity=Body->GetPhysicsLinearVelocity();
+    const FVector Acceleration=(Velocity-PreviousVelocity)/FMath::Max(.008f,Delta); PreviousVelocity=Velocity;
+    const FVector Local=GetActorQuat().UnrotateVector(Acceleration);
+    Slosh.X=FMath::FInterpTo(Slosh.X,FMath::Clamp(Local.Y*.012f,-7.f,7.f),Delta,5.f);
+    Slosh.Y=FMath::FInterpTo(Slosh.Y,FMath::Clamp(-Local.X*.012f,-7.f,7.f),Delta,5.f);
+    const float Upright=GetActorUpVector().Z; SurfaceTilt=FMath::RadiansToDegrees(FMath::Acos(FMath::Clamp(Upright,-1.f,1.f)));
+    const FQuat Level=GetActorQuat().Inverse()*FRotator(Slosh.Y,GetActorRotation().Yaw,Slosh.X).Quaternion();
+    Coffee->SetRelativeRotation(Level); Coffee->SetVisibility(bHasCoffee && !bBroken && Upright>.35f);
+    const float Radius=FMath::Lerp(.08f,.185f,FMath::Clamp(Upright,0.f,1.f));
+    Coffee->SetRelativeScale3D(FVector(Radius,Radius,.007f)/Body->GetComponentScale());
+    if(Foam) { Foam->SetRelativeRotation(Level); Foam->SetVisibility(bHasCoffee && FoamMl>.5f && !bBroken && Upright>.35f); }
 }
 void ACEProp::MarkThrown()
 {
@@ -184,6 +217,7 @@ void ACEProp::Tick(float DeltaSeconds)
         }
         else DropAccumulator=0.f;
     }
+    if(IsContainer()) AnimateLiquidSurface(DeltaSeconds);
     if(bBroken && Kind==ECEPropKind::Laptop && Details.Num()>1)
     {
         if(auto* Mat=Cast<UMaterialInstanceDynamic>(Details[1]->GetMaterial(0))) Mat->SetVectorParameterValue(TEXT("Tint"),FLinearColor(.01f,.01f,.01f));
@@ -195,6 +229,13 @@ void ACEProp::Hit(UPrimitiveComponent* HitComponent,AActor* OtherActor,UPrimitiv
     const float Now=GetWorld()->GetTimeSeconds();
     if(Now-LastHitAt<.5f) return;
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
+    if(!OwnerCustomerId.IsEmpty() && bThrown && !bBroken && NormalImpulse.Size()>80.f && Kind!=ECEPropKind::Laptop) {
+        bBroken=true; LastHitAt=Now;
+        for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(It->CustomerId==OwnerCustomerId) {
+            It->React(TEXT("belonging_damaged"),DisplayName,.4f);
+            It->Speak(Kind==ECEPropKind::Notebook ? TEXT("¡Mis notas! Las necesitaba para hoy.") : TEXT("Eso es mío. ¡Deja mis cosas en paz!"),4.f); break;
+        }
+    }
     if(Kind==ECEPropKind::Chair && NormalImpulse.Size()>220.f)
     {
         LastHitAt=Now; Cafe->Sound(TEXT("Thump"),HitResult.ImpactPoint,.4f);

@@ -49,6 +49,10 @@ void ACEGameMode::DialogueSmokeStep()
         Check(TEXT("contract_rejects_missing_fields"),!D->ValidateReply(TEXT("{\"texto\":\"Hola\"}"),T,E,A,L));
         Check(TEXT("contract_rejects_unknown_emotion"),!D->ValidateReply(TEXT("{\"texto\":\"Hola\",\"emocion\":\"hack\",\"cambio_enfado\":0,\"quiere_irse\":false}"),T,E,A,L));
         Check(TEXT("contract_rejects_excessive_gameplay_delta"),!D->ValidateReply(TEXT("{\"texto\":\"Hola\",\"emocion\":\"neutral\",\"cambio_enfado\":100,\"quiere_irse\":false}"),T,E,A,L));
+        Check(TEXT("perspective_rejects_customer_waiter_role_inversion"),!D->ValidatePerspective(SmokeCustomer,TEXT("Tú eres el que sirve, no pido yo.")) && !D->ValidatePerspective(SmokeCustomer,TEXT("Tú pides, no yo. Mi desayuno es tuyo.")) && D->ValidatePerspective(SmokeCustomer,TEXT("He pedido un latte con cruasán.")));
+        SmokeCustomer->HitCount=1; SmokeCustomer->WetMl=20;
+        Check(TEXT("perspective_rejects_victim_apology_for_received_coffee"),!D->ValidatePerspective(SmokeCustomer,TEXT("Me diste café en la camisa. Lo siento.")) && D->ValidatePerspective(SmokeCustomer,TEXT("Me echaste café en la camisa. Discúlpate.")));
+        SmokeCustomer->HitCount=0; SmokeCustomer->WetMl=0;
         Check(TEXT("empty_or_long_input_not_sent"),!D->Submit(TEXT("  ")) && !D->Submit(FString::ChrN(501,TEXT('x'))));
         Check(TEXT("text_field_accepts_spanish_input"),D->SetDraft(TEXT("Buenos días, ¿qué desayuno has pedido?")));
         Check(TEXT("UI_draft_starts_real_Ollama_request"),D->SubmitDraft());
@@ -156,8 +160,10 @@ void ACEGameMode::DialogueSmokeStep()
         const TCHAR* Meshes[]={TEXT("SM_Cup"),TEXT("SM_Pitcher"),TEXT("SM_Croissant"),TEXT("SM_BevelCube"),TEXT("SM_Head"),TEXT("SM_Torso"),TEXT("SM_Sleeve"),TEXT("SM_Forearm"),TEXT("SM_Hand"),TEXT("SM_Trouser"),TEXT("SM_Shin"),TEXT("SM_Shoe"),TEXT("SM_Hair"),TEXT("SM_Glasses"),TEXT("SM_Wand"),TEXT("SM_Bottle"),TEXT("SM_Pot"),TEXT("SM_Leaf"),TEXT("SM_Hopper"),TEXT("SM_SeatBack"),TEXT("SM_TrayRim"),TEXT("SM_Filter"),TEXT("SM_FilterGrip"),TEXT("SM_SteamKnob")};
         bool Loaded=true; for(const auto* N:Meshes) Loaded&=LoadObject<UStaticMesh>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Meshes/%s.%s"),N,N))!=nullptr;
         Check(TEXT("all_24_authored_models_available"),Loaded);
+        Check(TEXT("free_dialogue_prepares_voice_before_metadata_finishes"),D->PrewarmedVoices>0);
         bool Passed=true; auto Report=MakeShared<FJsonObject>(); for(const auto& P:LoopChecks){Report->SetBoolField(P.Key,P.Value); Passed&=P.Value;}
-        Report->SetBoolField(TEXT("passed"),Passed); Report->SetStringField(TEXT("version"),TEXT("0.8.0"));
+        Report->SetBoolField(TEXT("passed"),Passed && D->PrewarmedVoices>0); Report->SetStringField(TEXT("version"),TEXT("0.10.0"));
+        Report->SetNumberField(TEXT("prewarmed_voices"),D->PrewarmedVoices);
         Report->SetNumberField(TEXT("validated_live_replies"),D->ValidReplies); Report->SetNumberField(TEXT("played_Piper_voices"),D->PlayedVoices);
         Report->SetNumberField(TEXT("authored_service_replies"),D->ServiceReplies);
         Report->SetNumberField(TEXT("authored_service_voices_played"),D->ServicePlayedVoices);

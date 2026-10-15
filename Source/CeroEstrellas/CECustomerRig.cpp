@@ -9,6 +9,7 @@
 #include "Components/SceneComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/TextRenderComponent.h"
+#include "Components/AudioComponent.h"
 #include "Engine/SkeletalMesh.h"
 #include "PhysicsEngine/PhysicsAsset.h"
 #include "PhysicsEngine/PhysicsConstraintTemplate.h"
@@ -19,17 +20,20 @@
 
 bool ACECustomer::BuildRig(const FLinearColor& Outfit)
 {
-    const TCHAR* Names[]={TEXT("SK_Crypto"),TEXT("SK_Hipster"),TEXT("SK_Influencer")};
-    const FString Path=FString::Printf(TEXT("/Game/Prototype/Characters/%s.%s"),Names[Personality],Names[Personality]);
+    const TCHAR* Names[]={TEXT("SK_Crypto"),TEXT("SK_Hipster"),TEXT("SK_Influencer"),TEXT("SK_Punk"),TEXT("SK_Astronaut"),TEXT("SK_Diva"),TEXT("SK_Biker"),TEXT("SK_Granny"),TEXT("SK_Magician")};
+    const int32 BodyIndex=LookIndex<0 ? Personality : LookIndex%9;
+    const FString Path=FString::Printf(TEXT("/Game/Prototype/Characters/%s.%s"),Names[BodyIndex],Names[BodyIndex]);
     auto* Mesh=LoadObject<USkeletalMesh>(nullptr,*Path); if(!Mesh || !Mesh->GetSkeleton()) return false;
     VisualRoot=NewObject<USceneComponent>(this); AddInstanceComponent(VisualRoot);
     VisualRoot->SetupAttachment(Collision); VisualRoot->RegisterComponent();
+    const FVector Scales[]={FVector(1.02f),FVector(1.06f),FVector(.98f),FVector(1.04f),FVector(1.08f),FVector(1.01f),FVector(1.05f),FVector(.91f),FVector(1.07f)};
+    BodyScale=LookIndex>=0 ? Scales[LookIndex%9] : FVector::OneVector; VisualRoot->SetRelativeScale3D(BodyScale);
     Rig=NewObject<USkeletalMeshComponent>(this); AddInstanceComponent(Rig);
-    Rig->SetupAttachment(VisualRoot); Rig->SetRelativeLocation(FVector(0,0,-88));
+    Rig->SetupAttachment(VisualRoot); Rig->SetRelativeLocation(FVector(0,0,-88.f/BodyScale.Z));
     Rig->SetSkinnedAssetAndUpdate(Mesh); Rig->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    Rig->SetAnimInstanceClass(UCEBodyAnimation::StaticClass());
     Rig->VisibilityBasedAnimTickOption=EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
-    Rig->RegisterComponent(); Rig->RefreshBoneTransforms();
+    Rig->RegisterComponent(); Rig->SetAnimInstanceClass(UCEBodyAnimation::StaticClass());
+    Rig->SetComponentTickEnabled(true); Rig->AddTickPrerequisiteActor(this); Rig->SetForceRefPose(false); Rig->RefreshBoneTransforms();
     Rig->SetNotifyRigidBodyCollision(true); Rig->OnComponentHit.AddDynamic(this,&ACECustomer::RagdollContact);
     PhysicalDriver=NewObject<UPhysicalAnimationComponent>(this); AddInstanceComponent(PhysicalDriver);
     PhysicalDriver->RegisterComponent(); PhysicalDriver->SetSkeletalMeshComponent(Rig);
@@ -50,7 +54,8 @@ bool ACECustomer::BuildRig(const FLinearColor& Outfit)
         RestBones.Add(Name,Parent<0 ? Ref.GetRefBonePose()[i] : Ref.GetRefBonePose()[i]*RestBones.FindRef(Ref.GetBoneName(Parent)));
     }
     HeadPivot=NewObject<USceneComponent>(this); AddInstanceComponent(HeadPivot);
-    HeadPivot->SetupAttachment(VisualRoot); HeadPivot->RegisterComponent();
+    HeadPivot->SetupAttachment(Rig,TEXT("head"));
+    HeadPivot->SetRelativeRotation(RestBones.FindRef(TEXT("head")).GetRotation().Inverse().Rotator()); HeadPivot->RegisterComponent();
     auto Face=[this](const TCHAR* Shape,FVector Position,FVector Scale,FLinearColor Color) {
         auto* Part=CEVisual::Part(this,Shape,FVector::ZeroVector,Scale,Color);
         Part->AttachToComponent(HeadPivot,FAttachmentTransformRules::KeepRelativeTransform); Part->SetRelativeLocation(Position); return Part;
@@ -97,16 +102,18 @@ bool ACECustomer::BuildRig(const FLinearColor& Outfit)
         Face(TEXT("Cylinder"),FVector(0,0,17),FVector(.36f,.32f,.025f),FLinearColor(.04f,.025f,.07f));
         Face(TEXT("Cylinder"),FVector(0,0,27),FVector(.23f,.22f,.19f),FLinearColor(.08f,.045f,.14f));
     }
-    // Tailored details use bone sockets and therefore follow animated and
-    // physical bodies; they cannot drag trouser vertices back into the arms.
-    for(float Side:{-1.f,1.f}) {
-        auto* Lapel=CEVisual::Part(this,TEXT("Cube"),FVector::ZeroVector,FVector(.018f,.06f,.14f),Cloth*.65f);
-        Lapel->AttachToComponent(Rig,FAttachmentTransformRules::KeepRelativeTransform,TEXT("chest"));
-        Lapel->SetRelativeRotation(RestBones.FindRef(TEXT("chest")).GetRotation().Inverse().Rotator());
-        Lapel->SetRelativeLocation(RestBones.FindRef(TEXT("chest")).GetRotation().Inverse().RotateVector(FVector(-12,Side*5.f,-4)));
+    auto* Collar=CEVisual::Part(this,TEXT("SM09_Collar"),FVector::ZeroVector,FVector(.11f,.18f,.085f),Cloth*.75f);
+    Collar->AttachToComponent(Rig,FAttachmentTransformRules::KeepRelativeTransform,TEXT("chest"));
+    Collar->SetRelativeRotation(RestBones.FindRef(TEXT("chest")).GetRotation().Inverse().Rotator());
+    Collar->SetRelativeLocation(RestBones.FindRef(TEXT("chest")).GetRotation().Inverse().RotateVector(FVector(-12,0,0)));
+    for(int32 Button=0;Button<3;++Button) {
+        auto* Detail=CEVisual::Part(this,TEXT("Sphere"),FVector::ZeroVector,FVector(.009f),Cloth*.4f);
+        Detail->AttachToComponent(Rig,FAttachmentTransformRules::KeepRelativeTransform,TEXT("chest"));
+        Detail->SetRelativeLocation(RestBones.FindRef(TEXT("chest")).GetRotation().Inverse().RotateVector(FVector(-14,0,-5.f-Button*6.f)));
     }
     Phone=CEVisual::Part(this,TEXT("Cube"),FVector::ZeroVector,FVector(.018f,.065f,.13f),FLinearColor(.055f,.04f,.06f));
-    Phone->AttachToComponent(VisualRoot,FAttachmentTransformRules::KeepRelativeTransform); Phone->SetVisibility(false);
+    Phone->AttachToComponent(Rig,FAttachmentTransformRules::KeepRelativeTransform,TEXT("hand_l"));
+    Phone->SetRelativeRotation(RestBones.FindRef(TEXT("hand_l")).GetRotation().Inverse().Rotator()); Phone->SetVisibility(false);
     UE_LOG(LogTemp,Display,TEXT("CE_CUSTOMER_RIG mesh=%s bones=%d head=%s"),*Path,Rig->GetNumBones(),*RestBones.FindRef(TEXT("head")).GetLocation().ToString());
     return true;
 }
@@ -117,22 +124,16 @@ void ACECustomer::VoiceStarted(float Duration,float Energy) { VoiceBegin=GetWorl
 void ACECustomer::SetSpeechEnvelope(const TArray<float>& Levels,float Duration) { VoiceStarted(Duration); SpeechLevels=Levels; }
 void ACECustomer::ImmediateVoice(const TCHAR* Cue)
 {
-    const float Now=GetWorld()->GetTimeSeconds(); if(Now-ImmediateVoiceAt<3.5f) return;
-    const FString Name=FString::Printf(TEXT("NPC_%d_%s"),Personality,Cue);
-    auto* Wave=LoadObject<USoundBase>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Audio/Customers/%s.%s"),*Name,*Name));
-    if(!Wave) return; ImmediateVoiceAt=Now;
-    auto* Spatial=NewObject<USoundAttenuation>(this); Spatial->Attenuation.bAttenuate=true; Spatial->Attenuation.bSpatialize=true;
-    Spatial->Attenuation.AttenuationShapeExtents=FVector(80); Spatial->Attenuation.FalloffDistance=480.f;
-    auto* Limit=LoadObject<USoundConcurrency>(nullptr,TEXT("/Game/Prototype/Audio/SC_Customers.SC_Customers"));
-    const float Pitch=Personality==0 ? .94f : Personality==1 ? 1.02f : 1.12f;
-    UGameplayStatics::PlaySoundAtLocation(GetWorld(),Wave,HeadLocation(),FRotator::ZeroRotator,.6f,Pitch,0.f,Spatial,Limit,this);
-    VoiceStarted(Wave->GetDuration()/Pitch);
+    // Speak owns the exact recording. The cue marks attention without starting
+    // a second voice whose words differ from the visible caption.
+    if(Cue) GestureAttention=1.f;
 }
 
 void ACECustomer::AnimateRig(float Delta,bool bWalking)
 {
     if(!Rig) return;
     const float Now=GetWorld()->GetTimeSeconds();
+    if(bPhysicalFall && PhysicalDriver) PhysicalDriver->SetStrengthMultiplyer(.25f*FMath::Clamp((FallenUntil-Now-2.65f)/.35f,0.f,1.f));
     const float Travel=FVector::Dist2D(GetActorLocation(),LastMotionLocation); LastMotionLocation=GetActorLocation();
     if(bWalking && Travel<12.f) WalkPhase+=Travel*.057f;
     PoseWalk=FMath::FInterpTo(PoseWalk,bWalking ? 1.f : 0.f,Delta,6.f);
@@ -146,10 +147,16 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
     PoseSeat=bPhysicalFall ? FallSeatBlend : FMath::FInterpTo(PoseSeat,bSeated ? 1.f : 0.f,Delta,5.f);
     PoseFall=FMath::FInterpTo(PoseFall,Now<FallenUntil && !bPhysicalFall ? 1.f : 0.f,Delta,Now<FallenUntil ? 10.f : 3.f);
     PoseGesture=FMath::FInterpTo(PoseGesture,Now<GestureUntil ? 1.f : 0.f,Delta,6.f);
-    bFilming=Now<FilmingUntil; bTakingSip=State==ECECustomerState::Eating && FMath::Fmod(Now,5.f)<1.7f && PoseFall<.1f;
+    bFilming=Now<FilmingUntil;
+    const bool WantsSip=State==ECECustomerState::Eating && bSeated && FMath::Fmod(Now,5.f)<1.7f && !bPhysicalFall && Now>RecoverUntil && Now>ProtectUntil && Now>WipeUntil;
+    SipBlend=FMath::FInterpTo(SipBlend,WantsSip ? 1.f : 0.f,Delta,5.f); bTakingSip=SipBlend>.02f;
+    WipeBlend=FMath::FInterpTo(WipeBlend,Now<WipeUntil ? 1.f : 0.f,Delta,6.f);
     float Yaw=0;
+    FVector Attention=FVector::ZeroVector; bool SocialAttention=false;
+    if(Now<SocialGestureUntil && !SocialPartnerId.IsEmpty()) for(TActorIterator<ACECustomer> It(GetWorld());It;++It)
+        if(It->CustomerId==SocialPartnerId && !It->bLeaving) { Attention=It->HeadLocation(); SocialAttention=true; break; }
     if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0)) {
-        const FVector Local=GetActorTransform().InverseTransformPosition(Player->GetActorLocation());
+        const FVector Local=GetActorTransform().InverseTransformPosition(SocialAttention && Now>DialogueHoldUntil ? Attention : Player->GetActorLocation());
         if(Local.Size2D()<420.f || Now<ThinkingUntil) Yaw=FMath::Clamp(FMath::UnwindDegrees(Local.Rotation().Yaw-180.f),-48.f,48.f);
     }
     PoseHeadYaw=FMath::FInterpTo(PoseHeadYaw,Yaw,Delta,4.f);
@@ -161,7 +168,8 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
         const FTransform Rest=RestBones.FindRef(Name);
         FTransform Pose=Parent.IsNone() ? Rest : Rest.GetRelativeTransform(RestBones.FindRef(Parent))*PosedBones.FindRef(Parent);
         const FString Bone=Name.ToString(); float Pitch=0,Roll=0,YawBone=0;
-        const float Side=Bone.EndsWith(TEXT("_l")) ? -1.f : 1.f;
+        const bool LeftBone=Bone.EndsWith(TEXT("_l"));
+        const float Side=FMath::Sign(RestBones.FindRef(LeftBone ? TEXT("upperarm_l") : TEXT("upperarm_r")).GetLocation().Y);
         const auto Stride=CEGuestMotion::Stride(WalkPhase+(Side<0 ? PI : 0.f));
         if(Bone==TEXT("root")) {
             Pitch=(bPhysicalFall || RecoverUntil>Now) ? 0.f : PoseFall*78.f; Roll=(bPhysicalFall || RecoverUntil>Now) ? 0.f : PoseFall*15.f;
@@ -172,43 +180,64 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
         else if(Bone==TEXT("spine")) Pitch=Breath+PoseSeat*5.f+Anger*2.f;
         else if(Bone==TEXT("head")) { YawBone=PoseHeadYaw; Pitch=Now<ThinkingUntil ? -5.f : Now<GestureUntil ? FMath::Sin(Now*4.f)*3.f : 0.f; }
         else if(Bone.StartsWith(TEXT("upperarm"))) {
-            Pitch=FMath::Lerp(-4.f-PoseGesture*(23.f+FMath::Sin(Now*5.f+Side)*9.f),Stride.Arm,PoseWalk);
+            Pitch=FMath::Lerp(-3.f-PoseGesture*(!LeftBone ? 18.f+FMath::Sin(Now*3.f)*4.f : 5.f),Stride.Arm,PoseWalk);
             if(!bPhysicalFall && RecoverUntil<Now) Pitch=FMath::Lerp(Pitch,-98.f+FMath::Sin(Now*12.f+Side)*13.f,PoseFall);
-            Roll=Side*(8.f+Anger*8.f);
-            if(bFilming && Side<0) { Pitch=-68.f; Roll=-8.f; }
-            if(bTakingSip && Side>0) { Pitch=-48.f; Roll=8.f; }
-            if(Now<ProtectUntil && Side>0) { Pitch=-65.f; Roll=12.f; }
+            Roll=Side*(4.f+Anger*4.f);
+            if((bFilming || Now<PhoneCallUntil || (StoryStage==1 && (StoryId==2 || StoryId==4))) && LeftBone) { Pitch=-68.f; Roll=Side*8.f; }
+            if(bTakingSip && !LeftBone) { Pitch=-48.f; Roll=Side*8.f; }
+            if(Now<ProtectUntil && !LeftBone) { Pitch=-65.f; Roll=Side*12.f; }
         } else if(Bone.StartsWith(TEXT("forearm"))) {
-            Pitch=-8.f-PoseGesture*38.f;
-            if(bFilming && Side<0) Pitch=-38.f;
-            if(bTakingSip && Side>0) Pitch=-90.f;
+            Pitch=-6.f-PoseGesture*(!LeftBone ? 22.f : 6.f);
+            if((bFilming || Now<PhoneCallUntil || (StoryStage==1 && (StoryId==2 || StoryId==4))) && LeftBone) Pitch=-38.f;
+            if(bTakingSip && !LeftBone) Pitch=-90.f;
         } else if(Bone.StartsWith(TEXT("thigh"))) Pitch=-PoseSeat*83.f+Stride.Hip*PoseWalk+PoseFall*12.f;
         else if(Bone.StartsWith(TEXT("shin"))) Pitch=PoseSeat*83.f+Stride.Knee*PoseWalk;
         if(Bone.StartsWith(TEXT("foot"))) Pitch=Stride.Ankle*PoseWalk;
         if(Now<WipeUntil && (Bone==TEXT("upperarm_r") || Bone==TEXT("forearm_r"))) { Pitch=Bone==TEXT("upperarm_r") ? -38.f : -65.f; Roll=FMath::Sin(Now*8.f)*8.f; }
+        if(Now<SocialGestureUntil && Bone==TEXT("upperarm_r")) Pitch-=StoryId==3 ? 35.f : 15.f;
         if(Bone==TEXT("chest") && Now<RecoilUntil) Pitch-=12.f*(RecoilUntil-Now);
         const FQuat DeltaRotation=FRotator(Pitch,YawBone,Roll).Quaternion();
         Pose.SetRotation(DeltaRotation*Pose.GetRotation()); Pose.NormalizeRotation();
         PosedBones.Add(Name,Pose);
     }
+    const bool GroundCheck=Now>=NextGroundCheckAt;
+    if(GroundCheck) { const auto* Player=UGameplayStatics::GetPlayerPawn(this,0); NextGroundCheckAt=Now+(Player && FVector::DistSquared(Player->GetActorLocation(),GetActorLocation())<250000.f ? .05f : .15f); }
     if(!bPhysicalFall && RecoverUntil<Now) {
         // Reach towards the desk or the mouth instead of moving the cup
         // independently of the arm. The elbow keeps a consistent bend plane.
         for(int32 SideIndex=0;SideIndex<2;++SideIndex) {
-            const TCHAR* S=SideIndex==0 ? TEXT("l") : TEXT("r"); const float Side=SideIndex==0 ? -1.f : 1.f;
-            if((!bSeated && !(bTakingSip && SideIndex==1)) || bFilming || Now<WipeUntil || Now<ProtectUntil) continue;
+            const TCHAR* S=SideIndex==0 ? TEXT("l") : TEXT("r");
+            const bool PhoneHand=(bFilming || Now<PhoneCallUntil || (StoryStage==1 && (StoryId==2 || StoryId==4))) && SideIndex==0;
+            const bool SipHand=bTakingSip && SideIndex==1;
+            const bool WipeHand=Now<WipeUntil && SideIndex==1;
+            const bool ProtectHand=Now<ProtectUntil && SideIndex==1;
+            if(!bSeated && !PhoneHand && !SipHand && !WipeHand && !ProtectHand) continue;
             const FName Shoulder(*FString::Printf(TEXT("upperarm_%s"),S)),Elbow(*FString::Printf(TEXT("forearm_%s"),S)),Hand(*FString::Printf(TEXT("hand_%s"),S));
+            // FBX handedness can invert Y. Anatomical names must not decide a
+            // world-space side: doing so sends both hands across the torso.
+            const float Side=FMath::Sign(RestBones.FindRef(Shoulder).GetLocation().Y);
             const FVector A=PosedBones.FindRef(Shoulder).GetLocation(),B=PosedBones.FindRef(Elbow).GetLocation(),OldEnd=PosedBones.FindRef(Hand).GetLocation();
-            FVector Goal(-33.f,Side*25.f,84.f);
-            if(bTakingSip && SideIndex==1) Goal=PosedBones.FindRef(TEXT("head")).GetLocation()+FVector(-10,7,-18);
+            // Hands rest separately on the near edge. Targets are transformed
+            // from world height, so different bodies do not reach through wood.
+            const float DeskZ=Rig->GetComponentTransform().InverseTransformPosition(FVector(GetActorLocation().X,GetActorLocation().Y,85.f)).Z;
+            FVector Goal(-30.f,Side*29.f,DeskZ);
+            Goal=FMath::Lerp(OldEnd,Goal,PoseSeat);
+            const FVector HeadPosition=PosedBones.FindRef(TEXT("head")).GetLocation();
+            if(SipHand) Goal=FMath::Lerp(Goal,HeadPosition+FVector(-20,Side*22,-16),SipBlend);
+            if(PhoneHand) Goal=HeadPosition+FVector(-8,Side*17,-6);
+            if(WipeHand) Goal=FMath::Lerp(Goal,HeadPosition+FVector(-13,Side*(5+FMath::Sin(Now*5.f)*3),-8),WipeBlend);
+            if(ProtectHand) Goal=FVector(-35,Side*29,DeskZ+8);
             const float L1=FVector::Dist(A,B),L2=FVector::Dist(B,OldEnd);
-            const FVector Axis=(Goal-A).GetSafeNormal(); const float D=FMath::Clamp(FVector::Dist(A,Goal),1.f,L1+L2-.1f);
+            const FVector Axis=(Goal-A).GetSafeNormal(); const float D=FMath::Clamp(FVector::Dist(A,Goal),FMath::Max(18.f,FMath::Abs(L1-L2)+1.f),L1+L2-.5f);
             Goal=A+Axis*D; const float Along=(L1*L1-L2*L2+D*D)/(2.f*D);
-            FVector Bend=FVector::VectorPlaneProject(FVector(0,Side*.3f,-1),Axis).GetSafeNormal();
+            FVector Bend=FVector::VectorPlaneProject(FVector(.15f,Side*.85f,-1),Axis).GetSafeNormal();
             const FVector NewB=A+Axis*Along+Bend*FMath::Sqrt(FMath::Max(0.f,L1*L1-Along*Along));
             auto& Upper=PosedBones.FindChecked(Shoulder); Upper.SetRotation(FQuat::FindBetweenVectors(B-A,NewB-A)*Upper.GetRotation());
-            auto& Lower=PosedBones.FindChecked(Elbow); Lower.SetLocation(NewB); Lower.SetRotation(FQuat::FindBetweenVectors(OldEnd-B,Goal-NewB)*Lower.GetRotation());
-            PosedBones.FindChecked(Hand).SetLocation(Goal);
+            const FQuat WristDelta=FQuat::FindBetweenVectors(OldEnd-B,Goal-NewB);
+            auto& Lower=PosedBones.FindChecked(Elbow); Lower.SetLocation(NewB); Lower.SetRotation(WristDelta*Lower.GetRotation());
+            auto& Wrist=PosedBones.FindChecked(Hand); Wrist.SetLocation(Goal); Wrist.SetRotation(WristDelta*Wrist.GetRotation());
+            if(bSeated && !SipHand && !PhoneHand && !WipeHand && !ProtectHand)
+                Wrist.SetRotation(FQuat::FindBetweenNormals(FVector::DownVector,FVector(-1,0,-.12f).GetSafeNormal())*RestBones.FindRef(Hand).GetRotation());
         }
         // Two-bone leg correction against the floor. Knee plane remains in
         // front of the hip, and contact offsets are eased to avoid foot pops.
@@ -217,9 +246,9 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
             const FName Hip(*FString::Printf(TEXT("thigh_%s"),S)),Knee(*FString::Printf(TEXT("shin_%s"),S)),Foot(*FString::Printf(TEXT("foot_%s"),S));
             FVector End=PosedBones.FindRef(Foot).GetLocation(); const FVector World=Rig->GetComponentTransform().TransformPosition(End);
             FHitResult Hit; FCollisionQueryParams Query; Query.AddIgnoredActor(this);
-            const bool Ground=GetWorld()->LineTraceSingleByChannel(Hit,World+FVector(0,0,18),World-FVector(0,0,30),ECC_WorldStatic,Query);
+            const bool Ground=GroundCheck && GetWorld()->LineTraceSingleByChannel(Hit,World+FVector(0,0,18),World-FVector(0,0,30),ECC_WorldStatic,Query);
             const float Correction=Ground ? FMath::Clamp(Hit.ImpactPoint.Z+9.f-World.Z,-8.f,14.f) : 0.f;
-            FootGroundOffsets[SideIndex]=FMath::FInterpTo(FootGroundOffsets[SideIndex],Correction,Delta,12.f);
+            if(GroundCheck) FootGroundOffsets[SideIndex]=FMath::FInterpTo(FootGroundOffsets[SideIndex],Correction,.05f,12.f);
             const FVector A=PosedBones.FindRef(Hip).GetLocation(),B=PosedBones.FindRef(Knee).GetLocation();
             End.Z+=FootGroundOffsets[SideIndex];
             const float L1=FVector::Dist(A,B),L2=FVector::Dist(B,PosedBones.FindRef(Foot).GetLocation());
@@ -242,17 +271,17 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
             Animation->LocalPoseFrame.Add(Local);
         }
     }
-    // Face uses the head's displacement from its reference orientation.
-    const FTransform Head=Rig->GetSocketTransform(TEXT("head")), RestHead=RestBones.FindRef(TEXT("head"));
-    HeadPivot->SetWorldLocation(Head.GetLocation());
-    HeadPivot->SetWorldRotation((Head.GetRotation()*RestHead.GetRotation().Inverse()).Rotator());
+    // Socket children follow the evaluated bones in the same frame. Updating
+    // their world position before skeletal evaluation made faces/phones lag.
     if(ServedCup.IsValid() && ServedCup->bDelivered && !ServedCup->bHeld && !ServedCup->bBroken) {
         auto* Cup=ServedCup.Get();
         FVector CupTarget=ServedCupPosition;
-        if(bTakingSip) CupTarget=Rig->GetSocketLocation(TEXT("hand_r"))+GetActorRotation().RotateVector(FVector(-15,0,11));
+        const float RightSide=FMath::Sign(RestBones.FindRef(TEXT("hand_r")).GetLocation().Y);
+        if(bTakingSip) CupTarget=FMath::Lerp(ServedCupPosition,Rig->GetSocketLocation(TEXT("hand_r"))+GetActorRotation().RotateVector(FVector(-3,-RightSide*17,0)),SipBlend);
         Cup->SetActorLocation(FMath::VInterpTo(Cup->GetActorLocation(),CupTarget,Delta,5.f));
-        Cup->SetActorRotation(FRotator(bTakingSip ? -12.f : 0.f,GetActorRotation().Yaw,0));
-        if(bTakingSip && Cup->VolumeMl()>0) { const float Ratio=FMath::Max(0.f,1.f-Delta*4.f/FMath::Max(1.f,Cup->VolumeMl())); Cup->EspressoMl*=Ratio; Cup->MilkMl*=Ratio; Cup->WaterMl*=Ratio; Cup->UpdateLiquidVisual(); }
+        Cup->SetActorRotation(FRotator(-12.f*SipBlend,GetActorRotation().Yaw+RightSide*90.f*SipBlend,0));
+        if(bPhysicalFall || bLeaving) { Cup->bDelivered=false; Cup->Body->SetSimulatePhysics(true); ServedCup.Reset(); }
+        if(bTakingSip && !bPhysicalFall && !bLeaving && Cup->VolumeMl()>0) { const float Ratio=FMath::Max(0.f,1.f-Delta*4.f/FMath::Max(1.f,Cup->VolumeMl())); Cup->EspressoMl*=Ratio; Cup->MilkMl*=Ratio; Cup->WaterMl*=Ratio; Cup->UpdateLiquidVisual(); }
     }
     const bool Blink=FMath::Fmod(Now+SeatSlot*.71f,4.3f)<.13f;
     const bool Speaking=Now<VoiceUntil;
@@ -261,13 +290,13 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
     for(int32 i=0;i<2;++i) {
         Eyes[i]->SetRelativeScale3D(FVector(.021f,.043f,Blink ? .003f : .025f)); Pupils[i]->SetVisibility(!Blink,true);
         Brows[i]->SetRelativeRotation(FRotator(0,0,(i==0 ? -1.f : 1.f)*(DialogueEmotion==TEXT("triste") ? -16.f : Anger*18.f)));
+        Pupils[i]->SetRelativeLocation(FVector(-12.5f,(i==0 ? -4.8f : 4.8f)+FMath::Clamp(PoseHeadYaw*.015f,-.5f,.5f),3));
     }
     Mouth->SetRelativeScale3D(FVector(.01f,.056f,.008f+Talk*.03f));
     if(ClothingMaterial) ClothingMaterial->SetScalarParameterValue(TEXT("Wetness"),FMath::Clamp(WetMl/90.f,0.f,1.f));
+    if(AuthoredSpeaker) AuthoredSpeaker->SetWorldLocation(HeadLocation());
     if(Phone) {
-        Phone->SetVisibility(bFilming);
-        Phone->SetWorldLocation(Rig->GetSocketLocation(TEXT("hand_l")));
-        Phone->SetWorldRotation(GetActorRotation()+FRotator(0,PoseHeadYaw,8));
+        Phone->SetVisibility(bFilming || Now<PhoneCallUntil || (StoryStage==1 && (StoryId==2 || StoryId==4)));
     }
 }
 
@@ -276,7 +305,12 @@ bool ACECustomer::StartPhysicalFall(const FVector& Direction)
     if(!Rig || !Rig->GetPhysicsAsset()) return false;
     int32 Active=0; for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(It->bPhysicalFall) ++Active;
     if(Active>=2) return false;
-    if(PhysicalDriver) PhysicalDriver->SetStrengthMultiplyer(0.f);
+    if(PhysicalDriver) {
+        FPhysicalAnimationData Support; Support.bIsLocalSimulation=true;
+        Support.OrientationStrength=450.f; Support.AngularVelocityStrength=55.f;
+        PhysicalDriver->ApplyPhysicalAnimationSettingsBelow(TEXT("pelvis"),Support,true);
+        PhysicalDriver->SetStrengthMultiplyer(.25f);
+    }
     // During ragdoll, interaction and liquid traces must hit the actual body,
     // never an invisible upright capsule where the customer used to stand.
     FallSeatBlend=PoseSeat; FallOrigin=GetActorLocation();
@@ -295,18 +329,26 @@ bool ACECustomer::StartPhysicalFall(const FVector& Direction)
 void ACECustomer::EndPhysicalFall()
 {
     if(!bPhysicalFall || !Rig) return;
+    const FVector Pelvis=Rig->GetSocketLocation(TEXT("pelvis"));
+    FHitResult Floor; FCollisionQueryParams Q; Q.AddIgnoredActor(this);
+    FVector Arrival=GetActorLocation(); Arrival.X=Pelvis.X; Arrival.Y=Pelvis.Y;
+    // Stand outside a tabletop rather than recovering through it.
+    if(Arrival.X>290 && Arrival.X<420) Arrival.X=452;
+    if(GetWorld()->LineTraceSingleByObjectType(Floor,Arrival+FVector(0,0,100),Arrival-FVector(0,0,500),FCollisionObjectQueryParams(ECC_WorldStatic),Q)) Arrival.Z=Floor.ImpactPoint.Z+92.f;
+    const FTransform NewRig(GetActorQuat(),Arrival+FVector(0,0,-88),BodyScale);
     RecoveryPose.Reset();
     for(int32 i=0;i<Rig->GetNumBones();++i) {
         const FName Name=Rig->GetBoneName(i),Parent=Rig->GetParentBone(Name);
-        FTransform Pose=Rig->GetSocketTransform(Name,RTS_Component);
-        if(!Parent.IsNone()) Pose=Pose.GetRelativeTransform(Rig->GetSocketTransform(Parent,RTS_Component));
+        FTransform Pose=Rig->GetSocketTransform(Name,RTS_World);
+        Pose=Pose.GetRelativeTransform(Parent.IsNone() ? NewRig : Rig->GetSocketTransform(Parent,RTS_World));
         RecoveryPose.Add(Pose);
     }
     Rig->SetAllBodiesSimulatePhysics(false); Rig->SetAllBodiesPhysicsBlendWeight(0.f);
     Rig->SetSimulatePhysics(false);
     Rig->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    SetActorLocation(Arrival);
     Rig->AttachToComponent(VisualRoot,FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-    Rig->SetRelativeLocationAndRotation(FVector(0,0,-88),FRotator::ZeroRotator);
+    Rig->SetRelativeLocationAndRotation(FVector(0,0,-88.f/BodyScale.Z),FRotator::ZeroRotator);
     Collision->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     bPhysicalFall=false; RecoverUntil=GetWorld()->GetTimeSeconds()+1.1f;
     UE_LOG(LogTemp,Display,TEXT("CE_RAGDOLL_END id=%s"),*CustomerId);
@@ -338,10 +380,35 @@ bool ACECustomer::IsBodyConsistent(float MaxJointError) const {
     return true;
 }
 
+bool ACECustomer::HasNaturalArmPose() const {
+    UE_LOG(LogTemp,Display,TEXT("CE10_RENDER_POSE desired_head=%s rendered_head=%s anim=%s tick=%d"),*PosedBones.FindRef(TEXT("head")).GetLocation().ToString(),*Rig->GetSocketTransform(TEXT("head"),RTS_Component).GetLocation().ToString(),*GetNameSafe(Rig->GetAnimInstance()),Rig->IsComponentTickEnabled());
+    if(bSeated && FVector::Distance(PosedBones.FindRef(TEXT("head")).GetLocation(),Rig->GetSocketTransform(TEXT("head"),RTS_Component).GetLocation())>4.f) return false;
+    for(const auto* Side:{TEXT("l"),TEXT("r")}) {
+        const FName Upper(*FString::Printf(TEXT("upperarm_%s"),Side)),Lower(*FString::Printf(TEXT("forearm_%s"),Side)),Hand(*FString::Printf(TEXT("hand_%s"),Side));
+        if(!PosedBones.Contains(Hand)) return false;
+        const FVector A=PosedBones.FindRef(Upper).GetLocation(),B=PosedBones.FindRef(Lower).GetLocation(),C=PosedBones.FindRef(Hand).GetLocation();
+        const float L1=FVector::Dist(RestBones.FindRef(Upper).GetLocation(),RestBones.FindRef(Lower).GetLocation());
+        const float L2=FVector::Dist(RestBones.FindRef(Lower).GetLocation(),RestBones.FindRef(Hand).GetLocation());
+        if(C.ContainsNaN() || FMath::Abs(FVector::Dist(A,B)-L1)>.1f || FMath::Abs(FVector::Dist(B,C)-L2)>.1f) {
+            UE_LOG(LogTemp,Warning,TEXT("CE10_ARM_LENGTH side=%s upper=%.3f/%.3f lower=%.3f/%.3f A=%s B=%s C=%s"),Side,FVector::Dist(A,B),L1,FVector::Dist(B,C),L2,*A.ToString(),*B.ToString(),*C.ToString()); return false;
+        }
+        if(bSeated && FVector::Distance(C,Rig->GetSocketTransform(Hand,RTS_Component).GetLocation())>4.f) return false;
+        const float BodySide=FMath::Sign(RestBones.FindRef(Upper).GetLocation().Y);
+        if(bSeated && !bTakingSip && !bFilming && GetWorld()->GetTimeSeconds()>PhoneCallUntil && GetWorld()->GetTimeSeconds()>WipeUntil && C.Y*BodySide<18.f) return false;
+        if(bSeated && !bTakingSip && !bFilming && GetWorld()->GetTimeSeconds()>PhoneCallUntil && GetWorld()->GetTimeSeconds()>WipeUntil && GetWorld()->GetTimeSeconds()>ProtectUntil) {
+            const FVector Wrist=Rig->GetSocketLocation(Hand); FHitResult Desk; FCollisionQueryParams Query; Query.AddIgnoredActor(this);
+            if(!GetWorld()->LineTraceSingleByObjectType(Desk,Wrist+FVector(0,0,3),Wrist-FVector(0,0,16),FCollisionObjectQueryParams(ECC_WorldStatic),Query)) return false;
+            const float Gap=Wrist.Z-Desk.ImpactPoint.Z;
+            if(Gap<1.f || Gap>6.f) return false; // Wrist clearance for the authored palm, not a floating hand.
+        }
+    }
+    return true;
+}
+
 void ACECustomer::RagdollContact(UPrimitiveComponent* HitComponent,AActor* OtherActor,UPrimitiveComponent* OtherComponent,FVector Impulse,const FHitResult& Hit) {
     const float Now=GetWorld()->GetTimeSeconds(); auto* Other=Cast<ACECustomer>(OtherActor);
-    if(bPhysicalFall && Other) UE_LOG(LogTemp,Display,TEXT("CE_RAGDOLL_CONTACT source=%s target=%s impulse=%.1f"),*CustomerId,*Other->CustomerId,Impulse.Size());
     if(!bPhysicalFall || !Other || Other==this || Other->bPhysicalFall || Other->bLeaving || Now-LastRagdollContactAt<6.f || Impulse.Size()<700.f) return;
+    UE_LOG(LogTemp,Display,TEXT("CE_RAGDOLL_CONTACT source=%s target=%s impulse=%.1f"),*CustomerId,*Other->CustomerId,Impulse.Size());
     LastRagdollContactAt=Now; auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
     ++Cafe->ChainReactions; Cafe->Observe(TEXT("chain_reaction"),Other->CustomerId,TEXT("Contacto con cliente que cae"),.45f);
     Other->Fall((Other->GetActorLocation()-GetActorLocation()).GetSafeNormal2D());

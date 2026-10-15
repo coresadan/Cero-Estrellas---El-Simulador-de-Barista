@@ -56,6 +56,7 @@ public:
     int32 ServicePlayedVoices = 0;
     int32 DiscardedStaleVoices = 0;
     bool LastVoiceCacheHit = false;
+    int32 PrewarmedVoices = 0;
     bool bVoiceEnabled = true;
     bool bRecording = false;
     bool bLastReplyFromOllama = false;
@@ -64,6 +65,7 @@ public:
     FString Model = TEXT("qwen3:4b-instruct");
     // Shared by runtime and contract tests; reject incomplete/malformed output atomically.
     static bool ValidateReply(const FString& Json, FString& Text, FString& Emotion, float& Anger, bool& Leave);
+    static bool ValidatePerspective(const ACECustomer* Customer,const FString& Text);
     void TranscribeWav(const TArray<uint8>& Wav);
     bool SetDraft(const FString& Text);
     bool SubmitDraft();
@@ -80,6 +82,7 @@ private:
     TSharedPtr<FCEReplyStream,ESPMode::ThreadSafe> ReplyStream;
     TArray<uint8> StreamLine;
     FString StreamJson, StreamEnvelope;
+    FString PrewarmedText;
     double TurnStartedAt = 0;
     void ConsumeReplyStream();
     UPROPERTY() TObjectPtr<UAudioComponent> Speaker;

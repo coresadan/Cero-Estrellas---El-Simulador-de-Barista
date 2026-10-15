@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "characters": [
+    {
+      "mesh": "SK_Crypto",
+      "trouser_vertices": 6599,
+      "max_trouser_displacement_from_arm_motion_cm": 0.0,
+      "max_hand_motion_cm": 66.6335028685181,
+      "invalid_weight_sums": 0,
+      "passed": true
+    },
+    {
+      "mesh": "SK_Hipster",
+      "trouser_vertices": 6599,
+      "max_trouser_displacement_from_arm_motion_cm": 0.0,
+      "max_hand_motion_cm": 66.6335028685181,
+      "invalid_weight_sums": 0,
+      "passed": true
+    },
+    {
+      "mesh": "SK_Influencer",
+      "trouser_vertices": 6599,
+      "max_trouser_displacement_from_arm_motion_cm": 0.0,
+      "max_hand_motion_cm": 66.6335028685181,
+      "invalid_weight_sums": 0,
+      "passed": true
+    }
+  ]
+}

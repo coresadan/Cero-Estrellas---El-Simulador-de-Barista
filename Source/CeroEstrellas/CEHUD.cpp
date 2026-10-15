@@ -44,13 +44,13 @@ void ACEHUD::DrawHUD()
     }
     if(Focused && Focused->StoryId>=0 && !Player->bShowOrderList) {
         const float X=W-282*S,Y=115*S;
-        Wrapped(Focused->StoryTitle,X,Y,260*S,.64f*S,Gold);
-        Wrapped(Focused->bStoryResolved ? Focused->StoryOutcome : Focused->StoryObjective,X,Y+23*S,260*S,.54f*S,Cream);
+        Wrapped(Focused->StoryTitle+FString::Printf(TEXT(" · %d/3"),FMath::Min(3,Focused->StoryStage+1)),X,Y,260*S,.64f*S,Gold);
+        Wrapped(Focused->bStoryResolved ? Focused->StoryOutcome : Focused->StoryBeat,X,Y+23*S,260*S,.54f*S,Cream);
     }
     DrawRect(Target ? Gold : Cream,W/2-2,H/2-2,4,4);
     FString Hint; auto* Station=Cast<ACEStation>(Target); if(!Station && Target) Station=Cast<ACEStation>(Target->GetAttachParentActor());
     if(Station) Hint=Station->Prompt(Player);
-    else if(Focused) Hint=Player->Held ? TEXT("F entregar · Q provocar · T conversar · V hablar") : TEXT("F pedido · Q provocar · T conversar · V hablar");
+    else if(Focused) Hint=Player->Held ? !Player->Held->OwnerCustomerId.IsEmpty() && Player->Held->Kind!=ECEPropKind::Laptop ? TEXT("F devolver pertenencia · T conversar · V hablar") : TEXT("F entregar · Q provocar · T conversar · V hablar") : TEXT("F pedido · Q provocar · T conversar · V hablar");
     else if(auto* Prop=Player->FocusProp()) Hint=TEXT("E agarrar / ")+Prop->DisplayName;
     const float Bottom=Player->bShowHelp || Now<12.f ? 90.f : 37.f;
     if(!Hint.IsEmpty()) { const float Width=FMath::Min(650*S,W-40*S),Y=H-(Bottom+100)*S; DrawRect(Ink,(W-Width)/2,Y,Width,42*S); Wrapped(Hint,(W-Width)/2+12*S,Y+9*S,Width-24*S,.69f*S,Cream); }
@@ -69,7 +69,8 @@ void ACEHUD::DrawHUD()
     if(!Caption.IsEmpty()) { const float Width=FMath::Min(720*S,W-42*S),Y=H-(Bottom+165)*S; DrawRect(Ink,(W-Width)/2,Y,Width,58*S); Wrapped(Caption,(W-Width)/2+12*S,Y+9*S,Width-24*S,.73f*S,Cream); }
     if(Now<Cafe->FeedbackUntil) Wrapped(Cafe->Feedback,22*S,122*S,400*S,.62f*S,Gold);
     if(Now<Cafe->BusinessUntil && !Cafe->BusinessTitle.IsEmpty()) Label(Cafe->BusinessTitle,22*S,155*S,.60f*S,Gold);
+    if(Now<Cafe->CampaignUntil) Label(Cafe->BossCampaign,22*S,178*S,.55f*S,Gold);
     DrawRect(Ink,0,H-Bottom*S,W,Bottom*S);
     Label(TEXT("TAB comandas · F1 ayuda · E agarrar · F usar · T conversar · V voz"),20*S,H-(Bottom-8)*S,.62f*S,Muted);
-    if(Bottom>40.f) { Label(TEXT("WASD mover · CLIC lanzar · DERECHO verter · SHIFT correr · ESPACIO saltar · R reiniciar · ESC salir"),20*S,H-52*S,.58f*S,Cream); Label(TEXT("Moler → mantener F para prensar → extraer (F detiene) | Leche: vapor → espuma → verter | Extras: azúcar / sirope"),20*S,H-29*S,.57f*S,Muted); }
+    if(Bottom>40.f) { Label(TEXT("WASD mover · CLIC lanzar · DERECHO verter · SHIFT correr · ESPACIO saltar · R reiniciar · ESC salir"),20*S,H-52*S,.58f*S,Cream); Label(TEXT("Moler → mantener F para prensar → extraer (F detiene) | RUEDA: cantidad / temperatura | Leche: vapor → espuma → verter"),20*S,H-29*S,.57f*S,Muted); }
 }

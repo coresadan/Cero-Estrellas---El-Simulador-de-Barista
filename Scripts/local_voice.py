@@ -36,7 +36,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Length', str(len(data))); self.end_headers(); self.wfile.write(data)
 
     def do_GET(self):
-        if self.path == '/health': self.send(200, {'ready': True, 'stt': 'whisper-tiny-int8-cpu', 'tts': 'piper-cpu'})
+        if self.path == '/health': self.send(200, {'ready': True, 'stt': 'whisper-tiny-int8-cpu', 'tts': 'piper-cpu', 'tts_threads': 1})
         else: self.send(404, {'error': 'Ruta desconocida'})
 
     def do_POST(self):
@@ -78,10 +78,19 @@ if __name__ == '__main__':
     else:
         from faster_whisper import WhisperModel
         from piper import PiperVoice
+        from piper.config import PiperConfig
         import onnxruntime as ort
         service = ThreadingHTTPServer(('127.0.0.1', 11435), Handler)
         service.tts_lock=threading.Lock(); service.stt_lock=threading.Lock(); service.tts_cache=OrderedDict()
         service.whisper = WhisperModel(str(WHISPER), device='cpu', compute_type='int8', cpu_threads=4, num_workers=1)
-        service.piper = PiperVoice.load(str(VOICE), use_cuda=False)
+        # Keep synthesis from taking every CPU core while the language model
+        # and Unreal are running. The complete text is prepared ahead of time.
+        tts_options = ort.SessionOptions()
+        tts_options.intra_op_num_threads = 1; tts_options.inter_op_num_threads = 1
+        tts_options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+        tts_options.add_session_config_entry('session.intra_op.allow_spinning', '0')
+        service.piper = PiperVoice(
+            config=PiperConfig.from_dict(json.loads(Path(str(VOICE)+'.json').read_text(encoding='utf-8'))),
+            session=ort.InferenceSession(str(VOICE),sess_options=tts_options,providers=['CPUExecutionProvider']))
         print('CE_VOICE_READY CPU 127.0.0.1:11435', flush=True)
         service.serve_forever()

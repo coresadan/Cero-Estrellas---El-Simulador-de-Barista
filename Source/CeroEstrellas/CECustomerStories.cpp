@@ -1,7 +1,9 @@
 #include "CEGameplay.h"
 #include "CEVisual.h"
+#include "CESocialSpeech.h"
 #include "Components/StaticMeshComponent.h"
 #include "EngineUtils.h"
+#include "Kismet/GameplayStatics.h"
 
 namespace {
 struct FGuestStory { const TCHAR* Title; const TCHAR* Setup; const TCHAR* Goal; const TCHAR* Good; const TCHAR* Bad; };
@@ -19,37 +21,73 @@ const TCHAR* Voices[]={TEXT("Inversor cripto sarcástico; presumes de NFTs."),TE
 FString ACECustomer::GuestPersonality() const { return LookIndex>=0 ? Voices[LookIndex%9] : Voices[Personality]; }
 FString ACECustomer::StoryAnswer() const {
     if(StoryId<0) return TEXT("He venido a desayunar y a tener cinco minutos de paz.");
-    return bStoryResolved ? StoryOutcome : StorySetup;
+    return bStoryResolved ? StoryOutcome : !StoryBeat.IsEmpty() ? StoryBeat+(StoryDraft.IsEmpty() ? TEXT("") : TEXT(" Mi verso: ")+StoryDraft) : StorySetup;
 }
 void ACECustomer::InitStory(int32 ForceStory) {
     if(LookIndex<0) return; // Legacy fixtures have no hidden extra objective.
     DisplayName=Names[LookIndex%9];
     StoryId=ForceStory>=0 ? FMath::Clamp(ForceStory,0,4) : (LookIndex+GetTypeHash(CustomerId)%5)%5;
     const auto& S=Stories[StoryId]; StoryTitle=S.Title; StorySetup=S.Setup; StoryObjective=S.Goal;
-    StoryStartedAt=GetWorld()->GetTimeSeconds();
+    StoryStage=0; StoryBeat=StorySetup; StoryDraft.Empty(); bStoryResolved=false; bStoryHelped=false;
+    StoryStartedAt=StoryStageStartedAt=GetWorld()->GetTimeSeconds();
 }
 void ACECustomer::StoryConversation(const FString& Text) {
     if(StoryId<0 || bStoryResolved) return;
     FString Key=Text.ToLower();
     const bool Help=Key.Contains(TEXT("suerte")) || Key.Contains(TEXT("tranquil")) || Key.Contains(TEXT("ánimo")) || Key.Contains(TEXT("animo")) || Key.Contains(TEXT("puedes")) || Key.Contains(TEXT("crítico")) || Key.Contains(TEXT("critico")) || Key.Contains(TEXT("poema")) || Key.Contains(TEXT("verso"));
     if(Help) bStoryHelped=true;
+    if(StoryId==4 && (Key.Contains(TEXT("verso")) || Key.Contains(TEXT("poema")))) {
+        int32 Colon; if(Text.FindChar(TEXT(':'),Colon)) StoryDraft=Text.Mid(Colon+1).TrimStartAndEnd().Left(80);
+        else StoryDraft=TEXT("Tu ausencia sabe a café; mi paciencia también.");
+    }
+    if(bStoryHelped && State==ECECustomerState::Eating && StoryStage==1 && GetWorld()->GetTimeSeconds()-StoryStageStartedAt>=4.f) AdvanceStory();
     const bool Insult=Key.Contains(TEXT("idiota")) || Key.Contains(TEXT("ridícul")) || Key.Contains(TEXT("ridicul"));
     if(Insult) ResolveStory(false);
 }
 void ACECustomer::ResolveStory(bool bSuccess) {
     if(StoryId<0 || bStoryResolved) return;
-    bStoryResolved=true; StoryOutcome=bSuccess ? Stories[StoryId].Good : Stories[StoryId].Bad;
+    bStoryResolved=true; StoryStage=3; StoryOutcome=bSuccess ? Stories[StoryId].Good : Stories[StoryId].Bad;
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
     if(bSuccess) ++Cafe->StoriesHelped; else ++Cafe->StoriesRuined;
     Cafe->ViralPoints+=bSuccess ? 80 : 160;
     Cafe->LastStoryOutcome=StoryTitle+TEXT(": ")+StoryOutcome;
     Cafe->Notify((bSuccess ? TEXT("HISTORIA / Has ayudado: ") : TEXT("HISTORIA / Has arruinado: "))+StoryTitle);
-    Speak(StoryOutcome,7.f);
+    if(bSuccess && State==ECECustomerState::Eating) EatUntil=FMath::Max(EatUntil,GetWorld()->GetTimeSeconds()+7.f);
+    StoryBeat=StoryOutcome; Speak(StoryOutcome,7.f);
     // Optional story outcomes do not cause radio calls by themselves.
     Cafe->Observe(TEXT("story_resolved"),CustomerId,StoryTitle,0.f);
 }
-void ACECustomer::TickStory(float Delta) {
+void ACECustomer::AdvanceStory()
+{
+    if(StoryId<0 || bStoryResolved || StoryStage>=2) return;
+    ++StoryStage; StoryStageStartedAt=GetWorld()->GetTimeSeconds();
+    const TCHAR* First[]={TEXT("Me está llamando la empresa. ¿Ensayamos cómo pedir un sueldo?"),TEXT("Mi cita debería estar entrando. ¿Puedes ayudarme a reconocerla?"),TEXT("Voy a anotar cómo atiendes. Sí, ese cuaderno era de un crítico."),TEXT("Voy a ensayar el aria aquí. Nadie ha pedido silencio, ¿verdad?"),TEXT("He abierto el borrador. Puedes proponer un verso: escríbelo tras dos puntos.")};
+    const TCHAR* Second[]={TEXT("Ya he desayunado. Ahora voy a devolver la llamada y defender mi sueldo."),TEXT("El desayuno está servido. Mi cita y yo tenemos tema de conversación."),TEXT("Desayuno probado. Estoy terminando la reseña."),TEXT("Con el desayuno y los ánimos, voy a cantar mi última nota."),TEXT("Voy a leer el verso antes de enviárselo a mi ex.")};
+    StoryBeat=StoryStage==1 ? First[StoryId] : Second[StoryId]; SocialGestureUntil=StoryStageStartedAt+4.f;
+    if(StoryId==0 && StoryStage==1) { PhoneCallUntil=StoryStageStartedAt+6.f; GetWorld()->GetSubsystem<UCECafeSubsystem>()->Sound(TEXT("PhoneRing"),HeadLocation(),.45f); }
+    if(StoryId==3) GetWorld()->GetSubsystem<UCECafeSubsystem>()->Sound(TEXT("OperaWarmup"),HeadLocation(),.3f);
+    Speak(StoryBeat,6.f);
+    GetWorld()->GetSubsystem<UCECafeSubsystem>()->Observe(TEXT("story_stage"),CustomerId,StoryBeat,0.f);
+}
+void ACECustomer::PairWith(ACECustomer* Other)
+{
+    if(!Other || Other==this || Other->bLeaving || !SocialPartnerId.IsEmpty() || !Other->SocialPartnerId.IsEmpty()) return;
+    SocialPartnerId=Other->CustomerId; Other->SocialPartnerId=CustomerId;
+    if(SocialGroup.IsEmpty()) SocialGroup=TEXT("encuentro-")+CustomerId;
+    Other->SocialGroup=SocialGroup;
+    SocialGestureUntil=Other->SocialGestureUntil=GetWorld()->GetTimeSeconds()+4.f;
+    ++GetWorld()->GetSubsystem<UCECafeSubsystem>()->StoryEncounters;
+    Speak(StoryId==1 ? TEXT("¡Eres mi cita! Pensé que la flor era el cruasán.") : TEXT("Ven, te guardo conversación. La silla corre por tu cuenta."),5.f);
+    CESocial::Reply(Other,TEXT("He encontrado el sitio. ¿El desastre también venía en la reserva?"));
+}
+void ACECustomer::TickStory(float Delta)
+{
     if(StoryId<0 || bStoryResolved) return;
-    if(State==ECECustomerState::Eating && bStoryHelped) ResolveStory(true);
-    else if(bLeaving) ResolveStory(false);
+    const float Now=GetWorld()->GetTimeSeconds();
+    if(bLeaving) { ResolveStory(false); return; }
+    if(State==ECECustomerState::Eating && bStoryHelped) EatUntil=FMath::Max(EatUntil,Now+1.f);
+    if(StoryStage==0 && Now-StoryStartedAt>=15.f) AdvanceStory();
+    if(StoryStage==1 && State==ECECustomerState::Eating && bStoryHelped && Now-StoryStageStartedAt>=4.f) AdvanceStory();
+    if(StoryStage==2 && bStoryHelped) EatUntil=FMath::Max(EatUntil,StoryStageStartedAt+9.f);
+    if(StoryStage==2 && Now-StoryStageStartedAt>=8.f && State==ECECustomerState::Eating && bStoryHelped) ResolveStory(true);
 }

@@ -28,7 +28,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMesh.h"
 
-void ACEGameMode::SmokeStep() { if(bDialogueSmoke) DialogueSmokeStep(); else if(SmokeStage>=34 && SmokeStage<=43) PolishSmokeStep(); else LoopSmokeStep(); }
+void ACEGameMode::SmokeStep() { if(bDialogueSmoke) DialogueSmokeStep(); else if((SmokeStage>=34 && SmokeStage<=43) || (SmokeStage>=45 && SmokeStage<=48)) PolishSmokeStep(); else LoopSmokeStep(); }
 void ACEGameMode::LoopSmokeStep()
 {
     auto* PC=UGameplayStatics::GetPlayerController(this,0);
@@ -323,7 +323,7 @@ void ACEGameMode::LoopSmokeStep()
         {
             auto* Voice=LoadObject<USoundBase>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Audio/Boss_%d.Boss_%d"),i,i)); bVoices=bVoices && Voice && Voice->GetDuration()>0.f;
         }
-        Check(TEXT("all_18_boss_recordings_available"),bVoices);
+        Check(TEXT("all_21_boss_recordings_available"),bVoices);
         bool bTextures=true;
         for(const TCHAR* Set:{TEXT("Wood"),TEXT("Stone"),TEXT("Fabric"),TEXT("Metal"),TEXT("Skin"),TEXT("Paint")})
             for(const TCHAR* Map:{TEXT("A"),TEXT("N"),TEXT("ORM")}) {
@@ -341,9 +341,11 @@ void ACEGameMode::LoopSmokeStep()
         bool Passed=true; auto Report=MakeShared<FJsonObject>();
         for(const auto& Pair:LoopChecks) { Report->SetBoolField(Pair.Key,Pair.Value); Passed=Passed && Pair.Value; }
         Report->SetBoolField(TEXT("passed"),Passed); Report->SetStringField(TEXT("engine"),FEngineVersion::Current().ToString());
-        Report->SetStringField(TEXT("version"),TEXT("0.8.0")); Report->SetBoolField(TEXT("human_playthrough"),false);
+        Report->SetStringField(TEXT("version"),TEXT("0.10.0")); Report->SetBoolField(TEXT("human_playthrough"),false);
         Report->SetBoolField(TEXT("full_shift_exercised"),!FParse::Param(FCommandLine::Get(),TEXT("CeroQuickSmoke")));
         Report->SetBoolField(TEXT("dialogue_not_exercised_in_this_scenario"),true); Report->SetNumberField(TEXT("floor_liquid_ml"),Cafe->Liquids->FloorMl);
+        Report->SetNumberField(TEXT("liquid_collision_queries"),Cafe->Liquids->CollisionQueries); Report->SetNumberField(TEXT("liquid_simulation_steps"),Cafe->Liquids->SimulationSteps);
+        Report->SetNumberField(TEXT("liquid_simulation_cpu_ms"),Cafe->Liquids->SimulationCpuMs); Report->SetNumberField(TEXT("liquid_peak_packets"),Cafe->Liquids->PeakActiveDrops);
         FrameSamples.Sort(); if(!FrameSamples.IsEmpty()) {
             Report->SetNumberField(TEXT("frame_samples"),FrameSamples.Num());
             Report->SetNumberField(TEXT("frame_p50_ms"),FrameSamples[FrameSamples.Num()/2]);

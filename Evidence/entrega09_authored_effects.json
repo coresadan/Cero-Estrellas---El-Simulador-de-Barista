@@ -1,0 +1,11 @@
+{
+  "original": true,
+  "sounds": [
+    "CafeStreet",
+    "CafeRoom",
+    "PhoneRing",
+    "OperaWarmup"
+  ],
+  "texture": "Foam_A",
+  "resolution": 512
+}

@@ -5,6 +5,12 @@
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
+#include "Misc/SecureHash.h"
+#include "Misc/PackageName.h"
+#include "Sound/SoundBase.h"
+#include "Sound/SoundAttenuation.h"
+#include "Sound/SoundConcurrency.h"
+#include "Components/AudioComponent.h"
 
 ACECustomer::ACECustomer()
 {
@@ -58,6 +64,30 @@ FString ACECustomer::OrderText() const
 }
 void ACECustomer::Speak(const FString& Text,float Duration)
 {
+    const float Now=GetWorld()->GetTimeSeconds();
+    if(Now>=DialogueHoldUntil) {
+        const FTCHARToUTF8 Utf8(*Text);
+        const FString Key=FMD5::HashBytes(reinterpret_cast<const uint8*>(Utf8.Get()),Utf8.Length()).Left(16).ToLower();
+        const FString Asset=TEXT("Speech_")+Key;
+        const FString Path=FString::Printf(TEXT("/Game/Prototype/Audio/Dialogue/%s.%s"),*Asset,*Asset);
+        // Only existing recordings are requested; unrecorded dynamic lines stay
+        // captioned rather than playing an unrelated generic phrase.
+        if(FPackageName::DoesPackageExist(FString::Printf(TEXT("/Game/Prototype/Audio/Dialogue/%s"),*Asset))) if(auto* Wave=LoadObject<USoundBase>(nullptr,*Path)) {
+            if(!AuthoredSpeaker) {
+                AuthoredSpeaker=NewObject<UAudioComponent>(this); AddInstanceComponent(AuthoredSpeaker); AuthoredSpeaker->SetupAttachment(Collision);
+                auto* Spatial=NewObject<USoundAttenuation>(this); Spatial->Attenuation.bAttenuate=true; Spatial->Attenuation.bSpatialize=true;
+                Spatial->Attenuation.AttenuationShapeExtents=FVector(80); Spatial->Attenuation.FalloffDistance=480.f;
+                AuthoredSpeaker->AttenuationSettings=Spatial;
+                AuthoredSpeaker->ConcurrencySet.Add(LoadObject<USoundConcurrency>(nullptr,TEXT("/Game/Prototype/Audio/SC_Customers.SC_Customers")));
+                AuthoredSpeaker->RegisterComponent();
+            }
+            AuthoredSpeaker->SetWorldLocation(HeadLocation()); AuthoredSpeaker->SetVolumeMultiplier(.65f);
+            const float Pitch=LookIndex==7 ? 1.12f : Personality==0 ? .94f : Personality==1 ? 1.02f : 1.08f;
+            AuthoredSpeaker->SetPitchMultiplier(Pitch); AuthoredSpeaker->SetSound(Wave); AuthoredSpeaker->Play();
+            ++RecordedLinesPlayed; LastRecordedLine=Text;
+            Duration=FMath::Max(Duration,Wave->GetDuration()/Pitch+.25f); VoiceStarted(Wave->GetDuration()/Pitch);
+        }
+    } else if(AuthoredSpeaker) AuthoredSpeaker->Stop();
     Reaction=Text; FString Visible=Text;
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Subtitle(CustomerId,DisplayName,Text,Duration);
     if(Text.Len()>75 && !Text.Contains(TEXT("\n")))
@@ -95,9 +125,18 @@ void ACECustomer::TakeOrder()
 }
 bool ACECustomer::Serve(ACEProp* Item)
 {
-    if(!Item || bLeaving || !bOrderKnown || State==ECECustomerState::Eating) return false;
+    if(!Item || bLeaving || !bOrderKnown) return false;
+    const bool PersonalItem=!Item->OwnerCustomerId.IsEmpty() && Item->Kind!=ECEPropKind::Laptop;
+    if(State==ECECustomerState::Eating && !PersonalItem) return false;
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
-    if(State!=ECECustomerState::Waiting) { Cafe->Notify(TEXT("El cliente se dirige a su mesa. Entrégale allí el desayuno.")); return false; }
+    if(State!=ECECustomerState::Waiting && !(PersonalItem && State==ECECustomerState::Eating)) { Cafe->Notify(TEXT("El cliente se dirige a su mesa. Entrégale allí el desayuno.")); return false; }
+    if(!Item->OwnerCustomerId.IsEmpty() && Item->Kind!=ECEPropKind::Laptop) {
+        if(Item->OwnerCustomerId!=CustomerId) { ResolveStory(false); Speak(TEXT("Eso no es mío. ¿Estás intentando crear un malentendido?"),4.f); return false; }
+        if(Item->bBroken) { ResolveStory(false); Speak(TEXT("Has estropeado mis cosas. Ya no me sirven."),4.f); return false; }
+        if(auto* Player=Cast<ACEPlayer>(UGameplayStatics::GetPlayerPawn(this,0))) if(Player->Held==Item) Player->Release();
+        bStoryHelped=true; Item->SetActorLocation(GetActorLocation()+FVector(-48,30,-7));
+        Speak(StoryId==1 ? TEXT("Gracias por la flor. Mi cita podrá reconocerme.") : TEXT("Gracias por devolverlo. Lo necesitaba para hoy."),4.f); return true;
+    }
     bool bAccepted=false;
     if(Item->Kind==ECEPropKind::Cup && !bDrinkServed)
     {
@@ -118,7 +157,7 @@ bool ACECustomer::Serve(ACEProp* Item)
     if(auto* Player=Cast<ACEPlayer>(UGameplayStatics::GetPlayerPawn(this,0))) if(Player->Held==Item) Player->Release();
     Item->bDelivered=true; Item->Body->SetSimulatePhysics(false);
     const float Ys[]={-100.f,220.f,-405.f};
-    Item->SetActorLocation(FVector(320, Ys[SeatSlot]+(Item->Kind==ECEPropKind::Cup ? -28.f : 25.f),Item->Kind==ECEPropKind::Cup ? 94.f : 88.f));
+    Item->SetActorLocation(FVector(385, Ys[SeatSlot]+(Item->Kind==ECEPropKind::Cup ? -28.f : 25.f),Item->Kind==ECEPropKind::Cup ? 95.f : 88.f));
     Item->SetActorRotation(FRotator::ZeroRotator); Item->SetLifeSpan(18.f);
     if(Item->Kind==ECEPropKind::Cup) { ServedCup=Item; ServedCupPosition=Item->GetActorLocation(); }
     if(bDrinkServed && (!bWantsPastry || bPastryServed))
@@ -153,8 +192,8 @@ void ACECustomer::React(FName Kind,const FString& ObjectName,float Severity)
     for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(*It!=this && FVector::Dist2D(It->GetActorLocation(),GetActorLocation())<650.f) It->Witness(this);
     const TCHAR* Lines[]={TEXT("¡Mis inversiones!\n¡Esto va a salir muy caro!"),TEXT("¿Es una performance?\n¡He dicho sin agresiones!"),TEXT("¡Mi ropa! ¡Mi directo!\n¡Me has arruinado el día!")};
     Speak(Kind==TEXT("customer_slipped") ? TEXT("¡Me resbalo!\n¡Poned una señal!") : Lines[Personality],5.f);
-    if(Severity>=.75f && Kind!=TEXT("coffee_spill")) Fall(GetActorForwardVector());
-    else if(Kind!=TEXT("coffee_spill")) PhysicalRecoil(GetActorForwardVector());
+    if(Severity>=.75f && Kind!=TEXT("coffee_spill") && Kind!=TEXT("belonging_damaged")) Fall(GetActorForwardVector());
+    else if(Kind!=TEXT("coffee_spill") && Kind!=TEXT("belonging_damaged")) PhysicalRecoil(GetActorForwardVector());
     if(Kind==TEXT("laptop_destroyed") || Anger>=1.f) Leave(true);
     UE_LOG(LogTemp,Display,TEXT("CE_CUSTOMER_REACT id=%s hits=%d anger=%.2f leaving=%d"),*CustomerId,HitCount,Anger,bLeaving);
 }
@@ -292,4 +331,12 @@ void ACECustomer::Tick(float DeltaSeconds)
         Bubble->SetText(FText::FromString(State==ECECustomerState::Ordering ? TEXT("[ F ] TOMAR PEDIDO") : TEXT("")));
     }
     Animate(DeltaSeconds,bWalking);
+}
+
+void ACECustomer::EndPlay(const EEndPlayReason::Type Reason)
+{
+    if(Reason==EEndPlayReason::Destroyed && ServedCup.IsValid() && !ServedCup->bHeld) {
+        ServedCup->SetActorLocation(ServedCupPosition); ServedCup->bDelivered=false; ServedCup->Body->SetSimulatePhysics(true);
+    }
+    Super::EndPlay(Reason);
 }

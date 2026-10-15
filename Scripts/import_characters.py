@@ -8,7 +8,7 @@ for name in ['M_Fabric','M_Skin','M_Surface','M_Metal','M_Unlit']:
     mat.set_editor_property('used_with_skeletal_mesh',True)
     unreal.MaterialEditingLibrary.recompile_material(mat); unreal.EditorAssetLibrary.save_loaded_asset(mat)
 manifest=[]
-for name in ['SK_Crypto','SK_Hipster','SK_Influencer','SM_GripHand']:
+for name in [p['mesh'] for p in json.load(open(os.path.join(root,'SourceMeshes','character_manifest.json'),encoding='utf-8'))]+['SM_GripHand']:
     skeletal=name.startswith('SK_')
     task=unreal.AssetImportTask(); task.filename=os.path.join(root,'SourceMeshes',name+('.fbx' if skeletal else '.obj'))
     task.destination_path='/Game/Prototype/Characters' if skeletal else '/Game/Prototype/Meshes'
@@ -35,5 +35,6 @@ for name in ['SK_Crypto','SK_Hipster','SK_Influencer','SM_GripHand']:
     unreal.EditorAssetLibrary.save_loaded_asset(mesh)
     manifest.append({'asset':mesh.get_path_name(),'skeletal':skeletal})
 unreal.EditorAssetLibrary.save_directory('/Game/Prototype/Characters',only_if_is_dirty=False,recursive=True)
-with open(os.path.join(root,'Evidence','entrega08_character_import.json'),'w',encoding='utf-8') as out: json.dump(manifest,out,indent=2)
+report='entrega10_character_import.json' if len(manifest)>4 else 'entrega08_character_import.json'
+with open(os.path.join(root,'Evidence',report),'w',encoding='utf-8') as out: json.dump(manifest,out,indent=2)
 unreal.log('CE_RIG_IMPORT_READY '+str(manifest))

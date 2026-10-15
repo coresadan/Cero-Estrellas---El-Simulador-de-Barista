@@ -5,6 +5,8 @@
 #include "Components/PointLightComponent.h"
 #include "Components/DirectionalLightComponent.h"
 #include "Components/SkyLightComponent.h"
+#include "Components/RectLightComponent.h"
+#include "Engine/RectLight.h"
 #include "Engine/PointLight.h"
 #include "Engine/DirectionalLight.h"
 #include "Engine/SkyLight.h"
@@ -28,6 +30,7 @@ ACEGameMode::ACEGameMode()
 
 void ACEGameMode::BeginPlay()
 {
+    GetWorld()->GetSubsystem<UCECafeSubsystem>()->WarmResources();
     BuildCafe();
     if(GetWorld()->WorldType==EWorldType::Game && GEngine && GEngine->GameViewport)
         if(auto Window=GEngine->GameViewport->GetWindow()) Window->SetTitle(FText::FromString(TEXT("Cero Estrellas · El Simulador de Barista")));
@@ -38,7 +41,7 @@ void ACEGameMode::BeginPlay()
     bSmoke|=bDialogueSmoke;
     bLoopSmoke=bSmoke;
     if(FParse::Param(FCommandLine::Get(),TEXT("CeroPolishOnly"))) SmokeStage=34;
-    UE_LOG(LogTemp,Display,TEXT("CE_READY version=0.8.0 smoke=%d"),bSmoke);
+    UE_LOG(LogTemp,Display,TEXT("CE_READY version=0.10.0 smoke=%d"),bSmoke);
 }
 
 void ACEGameMode::Tick(float DeltaSeconds)
@@ -101,7 +104,7 @@ void ACEGameMode::BuildCafe()
     for (int32 X=-5;X<=7;++X)
         for (int32 Y=-5;Y<=5;++Y)
         {
-            const FLinearColor TileColor=((X+Y)%2==0) ? FLinearColor(.32f,.38f,.35f) : FLinearColor(.65f,.62f,.53f);
+            const FLinearColor TileColor=((X+Y)%2==0) ? FLinearColor(.29f,.34f,.32f) : FLinearColor(.68f,.65f,.57f);
             auto* Tile=Block(FVector(X*100,Y*100,.3f),FVector(98,98,.5f),TileColor,false);
             Cast<UStaticMeshComponent>(Tile->GetRootComponent())->SetMaterial(0,CEVisual::Surface(Tile,TileColor,TEXT("M_Stone")));
         }
@@ -112,7 +115,7 @@ void ACEGameMode::BuildCafe()
     Block(FVector(-2.5f,600,60),FVector(1135,20,120),Teal);
     Block(FVector(742.5f,600,60),FVector(135,20,120),Teal);
     Block(FVector(120,600,320),FVector(1380,20,40),Teal);
-    Block(FVector(120,0,350),FVector(1380,1200,20),FLinearColor(.57f,.54f,.46f));
+    Block(FVector(120,0,350),FVector(1380,1200,20),FLinearColor(.32f,.30f,.25f));
     // Wainscoting and brass trim give the large walls depth without extra simulation.
     Block(FVector(786,0,54),FVector(6,1180,108),Deep,false);
     Block(FVector(782,0,111),FVector(3,1180,3),FLinearColor(.42f,.30f,.14f),false);
@@ -228,12 +231,18 @@ void ACEGameMode::BuildCafe()
     const float Ys[]={-100.f,220.f,-405.f};
     for(int32 i=0;i<3;++i)
     {
-        Block(FVector(355,Ys[i],78),FVector(125,115,8),Wood);
+        auto* Mat=Block(FVector(375,Ys[i],82.5f),FVector(62,87,.4f),FLinearColor(.19f,.28f,.25f),false);
+        Cast<UStaticMeshComponent>(Mat->GetRootComponent())->SetMaterial(0,CEVisual::Surface(Mat,FLinearColor(.19f,.28f,.25f),TEXT("M_Fabric")));
+        auto* Saucer=Block(FVector(385,Ys[i]-28.f,83.f),FVector(31,31,1.2f),Cream,false,TEXT("SM09_Saucer"));
+        Cast<UStaticMeshComponent>(Saucer->GetRootComponent())->SetMaterial(0,CEVisual::Surface(Saucer,Cream,TEXT("M_Ceramic")));
+        Block(FVector(355,Ys[i],78),FVector(125,115,8),Wood,true,TEXT("SM09_TableTop"));
         Block(FVector(355,Ys[i],38),FVector(12,12,75),Deep);
         Block(FVector(355,Ys[i],4),FVector(65,65,8),Deep);
+        Block(FVector(386,Ys[i]+34.f,83.3f),FVector(19,13,.7f),Cream,false);
+        Block(FVector(386,Ys[i]+38.f,84),FVector(23,1.4f,1),Metal,false);
         Block(FVector(294,Ys[i],93),FVector(3,44,20),Deep,false);
         Sign(FString::Printf(TEXT("MESA %d"),i+1),FVector(292,Ys[i],99),6,FColor(255,219,154));
-        auto* Chair=GetWorld()->SpawnActor<ACEProp>(FVector(495,Ys[i],52),FRotator::ZeroRotator);
+        auto* Chair=GetWorld()->SpawnActor<ACEProp>(FVector(450,Ys[i],52),FRotator::ZeroRotator);
         Chair->Configure(ECEPropKind::Chair); Chair->Tags.Add(FName(*FString::Printf(TEXT("chair%d"),i)));
     }
     // Loose cups on a real physical tray; no parenting or simulated fluid.
@@ -271,30 +280,40 @@ void ACEGameMode::BuildCafe()
     auto* Sky=GetWorld()->SpawnActor<ASkyLight>();
     Sky->GetLightComponent()->SourceType=SLS_SpecifiedCubemap;
     Sky->GetLightComponent()->SetCubemap(LoadObject<UTextureCube>(nullptr,TEXT("/Game/Prototype/T_CafeReflection.T_CafeReflection")));
-    Sky->GetLightComponent()->SetIntensity(.65f);
+    Sky->GetLightComponent()->SetIntensity(.72f);
     auto* Grade=GetWorld()->SpawnActor<APostProcessVolume>(); Grade->bUnbound=true;
     auto& PP=Grade->Settings;
-    PP.bOverride_AutoExposureBias=true; PP.AutoExposureBias=.4f;
+    PP.bOverride_AutoExposureBias=true; PP.AutoExposureBias=.25f;
     PP.bOverride_ColorSaturation=true; PP.ColorSaturation=FVector4(.94f,.94f,.94f,1);
-    PP.bOverride_AmbientOcclusionIntensity=true; PP.AmbientOcclusionIntensity=.55f;
-    PP.bOverride_BloomIntensity=true; PP.BloomIntensity=.15f;
+    PP.bOverride_AmbientOcclusionIntensity=true; PP.AmbientOcclusionIntensity=.7f;
+    PP.bOverride_BloomIntensity=true; PP.BloomIntensity=.08f;
+    PP.bOverride_ColorContrast=true; PP.ColorContrast=FVector4(1.025f,1.025f,1.025f,1);
+    PP.bOverride_ScreenSpaceReflectionQuality=true; PP.ScreenSpaceReflectionQuality=60.f;
+    PP.bOverride_ScreenSpaceReflectionMaxRoughness=true; PP.ScreenSpaceReflectionMaxRoughness=.6f;
     for(FVector P : {FVector(-180,-120,300),FVector(330,-250,300),FVector(330,200,300),FVector(-400,350,300)})
     {
         auto* Light=GetWorld()->SpawnActor<APointLight>(P,FRotator::ZeroRotator);
         auto* Point=Cast<UPointLightComponent>(Light->GetLightComponent());
-        Point->SetIntensity(7200.f);
-        Point->SetAttenuationRadius(700.f);
+        Point->SetIntensity(5400.f);
+        Point->SetAttenuationRadius(520.f);
         Point->SetLightColor(FLinearColor(1.f,.91f,.79f));
-        Point->SetCastShadows(P.X==330.f && P.Y==200.f);
-        Point->SetSourceRadius(14.f);
-        Block(P+FVector(0,0,11),FVector(55,55,15),Orange,false,TEXT("Cone"));
+        Point->SetCastShadows(P.X==330.f);
+        Point->ContactShadowLength=0.f;
+        Point->SetSourceRadius(20.f);
+        Block(P+FVector(0,0,11),FVector(55,55,24),Deep,false,TEXT("SM09_Pendant"));
         Block(P,FVector(32,32,3),FLinearColor(3.f,1.8f,.7f),false,TEXT("Cylinder"),true);
         Block(P+FVector(0,0,30),FVector(3,3,38),Deep,false,TEXT("SM_Bottle"));
     }
     auto* WindowFill=GetWorld()->SpawnActor<APointLight>(FVector(220,420,240),FRotator::ZeroRotator);
     auto* Fill=Cast<UPointLightComponent>(WindowFill->GetLightComponent());
-    Fill->SetIntensity(3900.f); Fill->SetAttenuationRadius(1000.f); Fill->SetLightColor(FLinearColor(.72f,.86f,1.f)); Fill->SetCastShadows(false);
-    UE_LOG(LogTemp,Display,TEXT("CE_CAFE_BUILT version=0.8 stations=12 skinned_characters=3 hands=2 dialogue_on_the_move=1"));
+    Fill->SetIntensity(2700.f); Fill->SetAttenuationRadius(1000.f); Fill->SetLightColor(FLinearColor(.78f,.87f,1.f)); Fill->SetCastShadows(false);
+    auto* WindowSoft=GetWorld()->SpawnActor<ARectLight>(FVector(370,570,218),FRotator(0,-90,0));
+    auto* Soft=Cast<URectLightComponent>(WindowSoft->GetLightComponent());
+    Soft->SetSourceWidth(310.f); Soft->SetSourceHeight(130.f); Soft->SetIntensity(2200.f);
+    Soft->SetAttenuationRadius(800.f); Soft->SetLightColor(FLinearColor(.81f,.90f,1.f)); Soft->SetCastShadows(false);
+    // The cafe is assembled at runtime and has no baked lightmaps. Keep its
+    // meshes movable so ambient lighting also reaches the walls and trim.
+    UE_LOG(LogTemp,Display,TEXT("CE_CAFE_BUILT version=0.10 stations=12 skinned_characters=9 hands=2 dialogue_on_the_move=1"));
 }
 
 void ACEGameMode::TickArrivals()
@@ -306,23 +325,31 @@ void ACEGameMode::TickArrivals()
     for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(It->SeatSlot>=0 && It->SeatSlot<3) Taken[It->SeatSlot]=true;
     int32 Slot=INDEX_NONE; for(int32 i=0;i<3;++i) if(!Taken[i]) { Slot=i; break; }
     if(Slot==INDEX_NONE) { NextArrivalAt=Now+3.f; return; }
-    const int32 Look=CustomerSerial++%9;
+    auto* ActiveCafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
+    const int32 SequentialLook=CustomerSerial++%9;
+    const int32 Look=Now<ActiveCafe->CampaignUntil && CustomerSerial%2==0 ? (ActiveCafe->LastMajorKind==TEXT("laptop_destroyed") ? 0 : 2) : SequentialLook;
     const int32 Archetype=Look%3;
     const FString Names[]={TEXT("CRIPTO-BRO"),TEXT("HIPSTER PURISTA"),TEXT("INFLUENCER")};
     const FLinearColor Colors[]={FLinearColor(.09f,.22f,.25f),FLinearColor(.38f,.22f,.12f),FLinearColor(.53f,.28f,.35f)};
     auto* Customer=GetWorld()->SpawnActor<ACECustomer>(FVector(620,650,92),FRotator::ZeroRotator);
     Customer->Configure(FString::Printf(TEXT("cliente-%03d"),CustomerSerial),Names[Archetype],Colors[Archetype],Archetype,Look);
     Customer->BeginVisit(Slot,static_cast<ECEDrink>((CustomerSerial-1)%3),(CustomerSerial%2)==0);
+    if(PendingCompanion.IsValid() && !PendingCompanion->bLeaving) { PendingCompanion->PairWith(Customer); PendingCompanion.Reset(); }
+    else if(Customer->StoryId==1 || Look==7) { Customer->SocialGroup=TEXT("reserva-")+Customer->CustomerId; PendingCompanion=Customer; }
     if(!Customer->VisitRole.IsEmpty()) Customer->DisplayName+=TEXT(" / ")+Customer->VisitRole;
     if(!IsValid(SmokeCustomer)) SmokeCustomer=Customer;
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>(); Cafe->Sound(TEXT("Door"),FVector(620,560,160));
     Cafe->Notify(TEXT("Ha entrado un cliente. Acércate y pulsa F para tomar su pedido."));
     // Replace the table's used laptop instead of growing the physics actor count forever.
     const float Ys[]={-100.f,220.f,-405.f};
-    for(TActorIterator<ACEProp> It(GetWorld());It;++It) if(It->Kind==ECEPropKind::Laptop && It->Tags.Contains(FName(*FString::Printf(TEXT("seat%d"),Slot)))) It->Destroy();
-    auto* Laptop=GetWorld()->SpawnActor<ACEProp>(FVector(355,Ys[Slot],85),FRotator::ZeroRotator); Laptop->Configure(ECEPropKind::Laptop);
+    for(TActorIterator<ACEProp> It(GetWorld());It;++It) if(!It->OwnerCustomerId.IsEmpty() && It->Tags.Contains(FName(*FString::Printf(TEXT("seat%d"),Slot)))) It->Destroy();
+    auto* Laptop=GetWorld()->SpawnActor<ACEProp>(FVector(340,Ys[Slot],85),FRotator(0,180,0)); Laptop->Configure(ECEPropKind::Laptop);
     Laptop->Tags.Add(FName(*FString::Printf(TEXT("seat%d"),Slot)));
-    NextArrivalAt=Now+FMath::Max(10.f,18.f-(Cafe->ShiftLevel-1)*1.5f);
+    Laptop->OwnerCustomerId=Customer->CustomerId;
+    const ECEPropKind BelongingKind=Customer->StoryId==1 ? ECEPropKind::Flower : Customer->StoryId==3 ? ECEPropKind::Bag : ECEPropKind::Notebook;
+    auto* Belonging=GetWorld()->SpawnActor<ACEProp>(FVector(340,Ys[Slot]+34, BelongingKind==ECEPropKind::Bag ? 98.f : 84.f),FRotator::ZeroRotator);
+    Belonging->Configure(BelongingKind); Belonging->OwnerCustomerId=Customer->CustomerId; Belonging->Tags.Add(FName(*FString::Printf(TEXT("seat%d"),Slot)));
+    NextArrivalAt=Now+(PendingCompanion.IsValid() ? 4.f : FMath::Max(10.f,18.f-(Cafe->ShiftLevel-1)*1.5f));
     UE_LOG(LogTemp,Display,TEXT("CE_ARRIVAL id=%s slot=%d order=%s"),*Customer->CustomerId,Slot,*Customer->OrderText());
 }
 

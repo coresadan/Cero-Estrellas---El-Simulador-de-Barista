@@ -8,7 +8,18 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Sound/SoundConcurrency.h"
 #include "EngineUtils.h"
+#include "Materials/MaterialInstanceDynamic.h"
 
+void UCECafeSubsystem::WarmResources()
+{
+    const TCHAR* FX[]={TEXT("Click"),TEXT("Splash"),TEXT("Thump"),TEXT("Brew"),TEXT("Steam"),TEXT("Grinder"),TEXT("Order"),TEXT("Door"),TEXT("Electric"),TEXT("Footstep"),TEXT("Ceramic"),TEXT("CafeAmbience"),TEXT("CafeStreet"),TEXT("CafeRoom"),TEXT("PhoneRing"),TEXT("OperaWarmup")};
+    for(const auto* Name:FX) if(auto* Wave=LoadObject<USoundBase>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Audio/FX/%s.%s"),Name,Name))) SoundCache.Add(Name,Wave);
+    for(int32 i=0;i<CEBoss::Lines().Num();++i) if(auto* Wave=LoadObject<USoundBase>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Audio/Boss_%d.Boss_%d"),i,i))) ResidentResources.Add(Wave);
+    for(int32 i=0;i<3;++i) for(const auto* Cue:{TEXT("spill"),TEXT("hit"),TEXT("fall"),TEXT("witness"),TEXT("order"),TEXT("defend"),TEXT("thanks"),TEXT("chat")})
+        if(auto* Wave=LoadObject<USoundBase>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Audio/Customers/NPC_%d_%s.NPC_%d_%s"),i,Cue,i,Cue))) ResidentResources.Add(Wave);
+    for(const auto* Name:{TEXT("SK_Crypto"),TEXT("SK_Hipster"),TEXT("SK_Influencer"),TEXT("SK_Punk"),TEXT("SK_Astronaut"),TEXT("SK_Diva"),TEXT("SK_Biker"),TEXT("SK_Granny"),TEXT("SK_Magician")})
+        if(auto* Mesh=StaticLoadObject(UObject::StaticClass(),nullptr,*FString::Printf(TEXT("/Game/Prototype/Characters/%s.%s"),Name,Name))) ResidentResources.Add(Mesh);
+}
 void UCECafeSubsystem::Subtitle(const FString& Id,const FString& Name,const FString& Text,float Duration)
 {
     auto* Player=UGameplayStatics::GetPlayerPawn(GetWorld(),0); if(!Player) return;
@@ -36,7 +47,9 @@ void UCECafeSubsystem::Sound(const TCHAR* Name, FVector Location, float Volume)
     if(const float* At=SoundTimes.Find(Key)) if(Now-*At<Gap) return;
     SoundTimes.Add(Key,Now);
     const FString Path=FString::Printf(TEXT("/Game/Prototype/Audio/FX/%s.%s"),Name,Name);
-    if(auto* Wave=LoadObject<USoundBase>(nullptr,*Path))
+    USoundBase* Wave=SoundCache.FindRef(Key);
+    if(!Wave) { Wave=LoadObject<USoundBase>(nullptr,*Path); if(Wave) SoundCache.Add(Key,Wave); }
+    if(Wave)
     {
         auto* Spatial=NewObject<USoundAttenuation>(this);
         Spatial->Attenuation.bAttenuate=true; Spatial->Attenuation.bSpatialize=true;
@@ -73,7 +86,8 @@ void UCECafeSubsystem::Observe(FName Kind, const FString& CustomerId, const FStr
     else if(Kind==TEXT("shift_started")) LastIncident=TEXT("Toma pedidos, prepara desayunos... y busca tu salida laboral.");
     OnChaosObserved.Broadcast(Event);
     UE_LOG(LogTemp,Display,TEXT("CE_CHAOS id=%s kind=%s customer=%s severity=%.2f"),*Event.EventId,*Kind.ToString(),*CustomerId,Event.Severity);
-    const bool bMajor=(Kind==TEXT("customer_departed") && Severity>=.9f) || Kind==TEXT("laptop_destroyed") || (RecentVictims.Num()>=3 && DisasterScore>=3.f);
+    const bool bMajor=bIncident && ((Kind==TEXT("customer_departed") && Severity>=.9f) || Kind==TEXT("laptop_destroyed") || (RecentVictims.Num()>=3 && DisasterScore>=3.f));
+    if(bMajor) { LastMajorKind=Kind; LastMajorVictim=CustomerId; }
     if(bMajor && Now>=BossCooldownUntil && Now>=BossSubtitleUntil)
     {
         Praise(Kind); DisasterScore=0.f; RecentVictims.Reset();
@@ -99,6 +113,16 @@ void UCECafeSubsystem::TickRadio()
         auto* Wave=LoadObject<USoundBase>(nullptr,TEXT("/Game/Prototype/Audio/FX/CafeAmbience.CafeAmbience"));
         if(Wave) Ambience=UGameplayStatics::SpawnSound2D(GetWorld(),Wave,.22f,1.f,0.f,nullptr,false,true);
     }
+    if(RoomAmbience.IsEmpty()) {
+        for(const auto* Name:{TEXT("CafeStreet"),TEXT("CafeRoom")}) if(auto* Wave=SoundCache.FindRef(FName(Name)).Get()) {
+            auto* Spatial=NewObject<USoundAttenuation>(this); Spatial->Attenuation.bAttenuate=true; Spatial->Attenuation.bSpatialize=true;
+            Spatial->Attenuation.AttenuationShapeExtents=FVector(160); Spatial->Attenuation.FalloffDistance=850.f;
+            if(auto* Audio=UGameplayStatics::SpawnSoundAtLocation(GetWorld(),Wave,FString(Name)==TEXT("CafeStreet") ? FVector(220,590,175) : FVector(500,0,130),FRotator::ZeroRotator,.12f,1.f,0.f,Spatial,nullptr,false)) RoomAmbience.Add(Audio);
+        }
+    }
+    const float Duck=Now<BossSubtitleUntil ? .28f : 1.f;
+    if(Ambience) Ambience->SetVolumeMultiplier(FMath::FInterpTo(Ambience->VolumeMultiplier,.22f*Duck,GetWorld()->GetDeltaSeconds(),4.f));
+    for(const auto& Audio:RoomAmbience) if(Audio) Audio->SetVolumeMultiplier(FMath::FInterpTo(Audio->VolumeMultiplier,.12f*Duck,GetWorld()->GetDeltaSeconds(),4.f));
     if(GetWorld()->GetTimeSeconds()>ComboUntil) Combo=0;
     const bool Complete=ChallengeStep==0 ? OrdersServed>=2 : ChallengeStep==1 ? Liquids && Liquids->FloorMl>=150.f : ChallengeStep==2 ? Falls>=1 : BestCombo>=4;
     if(Complete && ChallengeStep<4)
@@ -139,8 +163,8 @@ void UCECafeSubsystem::Praise(FName Kind)
         if(UnusedPhrases.Last()==LastBossPhrase) UnusedPhrases.Swap(0,UnusedPhrases.Num()-1);
     }
     // Pick a matching recording when available, retaining the no-repeat bag.
-    const TArray<int32> Preferred=Kind==TEXT("laptop_destroyed") ? TArray<int32>{10,11,14} : Kind==TEXT("customer_departed") ? TArray<int32>{3,4,7,13,16} : TArray<int32>{9,12,15,17};
-    for(int32 i=0;i<UnusedPhrases.Num();++i) if(Preferred.Contains(UnusedPhrases[i]) && UnusedPhrases[i]!=LastBossPhrase) { UnusedPhrases.Swap(i,UnusedPhrases.Num()-1); break; }
+    const TArray<int32> Preferred=Kind==TEXT("laptop_destroyed") ? TArray<int32>{18,10,11,14} : Kind==TEXT("customer_departed") ? TArray<int32>{19,3,4,7,13,16} : TArray<int32>{20,9,12,15,17};
+    for(const int32 Candidate:Preferred) { const int32 Found=UnusedPhrases.Find(Candidate); if(Found!=INDEX_NONE && Candidate!=LastBossPhrase) { UnusedPhrases.Swap(Found,UnusedPhrases.Num()-1); break; } }
     const int32 Index=UnusedPhrases.Pop(); LastBossPhrase=Index; BossSubtitle=Lines[Index];
     auto* Voice=LoadObject<USoundBase>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Audio/Boss_%d.Boss_%d"),Index,Index));
     const float Duration=Voice ? Voice->GetDuration() : 9.f;
@@ -148,5 +172,10 @@ void UCECafeSubsystem::Praise(FName Kind)
     BossSubtitleUntil=GetWorld()->GetTimeSeconds()+Duration+.5f;
     BossCooldownUntil=FMath::Max(GetWorld()->GetTimeSeconds()+50.f,BossSubtitleUntil+25.f);
     ++PraiseCount;
+    {
+        ++CampaignsCreated; CampaignUntil=GetWorld()->GetTimeSeconds()+90.f;
+        LastMajorKind=Kind;
+        BossCampaign=Kind==TEXT("laptop_destroyed") ? TEXT("CAMPAÑA / Desconexión digital con espresso") : Kind==TEXT("customer_departed") ? TEXT("CAMPAÑA / Desayuno de evacuación premium") : TEXT("CAMPAÑA / Brunch dominó");
+    }
     UE_LOG(LogTemp,Display,TEXT("CE_BOSS phrase=%d praise=%d voice=%s cooldown_until=%.2f"),Index,PraiseCount,Voice ? TEXT("loaded") : TEXT("missing"),BossCooldownUntil);
 }

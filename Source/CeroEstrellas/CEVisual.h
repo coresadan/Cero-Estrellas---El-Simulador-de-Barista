@@ -1,6 +1,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CEGameplay.h"
+#include "Engine/World.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
@@ -9,7 +11,12 @@ namespace CEVisual
     inline UMaterialInstanceDynamic* Surface(UObject* Owner,FLinearColor Color,const TCHAR* Name)
     {
         auto* Base=LoadObject<UMaterialInterface>(nullptr,*FString::Printf(TEXT("/Game/Prototype/%s.%s"),Name,Name));
-        auto* Result=UMaterialInstanceDynamic::Create(Base,Owner);
+        auto* World=Owner ? Owner->GetWorld() : nullptr; auto* Cafe=World ? World->GetSubsystem<UCECafeSubsystem>() : nullptr;
+        const bool Shared=FString(Name)!=TEXT("M_Fabric") && FString(Name)!=TEXT("M_Ceramic") && FString(Name)!=TEXT("M_Screen");
+        const FString Key=FString(Name)+Color.ToString();
+        if(Shared && Cafe) if(auto* Cached=Cafe->SharedMaterials.FindRef(Key).Get()) return Cached;
+        auto* Result=UMaterialInstanceDynamic::Create(Base,Shared && Cafe ? static_cast<UObject*>(Cafe) : Owner);
+        if(Shared && Cafe && Result) Cafe->SharedMaterials.Add(Key,Result);
         if(Result) Result->SetVectorParameterValue(TEXT("Tint"),Color);
         return Result;
     }
@@ -30,8 +37,11 @@ namespace CEVisual
         Component->SetMobility(EComponentMobility::Movable);
         // Manufactured objects share authored bevelled geometry instead of razor-edged cubes.
         if(FString(Shape)==TEXT("Cube")) Shape=TEXT("SM_BevelCube");
-        const FString MeshPath=FString(Shape).StartsWith(TEXT("SM_")) ? FString::Printf(TEXT("/Game/Prototype/Meshes/%s.%s"),Shape,Shape) : FString::Printf(TEXT("/Engine/BasicShapes/%s.%s"),Shape,Shape);
-        Component->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,*MeshPath));
+        const bool Authored=FString(Shape).StartsWith(TEXT("SM"));
+        const FString MeshPath=Authored ? FString::Printf(TEXT("/Game/Prototype/Meshes/%s.%s"),Shape,Shape) : FString::Printf(TEXT("/Engine/BasicShapes/%s.%s"),Shape,Shape);
+        auto* Mesh=LoadObject<UStaticMesh>(nullptr,*MeshPath);
+        ensureMsgf(Mesh,TEXT("Cafe mesh missing: %s"),*MeshPath);
+        Component->SetStaticMesh(Mesh);
         Component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         if (Actor->GetRootComponent()) Component->SetupAttachment(Actor->GetRootComponent());
         else Actor->SetRootComponent(Component);

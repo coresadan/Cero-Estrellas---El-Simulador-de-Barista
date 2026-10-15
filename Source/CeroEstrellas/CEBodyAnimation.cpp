@@ -6,10 +6,12 @@ struct FCEBodyProxy final : FAnimInstanceProxy
 {
     explicit FCEBodyProxy(UAnimInstance* Instance) : FAnimInstanceProxy(Instance) {}
     TArray<FTransform> Frame;
+    bool Reported=false;
     virtual void PreUpdate(UAnimInstance* Instance,float Delta) override
     {
         FAnimInstanceProxy::PreUpdate(Instance,Delta);
         Frame=CastChecked<UCEBodyAnimation>(Instance)->LocalPoseFrame;
+        if(!Reported && !Frame.IsEmpty()) { Reported=true; UE_LOG(LogTemp,Display,TEXT("CE10_ANIM_PROXY_READY bones=%d"),Frame.Num()); }
     }
     virtual bool Evaluate(FPoseContext& Output) override
     {

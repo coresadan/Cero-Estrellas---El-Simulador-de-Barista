@@ -3,16 +3,18 @@
 This is deliberately reported separately from Unreal end-to-end dialogue tests.
 """
 from pathlib import Path
-import json, re, time, urllib.request
+import json, re, time, urllib.request, argparse
 
+parser=argparse.ArgumentParser();parser.add_argument('--evidence',default='Entrega08DialogoFinal');parser.add_argument('--output',default='Entrega08Stories');args=parser.parse_args()
 root=Path(__file__).resolve().parent.parent
 source=(root/'Source/CeroEstrellas/CECustomerStories.cpp').read_text(encoding='utf-8')
-stories=re.findall(r'\{TEXT\("([^"]+)"\),TEXT\("([^"]+)"\),TEXT\("([^"]+)"\),TEXT\("([^"]+)"\),TEXT\("([^"]+)"\)\}',source)
+story_table=source.split('const FGuestStory Stories[]={',1)[1].split('};',1)[0]
+stories=re.findall(r'\{TEXT\("([^"]+)"\),TEXT\("([^"]+)"\),TEXT\("([^"]+)"\),TEXT\("([^"]+)"\),TEXT\("([^"]+)"\)\}',story_table)
 voices=re.findall(r'TEXT\("([^"]+)"\)',source.split('const TCHAR* Voices[]={',1)[1].split('};',1)[0])
 assert len(stories)==5 and len(voices)==9
-folder=root/'Evidence/Entrega08Stories'
+folder=root/'Evidence'/args.output
 folder.mkdir(exist_ok=True)
-requests=sorted((root/'Evidence/Entrega08DialogoFinal').glob('request_*.json'),key=lambda p:int(p.stem.split('_')[-1]))
+requests=sorted((root/'Evidence'/args.evidence).glob('request_*.json'),key=lambda p:int(p.stem.split('_')[-1]))
 assert requests,'Run the real packaged dialogue scenario first.'
 raw=requests[0].read_bytes()
 base=json.loads(raw.decode('utf-16' if raw.startswith((b'\xff\xfe',b'\xfe\xff')) else 'utf-8-sig'))

@@ -1,0 +1,770 @@
+[
+  {
+    "asset": "Speech_d86a8c8f5c92a302",
+    "text": " Revisa mi comanda."
+  },
+  {
+    "asset": "Speech_ba25c5a33e4bd8c8",
+    "text": ". Mi desayuno no iba aquí."
+  },
+  {
+    "asset": "Speech_742f9283208cc69d",
+    "text": ". No inviertas esos papeles ni te disculpes por el café o los golpes que recibiste. Responde a la pregunta pendiente."
+  },
+  {
+    "asset": "Speech_5b18511eacc0a59d",
+    "text": "ASTRONAUTA DE FIN DE SEMANA"
+  },
+  {
+    "asset": "Speech_6844ef236696ab71",
+    "text": "Abuela aficionada a las raves; humor seco y jerga de discoteca."
+  },
+  {
+    "asset": "Speech_93ff1214c7be444b",
+    "text": "Acepto la disculpa. Mi camisa sigue mojada."
+  },
+  {
+    "asset": "Speech_23c66b1888fda5cc",
+    "text": "Acepto tus disculpas. Seguimos con el desayuno."
+  },
+  {
+    "asset": "Speech_f4acd50d2bda18b5",
+    "text": "Aficionado al espacio; describes el desayuno como una misión espacial."
+  },
+  {
+    "asset": "Speech_f7b2d0950645f382",
+    "text": "Ahora mi poema se titula: ojalá te atiendan aquí."
+  },
+  {
+    "asset": "Speech_6168e2be0ff8b967",
+    "text": "Americano · café + agua"
+  },
+  {
+    "asset": "Speech_47da11b4ef96190d",
+    "text": "Anotaré: servicio sorprendentemente competente. No se lo digas a nadie."
+  },
+  {
+    "asset": "Speech_6913e4ea4c9c4e53",
+    "text": "BUSCA EXPERIENCIA AGRESIVA"
+  },
+  {
+    "asset": "Speech_75a1441224d5d017",
+    "text": "Bien caliente: más de 60 C."
+  },
+  {
+    "asset": "Speech_dae02e9f16decdab",
+    "text": "Bien. Ahora falta\nel resto del desayuno."
+  },
+  {
+    "asset": "Speech_96e32956fe39624b",
+    "text": "Buenas. ¿Este desayuno cuenta como after?"
+  },
+  {
+    "asset": "Speech_364eaf637d116d4c",
+    "text": "Bueno, me voy.\nHasta otro día."
+  },
+  {
+    "asset": "Speech_7e7ca86d079e75dd",
+    "text": "Buenos días.\nNecesito desayunar."
+  },
+  {
+    "asset": "Speech_9d2444bd9d59ce91",
+    "text": "Buenos días. Un café y un poco de paz, si queda."
+  },
+  {
+    "asset": "Speech_6bd86d4cb27b6288",
+    "text": "CRÍTICA EN INCÓGNITO"
+  },
+  {
+    "asset": "Speech_d4462e7752dd41ba",
+    "text": "CRÍTICO EN INCÓGNITO"
+  },
+  {
+    "asset": "Speech_9225f1beebd33199",
+    "text": "Cantante de ópera dramática; conviertes cualquier molestia en tragedia."
+  },
+  {
+    "asset": "Speech_162ecbfb0bdf52b9",
+    "text": "Caída desplaza el desayuno"
+  },
+  {
+    "asset": "Speech_14db61cc78fd3590",
+    "text": "Cero estrellas. Por fin un restaurante que cumple su promesa."
+  },
+  {
+    "asset": "Speech_0effd9b881c401a8",
+    "text": "Con el desayuno y los ánimos, voy a cantar mi última nota."
+  },
+  {
+    "asset": "Speech_59c096e0d918ad95",
+    "text": "Contacto con cliente que cae"
+  },
+  {
+    "asset": "Speech_aa506f95c40a77b4",
+    "text": "Cruasán pegado en la cara"
+  },
+  {
+    "asset": "Speech_1112f26cc71bed67",
+    "text": "Cruasán recién hecho"
+  },
+  {
+    "asset": "Speech_1d068d681545adf6",
+    "text": "Cuaderno del cliente"
+  },
+  {
+    "asset": "Speech_8c03ba273c5047fb",
+    "text": "DEGUSTACIÓN CORPORATIVA"
+  },
+  {
+    "asset": "Speech_8bb7ff3f7843a653",
+    "text": "De nada. Ahora podríamos ocuparnos de mi desayuno."
+  },
+  {
+    "asset": "Speech_60a75f5d2bce6e06",
+    "text": "De nada. La cortesía también necesita una buena extracción."
+  },
+  {
+    "asset": "Speech_0141014ab9d08cce",
+    "text": "Desayuno probado. Estoy terminando la reseña."
+  },
+  {
+    "asset": "Speech_457e227f3ce27a9d",
+    "text": "Desayuno servido. Otro día sin poder irte a casa."
+  },
+  {
+    "asset": "Speech_8fabb730ee7ba6d6",
+    "text": "Directo del desayuno"
+  },
+  {
+    "asset": "Speech_8f417ba19bffb7f0",
+    "text": "Dos gramos de azúcar, por favor."
+  },
+  {
+    "asset": "Speech_914b68ee0db59376",
+    "text": "ENTREVISTA EN DIEZ MINUTOS"
+  },
+  {
+    "asset": "Speech_4549585ecade7649",
+    "text": "El café está demasiado frío."
+  },
+  {
+    "asset": "Speech_ddeb7de95c33fb24",
+    "text": "El cliente ha perdido el hilo. Prueba a decirlo de otra forma."
+  },
+  {
+    "asset": "Speech_0503c33b9a466417",
+    "text": "El cliente reacciona al golpe. Puedes volver a hablarle."
+  },
+  {
+    "asset": "Speech_0be3d1eaf09527b8",
+    "text": "El cliente se dirige a su mesa. Entrégale allí el desayuno."
+  },
+  {
+    "asset": "Speech_8e4359247b9cff4a",
+    "text": "El crítico aprueba el desayuno. Marketing exige que lo arruines ahora."
+  },
+  {
+    "asset": "Speech_91b264a65659ff3a",
+    "text": "El cuaderno con mi poema. No necesita otro baño de café."
+  },
+  {
+    "asset": "Speech_008dc2dabe8e070a",
+    "text": "El desayuno está servido. Mi cita y yo tenemos tema de conversación."
+  },
+  {
+    "asset": "Speech_3fe45f8fa7998397",
+    "text": "Escribe entre 1 y 500 caracteres."
+  },
+  {
+    "asset": "Speech_30ffb01f9e06f7ea",
+    "text": "Escribe o graba tu voz. Enter para enviar · Esc para volver al turno."
+  },
+  {
+    "asset": "Speech_242e29653363b919",
+    "text": "Escribo un poema para mi ex. Me falta una palabra que rime con latte."
+  },
+  {
+    "asset": "Speech_68a0b5cef12f1152",
+    "text": "Eso es mío. ¡Deja mis cosas en paz!"
+  },
+  {
+    "asset": "Speech_b4efb1285aca50fb",
+    "text": "Eso ha quedado grabado.\n¡Me debes una disculpa!"
+  },
+  {
+    "asset": "Speech_c394467ea6b3fb27",
+    "text": "Eso no es mi pedido."
+  },
+  {
+    "asset": "Speech_b57ff7ecaf9863df",
+    "text": "Eso no es mío. ¿Estás intentando crear un malentendido?"
+  },
+  {
+    "asset": "Speech_9903c6ed5145af0b",
+    "text": "Espero mi desayuno. De momento, el desastre está en otra mesa."
+  },
+  {
+    "asset": "Speech_f2a82abb094833d7",
+    "text": "Espresso largo: al menos 55 ml."
+  },
+  {
+    "asset": "Speech_b70db0f2f12ac78d",
+    "text": "Espuma cremosa, al menos una capa."
+  },
+  {
+    "asset": "Speech_5fcf4bfefbee5c9c",
+    "text": "Esta experiencia no merece\nni una nota de cata."
+  },
+  {
+    "asset": "Speech_06b27bbbbf716ba0",
+    "text": "Estoy esperando el café, no una entrevista."
+  },
+  {
+    "asset": "Speech_df73e2afc2854009",
+    "text": "Faltan los extras de mi pedido."
+  },
+  {
+    "asset": "Speech_15a071e7cfc0b5b6",
+    "text": "Grabación demasiado corta. Vuelve a intentarlo."
+  },
+  {
+    "asset": "Speech_c177e6ab16df58bf",
+    "text": "Grabando el micrófono (máximo 15 s). Pulsa Detener o V para transcribir."
+  },
+  {
+    "asset": "Speech_49ba6840fa143ad9",
+    "text": "Grabando. V detiene y transcribe."
+  },
+  {
+    "asset": "Speech_004e76b5d11d1c99",
+    "text": "Gracias por devolverlo. Lo necesitaba para hoy."
+  },
+  {
+    "asset": "Speech_bb9b1772d5017fec",
+    "text": "Gracias por la flor. Mi cita podrá reconocerme."
+  },
+  {
+    "asset": "Speech_fa4e3e535f8f8ae0",
+    "text": "Gracias. Ensayaré pedir un sueldo, no permiso para existir."
+  },
+  {
+    "asset": "Speech_c69d2b6b057d0d3a",
+    "text": "Gracias. Era tan difícil\nhacerlo bien, ¿verdad?"
+  },
+  {
+    "asset": "Speech_ed1419ff079a1552",
+    "text": "Gracias. Mi audición tendrá menos gritos si el café llega a la taza."
+  },
+  {
+    "asset": "Speech_424b34587780e887",
+    "text": "Gracias. Un desayuno decente ya sería un buen comienzo."
+  },
+  {
+    "asset": "Speech_ffb71ce50e442248",
+    "text": "Habla con el cliente..."
+  },
+  {
+    "asset": "Speech_3da074c060ddd432",
+    "text": "Has estropeado mis cosas. Ya no me sirven."
+  },
+  {
+    "asset": "Speech_09071c3f9590b550",
+    "text": "He abierto el borrador. Puedes proponer un verso: escríbelo tras dos puntos."
+  },
+  {
+    "asset": "Speech_b415979feeef228a",
+    "text": "He encontrado el sitio. ¿El desastre también venía en la reserva?"
+  },
+  {
+    "asset": "Speech_dd726da98480124a",
+    "text": "He venido a desayunar y a tener cinco minutos de paz."
+  },
+  {
+    "asset": "Speech_147e6177c249f4ab",
+    "text": "Hipster pedante del café."
+  },
+  {
+    "asset": "Speech_f53a22d18e166510",
+    "text": "Influencer pasivo-agresiva, obsesionada con su outfit."
+  },
+  {
+    "asset": "Speech_2bdf63f8f9aa6de1",
+    "text": "Inversor cripto sarcástico; presumes de NFTs."
+  },
+  {
+    "asset": "Speech_4779f0f8ba67635c",
+    "text": "Jarra de leche caliente"
+  },
+  {
+    "asset": "Speech_f1e71fd778da5e7f",
+    "text": "Jarra de leche fría"
+  },
+  {
+    "asset": "Speech_d23d5efc82980bb5",
+    "text": "La amargura debe estar\nen el grano, no en el barista."
+  },
+  {
+    "asset": "Speech_a50b7eac8fce563c",
+    "text": "La cancelación combina\ncon mi outfit. Prepárate."
+  },
+  {
+    "asset": "Speech_afc4d944b782303c",
+    "text": "La entrevista será sobre gestión de catástrofes. Tengo experiencia reciente."
+  },
+  {
+    "asset": "Speech_bb3446240bc04056",
+    "text": "La mancha cuenta como flor marrón. Espero que me reconozca."
+  },
+  {
+    "asset": "Speech_71f199bc69cb63bf",
+    "text": "La violencia del servicio\ninterpela al espectador."
+  },
+  {
+    "asset": "Speech_7d745978033fa8e9",
+    "text": "La voz no está disponible. Puedes leer la respuesta y seguir hablando."
+  },
+  {
+    "asset": "Speech_f0ae6c778198ad37",
+    "text": "Latte · café + leche"
+  },
+  {
+    "asset": "Speech_c550614469f88fc8",
+    "text": "Lo llamaré degustación del desencanto."
+  },
+  {
+    "asset": "Speech_9081dd1283394016",
+    "text": "MOTORISTA CON PRISA"
+  },
+  {
+    "asset": "Speech_1010820761b04969",
+    "text": "Mago desempleado; tus trucos fallan, te tomas muy en serio."
+  },
+  {
+    "asset": "Speech_3794e1ca66a2b41b",
+    "text": "Me está llamando la empresa. ¿Ensayamos cómo pedir un sueldo?"
+  },
+  {
+    "asset": "Speech_0415cdd810541a46",
+    "text": "Me has empapado de "
+  },
+  {
+    "asset": "Speech_f5c51506c1516fb4",
+    "text": "Me has golpeado. Preferiría recibir el desayuno."
+  },
+  {
+    "asset": "Speech_2f67c5d45a25d175",
+    "text": "Mi aria se titulará: gracias por no tirarme nada."
+  },
+  {
+    "asset": "Speech_59c0ac58a14fdbdc",
+    "text": "Mi cita debería estar entrando. ¿Puedes ayudarme a reconocerla?"
+  },
+  {
+    "asset": "Speech_4f412bee971fae79",
+    "text": "Mi cita dijo que llevaría una flor. Aquí solo veo gente traumada."
+  },
+  {
+    "asset": "Speech_08d601e369566406",
+    "text": "Mi cuaderno. Escribo una reseña sobre tu servicio."
+  },
+  {
+    "asset": "Speech_3c1c4e1151b39a0a",
+    "text": "Mi desayuno, por favor. Y que llegue dentro de la taza."
+  },
+  {
+    "asset": "Speech_565c680b4a559fe5",
+    "text": "Mi paciencia está en mínimos.\n¡Voy a liquidar tu contrato!"
+  },
+  {
+    "asset": "Speech_b9337e7dd40bb2de",
+    "text": "Mi portátil queda fuera de tu zona de riesgo."
+  },
+  {
+    "asset": "Speech_2cb2c9c517473d27",
+    "text": "Micrófono no disponible. Comprueba el dispositivo predeterminado y los permisos de Windows; puedes escribir."
+  },
+  {
+    "asset": "Speech_16de0dc1359796de",
+    "text": "Mis cosas. Te agradecería que sobreviviesen al desayuno."
+  },
+  {
+    "asset": "Speech_f62b399c921f2a57",
+    "text": "Mis notas para la entrevista. Devuélvemelas si las encuentras."
+  },
+  {
+    "asset": "Speech_cc706c3e863cbd89",
+    "text": "Motorista impaciente pero amable si le atienden bien."
+  },
+  {
+    "asset": "Speech_b2fdd476ce965a31",
+    "text": "Necesito una rima para latte. Se admiten malas decisiones."
+  },
+  {
+    "asset": "Speech_0baa278337681106",
+    "text": "No es la bebida que he pedido."
+  },
+  {
+    "asset": "Speech_04917cd37d7db8fd",
+    "text": "No pienso esperar más."
+  },
+  {
+    "asset": "Speech_a4f7c05df027e4ee",
+    "text": "No se ha podido entender la grabación. Puedes volver a grabar o escribir."
+  },
+  {
+    "asset": "Speech_925abb7a0deaf799",
+    "text": "No se ha podido enviar. Inténtalo de nuevo."
+  },
+  {
+    "asset": "Speech_52538ff315d0e56a",
+    "text": "No se ha podido escuchar la respuesta. Prueba a enviar de nuevo."
+  },
+  {
+    "asset": "Speech_f0697186e9e23f0c",
+    "text": "No se ha podido procesar la grabación. Puedes escribir."
+  },
+  {
+    "asset": "Speech_9835574185688c0f",
+    "text": "No se ha podido reproducir la voz. Puedes seguir leyendo y hablando."
+  },
+  {
+    "asset": "Speech_35c340efcf7990d0",
+    "text": "No se ha reconocido voz. Prueba de nuevo o escribe."
+  },
+  {
+    "asset": "Speech_a35025ade81567f1",
+    "text": "No soy crítico. Ese cuaderno es para anotar... sentimientos."
+  },
+  {
+    "asset": "Speech_c96a9ab82c14224d",
+    "text": "Pasando tu voz a texto..."
+  },
+  {
+    "asset": "Speech_42173c079d50ec72",
+    "text": "Pedido incorrecto: revisa receta, temperatura y los extras de la comanda."
+  },
+  {
+    "asset": "Speech_36706799254e445e",
+    "text": "Pedí una taza más llena."
+  },
+  {
+    "asset": "Speech_ecb8480735de3571",
+    "text": "Por las reseñas. Quería comprobar si eran tan buenas como dicen."
+  },
+  {
+    "asset": "Speech_b11f4c68632625f0",
+    "text": "Portafiltro prensado"
+  },
+  {
+    "asset": "Speech_60d38d1b6e5121ab",
+    "text": "Portátil del cliente"
+  },
+  {
+    "asset": "Speech_2037acf05bb3ce4f",
+    "text": "Puedes seguir trabajando mientras responde. T vuelve a Dialogar."
+  },
+  {
+    "asset": "Speech_7f74998c39e2c825",
+    "text": "Punk que acaba de salir de una oficina; rebelde, habla de nóminas."
+  },
+  {
+    "asset": "Speech_f500f73a34f71587",
+    "text": "Reformula manteniendo los hechos: TÚ eres el cliente que PIDE el desayuno y el usuario es tu camarero. Tu pedido es "
+  },
+  {
+    "asset": "Speech_827fc4473eafc1c4",
+    "text": "Revisa la transcripción y pulsa Enviar para hablar con el cliente."
+  },
+  {
+    "asset": "Speech_1f36e184896a771a",
+    "text": "Si esta cita sale mal, al menos he desayunado bien."
+  },
+  {
+    "asset": "Speech_2721c8f0883e55fa",
+    "text": "Sirve bien y descubre su secreto; o consigue una reseña terrible."
+  },
+  {
+    "asset": "Speech_1fe5e69955461278",
+    "text": "Sirve el desayuno y dale ánimos; o arruina su ensayo."
+  },
+  {
+    "asset": "Speech_c5181899fc74f2e9",
+    "text": "Sirve el desayuno y sugiere un verso; o inspira un poema de odio."
+  },
+  {
+    "asset": "Speech_1f13af5d60b264a6",
+    "text": "Sirve su desayuno y tranquilízale; o sabotea la cita."
+  },
+  {
+    "asset": "Speech_0d95e387bc48f457",
+    "text": "Sirve y anima al cantante; o transforma su ensayo en un grito."
+  },
+  {
+    "asset": "Speech_16b5326604fbda6d",
+    "text": "Soy cliente de Cero Estrellas; tú eres mi camarero."
+  },
+  {
+    "asset": "Speech_6a0c2849e010ee12",
+    "text": "T vuelve a Dialogar · V para hablar."
+  },
+  {
+    "asset": "Speech_f28e39a1a4cd8e54",
+    "text": "Taza bien llena: al menos 170 ml."
+  },
+  {
+    "asset": "Speech_70ccc703ed05892a",
+    "text": "Te escucha. ¿Qué le dices?"
+  },
+  {
+    "asset": "Speech_84de29d97ab4fec8",
+    "text": "Te escucho desde aquí. Mantén la taza lejos."
+  },
+  {
+    "asset": "Speech_80b1a8ef525b5f29",
+    "text": "Te tomo la palabra. Recordaré que me has prometido otro café."
+  },
+  {
+    "asset": "Speech_346b7e30721ab14f",
+    "text": "Tengo una audición. Necesito calentar la voz, no la camisa."
+  },
+  {
+    "asset": "Speech_cb183d781abed261",
+    "text": "Tengo una entrevista. Mi currículum dice que tolero la presión."
+  },
+  {
+    "asset": "Speech_9fd2a0520f616165",
+    "text": "Todavía nada. ¿Podemos empezar por mi desayuno?"
+  },
+  {
+    "asset": "Speech_40b07126208ef16f",
+    "text": "Tu ausencia sabe a café; mi paciencia también."
+  },
+  {
+    "asset": "Speech_bc02b2dc03f514b9",
+    "text": "Tu desidia carece\nde una narrativa coherente."
+  },
+  {
+    "asset": "Speech_e4d6f8ab2b4f33e4",
+    "text": "Tu turno. Puedes seguir hablando."
+  },
+  {
+    "asset": "Speech_5b4e364504cce475",
+    "text": "Una flor para que mi cita me reconozca. Espero que llegue entera."
+  },
+  {
+    "asset": "Speech_b25d4b9aa8ff7785",
+    "text": "Una pulsación de sirope."
+  },
+  {
+    "asset": "Speech_2da67ab8e06af1a5",
+    "text": "Ven, te guardo conversación. La silla corre por tu cuenta."
+  },
+  {
+    "asset": "Speech_8d8b8b5a6a0cd1c5",
+    "text": "Voy a anotar cómo atiendes. Sí, ese cuaderno era de un crítico."
+  },
+  {
+    "asset": "Speech_5767ecbc4072dbbd",
+    "text": "Voy a apartar la silla y secarme. Este servicio salpica."
+  },
+  {
+    "asset": "Speech_10628be7e843e1da",
+    "text": "Voy a apartar mi desayuno. Por si acaso."
+  },
+  {
+    "asset": "Speech_21e31322d31550c5",
+    "text": "Voy a ensayar el aria aquí. Nadie ha pedido silencio, ¿verdad?"
+  },
+  {
+    "asset": "Speech_46cc14068683065b",
+    "text": "Voy a leer el verso antes de enviárselo a mi ex."
+  },
+  {
+    "asset": "Speech_db40eecc3574bff1",
+    "text": "Voy a pedir un sueldo digno. Gracias por darme valor."
+  },
+  {
+    "asset": "Speech_7b3c30f3f62fff3d",
+    "text": "Voy a vender acciones de este local.\n¡Esto es una burbuja de café!"
+  },
+  {
+    "asset": "Speech_c40131f4dbdf40d5",
+    "text": "Y que esté caliente, por favor."
+  },
+  {
+    "asset": "Speech_a68acada36aded04",
+    "text": "Ya he desayunado. Ahora voy a devolver la llamada y defender mi sueldo."
+  },
+  {
+    "asset": "Speech_c2560ef3352083f1",
+    "text": "Ya tengo el verso: tu ausencia sabe a café. Voy a enviarlo."
+  },
+  {
+    "asset": "Speech_0a8c611db7ab4550",
+    "text": "Yo he venido por el after. La máquina tiene buen ritmo."
+  },
+  {
+    "asset": "Speech_432be6f5131ac16c",
+    "text": "como te puedo ayudar"
+  },
+  {
+    "asset": "Speech_e4c3951056535f19",
+    "text": "cuentame tu historia"
+  },
+  {
+    "asset": "Speech_69250f19d1f9282a",
+    "text": "cuéntame tu historia"
+  },
+  {
+    "asset": "Speech_a841a3029bd44143",
+    "text": "cómo te puedo ayudar"
+  },
+  {
+    "asset": "Speech_d1667b6bd8059a5a",
+    "text": "ensayamos la entrevista"
+  },
+  {
+    "asset": "Speech_c39ccf6a65a04207",
+    "text": "me recuerdas tu pedido"
+  },
+  {
+    "asset": "Speech_e24c73ecdcc0990a",
+    "text": "muchísimas gracias"
+  },
+  {
+    "asset": "Speech_3334f624286614dd",
+    "text": "no fue mi intención"
+  },
+  {
+    "asset": "Speech_e505cde57e3e07b4",
+    "text": "perdon por el cafe"
+  },
+  {
+    "asset": "Speech_d9bfc1f39bead719",
+    "text": "perdón por el café"
+  },
+  {
+    "asset": "Speech_f6ac98e3490a6383",
+    "text": "por que has venido"
+  },
+  {
+    "asset": "Speech_30fd92f124b688ee",
+    "text": "por qué has venido"
+  },
+  {
+    "asset": "Speech_9c2dcef108f84abe",
+    "text": "te ayudo con el poema"
+  },
+  {
+    "asset": "Speech_f1f5f9f11d868f8e",
+    "text": "te preparo otro cafe"
+  },
+  {
+    "asset": "Speech_003424cf541c6f84",
+    "text": "te preparo otro café"
+  },
+  {
+    "asset": "Speech_4de48ecaec4d0d85",
+    "text": "te traigo otra taza"
+  },
+  {
+    "asset": "Speech_17740714faac3d2c",
+    "text": "tu cita ya está aquí"
+  },
+  {
+    "asset": "Speech_e8915e92b190e20e",
+    "text": "yo soy el camarero"
+  },
+  {
+    "asset": "Speech_873ea93804d91be2",
+    "text": "¡Aparta eso de mi portátil!"
+  },
+  {
+    "asset": "Speech_992cf1b1e3736858",
+    "text": "¡EL SUELO NO FORMABA\nPARTE DEL DESAYUNO!"
+  },
+  {
+    "asset": "Speech_e3bffa1b77fedfe0",
+    "text": "¡Eres mi cita! Pensé que la flor era el cruasán."
+  },
+  {
+    "asset": "Speech_653971ead3e20ef7",
+    "text": "¡MI CAMISA! Ese agudo me dará el papel protagonista."
+  },
+  {
+    "asset": "Speech_5e93deab59b30023",
+    "text": "¡Me resbalo!\n¡Poned una señal!"
+  },
+  {
+    "asset": "Speech_3b36304d80ddb30d",
+    "text": "¡Me voy! ¡Esto es intolerable!\n¡Que te despidan!"
+  },
+  {
+    "asset": "Speech_910ed3b8d5389d10",
+    "text": "¡Mi abogado acepta cripto!\nTú no aceptas ni pedidos."
+  },
+  {
+    "asset": "Speech_c42379b4a6c79c77",
+    "text": "¡Mi ropa! ¡Mi directo!\n¡Me has arruinado el día!"
+  },
+  {
+    "asset": "Speech_7037f650467d3cf9",
+    "text": "¡Mis inversiones!\n¡Esto va a salir muy caro!"
+  },
+  {
+    "asset": "Speech_5778932a8061d089",
+    "text": "¡Mis notas! Ahora mi historia se ha disuelto en café."
+  },
+  {
+    "asset": "Speech_05b93ffb7498a5e1",
+    "text": "¡Mis notas! Las necesitaba para hoy."
+  },
+  {
+    "asset": "Speech_58fd8fad916503cd",
+    "text": "¡No cortéis! Esto se hace viral.\nHashtag: desayuno traumático."
+  },
+  {
+    "asset": "Speech_e5e8288996cb78c5",
+    "text": "¡Suelo mojado! Correr aquí tiene consecuencias."
+  },
+  {
+    "asset": "Speech_04cd874f81ddbfba",
+    "text": "¿A ti también te han servido una crisis existencial?"
+  },
+  {
+    "asset": "Speech_9740ae8356bea9ff",
+    "text": "¿Es una performance?\n¡He dicho sin agresiones!"
+  },
+  {
+    "asset": "Speech_f5bafcb43c2a833c",
+    "text": "¿Has venido por el café o por las reseñas terribles?"
+  },
+  {
+    "asset": "Speech_7987e2511e80c524",
+    "text": "¿Me tomas nota?\nF para escuchar el pedido."
+  },
+  {
+    "asset": "Speech_5c2686273cc7e447",
+    "text": "¿Mi desayuno viene andando?\nTengo cosas importantes que hacer."
+  },
+  {
+    "asset": "Speech_e99af498589f30f1",
+    "text": "¿Puedes salir en mi directo? Esto necesita testigos."
+  },
+  {
+    "asset": "Speech_8328d466d9834f96",
+    "text": "¿Quieres que te despidan?\nTe compro el local y lo gestiono."
+  },
+  {
+    "asset": "Speech_36ce89ec62c1737a",
+    "text": "¿Sabes cuántos seguidores tengo?\n¡Hasta mi café tiene patrocinador!"
+  },
+  {
+    "asset": "Speech_2bbd3794daf8c0e3",
+    "text": "¿Tolerarías trabajar aquí? Es para mi entrevista."
+  },
+  {
+    "asset": "Speech_f93e59e5dd880fa1",
+    "text": "ánimo, suerte, verso"
+  }
+]

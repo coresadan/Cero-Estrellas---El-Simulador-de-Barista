@@ -1,0 +1,109 @@
+{
+  "request": {
+    "model": "qwen3:4b-instruct",
+    "stream": false,
+    "think": false,
+    "keep_alive": "20m",
+    "format": {
+      "type": "object",
+      "properties": {
+        "dialogo": {
+          "type": "object",
+          "properties": {
+            "texto": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "texto"
+          ],
+          "additionalProperties": false
+        },
+        "reaccion": {
+          "type": "object",
+          "properties": {
+            "emocion": {
+              "type": "string",
+              "enum": [
+                "neutral",
+                "enfadado",
+                "humillado",
+                "triste",
+                "divertido"
+              ]
+            },
+            "cambio_enfado": {
+              "type": "number",
+              "enum": [
+                -0.1,
+                0,
+                0.1,
+                0.2,
+                0.3
+              ]
+            },
+            "quiere_irse": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "emocion",
+            "cambio_enfado",
+            "quiere_irse"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "dialogo",
+        "reaccion"
+      ],
+      "additionalProperties": false
+    },
+    "options": {
+      "num_gpu": 0,
+      "num_thread": 6,
+      "num_ctx": 2048,
+      "num_predict": 128,
+      "temperature": 0.1
+    },
+    "messages": [
+      {
+        "role": "system",
+        "content": "Eres cliente del restaurante Cero Estrellas; hablas con tu camarero, el usuario. Influencer pasivo-agresiva, obsesionada con su outfit. Tu pedido: Latte · café + leche + cruasán. Responde en español, hasta 80 caracteres. No inventes hechos. Sigue el schema JSON."
+      },
+      {
+        "role": "user",
+        "content": "[Estado del cliente; incidentes recibidos del camarero]\n{\"animo_actual\":\"neutral\",\"incidentes_recibidos\":[],\"historia_cotidiana\":{\"situacion\":\"Mi cita dijo que llevaría una flor. Aquí solo veo gente traumada.\",\"recibiste_apoyo\":false,\"resuelta\":false}}\nCamarero: ¿Cómo reconocerás a tu cita?"
+      }
+    ]
+  },
+  "provider": {
+    "model": "qwen3:4b-instruct",
+    "created_at": "2026-10-13T21:11:04.7386433Z",
+    "message": {
+      "role": "assistant",
+      "content": "{\"dialogo\": {\"texto\": \"No sé, tal vez con una flor. ¿Y tú? ¿Con tu outfit o con tu café?\"},\"reaccion\": {\"cambio_enfado\": 0,\"emocion\": \"neutral\",\"quiere_irse\": false}}"
+    },
+    "done": true,
+    "done_reason": "stop",
+    "total_duration": 16629056300,
+    "load_duration": 10697100,
+    "prompt_eval_count": 171,
+    "prompt_eval_cached_count": 24,
+    "prompt_eval_duration": 4769949000,
+    "eval_count": 60,
+    "eval_duration": 11797014000
+  },
+  "check": {
+    "story": "CITA A CIEGAS",
+    "profile": 2,
+    "question": "¿Cómo reconocerás a tu cita?",
+    "answer": "No sé, tal vez con una flor. ¿Y tú? ¿Con tu outfit o con tu café?",
+    "contract_valid": true,
+    "mentions_story_context": true,
+    "seconds": 16.66
+  }
+}

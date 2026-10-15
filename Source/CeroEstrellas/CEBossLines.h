@@ -22,7 +22,10 @@ namespace CEBoss
             TEXT("Ese desastre se oye desde la calle. Por fin tenemos publicidad exterior sin pagar licencia municipal."),
             TEXT("Me dicen que este local es una pesadilla. Las experiencias inmersivas están en auge. Apunta: brunch de terror."),
             TEXT("¿Querías que te despidiera? Después de lo de hoy necesito ponerte al frente de nuestra nueva franquicia. Enhorabuena."),
-            TEXT("Tenemos café en el techo y una reseña de una estrella. Excelente equilibrio entre expansión vertical y exclusividad.")
+            TEXT("Tenemos café en el techo y una reseña de una estrella. Excelente equilibrio entre expansión vertical y exclusividad."),
+            TEXT("Después de ese portátil ahogado, lanzamos Desconexión Digital con Espresso. Los inversores quieren probarlo. Has creado una línea de negocio."),
+            TEXT("Esa huida acaba de inaugurar nuestro Desayuno de Evacuación Premium. Las influencers quieren grabar la siguiente. Sigue así; ya llegan reservas."),
+            TEXT("Una caída provoca otra. Eso es sinergia corporal. He anunciado el Brunch Dominó y la gente está haciendo cola. Tu despido sigue sin encajar con nuestras métricas.")
         };
     }
 }

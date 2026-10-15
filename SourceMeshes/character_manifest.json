@@ -1,26 +1,74 @@
 [
   {
     "mesh": "SK_Crypto",
-    "vertices": 28337,
+    "vertices": 28586,
     "bones": 18,
     "original": true,
-    "trouser_vertices": 6599,
+    "trouser_vertices": 6711,
     "trouser_arm_influences": 0
   },
   {
     "mesh": "SK_Hipster",
-    "vertices": 27951,
+    "vertices": 26995,
     "bones": 18,
     "original": true,
-    "trouser_vertices": 6599,
+    "trouser_vertices": 6524,
     "trouser_arm_influences": 0
   },
   {
     "mesh": "SK_Influencer",
-    "vertices": 28000,
+    "vertices": 27224,
     "bones": 18,
     "original": true,
-    "trouser_vertices": 6599,
+    "trouser_vertices": 6575,
+    "trouser_arm_influences": 0
+  },
+  {
+    "mesh": "SK_Punk",
+    "vertices": 27039,
+    "bones": 18,
+    "original": true,
+    "trouser_vertices": 6560,
+    "trouser_arm_influences": 0
+  },
+  {
+    "mesh": "SK_Astronaut",
+    "vertices": 28738,
+    "bones": 18,
+    "original": true,
+    "trouser_vertices": 6776,
+    "trouser_arm_influences": 0
+  },
+  {
+    "mesh": "SK_Diva",
+    "vertices": 27753,
+    "bones": 18,
+    "original": true,
+    "trouser_vertices": 6647,
+    "trouser_arm_influences": 0
+  },
+  {
+    "mesh": "SK_Biker",
+    "vertices": 28894,
+    "bones": 18,
+    "original": true,
+    "trouser_vertices": 6800,
+    "trouser_arm_influences": 0
+  },
+  {
+    "mesh": "SK_Granny",
+    "vertices": 27292,
+    "bones": 18,
+    "original": true,
+    "trouser_vertices": 6518,
+    "trouser_arm_influences": 0
+  },
+  {
+    "mesh": "SK_Magician",
+    "vertices": 27098,
+    "bones": 18,
+    "original": true,
+    "trouser_vertices": 6536,
     "trouser_arm_influences": 0
   }
 ]

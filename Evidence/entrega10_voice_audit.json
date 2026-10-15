@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "exact_text_recordings": 192,
+  "scope": "Source WAV and imported asset audit; runtime loads and exact-caption playback are checked separately in packaged smoke."
+}

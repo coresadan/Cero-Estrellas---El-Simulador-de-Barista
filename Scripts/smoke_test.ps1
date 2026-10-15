@@ -1,4 +1,4 @@
-﻿param([string]$EngineRoot = 'F:\Games\UE_5.8', [switch]$Packaged, [switch]$Quick, [switch]$PolishOnly, [switch]$Offscreen, [string]$EvidenceName = 'RealismoPlayable')
+﻿param([string]$EngineRoot = 'F:\Games\UE_5.8', [switch]$Packaged, [switch]$Quick, [switch]$PolishOnly, [switch]$Offscreen, [string]$EvidenceName = 'RealismoPlayable', [ValidateRange(640,3840)][int]$ResX=1280, [ValidateRange(360,2160)][int]$ResY=720)
 $ErrorActionPreference = 'Stop'
 $ceRoot = Split-Path -Parent $PSScriptRoot
 $ceEvidence = Join-Path $ceRoot ('Evidence\' + $EvidenceName)
@@ -7,13 +7,13 @@ $ceReport = Join-Path $ceEvidence 'smoke_result.json'
 $cePrevious = if (Test-Path -LiteralPath $ceReport) { (Get-Item -LiteralPath $ceReport).LastWriteTimeUtc } else { [datetime]::MinValue }
 if ($Packaged) {
     $ceExe = Join-Path $ceRoot 'Release\Windows\CeroEstrellas.exe'
-    $ceArguments = @('-windowed', '-ResX=1280', '-ResY=720', '-CeroSmokeTest', '-unattended', '-NoSplash', ('"-CeroEvidenceDir={0}"' -f $ceEvidence), ('"-abslog={0}\packaged_runtime.log"' -f $ceEvidence))
+    $ceArguments = @('-windowed', "-ResX=$ResX", "-ResY=$ResY", '-CeroSmokeTest', '-unattended', '-NoSplash', ('"-CeroEvidenceDir={0}"' -f $ceEvidence), ('"-abslog={0}\packaged_runtime.log"' -f $ceEvidence))
 } else {
     $ceProject = Join-Path $ceRoot 'CeroEstrellas.uproject'
     $ceExe = Join-Path $EngineRoot 'Engine\Binaries\Win64\UnrealEditor.exe'
-    $ceArguments = @(('"{0}"' -f $ceProject), '-game', '-windowed', '-ResX=1280', '-ResY=720', '-CeroSmokeTest', '-unattended', '-NoSplash', ('"-CeroEvidenceDir={0}"' -f $ceEvidence), ('"-abslog={0}\editor_runtime.log"' -f $ceEvidence))
+    $ceArguments = @(('"{0}"' -f $ceProject), '-game', '-windowed', "-ResX=$ResX", "-ResY=$ResY", '-CeroSmokeTest', '-unattended', '-NoSplash', ('"-CeroEvidenceDir={0}"' -f $ceEvidence), ('"-abslog={0}\editor_runtime.log"' -f $ceEvidence))
 }
-if($Offscreen) { $ceArguments += '-RenderOffScreen' }
+if($Offscreen) { $ceArguments += @('-RenderOffScreen','-ForceRes') }
 if($Quick -or $PolishOnly) { $ceArguments += '-CeroQuickSmoke' }
 if($PolishOnly) { $ceArguments += '-CeroPolishOnly' }
 $ceProcess = Start-Process -FilePath $ceExe -ArgumentList $ceArguments -WorkingDirectory $ceRoot -WindowStyle Hidden -Wait -PassThru
@@ -23,7 +23,7 @@ if ((Get-Item -LiteralPath $ceReport).LastWriteTimeUtc -le $cePrevious) { throw 
 $ceResult = Get-Content -LiteralPath $ceReport -Raw | ConvertFrom-Json
 if (-not $ceResult.passed) { throw 'Gameplay smoke checks failed. Inspect report and runtime log.' }
 $ceRuntimeLog = Join-Path $ceEvidence ('{0}_runtime.log' -f $(if ($Packaged) { 'packaged' } else { 'editor' }))
-if (Select-String -LiteralPath $ceRuntimeLog -Pattern 'LogMaterial: Error:|missing usage flag|Failed to compile Material|Fatal error:' -Quiet) {
+if (Select-String -LiteralPath $ceRuntimeLog -Pattern 'LogMaterial: Error:|missing usage flag|Failed to compile Material|Fatal error:|Failed to find object .StaticMesh|Cafe mesh missing:' -Quiet) {
     throw 'Runtime rendering or fatal errors detected. Inspect the runtime log.'
 }
 $ceResult

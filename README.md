@@ -1,12 +1,14 @@
 # Cero Estrellas: El Simulador de Barista
 
-Prototipo **0.8.0**, Unreal Engine **5.8.3**, Windows. Eres un barista agotado que intenta conseguir su despido. La jefa convierte los grandes desastres en éxitos comerciales.
+Prototipo **0.10.0**, Unreal Engine **5.8.3**, Windows. Eres un barista agotado que intenta conseguir su despido. La jefa convierte los grandes desastres en éxitos comerciales.
 
-Las comandas ahora son hojas tumbadas sobre la barra: dejan ver a los clientes. Las caídas usan límites anatómicos guardados, colisiones entre segmentos no adyacentes y masas por parte; un contacto fuerte puede hacer caer a otro cliente. La marcha tiene claves articulares y ajustes de contacto para pies, manos y taza. Piel, ropa, cintura e iluminación se han retocado, y la madera tiene relieve y brillo más suaves.
+La revisión 0.10 restaura los tableros de madera y los detalles que no se cargaban en 0.9, y orienta los portátiles hacia sus dueños. Incorpora nueve cuerpos con distintas proporciones y caras continuas, luz cálida sobre mesas, relleno suave desde la ventana y materiales revisados. Las sillas, platos y manos comparten un alcance coherente; los brazos usan el lado real del esqueleto importado. Las caras y teléfonos siguen directamente sus huesos. Las comandas siguen tumbadas sobre la barra.
 
-Llegan nueve perfiles, desde el punk de oficina hasta la abuela rave o el mago sin contrato. Cada visitante recibe una pequeña historia: entrevista, cita, crítica encubierta, audición o poema para un ex. Puedes ayudar preparando el desayuno y dando apoyo, o arruinar la situación con tu sabotaje. Las conversaciones conocen el pedido, la personalidad y el desenlace. Preguntas habituales de servicio o historia tienen respuestas autoradas inmediatas; la conversación libre conserva generación y voz.
+El líquido separa el chorro visible de los paquetes que transportan volumen: colisión a 30 Hz, dibujo interpolado, superficies niveladas, oscilación y espuma con una textura propia. Añade hasta 48 salpicaduras decorativas reutilizadas, sin cuerpos físicos ni consultas de colisión. Los charcos, gotas y chorros están acotados. La rueda del ratón permite elegir 30/60/90 ml de extracción o 55/65/75 °C para la leche; el manómetro acompaña la preparación.
 
-El turno dura ocho minutos y termina con un ascenso involuntario. La jefa conserva llamadas espaciadas, sin cola. Diseño, pruebas y límites de esta revisión: [POLISH_08.md](Docs/POLISH_08.md). Los informes [0.7](Docs/POLISH_07.md) y [0.6](Docs/POLISH_06.md) son históricos. Entrega 0.8 cerrada: **116/116 comprobaciones jugables** durante el turno completo y **40/40 de conversación**, sobre el ejecutable definitivo. [Manifiesto y binario verificado](Evidence/entrega08_delivery.json). Falta una partida humana para valorar ritmo y diversión.
+Las cinco historias tienen etapas: llamada para la entrevista, llegada relacionada para una cita, notas del crítico, ensayo de ópera y un poema al que puedes aportar `verso: ...`. Puedes manipular cuadernos, flores y bolsos: devolver pertenencias ayuda, mientras cambiarlas de dueño o estropearlas crea un problema. Los clientes hablan entre mesas con turnos separados y recuerdan promesas de servicio. Un banco de 192 grabaciones cubre frases escritas exactas; la voz de conversación se prepara mientras termina de llegar la respuesta. La jefa conserva sus llamadas espaciadas y el ambiente baja durante la radio.
+
+El turno dura ocho minutos y termina con un ascenso involuntario. Diseño, pruebas y límites actuales: [POLISH_10.md](Docs/POLISH_10.md). Los informes 0.6 a 0.9 conservan entregas anteriores; las pruebas de 0.9 no validan estos cambios. Entrega empaquetada: **146/146 comprobaciones de jugabilidad y 43/43 de diálogo** sobre el ejecutable final, con capturas verificadas a 1080p. Resultados, incidencias y límites en el [manifiesto de entrega](Evidence/entrega10_delivery.json). Pendiente una partida humana completa.
 
 ## Jugar
 
@@ -17,6 +19,7 @@ Abre **Jugar.bat** para ejecutar el paquete en `Release/Windows/CeroEstrellas.ex
 | WASD / ratón | Mover / mirar |
 | E | Agarrar o soltar el objeto señalado |
 | F | Usar, tomar pedido o servir; mantener para prensar; pulsar durante extracción para detenerla |
+| Rueda del ratón | Mirando a la cafetera: volumen; mirando al vapor: temperatura; ajustar antes de iniciar |
 | Q | Provocar al cliente señalado |
 | T | Abrir Dialogar mirando a un cliente; Escape cierra el panel |
 | V | Grabar / detener voz durante una conversación; revisa la transcripción antes de enviar |
@@ -40,7 +43,7 @@ Los clientes saben que están desayunando en Cero Estrellas y que tú eres su ca
 
 ## Configuración del desarrollo
 
-En otro equipo, ejecuta una vez **Preparar_IA.bat** (requiere Internet para descargar herramientas y modelos) y después **Jugar.bat**. Los archivos quedan en `Tools/LocalAI`, sin instalar servicios de Windows. Configuración: `[CeroEstrellas.AI] Model` en `Config/DefaultGame.ini`; la preparación descarga ese modelo. Predeterminado: **Qwen3 4B Instruct Q4_K_M**, contexto 2048, seis hilos, `num_gpu=0`, 128 tokens por respuesta y retención de 20 minutos. La precarga comienza en segundo plano al abrir el juego. Whisper tiny usa CPU int8; Piper usa Davefx. Los tres arquetipos utilizan por ahora la misma voz. **Detener_IA.bat** libera los procesos propios.
+En otro equipo, ejecuta una vez **Preparar_IA.bat** (requiere Internet para descargar herramientas y modelos) y después **Jugar.bat**. Los archivos quedan en `Tools/LocalAI`, sin instalar servicios de Windows. Configuración: `[CeroEstrellas.AI] Model` en `Config/DefaultGame.ini`; la preparación descarga ese modelo. Predeterminado: **Qwen3 4B Instruct Q4_K_M**, contexto 2048, seis hilos, `num_gpu=0`, 128 tokens por respuesta y retención de 20 minutos. La precarga comienza en segundo plano al abrir el juego. Whisper tiny usa CPU int8; Piper usa Davefx con ejecución ONNX de un hilo, sin espera activa. Las voces comparten un modelo base con ajustes de tono; no son nueve actores de voz distintos. **Detener_IA.bat** libera los procesos propios.
 
 Todo el diálogo se procesa en `127.0.0.1`: Ollama en **11434**, voz en **11435**. Una vez descargados los modelos no necesita Internet. Si la IA está apagada, falta un modelo o falla el micrófono, el panel muestra el error y permite volver a intentar o escribir. Un JSON inválido tiene un único reintento automático. No sustituye respuestas fallidas por frases que aparenten ser IA. La latencia y precisión dependen del hardware; puedes corregir la transcripción antes de enviarla.
 
@@ -48,7 +51,7 @@ La preparación de IA utiliza Python incluido en Unreal 5.8, con ruta predetermi
 
 ## Modelados propios
 
-La revisión incorpora **24 mallas originales**: cerámica hueca y asa curva, jarra con pico, cruasán laminado, portafiltro y empuñadura, bordes de bandeja, piezas de ropa, cabeza con mandíbula y nariz, cabello, manos con dedos, zapatos, gafas, lanza de vapor, botellas, tolvas, macetas y hojas. Máquinas, mobiliario y estructura usan bordes biselados y accesorios; cerámica, piel, ropa y bollería tienen materiales diferenciados. Se conservan las dimensiones de interacción para mantener jugables las recetas y el transporte.
+La revisión incorpora **mallas originales**: cerámica hueca y asa curva, jarra con pico, cruasán laminado, portafiltro y empuñadura, bordes de bandeja, piezas de ropa, cabeza con mandíbula y nariz, cabello, manos con dedos, zapatos, gafas, lanza de vapor, botellas, tolvas, macetas y hojas. Máquinas, mobiliario y estructura usan bordes biselados y accesorios; cerámica, piel, ropa y bollería tienen materiales diferenciados. Se conservan las dimensiones de interacción para mantener jugables las recetas y el transporte.
 
 Las fuentes editables están en `SourceMeshes/CeroEstrellas_Modelos.blend` y `SourceMeshes/CeroEstrellas_Personajes.blend`, con exportaciones OBJ y FBX. `Scripts/model_cafe.py` reproduce los objetos y `Scripts/author_characters.py` los cuerpos con dieciocho huesos y pesos mezclados en codos y rodillas. Los personajes son estilizados, con claves articulares, poses y ajustes de contacto del esqueleto; no usan captura de movimiento.
 
@@ -60,7 +63,7 @@ La revisión 0.5 integra nariz y mejillas en una superficie continua, reduce ojo
 2. Mira el **molinillo** y pulsa F con las manos vacías para coger un portafiltro limpio. Pulsa F otra vez para moler una dosis; espera a que termine.
 3. Lleva la dosis al **prensador**, delante del molinillo, y **mantén F** hasta completar la presión. Soltar antes deja la dosis incompleta; vuelve a agarrar el filtro para intentarlo de nuevo. Después lleva el portafiltro a la **máquina espresso** y pulsa F para acoplarlo. La máquina rechaza una dosis sin prensar.
 4. Coge una taza de las existencias con E, o pide una nueva con F en su soporte. Las tazas nuevas están vacías.
-5. Mira la máquina con la taza en la mano y pulsa F para colocarla bajo el surtidor. Pulsa F otra vez para extraer **60 ml de espresso**. F durante la extracción la detiene antes: puedes preparar un café corto deliberadamente. Espera a que termine y recoge la taza con E.
+5. Mira la máquina con la taza en la mano y pulsa F para colocarla bajo el surtidor. Pulsa F otra vez para extraer **60 ml de espresso** con el selector predeterminado; la rueda permite 30 o 90 ml. F durante la extracción la detiene antes: puedes preparar un café corto deliberadamente. Espera a que termine y recoge la taza con E.
 6. Para un **americano**, coloca la taza en el surtidor de agua con F y pulsa F otra vez para añadir 100 ml. Para un **latte**, deja el espresso en una superficie y usa la **lanza de vapor** con las manos vacías para coger una jarra con 120 ml de leche fría. F coloca la jarra; F otra vez calienta su leche hasta unos 65 °C. Recógela con E, apunta a la taza y mantén clic derecho para verter. Suelta el botón al alcanzar unos 100 ml de leche. La capacidad de la taza es 180 ml: lo que sobra se derrama. Retirar la jarra de la lanza interrumpe su calentamiento; retirar la taza durante la extracción deja que el café caiga al suelo.
 7. Lleva el desayuno a la mesa y pulsa F mirando al cliente para entregarlo. Si pidió cruasán, también debes entregarlo. Una bandeja permite llevar y servir los dos objetos; estos siguen siendo cuerpos físicos independientes.
 8. Con las manos vacías, F en la máquina permite retirar el portafiltro usado para volver a moler. El molinillo tiene doce dosis; F repone los granos cuando se agotan.
@@ -85,7 +88,7 @@ Los clientes entran por una puerta animada, siguen recorridos con detección de 
 
 El panel izquierdo propone cuatro objetivos opcionales: servir dos desayunos, derramar 150 ml, provocar una caída y encadenar cuatro incidentes. Cada objetivo da un bonus. Los incidentes diferentes separados por menos de nueve segundos forman un **combo**, multiplican los puntos virales y elevan el nivel corporativo; entran clientes más deprisa. Las gotas de un mismo derrame no cuentan como una cadena infinita. La empresa sigue premiando tu sabotaje y el despido nunca llega.
 
-La jefa **no habla al entrar, lanzar un objeto, servir, cometer un error o derramar un poco de café**. Interviene ante una huida por un gran desastre, un portátil destruido o un incidente que afecte a varios clientes. Hay al menos **50 segundos entre llamadas**, sin cola de comentarios pendientes. Las campañas pueden activar tres nuevas llamadas, respetando la misma pausa. Las dieciséis frases elegibles se barajan sin repetición hasta agotar la ronda; las dieciocho grabaciones originales incluyen dos que ya no se usan para las llamadas.
+La jefa **no habla al entrar, lanzar un objeto, servir, cometer un error o derramar un poco de café**. Interviene ante una huida por un gran desastre, un portátil destruido o un incidente que afecte a varios clientes. Hay al menos **50 segundos entre llamadas**, sin cola de comentarios pendientes. Las campañas pueden activar tres nuevas llamadas, respetando la misma pausa. Las diecinueve frases elegibles se barajan sin repetición hasta agotar la ronda; las veintiuna grabaciones incluyen dos que ya no se usan para las llamadas.
 
 ## Compilar y regenerar
 
@@ -106,7 +109,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\package.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\smoke_test.ps1 -Packaged
 ```
 
-`-EngineRoot` permite otra instalación. `package.ps1 -IterativeCook` actualiza los recursos que han cambiado; `-ReuseCook` solo es válido para cambios de código que no cambien contenido cocinado ni configuración. Los WAV de la jefa se generan previamente con Microsoft Helena Desktop; durante la partida se reproducen grabaciones. Las transcripciones salen de `CEBossLines.h`, para mantener voz y subtítulos sincronizados. Los once efectos son sonidos originales generados por el proyecto. Máquinas, pasos e impactos usan atenuación espacial; la radio de la jefa se oye por separado.
+`-EngineRoot` permite otra instalación. `package.ps1 -IterativeCook` actualiza los recursos que han cambiado; `-ReuseCook` solo es válido para cambios de código que no cambien contenido cocinado ni configuración. Los WAV de la jefa se generan previamente con Microsoft Helena Desktop; durante la partida se reproducen grabaciones. Las transcripciones salen de `CEBossLines.h`, para mantener voz y subtítulos sincronizados. Los efectos y capas de ambiente son sonidos originales generados por el proyecto. Máquinas, pasos e impactos usan atenuación espacial; la radio de la jefa se oye por separado.
 
 ## Arquitectura y límites
 
@@ -116,7 +119,7 @@ El suavizado de fotogramas limita la partida a 60 FPS para reservar tiempo de CP
 |---|---|
 | `ACEPlayer` / `ACEProp` | Agarre Chaos, lanzamiento, empujón, salto; recipientes, sillas y bordes de bandeja físicos |
 | `ACEStation` | Molienda, prensado animado, portafiltro, extracción, vapor, agua, azúcar, sirope, espuma y reposición |
-| `ACELiquidSystem` | 192 segmentos y 32 charcos de cinco lóbulos; mezcla, transferencia, impactos y resbalones |
+| `ACELiquidSystem` | 192 paquetes, 64 tramos de chorro, 32 charcos de cinco lóbulos y 48 salpicaduras decorativas; mezcla, transferencia, impactos y resbalones |
 | `ACECustomer` / `ACECafeDoor` | Entrada, pedido, asiento, paciencia, receta, caída, testigos y salida |
 | `CEBodyAnimation` / `CEGuestMotion` / `CECustomerRig` / `CEHands` | Poses esqueléticas, física articulada, recuperación, cara, energía de voz y agarres visibles |
 | `CECustomerStories` / `CECustomerSocial` | Historias con ayuda y sabotaje, nueve personalidades, protección, limpieza y comentarios |
@@ -130,4 +133,4 @@ La máquina ofrece los pasos de una preparación simplificada; no simula la quí
 
 El script `smoke_test.ps1` activa `-CeroSmokeTest` y guarda informe y capturas en `Evidence/RealismoPlayable`. `-EvidenceName RealismoEditor` permite separar la prueba del editor. Solo durante esa prueba se ignoran las pulsaciones físicas externas. Hay preparaciones de escena directas para probar recetas y transferencia de líquido, y controles simulados para prensado, servicio, lanzamiento, volcado, agarre de silla y salto. Esto no sustituye una partida humana para valorar diversión y ergonomía.
 
-Consultar [POLISH_08.md](Docs/POLISH_08.md) para la revisión actual, [POLISH_07.md](Docs/POLISH_07.md) para el histórico, [POLISH_06.md](Docs/POLISH_06.md) para el histórico y [DIALOGUE_ARCHITECTURE.md](Docs/DIALOGUE_ARCHITECTURE.md) para esta entrega. [VALIDATION_MODELOS_DIALOGO.md](Docs/VALIDATION_MODELOS_DIALOGO.md), [VALIDATION_REALISMO.md](Docs/VALIDATION_REALISMO.md), [VALIDATION_LOOP.md](Docs/VALIDATION_LOOP.md) y [VALIDATION.md](Docs/VALIDATION.md) conservan las comprobaciones anteriores.
+Consultar [POLISH_10.md](Docs/POLISH_10.md) para la revisión actual, [POLISH_09.md](Docs/POLISH_09.md) para el histórico, [POLISH_08.md](Docs/POLISH_08.md) para el histórico, [POLISH_07.md](Docs/POLISH_07.md) para el histórico, [POLISH_06.md](Docs/POLISH_06.md) para el histórico y [DIALOGUE_ARCHITECTURE.md](Docs/DIALOGUE_ARCHITECTURE.md) para esta entrega. [VALIDATION_MODELOS_DIALOGO.md](Docs/VALIDATION_MODELOS_DIALOGO.md), [VALIDATION_REALISMO.md](Docs/VALIDATION_REALISMO.md), [VALIDATION_LOOP.md](Docs/VALIDATION_LOOP.md) y [VALIDATION.md](Docs/VALIDATION.md) conservan las comprobaciones anteriores.

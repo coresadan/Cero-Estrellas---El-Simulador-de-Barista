@@ -1,5 +1,7 @@
 # Revisión 0.8: caras visibles, caídas y pequeñas historias
 
+Informe histórico. La revisión actual se documenta en [POLISH_09.md](POLISH_09.md).
+
 ## Mostrador e interacción
 
 Las tres comandas dejan de ser paneles verticales de 78 × 48 cm. Son hojas de 36 × 62 cm tumbadas sobre la barra, con texto orientado hacia el camarero; la vista de los clientes queda despejada. Tab conserva la consulta conjunta y F1 la ayuda.

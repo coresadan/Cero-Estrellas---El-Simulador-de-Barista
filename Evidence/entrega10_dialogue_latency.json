@@ -1,0 +1,109 @@
+{
+  "version": "0.10.0",
+  "evidence": "Entrega10DialogueVerified",
+  "baseline": "entrega09_dialogue_latency.json",
+  "rejected_attempts": 1,
+  "model": "qwen3:4b-instruct",
+  "followup_visible_seconds": {
+    "min": 4.88,
+    "max": 19.11
+  },
+  "followup_validated_seconds": {
+    "min": 12.97,
+    "max": 28.92
+  },
+  "previous_five_turn_median_seconds": 15.55,
+  "matching_five_turn_median_seconds": 17.78,
+  "matching_median_reduction_percent": -14.3,
+  "comparison_note": "Same hardware, real packaged tests; matching order, name, recall, incident and confirmed transcript. Other CPU load and reply lengths can vary.",
+  "replies": [
+    {
+      "file": "accepted_2.json",
+      "text": "He pedido un latte con cruasán.",
+      "backend_seconds": 17.78,
+      "load_seconds": 0.03,
+      "prompt_tokens": 258,
+      "cached_prompt_tokens": 0,
+      "generated_tokens": 42,
+      "first_visible_seconds": 9.77,
+      "validated_seconds": 17.81
+    },
+    {
+      "file": "accepted_3.json",
+      "text": "Estoy en Cero Estrellas, hablo contigo, mi camarero.",
+      "backend_seconds": 16.3,
+      "load_seconds": 0.01,
+      "prompt_tokens": 296,
+      "cached_prompt_tokens": 216,
+      "generated_tokens": 61,
+      "first_visible_seconds": 5.2,
+      "validated_seconds": 16.31
+    },
+    {
+      "file": "accepted_5.json",
+      "text": "He pedido un latte con cruasán.",
+      "backend_seconds": 15.34,
+      "load_seconds": 0.01,
+      "prompt_tokens": 422,
+      "cached_prompt_tokens": 338,
+      "generated_tokens": 54,
+      "first_visible_seconds": 19.11,
+      "validated_seconds": 28.92
+    },
+    {
+      "file": "accepted_6.json",
+      "text": "La capital de Francia es París.",
+      "backend_seconds": 12.97,
+      "load_seconds": 0.02,
+      "prompt_tokens": 374,
+      "cached_prompt_tokens": 296,
+      "generated_tokens": 45,
+      "first_visible_seconds": 5.13,
+      "validated_seconds": 12.97
+    },
+    {
+      "file": "accepted_7.json",
+      "text": "Recuerdo el nombre de tu perro: Croqueta.",
+      "backend_seconds": 15.04,
+      "load_seconds": 0.01,
+      "prompt_tokens": 415,
+      "cached_prompt_tokens": 333,
+      "generated_tokens": 57,
+      "first_visible_seconds": 4.88,
+      "validated_seconds": 15.04
+    },
+    {
+      "file": "accepted_8.json",
+      "text": "Tu perro se llama Croqueta.",
+      "backend_seconds": 14.44,
+      "load_seconds": 0.02,
+      "prompt_tokens": 450,
+      "cached_prompt_tokens": 366,
+      "generated_tokens": 48,
+      "first_visible_seconds": 6.21,
+      "validated_seconds": 14.45
+    },
+    {
+      "file": "accepted_9.json",
+      "text": "Me diste café en la camisa. Discúlpate.",
+      "backend_seconds": 24.28,
+      "load_seconds": 0.01,
+      "prompt_tokens": 645,
+      "cached_prompt_tokens": 411,
+      "generated_tokens": 60,
+      "first_visible_seconds": 11.66,
+      "validated_seconds": 24.29
+    },
+    {
+      "file": "accepted_11.json",
+      "text": "Te dije que no me pongas café en la camisa. ¿Qué más quieres?",
+      "backend_seconds": 25.63,
+      "load_seconds": 0.01,
+      "prompt_tokens": 692,
+      "cached_prompt_tokens": 442,
+      "generated_tokens": 68,
+      "first_visible_seconds": 12.17,
+      "validated_seconds": 25.64
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+﻿{
+    "samples":  63,
+    "other_game_observed":  false,
+    "only_named_evidence_processes":  true,
+    "total_desktop_gpu_peak_mib":  4036,
+    "gpu_capacity_mib":  6144,
+    "game_working_set_peak_mib":  604.6,
+    "note":  "GPU usage includes desktop and other apps; sampled every two seconds, not guaranteed to capture every transient peak."
+}

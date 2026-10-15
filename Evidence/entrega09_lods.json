@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "meshes": [
+    {
+      "mesh": "SK_Crypto",
+      "vertices_per_lod": [
+        36062,
+        12763
+      ]
+    },
+    {
+      "mesh": "SK_Hipster",
+      "vertices_per_lod": [
+        34181,
+        12093
+      ]
+    },
+    {
+      "mesh": "SK_Influencer",
+      "vertices_per_lod": [
+        35063,
+        12457
+      ]
+    }
+  ]
+}

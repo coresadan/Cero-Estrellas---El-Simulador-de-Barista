@@ -1,0 +1,11 @@
+{
+  "version": "0.9.0",
+  "engine": "5.8.3",
+  "launcher": "Jugar.bat",
+  "executable": "Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "c3c63b98a12052f906bcd01f8a568a8d0f428103cb75e018bd5e5547c0c29d8a",
+  "matches_compiled_binary": true,
+  "newest_source": "Source\\CeroEstrellas\\CEDialogue.cpp",
+  "source_older_than_binary": true,
+  "binary_utc": "2026-10-13T21:03:55.833278+00:00"
+}

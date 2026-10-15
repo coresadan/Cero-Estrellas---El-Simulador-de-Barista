@@ -44,14 +44,15 @@ void TestTrace(const FString& Text,const TCHAR* Kind,int32 Turn) {
     FString Directory; if(FParse::Value(FCommandLine::Get(),TEXT("CeroEvidenceDir="),Directory)) FFileHelper::SaveStringToFile(Text,*(Directory/FString::Printf(TEXT("%s_%d.json"),Kind,Turn)));
 }
 const TCHAR* Emotions[]={TEXT("neutral"),TEXT("enfadado"),TEXT("humillado"),TEXT("triste"),TEXT("divertido")};
-FString PreviewText(const FString& Json) {
+FString PreviewText(const FString& Json,bool* Complete=nullptr) {
+    if(Complete) *Complete=false;
     // Decode only a quoted texto field; incomplete escapes wait for the next chunk.
     int32 I=Json.Find(TEXT("\"texto\"")); if(I==INDEX_NONE) return {};
     I+=7; while(I<Json.Len() && (FChar::IsWhitespace(Json[I]) || Json[I]==':')) ++I;
     if(I>=Json.Len() || Json[I++]!='"') return {};
     FString Text;
     while(I<Json.Len() && Text.Len()<350) {
-        TCHAR C=Json[I++]; if(C=='"') break;
+        TCHAR C=Json[I++]; if(C=='"') { if(Complete) *Complete=true; break; }
         if(C=='\\') {
             if(I>=Json.Len()) break; C=Json[I++];
             if(C=='u') {
@@ -171,7 +172,7 @@ void UCEDialogueComponent::EditConversation() {
 void UCEDialogueComponent::CancelRequests() {
     ++Generation;
     for(auto& R:Requests) { R->OnProcessRequestComplete().Unbind(); R->CancelRequest(); }
-    Requests.Empty(); bBusy=false; ReplyStream.Reset(); StreamLine.Empty(); StreamJson.Empty(); StreamEnvelope.Empty(); PreviewReply.Empty();
+    Requests.Empty(); bBusy=false; ReplyStream.Reset(); StreamLine.Empty(); StreamJson.Empty(); StreamEnvelope.Empty(); PreviewReply.Empty(); PrewarmedText.Empty();
 }
 void UCEDialogueComponent::Close() {
     if(EscapeProcessor && FSlateApplication::IsInitialized()) FSlateApplication::Get().UnregisterInputPreProcessor(EscapeProcessor);
@@ -207,7 +208,20 @@ void UCEDialogueComponent::ConsumeReplyStream() {
             auto MessageObject=MakeShared<FJsonObject>(); MessageObject->SetStringField(TEXT("content"),StreamJson); Envelope->SetObjectField(TEXT("message"),MessageObject); StreamEnvelope=Encode(Envelope);
         }
     }
-    PreviewReply=PreviewText(StreamJson);
+    bool TextComplete=false; PreviewReply=PreviewText(StreamJson,&TextComplete);
+    if(TextComplete && bVoiceEnabled && PrewarmedText.IsEmpty() && !PreviewReply.IsEmpty() && PreviewReply.Len()<=100 && ValidatePerspective(Target.Get(),PreviewReply)) {
+        PrewarmedText=PreviewReply;
+        auto Body=MakeShared<FJsonObject>(); Body->SetStringField(TEXT("text"),PrewarmedText);
+        auto Warm=FHttpModule::Get().CreateRequest(); Warm->SetURL(TEXT("http://127.0.0.1:11435/speak")); Warm->SetVerb(TEXT("POST"));
+        Warm->SetHeader(TEXT("Content-Type"),TEXT("application/json")); Warm->SetContentAsString(Encode(Body)); Warm->SetTimeout(15);
+        const int32 Turn=Generation;
+        Warm->OnProcessRequestComplete().BindWeakLambda(this,[this,Turn](FHttpRequestPtr,FHttpResponsePtr Response,bool OK) {
+            if(Turn==Generation && OK && Response && Response->GetResponseCode()==200) { ++PrewarmedVoices; UE_LOG(LogTemp,Display,TEXT("CE_DIALOGUE_VOICE_PREWARM_READY")); }
+        });
+        Requests.Add(Warm); Warm->ProcessRequest();
+        // This only prepares the cache. Playback still requires the full JSON,
+        // perspective validation, current target and uncancelled turn.
+    }
     if(FirstTextSeconds==0 && PreviewReply.Len()>=3) {
         FirstTextSeconds=FPlatformTime::Seconds()-TurnStartedAt;
         UE_LOG(LogTemp,Display,TEXT("CE_DIALOGUE_FIRST_TEXT seconds=%.2f"),FirstTextSeconds);
@@ -281,7 +295,14 @@ bool UCEDialogueComponent::TryServiceReply(const FString& Text,int32 Turn)
     else if(Key==TEXT("dónde estamos") || Key==TEXT("donde estamos")) Answer=TEXT("Soy cliente de Cero Estrellas; tú eres mi camarero.");
     else if(Key==TEXT("por qué has venido") || Key==TEXT("por que has venido") || Key==TEXT("qué te pasa") || Key==TEXT("que te pasa") || Key==TEXT("cuéntame tu historia") || Key==TEXT("cuentame tu historia")) Answer=Target->StoryAnswer();
     else if(Key==TEXT("buena suerte") || Key==TEXT("ánimo") || Key==TEXT("animo") || Key==TEXT("tranquilo") || Key==TEXT("tranquila")) { Answer=Target->StoryId==0 ? TEXT("Gracias. Ensayaré pedir un sueldo, no permiso para existir.") : Target->StoryId==3 ? TEXT("Gracias. Mi audición tendrá menos gritos si el café llega a la taza.") : TEXT("Gracias. Un desayuno decente ya sería un buen comienzo."); Change=-.1f; }
-    else return false;
+    else if(Key==TEXT("hola") || Key==TEXT("buenos días") || Key==TEXT("buenas")) Answer=Target->LookIndex==7 ? TEXT("Buenas. ¿Este desayuno cuenta como after?") : TEXT("Buenos días. Un café y un poco de paz, si queda.");
+    else if(Key==TEXT("qué ha pasado") || Key==TEXT("que ha pasado")) Answer=Target->WetMl>0 ? TEXT("Me has empapado de ")+Target->ReceivedLiquid+TEXT(". Mi desayuno no iba aquí.") : Target->HitCount>0 ? TEXT("Me has golpeado. Preferiría recibir el desayuno.") : TEXT("Espero mi desayuno. De momento, el desastre está en otra mesa.");
+    else if(Key==TEXT("cómo te puedo ayudar") || Key==TEXT("como te puedo ayudar") || Key==TEXT("qué necesitas") || Key==TEXT("que necesitas")) Answer=Target->StoryId>=0 ? Target->StoryObjective : TEXT("Mi desayuno, por favor. Y que llegue dentro de la taza.");
+    else if(Key==TEXT("qué llevas ahí") || Key==TEXT("que llevas ahi")) Answer=Target->StoryId==0 ? TEXT("Mis notas para la entrevista. Devuélvemelas si las encuentras.") : Target->StoryId==1 ? TEXT("Una flor para que mi cita me reconozca. Espero que llegue entera.") : Target->StoryId==2 ? TEXT("Mi cuaderno. Escribo una reseña sobre tu servicio.") : Target->StoryId==4 ? TEXT("El cuaderno con mi poema. No necesita otro baño de café.") : TEXT("Mis cosas. Te agradecería que sobreviviesen al desayuno.");
+    else if(Key==TEXT("te traigo otra taza") || Key==TEXT("te preparo otro café") || Key==TEXT("te preparo otro cafe")) { Target->RememberedPromise=Text.Left(100); Answer=TEXT("Te tomo la palabra. Recordaré que me has prometido otro café."); Change=-.1f; }
+    else if(Key==TEXT("qué te prometí") || Key==TEXT("que te prometi")) Answer=Target->RememberedPromise.IsEmpty() ? TEXT("Todavía nada. ¿Podemos empezar por mi desayuno?") : TEXT("Me dijiste: ")+Target->RememberedPromise;
+    else if(Key==TEXT("ensayamos la entrevista") || Key==TEXT("te ayudo con el poema") || Key==TEXT("tu cita ya está aquí")) { Target->StoryConversation(TEXT("ánimo, suerte, verso")); Answer=Target->StoryAnswer(); Change=-.1f; }
+    if(Answer.IsEmpty()) return false;
     auto Words=MakeShared<FJsonObject>(); Words->SetStringField(TEXT("texto"),Answer.Left(100));
     auto Reaction=MakeShared<FJsonObject>(); Reaction->SetStringField(TEXT("emocion"),TEXT("neutral")); Reaction->SetNumberField(TEXT("cambio_enfado"),Change); Reaction->SetBoolField(TEXT("quiere_irse"),false);
     auto Reply=MakeShared<FJsonObject>(); Reply->SetObjectField(TEXT("dialogo"),Words); Reply->SetObjectField(TEXT("reaccion"),Reaction);
@@ -298,12 +319,23 @@ bool UCEDialogueComponent::TryServiceReply(const FString& Text,int32 Turn)
     if(bVoiceEnabled) SpeakReply(Answer,Turn);
     UE_LOG(LogTemp,Display,TEXT("CE_SERVICE_REPLY customer=%s authored=1 chars=%d"),*Target->CustomerId,Answer.Len()); return true;
 }
+bool UCEDialogueComponent::ValidatePerspective(const ACECustomer* Customer,const FString& Text)
+{
+    FString Key=Text.ToLower().TrimStartAndEnd();
+    const bool AssignsOrderToWaiter=(Key.Contains(TEXT("tú pides")) || Key.Contains(TEXT("tu pides")) || Key.Contains(TEXT("pides tú")) || Key.Contains(TEXT("pides tu"))) && Key.Contains(TEXT("no yo"));
+    if(AssignsOrderToWaiter || Key.Contains(TEXT("mi desayuno es tuyo")) || Key.Contains(TEXT("tu desayuno es mío"))) return false;
+    if(Key.Contains(TEXT("no pido yo")) || Key.StartsWith(TEXT("yo soy el camarero")) || Key.StartsWith(TEXT("te sirvo ")) || Key.Contains(TEXT("yo te sirvo"))) return false;
+    if(!Customer || Customer->HitCount<=0) return true;
+    if(Key.Contains(TEXT("no fue intención")) || Key.Contains(TEXT("no fue mi intención")) || Key.Contains(TEXT("te he derramado")) || Key.Contains(TEXT("te he echado"))) return false;
+    while(Key.EndsWith(TEXT(".")) || Key.EndsWith(TEXT("!"))) Key.LeftChopInline(1);
+    return !(Customer->WetMl>0 && (Key.EndsWith(TEXT("lo siento")) || Key.EndsWith(TEXT("perdón"))));
+}
 bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     if(!Target.IsValid() || Target->bLeaving || bBusy || bRecording) return false;
     const FString Text=Raw.TrimStartAndEnd();
     if(Text.IsEmpty() || Text.Len()>500) { Status=TEXT("Escribe entre 1 y 500 caracteres."); return false; }
     CancelRequests(); if(Speaker) Speaker->Stop(); const int32 Turn=Generation; bBusy=true;
-    TurnStartedAt=FPlatformTime::Seconds(); FirstTextSeconds=0; ResponseSeconds=0;
+    if(!bRetry) TurnStartedAt=FPlatformTime::Seconds(); FirstTextSeconds=0; ResponseSeconds=0;
     LastPlayerText=Text; LastReply.Empty(); bLastReplyFromOllama=false;
     Target->DialogueHoldUntil=GetWorld()->GetTimeSeconds()+90.f;
     if(!bRetry) Target->StoryConversation(Text);
@@ -312,6 +344,8 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     auto Context=MakeShared<FJsonObject>();
     // Identity selects the history on the engine side; the order is already in
     // the stable system prompt. Send only meaningful changes, not default zeros.
+    if(!Target->RememberedPromise.IsEmpty()) Context->SetStringField(TEXT("promesa_camarero"),Target->RememberedPromise);
+    if(!Target->SocialPartnerId.IsEmpty()) Context->SetStringField(TEXT("acompanante"),Target->SocialPartnerId);
     if(Target->Anger>.5f) Context->SetStringField(TEXT("animo_actual"),TEXT("molesto"));
     if(Target->HitCount>0) Context->SetNumberField(TEXT("impactos_recibidos"),Target->HitCount);
     if(Target->WetMl>0) Context->SetStringField(TEXT("ropa_empapada_de"),Target->ReceivedLiquid);
@@ -327,7 +361,7 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     }
     Context->SetArrayField(TEXT("incidentes_recibidos"),Incidents);
     if(Target->StoryId>=0) {
-        auto Story=MakeShared<FJsonObject>(); Story->SetStringField(TEXT("situacion"),Target->StorySetup);
+        auto Story=MakeShared<FJsonObject>(); Story->SetStringField(TEXT("situacion"),Target->StoryAnswer()); Story->SetNumberField(TEXT("etapa"),Target->StoryStage);
         Story->SetBoolField(TEXT("recibiste_apoyo"),Target->bStoryHelped); Story->SetBoolField(TEXT("resuelta"),Target->bStoryResolved);
         if(Target->bStoryResolved) Story->SetStringField(TEXT("desenlace"),Target->StoryOutcome);
         Context->SetObjectField(TEXT("historia_cotidiana"),Story);
@@ -358,6 +392,7 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
     Messages.Add(Message(TEXT("user"),UserMessage));
     const FString Perspective=Incidents.IsEmpty() ? FString() : TEXT("Tú eres el cliente que RECIBIÓ los incidentes. El camarero te habla. Si hablas del incidente, contesta como víctima: el camarero actúa, tú reaccionas. No repitas su frase ni hables como si tú fueras él. NO pidas disculpas por causar el incidente ni digas que no fue tu intención: tú no lo causaste. Responde qué recibiste y acepta o rechaza SU disculpa.");
     if(!Perspective.IsEmpty()) Messages.Add(Message(TEXT("system"),Perspective));
+    if(bRetry) Messages.Add(Message(TEXT("system"),TEXT("Reformula manteniendo los hechos: TÚ eres el cliente que PIDE el desayuno y el usuario es tu camarero. Tu pedido es ")+Target->OrderText()+TEXT(". No inviertas esos papeles ni te disculpes por el café o los golpes que recibiste. Responde a la pregunta pendiente.")));
     Body->SetArrayField(TEXT("messages"),Messages);
     TestTrace(Encode(Body),TEXT("request"),Turn);
     auto Request=FHttpModule::Get().CreateRequest(); Request->SetURL(TEXT("http://127.0.0.1:11434/api/chat")); Request->SetVerb(TEXT("POST")); Request->SetHeader(TEXT("Content-Type"),TEXT("application/json")); Request->SetTimeout(90); Request->SetActivityTimeout(90); Request->SetContentAsString(Encode(Body));
@@ -376,7 +411,7 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
         TestTrace(StreamEnvelope,TEXT("response"),Turn);
         const auto Envelope=Decode(StreamEnvelope); const TSharedPtr<FJsonObject>* Msg=nullptr; FString Json;
         FString Answer,Emotion; float Anger=0; bool Leave=false;
-        if(!Envelope || !Envelope->TryGetObjectField(TEXT("message"),Msg) || !(*Msg)->TryGetStringField(TEXT("content"),Json) || !ValidateReply(NormalizeProviderReply(Json),Answer,Emotion,Anger,Leave) || (Target->HitCount>0 && (Answer.Contains(TEXT("no fue intención"),ESearchCase::IgnoreCase) || Answer.Contains(TEXT("no fue mi intención"),ESearchCase::IgnoreCase) || Answer.Contains(TEXT("te he derramado"),ESearchCase::IgnoreCase) || Answer.Contains(TEXT("te he echado"),ESearchCase::IgnoreCase)))) {
+        if(!Envelope || !Envelope->TryGetObjectField(TEXT("message"),Msg) || !(*Msg)->TryGetStringField(TEXT("content"),Json) || !ValidateReply(NormalizeProviderReply(Json),Answer,Emotion,Anger,Leave) || !ValidatePerspective(Target.Get(),Answer)) {
             FString Reason; if(Envelope) Envelope->TryGetStringField(TEXT("done_reason"),Reason);
             UE_LOG(LogTemp,Warning,TEXT("CE_DIALOGUE_INVALID done_reason=%s chars=%d retry=%d"),*Reason,Json.Len(),bRetry);
             if(!bRetry) {
@@ -388,6 +423,7 @@ bool UCEDialogueComponent::Submit(const FString& Raw,bool bRetry) {
             }
             Status=TEXT("El cliente ha perdido el hilo. Prueba a decirlo de otra forma."); return;
         }
+        TestTrace(StreamEnvelope,TEXT("accepted"),Turn);
         LastReply=Answer; LastEmotion=Emotion; bLastReplyFromOllama=true; ++ValidReplies;
         if(Emotion==TEXT("neutral") || Emotion==TEXT("divertido")) Anger=FMath::Min(Anger,0.f);
         auto& Turns=History.FindOrAdd(Target->CustomerId); Turns.Add(FCEConversationTurn{Text,Answer,Json});

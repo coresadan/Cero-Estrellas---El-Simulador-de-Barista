@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "imported": [
+    "/Game/Prototype/Meshes/SM09_EspressoShell.SM09_EspressoShell",
+    "/Game/Prototype/Meshes/SM09_TableTop.SM09_TableTop",
+    "/Game/Prototype/Meshes/SM09_Pendant.SM09_Pendant",
+    "/Game/Prototype/Meshes/SM09_Saucer.SM09_Saucer",
+    "/Game/Prototype/Meshes/SM09_GaugeRim.SM09_GaugeRim",
+    "/Game/Prototype/Meshes/SM09_Knob.SM09_Knob",
+    "/Game/Prototype/Meshes/SM09_Collar.SM09_Collar",
+    "/Game/Prototype/Meshes/SM_Croissant.SM_Croissant",
+    "/Game/Prototype/Audio/FX/CafeStreet.CafeStreet",
+    "/Game/Prototype/Audio/FX/CafeRoom.CafeRoom",
+    "/Game/Prototype/Audio/FX/PhoneRing.PhoneRing",
+    "/Game/Prototype/Audio/FX/OperaWarmup.OperaWarmup",
+    "/Game/Prototype/Audio/Boss_18.Boss_18",
+    "/Game/Prototype/Audio/Boss_19.Boss_19",
+    "/Game/Prototype/Audio/Boss_20.Boss_20"
+  ],
+  "foam_material": "/Game/Prototype/M09_Foam.M09_Foam"
+}

@@ -1,0 +1,118 @@
+{
+  "Entrega10Closure": {
+    "01_turno_abierto.png": [
+      1920,
+      1080
+    ],
+    "02b_jarra_verter_a_mano.png": [
+      1920,
+      1080
+    ],
+    "02_maquina_completa.png": [
+      1920,
+      1080
+    ],
+    "03_pedido_y_clientes.png": [
+      1920,
+      1080
+    ],
+    "04b_charco_persistente.png": [
+      1920,
+      1080
+    ],
+    "04_liquido_y_charcos.png": [
+      1920,
+      1080
+    ],
+    "05_reaccion_y_gestos.png": [
+      1920,
+      1080
+    ],
+    "06_desastre_y_jefa.png": [
+      1920,
+      1080
+    ],
+    "07b_influencer_graba.png": [
+      1920,
+      1080
+    ],
+    "07_silla_caida_y_testigo.png": [
+      1920,
+      1080
+    ],
+    "08_personajes_y_manos.png": [
+      1920,
+      1080
+    ],
+    "09_directo_del_desastre.png": [
+      1920,
+      1080
+    ],
+    "12_caderas_y_manos_corregidas.png": [
+      1920,
+      1080
+    ],
+    "13_latte_espuma_y_extras.png": [
+      1920,
+      1080
+    ],
+    "14_cliente_protege_desayuno.png": [
+      1920,
+      1080
+    ],
+    "15_caida_fisica_real.png": [
+      1920,
+      1080
+    ],
+    "16_eventos_y_comandas.png": [
+      1920,
+      1080
+    ],
+    "17_mostrador_despejado.png": [
+      1920,
+      1080
+    ],
+    "18_clientela_extravagante.png": [
+      1920,
+      1080
+    ],
+    "19_contacto_y_caida_en_cadena.png": [
+      1920,
+      1080
+    ],
+    "20_cafetera_y_materiales.png": [
+      1920,
+      1080
+    ],
+    "21_historia_y_clientes.png": [
+      1920,
+      1080
+    ],
+    "22_caida_y_campana.png": [
+      1920,
+      1080
+    ]
+  },
+  "Entrega10DialogueVerified": {
+    "01_dialogar_respuesta_real.png": [
+      1920,
+      1080
+    ],
+    "02_memoria_y_contexto_fisico.png": [
+      1920,
+      1080
+    ],
+    "03_transcripcion_whisper.png": [
+      1920,
+      1080
+    ],
+    "04_conversacion_libre.png": [
+      1920,
+      1080
+    ],
+    "05_respuesta_de_servicio.png": [
+      1920,
+      1080
+    ]
+  }
+}

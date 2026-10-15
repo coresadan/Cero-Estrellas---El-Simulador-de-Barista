@@ -29,6 +29,7 @@ void ACEGameMode::PolishSmokeStep()
     };
     auto Aim=[Player,PC](FVector Target) { PC->SetControlRotation((Target-Player->Camera->GetComponentLocation()).Rotation()); };
     auto Key=[PC](FKey K,EInputEvent E) { PC->InputKey(FInputKeyEventArgs::CreateSimulated(K,E,E==IE_Pressed ? 1.f : 0.f)); };
+    if(SmokeStage>=45) { ProfessionalSmokeStep(); return; }
     if(bPolishChecksCompleted) { SmokeStage=44; SmokeNextAt=Now+.1f; return; }
     UE_LOG(LogTemp,Display,TEXT("CE_POLISH_STAGE %d"),SmokeStage);
     switch(SmokeStage++) {
@@ -156,7 +157,7 @@ void ACEGameMode::PolishSmokeStep()
         bool AllStories=true;
         for(int32 Story=0;Story<5;++Story) {
             auto* Guest=GetWorld()->SpawnActor<ACECustomer>(FVector(600,350,92),FRotator::ZeroRotator); Guest->Configure(TEXT("qa08-story"),TEXT("VISITA"),FLinearColor(.4f,.3f,.2f),Story%3,Story);
-            Guest->InitStory(Story); Guest->State=ECECustomerState::Eating; Guest->StoryConversation(TEXT("Ánimo, suerte: tu poema y tu crítica pueden salir bien.")); Guest->TickStory(.1f);
+            Guest->InitStory(Story); Guest->AdvanceStory(); Guest->StoryStageStartedAt=Now-5.f; Guest->State=ECECustomerState::Eating; Guest->StoryConversation(TEXT("Ánimo, suerte: tu poema y tu crítica pueden salir bien.")); Guest->StoryStageStartedAt=Now-9.f; Guest->TickStory(.1f);
             AllStories &= Guest->bStoryResolved && Guest->bStoryHelped && !Guest->StoryOutcome.IsEmpty(); Guest->ResolveStory(false); Guest->Destroy();
             Guest=GetWorld()->SpawnActor<ACECustomer>(FVector(600,350,92),FRotator::ZeroRotator); Guest->Configure(TEXT("qa08-sabotage"),TEXT("VISITA"),FLinearColor(.4f,.3f,.2f),Story%3,Story);
             Guest->InitStory(Story); Guest->React(TEXT("coffee_spill"),TEXT("Camisa"),.4f); AllStories &= Guest->bStoryResolved && Guest->WipeUntil>Now; Guest->Destroy();
@@ -193,8 +194,7 @@ void ACEGameMode::PolishSmokeStep()
         Check(TEXT("actual_ragdoll_contact_can_knock_over_another_guest"),SmokeWitness->PhysicalFalls>0 && Cafe->ChainReactions>LoopFirstBossPhrase);
         Check(TEXT("contact_chain_preserves_connected_bodies"),SmokeCustomer->IsBodyConsistent() && SmokeWitness->IsBodyConsistent());
         Shot(TEXT("19_contacto_y_caida_en_cadena"));
-        bPolishChecksCompleted=true; SmokeStage=FParse::Param(FCommandLine::Get(),TEXT("CeroQuickSmoke")) ? 44 : 31;
-        SmokeNextAt=SmokeStage==31 ? FMath::Max(Now+1.f,241.f) : Now+.4f; break;
+        SmokeStage=45; SmokeNextAt=Now+.4f; break;
     }
     default:
         bPolishChecksCompleted=true;

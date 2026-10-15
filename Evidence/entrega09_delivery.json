@@ -1,0 +1,73 @@
+{
+  "version": "0.9.0",
+  "engine": "5.8.3",
+  "launcher": "Jugar.bat",
+  "executable": "Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "c3c63b98a12052f906bcd01f8a568a8d0f428103cb75e018bd5e5547c0c29d8a",
+  "matches_compiled_binary": true,
+  "newest_source": "Source\\CeroEstrellas\\CEDialogue.cpp",
+  "source_older_than_binary": true,
+  "binary_utc": "2026-10-13T21:03:55.833278+00:00",
+  "created_utc": "2026-10-13T21:13:39.552958+00:00",
+  "scenarios": [
+    {
+      "report": "Evidence/Entrega09Delivery/smoke_result.json",
+      "checks": 142,
+      "passed": true,
+      "full_shift_exercised": true,
+      "final_binary": false,
+      "note": "Eight-minute shift before final visual stream clipping and dialogue perspective guards; gameplay shift code unchanged."
+    },
+    {
+      "report": "Evidence/Entrega09ReleaseChecked/smoke_result.json",
+      "checks": 137,
+      "passed": true,
+      "final_binary": true,
+      "note": "All quick mechanics and professional checks on the delivered executable. Concurrent direct story backend inference; use earlier isolated resource profiles for comparison."
+    },
+    {
+      "report": "Evidence/Entrega09DialogoReady/dialogue_result.json",
+      "checks": 42,
+      "passed": true,
+      "final_binary": true,
+      "validated_live_replies": 8
+    }
+  ],
+  "deformation_report": "Evidence/entrega09_deformation.json",
+  "lod_report": "Evidence/entrega09_lods.json",
+  "liquid_comparison": "Evidence/Entrega09FinalQuick/liquid_comparison.json",
+  "latency_report": "Evidence/entrega09_dialogue_latency.json",
+  "story_backend_report": "Evidence/Entrega09Stories/story_dialogue_result.json",
+  "story_backend_scope": "Five direct backend checks; not five Unreal end-to-end story conversations.",
+  "resource_reports": [
+    "Evidence/Entrega09Delivery/resources_summary.json",
+    "Evidence/Entrega09FinalQuick/resources_summary.json",
+    "Evidence/Entrega09DialogoReady/resources_summary.json"
+  ],
+  "build_log": "Evidence/entrega09_dialogue_guard_package_build.log",
+  "content_cook_log": "Evidence/entrega09_package_build.log",
+  "screenshots_reviewed": [
+    "Evidence/Entrega09FinalQuick/04_liquido_y_charcos.png",
+    "Evidence/Entrega09FinalQuick/13_latte_espuma_y_extras.png",
+    "Evidence/Entrega09FinalQuick/20_cafetera_y_materiales.png",
+    "Evidence/Entrega09FinalQuick/22_caida_y_campana.png",
+    "Evidence/Entrega09Delivery/18_clientela_extravagante.png",
+    "Evidence/Entrega09Delivery/11_despido_denegado.png",
+    "Evidence/Entrega09DialogoReady/01_dialogar_respuesta_real.png",
+    "Evidence/Entrega09DialogoReady/02_memoria_y_contexto_fisico.png"
+  ],
+  "render_offscreen": true,
+  "human_playthrough": false,
+  "human_microphone_conversation_verified": false,
+  "known_limits": [
+    "Procedural stylized animation and three original body meshes with nine appearances and heights.",
+    "Bounded opaque stream segments and puddles; not continuous fluid dynamics.",
+    "Perspective guards detect specific contradictions; no complete semantic guarantee.",
+    "Generated conversation still takes seconds; immediate authored service replies counted separately.",
+    "Offscreen timing and desktop GPU samples are not a native-window benchmark or per-system GPU allocation."
+  ],
+  "diagnostic_runs_not_counted": [
+    "Entrega09Dialogo: one role correction failed with the shorter prompt.",
+    "Entrega09DialogoFinal: interrupted after same contradiction repeated; retry hint subsequently added."
+  ]
+}
