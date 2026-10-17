@@ -237,6 +237,10 @@ void ACEPlayer::Tick(float DeltaSeconds)
     FVector Target = Camera->GetComponentLocation() + Camera->GetForwardVector()*(Held->Kind==ECEPropKind::Tray ? 108.f : 88.f) + Camera->GetRightVector()*(Held->Kind==ECEPropKind::Tray ? 0.f : 24.f) - FVector(0,0,30.f);
     Target.Z=FMath::Max(Target.Z,Camera->GetComponentLocation().Z-(Held->Kind==ECEPropKind::Tray ? 33.f : 18.f));
     FRotator Rotation(0, GetControlRotation().Yaw, 0);
+    // Present the handle on the right, with an unobstructed wrist and fingers.
+    if(Held->IsContainer()) Rotation.Yaw+=90.f;
+    if(Held->Kind==ECEPropKind::Mobile) Rotation.Pitch=55.f;
+    else if(Held->Kind==ECEPropKind::Tablet) Rotation.Pitch=35.f;
     if (bPouring) Rotation.Roll = 120.f;
     // Running deliberately tilts the tray, letting loose cups move and spill through Chaos.
     if (Held->Kind == ECEPropKind::Tray)

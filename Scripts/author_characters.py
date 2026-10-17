@@ -49,7 +49,7 @@ def join_surface(parts, slot, fuse=False):
     bpy.context.view_layer.objects.active=parts[0]; bpy.ops.object.join(); ob=bpy.context.object
     bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
     if fuse:
-        ob.data.remesh_voxel_size=.65; bpy.ops.object.voxel_remesh()
+        ob.data.remesh_voxel_size=.50 if slot==1 else .65; bpy.ops.object.voxel_remesh()
         mod=ob.modifiers.new('Tailoring','SMOOTH'); mod.factor=.6; mod.iterations=3
         bpy.ops.object.modifier_apply(modifier=mod.name)
         mod=ob.modifiers.new('Cafe polygon budget','DECIMATE'); mod.ratio=.48 if slot in [0,1] else .28
@@ -84,16 +84,16 @@ for index,(name,width) in enumerate(profiles):
     torso=loft([(0,0,80,11*width,14),(0,0,87,12*width,15),(0,0,105,14*width,18),
                 (0,0,124,13*width,21),(0,0,130,10*width,18),(0,0,137,5.5,7)])
     # Shoulder bridges and tailored seams deform with chest and arm together.
-    cloth=[torso,ellipsoid((0,-19,125),(6,5,5.5)),ellipsoid((0,19,125),(6,5,5.5))]; trousers=[ellipsoid((0,0,77),(11.5*width,16,10))]
+    cloth=[torso,ellipsoid((0,-19,125),(5.5,4.7,5.2)),ellipsoid((0,19,125),(5.5,4.7,5.2))]; trousers=[ellipsoid((0,0,77),(11.5*width,16,10))]
     # One continuous face with a defined jaw, cheeks, bridge and nose.
     # Eye/mouth landmarks stay constant so accessories do not float on variants.
     jaw_width=[9.7,8.4,8.8,8.5,10.5,9.4,10.8,8.6,8.1][index]
     skin=[loft([(0,0,132,5,5.4),(0,0,144,5,5.4)]),
           ellipsoid((1,0,156),(11.8,jaw_width+1.9,14.3)),
           ellipsoid((-2,0,146.5),(8.8,jaw_width,6.6)),
-          ellipsoid((-7,-5,151),(4,4.5,5)),ellipsoid((-7,5,151),(4,4.5,5)),
+          ellipsoid((-6.5,-5,151),(3.3,4.2,4.6)),ellipsoid((-6.5,5,151),(3.3,4.2,4.6)),
           ellipsoid((-10.4,0,155),(2.4,1.7,4.3)),ellipsoid((-12.4,0,152),(2.2,2.6,2)),
-          ellipsoid((-10.2,0,148),(2.1,4,2.4)),
+          ellipsoid((-9.7,0,148),(1.9,3.8,2.1)),
           ellipsoid((-9.6,-4.8,160),(2.7,3.6,1.8)),ellipsoid((-9.6,4.8,160),(2.7,3.6,1.8))]
     hands=[]; shoes=[]
     for sign in [-1,1]:
@@ -103,7 +103,7 @@ for index,(name,width) in enumerate(profiles):
         # floats between wrist and hand when the elbow flexes.
         skin.append(ellipsoid((-.6,sign*31,79.5),(2.7,3.1,4.3)))
         for finger in range(4):
-            skin.append(ellipsoid((-1,sign*31+(finger-1.5)*1.5,73.6),(1.15,.88,2.9)))
+            skin.append(loft([(-.7,sign*31+(finger-1.5)*1.6,76,1.2,.83),(-1.1,sign*31+(finger-1.5)*1.6,73.6,1.05,.76),(-1.4,sign*31+(finger-1.5)*1.6,71.4+.5*abs(finger-1.5),.65,.6)],12))
         skin.append(ellipsoid((-3.2,sign*33,79),(1.8,1.25,2.7)))
         trousers.append(loft([(0,sign*10,79,9.3,9),(0,sign*10,60,8.2,8),(0,sign*10,43,6.8,6.9),
                               (0,sign*10,27,6.3,6.3),(0,sign*10,10,5.3,5.8)]))

@@ -1,5 +1,6 @@
 #include "CEGameplay.h"
 #include "CEKitchen.h"
+#include "CECafeLayout.h"
 #include "CEDialogue.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
@@ -15,6 +16,11 @@
 #include "Misc/CommandLine.h"
 #include "Serialization/JsonSerializer.h"
 #include "UnrealClient.h"
+#include "Engine/MapBuildDataRegistry.h"
+#include "StaticMeshComponentLODInfo.h"
+#include "Engine/ReflectionCapture.h"
+#include "HAL/IConsoleManager.h"
+#include "RHI.h"
 
 void ACEGameMode::ProfessionalSmokeStep()
 {
@@ -28,6 +34,26 @@ void ACEGameMode::ProfessionalSmokeStep()
     UE_LOG(LogTemp,Display,TEXT("CE09_STAGE %d"),SmokeStage);
     switch(SmokeStage++) {
     case 45: {
+        const bool RequestedLumen=FParse::Param(FCommandLine::Get(),TEXT("CeroLumen"));
+        const int32 GI=IConsoleManager::Get().FindConsoleVariable(TEXT("r.DynamicGlobalIlluminationMethod"))->GetInt();
+        const int32 Reflections=IConsoleManager::Get().FindConsoleVariable(TEXT("r.ReflectionMethod"))->GetInt();
+        Check(TEXT("requested_graphics_profile_is_active"),RequestedLumen ? GI==1 && Reflections==1 && GMaxRHIFeatureLevel>=ERHIFeatureLevel::SM6 : GI==0 && Reflections==2);
+        int32 FixedMeshes=0,BakedMeshes=0,Captures=0;
+        TSet<FName> FixedKeys; bool UniqueSet=true;
+        for(TActorIterator<AActor> It(GetWorld());It;++It) if(It->ActorHasTag(TEXT("CEArchitecture"))) {
+            for(const FName Key:It->Tags) if(Key.ToString().StartsWith(TEXT("CE12_Block_"))) { UniqueSet &= !FixedKeys.Contains(Key); FixedKeys.Add(Key); }
+            TArray<UStaticMeshComponent*> Parts; It->GetComponents(Parts);
+            for(auto* Part:Parts) if(Part->Mobility==EComponentMobility::Static) {
+                ++FixedMeshes;
+                if(Part->LODData.Num()>0) if(const auto* Data=Part->GetMeshMapBuildData(Part->LODData[0])) if(Data->LightMap) ++BakedMeshes;
+            }
+            if(Cast<AReflectionCapture>(*It)) ++Captures;
+        }
+        Check(TEXT("fixed_cafe_is_loaded_once_from_authored_map"),UniqueSet && FixedMeshes>250);
+        Check(TEXT("authored_cafe_has_real_built_lightmaps"),BakedMeshes>200);
+        Check(TEXT("local_reflection_captures_are_present"),Captures==3);
+        Check(TEXT("puddles_use_authored_outline_and_separate_wet_material"),Cafe->Liquids->Pools->GetStaticMesh()->GetName()==TEXT("SM11_Puddle") && Cafe->Liquids->Pools->GetMaterial(0)->GetName()==TEXT("M11_Puddle"));
+        UE_LOG(LogTemp,Display,TEXT("CE12_RENDER_AUDIT fixed=%d baked=%d captures=%d unique=%d"),FixedMeshes,BakedMeshes,Captures,UniqueSet);
         Player->Release(); Player->Dialogue->Close(); Player->bPouring=false;
         for(TActorIterator<ACECustomer> It(GetWorld());It;++It) It->Destroy();
         NextArrivalAt=0; TickArrivals(); // Test actual arrival placement, before any sabotage.
@@ -62,14 +88,15 @@ void ACEGameMode::ProfessionalSmokeStep()
                 }
             }
         }
-        Check(TEXT("all_three_tabletops_are_visible_meshes_with_full_size_and_material"),Tables==3 && TableBounds);
+        Check(TEXT("all_six_tabletops_are_visible_meshes_with_full_size_and_material"),Tables==CECafeLayout::TableCount && TableBounds);
         Check(TEXT("every_world_static_mesh_component_has_a_loaded_mesh"),Missing==0);
         // Validate the actual new arrival's placement. Earlier stages deliberately
         // knock laptops around without necessarily marking them as thrown.
         const FString ArrivalId=FString::Printf(TEXT("cliente-%03d"),CustomerSerial);
-        bool Screens=true; int32 Laptops=0;
-        for(TActorIterator<ACEProp> It(GetWorld());It;++It) if(It->Kind==ECEPropKind::Laptop && It->OwnerCustomerId==ArrivalId && !It->bBroken && !It->WasThrown()) { ++Laptops; Screens &= FVector::DotProduct(-It->GetActorForwardVector(),FVector::ForwardVector)>.8f; }
-        Check(TEXT("laptop_screens_face_seated_customers"),Screens && Laptops==1);
+        bool Carried=true; int32 Devices=0; ACECustomer* Arrival=nullptr;
+        for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(It->CustomerId==ArrivalId) Arrival=*It;
+        for(TActorIterator<ACEProp> It(GetWorld());It;++It) if(It->IsDevice() && It->OwnerCustomerId==ArrivalId) { ++Devices; Carried &= It->GetAttachParentActor()==Arrival && !It->Body->IsSimulatingPhysics(); }
+        Check(TEXT("arrival_brings_device_instead_of_prefilling_its_table"),Arrival && Carried && Devices==(Arrival->VisitDevice==ECEGuestDevice::None ? 0 : 1));
         EspressoMachine->WorkLeft=0; EspressoMachine->ExtractionTargetMl=60; EspressoMachine->AdjustSetting(-1);
         Check(TEXT("espresso_selector_supports_a_real_short_recipe"),EspressoMachine->ExtractionTargetMl==30);
         EspressoMachine->AdjustSetting(1); EspressoMachine->AdjustSetting(1); EspressoMachine->AdjustSetting(1);
@@ -141,7 +168,7 @@ void ACEGameMode::ProfessionalSmokeStep()
     case 48:
         Check(TEXT("scaled_guest_ragdoll_preserves_connected_joints"),SmokeCustomer->IsBodyConsistent());
         Aim(SmokeCustomer->HeadLocation()); Shot(TEXT("22_caida_y_campana"));
-        bPolishChecksCompleted=true; SmokeStage=FParse::Param(FCommandLine::Get(),TEXT("CeroQuickSmoke")) ? 44 : 31;
+        SmokeStage=50;
         SmokeNextAt=SmokeStage==31 ? FMath::Max(Now+1.f,241.f) : Now+.4f; break;
     }
 }

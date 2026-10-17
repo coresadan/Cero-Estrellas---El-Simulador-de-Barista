@@ -1,0 +1,12 @@
+﻿[
+    {
+        "pid":  10644,
+        "executable":  "D:\\Trabajo\\Cero Estrellas - El Simulador de Barista\\Release\\Windows\\CeroEstrellas.exe",
+        "matches_evidence":  true
+    },
+    {
+        "pid":  29912,
+        "executable":  "D:\\Trabajo\\Cero Estrellas - El Simulador de Barista\\Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+        "matches_evidence":  true
+    }
+]

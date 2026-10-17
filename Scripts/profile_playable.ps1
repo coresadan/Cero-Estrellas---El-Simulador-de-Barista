@@ -8,13 +8,20 @@ $ceDeadline=(Get-Date).AddSeconds($TimeoutSeconds)
 $ceSamples=[Collections.Generic.List[object]]::new()
 $ceSeen=$false
 $ceOtherGameSeen=$false
+$ceObservedProcesses=@{}
 while((Get-Date) -lt $ceDeadline) {
-    $ceGames=@(Get-Process -Name CeroEstrellas -ErrorAction SilentlyContinue | Where-Object { $_.Path -and $_.Path.StartsWith($ceRelease,[StringComparison]::OrdinalIgnoreCase) })
+    # Classify from one snapshot: the launcher can exit between Get-Process
+    # and CIM queries, which otherwise falsely reports an unrelated game.
+    $ceRecords=@(Get-CimInstance Win32_Process -Filter "Name = 'CeroEstrellas.exe'" | Where-Object { $_.ExecutablePath -and $_.ExecutablePath.StartsWith($ceRelease,[StringComparison]::OrdinalIgnoreCase) })
     if($OnlyEvidence) {
-        $ceSelectedIds=@(Get-CimInstance Win32_Process -Filter "Name = 'CeroEstrellas.exe'" | Where-Object { $_.CommandLine -and $_.CommandLine.Contains($EvidenceName) } | ForEach-Object {$_.ProcessId})
-        if(@($ceGames | Where-Object { $_.Id -notin $ceSelectedIds }).Count -gt 0) { $ceOtherGameSeen=$true }
-        $ceGames=@($ceGames | Where-Object { $_.Id -in $ceSelectedIds })
+        foreach($ceRecord in $ceRecords) {
+            $ceMatches=$ceRecord.CommandLine -and $ceRecord.CommandLine.Contains($EvidenceName)
+            $ceObservedProcesses[[string]$ceRecord.ProcessId]=[pscustomobject]@{ pid=$ceRecord.ProcessId; executable=$ceRecord.ExecutablePath; matches_evidence=[bool]$ceMatches }
+            if(!$ceMatches) { $ceOtherGameSeen=$true }
+        }
+        $ceRecords=@($ceRecords | Where-Object { $_.CommandLine -and $_.CommandLine.Contains($EvidenceName) })
     }
+    $ceGames=@(foreach($ceRecord in $ceRecords) { Get-Process -Id $ceRecord.ProcessId -ErrorAction SilentlyContinue })
     if($ceGames.Count -gt 0) {
         $ceSeen=$true
         $ceValues=(& nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv,noheader,nounits).Split(',').Trim()
@@ -25,4 +32,5 @@ while((Get-Date) -lt $ceDeadline) {
 }
 if(!$ceSeen) { throw 'No project packaged game observed.' }
 $ceSamples | Export-Csv -LiteralPath (Join-Path $ceEvidence 'resources.csv') -NoTypeInformation -Encoding UTF8
+$ceObservedProcesses.Values | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath (Join-Path $ceEvidence 'observed_processes.json') -Encoding UTF8
 [pscustomobject]@{ samples=$ceSamples.Count; other_game_observed=$ceOtherGameSeen; only_named_evidence_processes=[bool]$OnlyEvidence; total_desktop_gpu_peak_mib=($ceSamples | Measure-Object total_desktop_gpu_mib -Maximum).Maximum; gpu_capacity_mib=$ceSamples[0].gpu_capacity_mib; game_working_set_peak_mib=($ceSamples | Measure-Object game_working_set_mib -Maximum).Maximum; note='GPU usage includes desktop and other apps; sampled every two seconds, not guaranteed to capture every transient peak.' } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $ceEvidence 'resources_summary.json') -Encoding UTF8

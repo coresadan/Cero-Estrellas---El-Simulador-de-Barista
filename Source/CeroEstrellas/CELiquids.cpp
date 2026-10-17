@@ -27,9 +27,9 @@ void ACELiquidSystem::BeginPlay()
 {
     Super::BeginPlay();
     Drops->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Engine/BasicShapes/Sphere.Sphere")));
-    Pools->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Engine/BasicShapes/Cylinder.Cylinder")));
+    Pools->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Game/Prototype/Meshes/SM11_Puddle.SM11_Puddle")));
     auto* Mat=LoadObject<UMaterialInterface>(nullptr,TEXT("/Game/Prototype/M_Liquid.M_Liquid"));
-    Drops->SetMaterial(0,Mat); Pools->SetMaterial(0,Mat);
+    Drops->SetMaterial(0,Mat); Pools->SetMaterial(0,LoadObject<UMaterialInterface>(nullptr,TEXT("/Game/Prototype/M11_Puddle.M11_Puddle")));
     ImpactSpray->SetStaticMesh(Drops->GetStaticMesh()); ImpactSpray->SetMaterial(0,Mat);
     ImpactParticles.SetNum(48); for(int32 i=0;i<48;++i) ImpactSpray->AddInstance(FTransform(FQuat::Identity,FVector::ZeroVector,FVector::ZeroVector));
     Particles.SetNum(192);
@@ -154,12 +154,7 @@ void ACELiquidSystem::Impact(FCELiquidDrop& Drop, const FHitResult& Hit)
             }
             return;
         }
-        if(Cup->Kind==ECEPropKind::Laptop && Volume>1.f && !Cup->bBroken)
-        {
-            Cup->bBroken=true; Cup->DisplayName=TEXT("Portátil ahogado");
-            Cafe->Observe(TEXT("laptop_destroyed"),TEXT(""),Cup->DisplayName,1.f); Cafe->Sound(TEXT("Electric"),Hit.ImpactPoint);
-            for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(FVector::Dist2D(It->GetActorLocation(),Cup->GetActorLocation())<170.f) It->React(TEXT("laptop_destroyed"),Cup->DisplayName,1.f);
-        }
+        if(Cup->IsDevice() && Volume>1.f && !Cup->bBroken) Cup->DamageDevice();
         if(!Cup->OwnerCustomerId.IsEmpty() && Cup->Kind==ECEPropKind::Notebook && !Cup->bBroken && Volume>1.f) {
             Cup->bBroken=true; Cup->DisplayName=TEXT("Cuaderno empapado");
             for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(It->CustomerId==Cup->OwnerCustomerId) {
@@ -176,7 +171,12 @@ void ACELiquidSystem::Impact(FCELiquidDrop& Drop, const FHitResult& Hit)
         Customer->Soak(Volume,LiquidName);
         Customer->React(TEXT("coffee_spill"),LiquidName+(Drop.Temperature>45.f ? TEXT(" caliente") : TEXT(" fría")),Volume*.012f);
     }
-    else if(auto* MovingProp=Cast<ACEProp>(Hit.GetActor())) { UnresolvedMl+=Volume; CEVisual::Stain(GetWorld(),Hit.ImpactPoint+Hit.ImpactNormal*.8f,Hit.ImpactNormal.Z>.65f,MovingProp); }
+    else if(auto* MovingProp=Cast<ACEProp>(Hit.GetActor())) {
+        UnresolvedMl+=Volume;
+        // The generic prop stain is 85 cm wide. Small electronics already show
+        // damage through their screen and the impact spray; don't bury them in it.
+        if(!MovingProp->IsDevice()) CEVisual::Stain(GetWorld(),Hit.ImpactPoint+Hit.ImpactNormal*.8f,Hit.ImpactNormal.Z>.65f,MovingProp);
+    }
     else if(Hit.ImpactNormal.Z>.65f) Splash(Hit.ImpactPoint,Drop.Color,Volume);
     else { UnresolvedMl+=Volume; CEVisual::Stain(GetWorld(),Hit.ImpactPoint+Hit.ImpactNormal*.8f,false,Hit.GetActor()); }
     if(Drop.Source.IsValid()) Drop.Source->SpillConfirmed(Volume);
@@ -261,6 +261,7 @@ void ACELiquidSystem::Tick(float DeltaSeconds)
         auto& Puff=Puffs[i]; if(Puff.Age>1.3f) continue;
         Puff.Age+=DeltaSeconds; Puff.Position+=FVector(FMath::Sin(SteamNow+i)*3.f,2.f,18.f)*DeltaSeconds;
         const float Size=Puff.Age<1.3f ? .035f+Puff.Age*.075f : 0.f;
+        Steam->SetCustomDataValue(i,0,FMath::Sin(FMath::Clamp(Puff.Age/1.3f,0.f,1.f)*PI),false);
         Steam->UpdateInstanceTransform(i,FTransform(FQuat::Identity,Puff.Position,FVector(Size,Size,Size*1.6f)),true,false); SteamDirty=true;
     }
     if(SteamDirty) Steam->MarkRenderStateDirty();

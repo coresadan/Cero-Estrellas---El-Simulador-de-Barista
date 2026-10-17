@@ -35,6 +35,6 @@ for name in [p['mesh'] for p in json.load(open(os.path.join(root,'SourceMeshes',
     unreal.EditorAssetLibrary.save_loaded_asset(mesh)
     manifest.append({'asset':mesh.get_path_name(),'skeletal':skeletal})
 unreal.EditorAssetLibrary.save_directory('/Game/Prototype/Characters',only_if_is_dirty=False,recursive=True)
-report='entrega10_character_import.json' if len(manifest)>4 else 'entrega08_character_import.json'
+report='entrega11_character_import.json'
 with open(os.path.join(root,'Evidence',report),'w',encoding='utf-8') as out: json.dump(manifest,out,indent=2)
 unreal.log('CE_RIG_IMPORT_READY '+str(manifest))

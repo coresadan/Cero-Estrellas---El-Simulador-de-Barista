@@ -41,7 +41,7 @@ void ACEStation::Configure(ECEStationKind InKind)
     if(Kind==ECEStationKind::Espresso) Body->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Game/Prototype/Meshes/SM09_EspressoShell.SM09_EspressoShell")));
     const FVector Size=Kind==ECEStationKind::Tamper ? FVector(38,42,12) : Kind==ECEStationKind::Espresso ? FVector(145,65,66) : Kind==ECEStationKind::Grinder ? FVector(38,44,70) : Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water ? FVector(42,48,64) : Kind==ECEStationKind::Trays ? FVector(75,80,30) : Kind==ECEStationKind::Bin ? FVector(50,50,70) : FVector(70,70,25);
     Body->SetWorldScale3D(Size/100.f);
-    Body->SetMaterial(0,CEVisual::Material(this,Kind==ECEStationKind::Bin ? FLinearColor(.12f,.18f,.17f) : FLinearColor(.16f,.22f,.22f),false,Kind==ECEStationKind::Espresso || Kind==ECEStationKind::Grinder || Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water));
+    Body->SetMaterial(0,CEVisual::Material(this,Kind==ECEStationKind::Bin ? FLinearColor(.12f,.18f,.17f) : FLinearColor(.30f,.34f,.33f),false,Kind==ECEStationKind::Espresso || Kind==ECEStationKind::Grinder || Kind==ECEStationKind::Milk || Kind==ECEStationKind::Water));
     auto Add=[this](const TCHAR* S,FVector P,FVector Scale,FLinearColor C,bool bGlow=false)
     {
         return CEVisual::Part(this,S,P/Body->GetComponentScale(),Scale/Body->GetComponentScale(),C,bGlow);

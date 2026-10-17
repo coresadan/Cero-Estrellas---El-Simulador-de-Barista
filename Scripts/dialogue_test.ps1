@@ -11,7 +11,12 @@ if($Packaged){$ceExe=Join-Path $ceRoot 'Release/Windows/CeroEstrellas.exe'}else{
     $ceExe=Join-Path $EngineRoot 'Engine/Binaries/Win64/UnrealEditor.exe'
     $ceArgs=@(('"'+(Join-Path $ceRoot 'CeroEstrellas.uproject')+'"'),'-game')+$ceArgs
 }
-if($Offscreen){$ceArgs += @('-RenderOffScreen','-ForceRes')}
+$ceArgs += @('-ForceRes','-dx11')
+if($Offscreen){$ceArgs += '-RenderOffScreen'}
+if($Packaged) {
+    $ceActualBinary=Join-Path $ceRoot 'Release/Windows/CeroEstrellas/Binaries/Win64/CeroEstrellas.exe'
+    [pscustomobject]@{ sha256=(Get-FileHash -LiteralPath $ceActualBinary -Algorithm SHA256).Hash.ToLower(); binary_utc=(Get-Item -LiteralPath $ceActualBinary).LastWriteTimeUtc.ToString('o'); render_offscreen=[bool]$Offscreen; requested_width=$ResX; requested_height=$ResY } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $ceEvidence 'binary_identity.json') -Encoding UTF8
+}
 $ceProcess=Start-Process -FilePath $ceExe -ArgumentList $ceArgs -WorkingDirectory $ceRoot -WindowStyle Hidden -PassThru -Wait
 if($ceProcess.ExitCode -ne 0){throw 'Ha fallado la prueba de dialogo. Revisa runtime.log.'}
 if(!(Test-Path $ceResult) -or (Get-Item $ceResult).LastWriteTimeUtc -le $ceBefore){throw 'No hay informe actualizado.'}

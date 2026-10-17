@@ -1,0 +1,18 @@
+{
+	"runs": [
+		{
+			"hz": 60,
+			"queries": 1120,
+			"simulation_cpu_ms": 1.1443000112194568,
+			"floor_ml": 64
+		},
+		{
+			"hz": 30,
+			"queries": 544,
+			"simulation_cpu_ms": 0.47480000648647547,
+			"floor_ml": 64
+		}
+	],
+	"conserved": true,
+	"scope": "Same new solver and scene at 60/30 Hz; not a complete old-build benchmark."
+}

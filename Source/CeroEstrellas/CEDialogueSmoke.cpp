@@ -162,7 +162,7 @@ void ACEGameMode::DialogueSmokeStep()
         Check(TEXT("all_24_authored_models_available"),Loaded);
         Check(TEXT("free_dialogue_prepares_voice_before_metadata_finishes"),D->PrewarmedVoices>0);
         bool Passed=true; auto Report=MakeShared<FJsonObject>(); for(const auto& P:LoopChecks){Report->SetBoolField(P.Key,P.Value); Passed&=P.Value;}
-        Report->SetBoolField(TEXT("passed"),Passed && D->PrewarmedVoices>0); Report->SetStringField(TEXT("version"),TEXT("0.10.0"));
+        Report->SetBoolField(TEXT("passed"),Passed && D->PrewarmedVoices>0); Report->SetStringField(TEXT("version"),TEXT("0.12.0"));
         Report->SetNumberField(TEXT("prewarmed_voices"),D->PrewarmedVoices);
         Report->SetNumberField(TEXT("validated_live_replies"),D->ValidReplies); Report->SetNumberField(TEXT("played_Piper_voices"),D->PlayedVoices);
         Report->SetNumberField(TEXT("authored_service_replies"),D->ServiceReplies);
@@ -171,6 +171,7 @@ void ACEGameMode::DialogueSmokeStep()
         Report->SetBoolField(TEXT("microphone_device_opened"),bSmokeMicrophoneAvailable);
         Report->SetBoolField(TEXT("human_microphone_conversation_verified"),false); Report->SetBoolField(TEXT("human_playthrough"),false);
         FrameSamples.Sort(); if(!FrameSamples.IsEmpty()) {
+            Report->SetStringField(TEXT("frame_time_basis"),TEXT("wall_clock_between_game_ticks"));
             Report->SetNumberField(TEXT("frame_samples"),FrameSamples.Num());
             Report->SetNumberField(TEXT("frame_p50_ms"),FrameSamples[FrameSamples.Num()/2]);
             Report->SetNumberField(TEXT("frame_p95_ms"),FrameSamples[FMath::Min(FrameSamples.Num()-1,FMath::FloorToInt(FrameSamples.Num()*.95f))]);

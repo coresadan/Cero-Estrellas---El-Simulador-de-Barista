@@ -18,7 +18,7 @@ void ACECustomer::TickSocial(float Delta)
         bool Moved=false;
         for(TActorIterator<ACEProp> It(GetWorld());It;++It) {
             const bool Owned=It->Tags.Contains(FName(*FString::Printf(TEXT("seat%d"),SeatSlot)));
-            if((Owned && It->Kind==ECEPropKind::Laptop) || *It==ServedCup.Get()) {
+            if((Owned && It->IsDevice()) || *It==ServedCup.Get()) {
                 if(It->bHeld || It->bBroken) continue;
                 const FVector Move(0,SeatSlot%2 ? 27.f : -27.f,0);
                 if(It->Body->IsSimulatingPhysics()) It->Body->AddImpulse(Move*1.5f,NAME_None,true);

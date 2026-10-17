@@ -1,0 +1,354 @@
+{
+  "version": "0.11.0",
+  "engine": "5.8.3",
+  "created_utc": "2026-10-17T07:06:42.276916+00:00",
+  "launcher": "Jugar.bat",
+  "executable": "Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "c8eed4ba0afc54f2e03a58bb99b92145883adee7817dadd2a6ebaed3464a0cb7",
+  "matches_compiled_binary": true,
+  "source_older_than_binary": true,
+  "human_playthrough": false,
+  "human_microphone_conversation_verified": false,
+  "scenarios": [
+    {
+      "report": "Evidence\\Entrega11Closure\\smoke_result.json",
+      "passed": true,
+      "checks": 151,
+      "frame_p95_ms": 20.34800148010254,
+      "frame_max_ms": 361.9281005859375,
+      "screenshots": [
+        {
+          "file": "01_turno_abierto.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "02b_jarra_verter_a_mano.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "02_maquina_completa.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "03_pedido_y_clientes.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "04b_charco_persistente.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "04_liquido_y_charcos.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "05_reaccion_y_gestos.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "06_desastre_y_jefa.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "07b_influencer_graba.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "07_silla_caida_y_testigo.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "08_personajes_y_manos.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "09_directo_del_desastre.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "12_caderas_y_manos_corregidas.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "13_latte_espuma_y_extras.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "14_cliente_protege_desayuno.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "15_caida_fisica_real.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "16_eventos_y_comandas.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "17_mostrador_despejado.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "18_clientela_extravagante.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "19_contacto_y_caida_en_cadena.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "20_cafetera_y_materiales.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "21_historia_y_clientes.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "22_caida_y_campana.png",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "frame_p50_ms": 16.674198150634766,
+      "frame_samples": 6882,
+      "frame_time_basis": "wall_clock_between_game_ticks",
+      "resources": {
+        "samples": 61,
+        "other_game_observed": false,
+        "only_named_evidence_processes": true,
+        "total_desktop_gpu_peak_mib": 3757,
+        "gpu_capacity_mib": 6144,
+        "game_working_set_peak_mib": 683.5,
+        "note": "GPU usage includes desktop and other apps; sampled every two seconds, not guaranteed to capture every transient peak."
+      },
+      "graphics_audit": [
+        "CE11_GRAPHICS profile=BakedDX11 requested_lumen=0 feature_level=3",
+        "CE11_RENDER_AUDIT fixed=454 baked=454 captures=2 unique=1"
+      ],
+      "full_shift_exercised": false,
+      "validated_live_replies": null
+    },
+    {
+      "report": "Evidence\\Entrega11Dialogue\\dialogue_result.json",
+      "passed": true,
+      "checks": 43,
+      "frame_p95_ms": 42.26580047607422,
+      "frame_max_ms": 327.8893127441406,
+      "screenshots": [
+        {
+          "file": "01_dialogar_respuesta_real.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "02_memoria_y_contexto_fisico.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "03_transcripcion_whisper.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "04_conversacion_libre.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "05_respuesta_de_servicio.png",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "frame_p50_ms": 25.99460220336914,
+      "frame_samples": 6510,
+      "frame_time_basis": "wall_clock_between_game_ticks",
+      "resources": {
+        "samples": 79,
+        "other_game_observed": false,
+        "only_named_evidence_processes": true,
+        "total_desktop_gpu_peak_mib": 3747,
+        "gpu_capacity_mib": 6144,
+        "game_working_set_peak_mib": 637.4,
+        "note": "GPU usage includes desktop and other apps; sampled every two seconds, not guaranteed to capture every transient peak."
+      },
+      "graphics_audit": [
+        "CE11_GRAPHICS profile=BakedDX11 requested_lumen=0 feature_level=3"
+      ],
+      "full_shift_exercised": false,
+      "validated_live_replies": 8
+    },
+    {
+      "report": "Evidence\\Entrega11Lumen\\smoke_result.json",
+      "passed": true,
+      "checks": 151,
+      "frame_p95_ms": 20.165700912475586,
+      "frame_max_ms": 399.864013671875,
+      "screenshots": [
+        {
+          "file": "01_turno_abierto.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "02b_jarra_verter_a_mano.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "02_maquina_completa.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "03_pedido_y_clientes.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "04b_charco_persistente.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "04_liquido_y_charcos.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "05_reaccion_y_gestos.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "06_desastre_y_jefa.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "07b_influencer_graba.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "07_silla_caida_y_testigo.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "08_personajes_y_manos.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "09_directo_del_desastre.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "12_caderas_y_manos_corregidas.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "13_latte_espuma_y_extras.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "14_cliente_protege_desayuno.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "15_caida_fisica_real.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "16_eventos_y_comandas.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "17_mostrador_despejado.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "18_clientela_extravagante.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "19_contacto_y_caida_en_cadena.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "20_cafetera_y_materiales.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "21_historia_y_clientes.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "file": "22_caida_y_campana.png",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "frame_p50_ms": 18.062599182128906,
+      "frame_samples": 6414,
+      "frame_time_basis": "wall_clock_between_game_ticks",
+      "resources": {
+        "samples": 62,
+        "other_game_observed": false,
+        "only_named_evidence_processes": true,
+        "total_desktop_gpu_peak_mib": 4823,
+        "gpu_capacity_mib": 6144,
+        "game_working_set_peak_mib": 1262.7,
+        "note": "GPU usage includes desktop and other apps; sampled every two seconds, not guaranteed to capture every transient peak."
+      },
+      "graphics_audit": [
+        "CE11_GRAPHICS profile=LumenSoftwareExperimental requested_lumen=1 feature_level=4",
+        "CE11_RENDER_AUDIT fixed=454 baked=454 captures=2 unique=1"
+      ],
+      "full_shift_exercised": false,
+      "validated_live_replies": null
+    }
+  ],
+  "deformation_report": "Evidence/entrega11_deformation.json",
+  "lod_report": "Evidence/entrega11_lods.json",
+  "saved_scene_audit": "Evidence/entrega11_saved_scene_audit.json",
+  "backend_report": "Evidence/entrega11_backend.json",
+  "comparison": "Evidence/Comparativa11/Comparativa.html"
+}

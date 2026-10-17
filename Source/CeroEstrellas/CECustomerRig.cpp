@@ -41,6 +41,9 @@ bool ACECustomer::BuildRig(const FLinearColor& Outfit)
     const FLinearColor Outfits[]={Outfit,FLinearColor(.33f,.19f,.095f),FLinearColor(.65f,.25f,.40f),FLinearColor(.12f,.025f,.16f),FLinearColor(.83f,.84f,.69f),FLinearColor(.62f,.035f,.12f),FLinearColor(.07f,.085f,.09f),FLinearColor(.28f,.72f,.08f),FLinearColor(.055f,.09f,.38f)};
     const FLinearColor Hairs[]={FLinearColor(.033f,.022f,.018f),FLinearColor(.1f,.045f,.017f),FLinearColor(.23f,.10f,.03f),FLinearColor(.5f,.02f,.35f),FLinearColor(.08f,.05f,.025f),FLinearColor(.035f,.02f,.015f),FLinearColor(.015f,.015f,.02f),FLinearColor(.55f,.58f,.57f),FLinearColor(.16f,.045f,.02f)};
     const int32 Look=LookIndex<0 ? Personality : LookIndex%9;
+    // Match the authored head widths; a single offset left narrow heads with floating ears.
+    const float EarSides[]={12.15f,10.85f,11.25f,10.95f,12.95f,11.85f,13.25f,11.05f,10.55f};
+    const float EarSide=EarSides[Look];
     const FLinearColor Skin=Skins[Look],Cloth=LookIndex<0 ? Outfit : Outfits[Look];
     for(int32 i=0;i<Mesh->GetMaterials().Num();++i) {
         const FString Slot=Mesh->GetMaterials()[i].MaterialSlotName.ToString();
@@ -66,8 +69,8 @@ bool ACECustomer::BuildRig(const FLinearColor& Outfit)
         Pupils[i]=Face(TEXT("Sphere"),FVector(-12.5f,Side*4.8f,3),FVector(.011f,.018f,.020f),FLinearColor(.075f,.045f,.025f));
         auto* Glint=Face(TEXT("Sphere"),FVector(-13.1f,Side*4.8f-.3f,3.5f),FVector(.005f,.008f,.008f),FLinearColor(.98f,.97f,.93f));
         Glint->AttachToComponent(Pupils[i],FAttachmentTransformRules::KeepWorldTransform);
-        Brows[i]=Face(TEXT("Cube"),FVector(-11.8f,Side*4.8f,6.8f),FVector(.012f,.055f,.012f),FLinearColor(.04f,.026f,.02f));
-        auto* Ear=Face(TEXT("Sphere"),FVector(0,Side*11.8f,0),FVector(.041f,.026f,.055f),Skin);
+        Brows[i]=Face(TEXT("SM11_Brow"),FVector(-11.8f,Side*4.8f,6.8f),FVector(.012f,.055f,.012f),FLinearColor(.04f,.026f,.02f));
+        auto* Ear=Face(TEXT("Sphere"),FVector(0,Side*EarSide,0),FVector(.041f,.034f,.055f),Skin);
         Ear->SetMaterial(0,CEVisual::Surface(this,Skin,TEXT("M_Skin")));
     }
     Mouth=Face(TEXT("Sphere"),FVector(-11.9f,0,-7),FVector(.01f,.056f,.008f),FLinearColor(.19f,.055f,.045f));
@@ -75,11 +78,9 @@ bool ACECustomer::BuildRig(const FLinearColor& Outfit)
     if(LookIndex<0 ? Personality==1 : Look==1) {
         Face(TEXT("Cylinder"),FVector(0,0,16),FVector(.32f,.29f,.025f),FLinearColor(.18f,.095f,.035f));
         Face(TEXT("Cylinder"),FVector(0,0,20),FVector(.23f,.22f,.08f),FLinearColor(.24f,.14f,.06f));
-        Face(TEXT("Sphere"),FVector(-10.4f,0,-9),FVector(.022f,.15f,.045f),FLinearColor(.09f,.04f,.016f));
     }
     if(Look==3 && LookIndex>=0) {
-        for(int32 i=-2;i<=2;++i) Face(TEXT("Cone"),FVector(i*3.f,0,24),FVector(.07f,.06f,.24f),Hairs[Look]);
-        for(float Side:{-1.f,1.f}) Face(TEXT("Sphere"),FVector(0,Side*13,0),FVector(.024f),FLinearColor(.75f,.66f,.30f));
+        for(float Side:{-1.f,1.f}) Face(TEXT("Sphere"),FVector(0,Side*(EarSide+.7f),-1.7f),FVector(.024f),FLinearColor(.75f,.66f,.30f));
     }
     if(Look==4 && LookIndex>=0) {
         Face(TEXT("Cylinder"),FVector(0,0,18),FVector(.36f,.33f,.08f),FLinearColor(.88f,.91f,.79f));
@@ -151,6 +152,9 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
     const bool WantsSip=State==ECECustomerState::Eating && bSeated && FMath::Fmod(Now,5.f)<1.7f && !bPhysicalFall && Now>RecoverUntil && Now>ProtectUntil && Now>WipeUntil;
     SipBlend=FMath::FInterpTo(SipBlend,WantsSip ? 1.f : 0.f,Delta,5.f); bTakingSip=SipBlend>.02f;
     WipeBlend=FMath::FInterpTo(WipeBlend,Now<WipeUntil ? 1.f : 0.f,Delta,6.f);
+    const bool WantsPhone=bFilming || Now<PhoneCallUntil || (StoryStage==1 && (StoryId==2 || StoryId==4));
+    PhoneBlend=FMath::FInterpTo(PhoneBlend,WantsPhone ? 1.f : 0.f,Delta,5.f);
+    ProtectBlend=FMath::FInterpTo(ProtectBlend,Now<ProtectUntil ? 1.f : 0.f,Delta,7.f);
     float Yaw=0;
     FVector Attention=FVector::ZeroVector; bool SocialAttention=false;
     if(Now<SocialGestureUntil && !SocialPartnerId.IsEmpty()) for(TActorIterator<ACECustomer> It(GetWorld());It;++It)
@@ -177,8 +181,9 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
             const FVector FallOffset=Pivot-FRotator(Pitch,0,Roll).Quaternion().RotateVector(Pivot)+FVector(0,0,-PoseFall*65.f);
             Pose.AddToTranslation((bPhysicalFall || RecoverUntil>Now ? FVector::ZeroVector : FallOffset)+FVector(0,0,-PoseSeat*28.f*(1.f-PoseFall)+(bWalking ? FMath::Abs(Gait)*.7f : 0.f)));
         }
-        else if(Bone==TEXT("spine")) Pitch=Breath+PoseSeat*5.f+Anger*2.f;
-        else if(Bone==TEXT("head")) { YawBone=PoseHeadYaw; Pitch=Now<ThinkingUntil ? -5.f : Now<GestureUntil ? FMath::Sin(Now*4.f)*3.f : 0.f; }
+        else if(Bone==TEXT("spine")) { Pitch=Breath+PoseSeat*5.f+Anger*2.f; Roll=FMath::Sin(Now*1.3f+LookIndex)*.65f*(1.f-PoseWalk); }
+        else if(Bone==TEXT("chest")) YawBone=Gait*1.8f;
+        else if(Bone==TEXT("head")) { YawBone=PoseHeadYaw; Roll=FMath::Sin(Now*.9f+LookIndex)*1.1f; Pitch=Now<ThinkingUntil ? -5.f : FMath::Sin(Now*4.f)*3.f*PoseGesture; }
         else if(Bone.StartsWith(TEXT("upperarm"))) {
             Pitch=FMath::Lerp(-3.f-PoseGesture*(!LeftBone ? 18.f+FMath::Sin(Now*3.f)*4.f : 5.f),Stride.Arm,PoseWalk);
             if(!bPhysicalFall && RecoverUntil<Now) Pitch=FMath::Lerp(Pitch,-98.f+FMath::Sin(Now*12.f+Side)*13.f,PoseFall);
@@ -207,11 +212,12 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
         // independently of the arm. The elbow keeps a consistent bend plane.
         for(int32 SideIndex=0;SideIndex<2;++SideIndex) {
             const TCHAR* S=SideIndex==0 ? TEXT("l") : TEXT("r");
-            const bool PhoneHand=(bFilming || Now<PhoneCallUntil || (StoryStage==1 && (StoryId==2 || StoryId==4))) && SideIndex==0;
+            const bool PhoneHand=PhoneBlend>.01f && SideIndex==0;
             const bool SipHand=bTakingSip && SideIndex==1;
-            const bool WipeHand=Now<WipeUntil && SideIndex==1;
-            const bool ProtectHand=Now<ProtectUntil && SideIndex==1;
-            if(!bSeated && !PhoneHand && !SipHand && !WipeHand && !ProtectHand) continue;
+            const bool WipeHand=WipeBlend>.01f && SideIndex==1;
+            const bool ProtectHand=ProtectBlend>.01f && SideIndex==1;
+            const bool CarryHand=IsValid(PersonalDevice) && PersonalDevice->GetAttachParentActor()==this && !bPhysicalFall;
+            if(!bSeated && !PhoneHand && !SipHand && !WipeHand && !ProtectHand && !CarryHand) continue;
             const FName Shoulder(*FString::Printf(TEXT("upperarm_%s"),S)),Elbow(*FString::Printf(TEXT("forearm_%s"),S)),Hand(*FString::Printf(TEXT("hand_%s"),S));
             // FBX handedness can invert Y. Anatomical names must not decide a
             // world-space side: doing so sends both hands across the torso.
@@ -224,9 +230,13 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
             Goal=FMath::Lerp(OldEnd,Goal,PoseSeat);
             const FVector HeadPosition=PosedBones.FindRef(TEXT("head")).GetLocation();
             if(SipHand) Goal=FMath::Lerp(Goal,HeadPosition+FVector(-20,Side*22,-16),SipBlend);
-            if(PhoneHand) Goal=HeadPosition+FVector(-8,Side*17,-6);
+            if(PhoneHand) Goal=FMath::Lerp(Goal,HeadPosition+FVector(-8,Side*17,-6),PhoneBlend);
             if(WipeHand) Goal=FMath::Lerp(Goal,HeadPosition+FVector(-13,Side*(5+FMath::Sin(Now*5.f)*3),-8),WipeBlend);
-            if(ProtectHand) Goal=FVector(-35,Side*29,DeskZ+8);
+            if(ProtectHand) Goal=FMath::Lerp(Goal,FVector(-35,Side*29,DeskZ+8),ProtectBlend);
+            if(CarryHand && !PhoneHand) {
+                const float Span=PersonalDevice->Kind==ECEPropKind::Laptop ? 12.f : PersonalDevice->Kind==ECEPropKind::Tablet ? 8.f : 3.f;
+                Goal=Rig->GetComponentTransform().InverseTransformPosition(PersonalDevice->GetActorLocation()+PersonalDevice->GetActorQuat().RotateVector(FVector(0,Side*Span,2)));
+            }
             const float L1=FVector::Dist(A,B),L2=FVector::Dist(B,OldEnd);
             const FVector Axis=(Goal-A).GetSafeNormal(); const float D=FMath::Clamp(FVector::Dist(A,Goal),FMath::Max(18.f,FMath::Abs(L1-L2)+1.f),L1+L2-.5f);
             Goal=A+Axis*D; const float Along=(L1*L1-L2*L2+D*D)/(2.f*D);
@@ -283,16 +293,19 @@ void ACECustomer::AnimateRig(float Delta,bool bWalking)
         if(bPhysicalFall || bLeaving) { Cup->bDelivered=false; Cup->Body->SetSimulatePhysics(true); ServedCup.Reset(); }
         if(bTakingSip && !bPhysicalFall && !bLeaving && Cup->VolumeMl()>0) { const float Ratio=FMath::Max(0.f,1.f-Delta*4.f/FMath::Max(1.f,Cup->VolumeMl())); Cup->EspressoMl*=Ratio; Cup->MilkMl*=Ratio; Cup->WaterMl*=Ratio; Cup->UpdateLiquidVisual(); }
     }
-    const bool Blink=FMath::Fmod(Now+SeatSlot*.71f,4.3f)<.13f;
+    const float BlinkPhase=FMath::Fmod(Now+LookIndex*.71f,4.1f+FMath::Max(0,LookIndex)*.13f);
+    const float BlinkAmount=BlinkPhase<.18f ? FMath::Sin(BlinkPhase/.18f*PI) : 0.f;
     const bool Speaking=Now<VoiceUntil;
     const int32 SpeechIndex=FMath::FloorToInt((Now-VoiceBegin)/FMath::Max(.01f,VoiceUntil-VoiceBegin)*SpeechLevels.Num());
     const float Talk=Speaking ? (SpeechLevels.IsValidIndex(SpeechIndex) ? SpeechLevels[SpeechIndex] : FMath::Abs(FMath::Sin(Now*13.f))*VoiceEnergy) : Now<ReactionUntil ? FMath::Abs(FMath::Sin(Now*10.f))*.45f : 0.f;
+    FaceTalk=FMath::FInterpTo(FaceTalk,Talk,Delta,18.f);
     for(int32 i=0;i<2;++i) {
-        Eyes[i]->SetRelativeScale3D(FVector(.021f,.043f,Blink ? .003f : .025f)); Pupils[i]->SetVisibility(!Blink,true);
+        Eyes[i]->SetRelativeScale3D(FVector(.021f,.043f,FMath::Lerp(.025f,.002f,BlinkAmount))); Pupils[i]->SetVisibility(BlinkAmount<.7f,true);
         Brows[i]->SetRelativeRotation(FRotator(0,0,(i==0 ? -1.f : 1.f)*(DialogueEmotion==TEXT("triste") ? -16.f : Anger*18.f)));
         Pupils[i]->SetRelativeLocation(FVector(-12.5f,(i==0 ? -4.8f : 4.8f)+FMath::Clamp(PoseHeadYaw*.015f,-.5f,.5f),3));
     }
-    Mouth->SetRelativeScale3D(FVector(.01f,.056f,.008f+Talk*.03f));
+    Mouth->SetRelativeScale3D(FVector(.012f,.052f+FaceTalk*.007f,.008f+FaceTalk*.026f));
+    Mouth->SetRelativeLocation(FVector(-11.9f,0,-7.f-Anger*.35f));
     if(ClothingMaterial) ClothingMaterial->SetScalarParameterValue(TEXT("Wetness"),FMath::Clamp(WetMl/90.f,0.f,1.f));
     if(AuthoredSpeaker) AuthoredSpeaker->SetWorldLocation(HeadLocation());
     if(Phone) {

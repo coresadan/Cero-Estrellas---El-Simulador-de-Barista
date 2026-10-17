@@ -19,7 +19,7 @@ ACEProp::ACEProp()
 void ACEProp::Configure(ECEPropKind InKind)
 {
     Kind=InKind;
-    const bool bPersonal=Kind==ECEPropKind::Notebook || Kind==ECEPropKind::Flower || Kind==ECEPropKind::Bag;
+    const bool bPersonal=Kind==ECEPropKind::Notebook || Kind==ECEPropKind::Flower || Kind==ECEPropKind::Bag || IsDevice();
     const bool bCup=Kind==ECEPropKind::Cup, bFilter=Kind==ECEPropKind::Portafilter, bTray=Kind==ECEPropKind::Tray, bLaptop=Kind==ECEPropKind::Laptop, bPitcher=Kind==ECEPropKind::Pitcher, bChair=Kind==ECEPropKind::Chair;
     const TCHAR* Shape=(bCup || bPitcher || bFilter) ? TEXT("Cylinder") : (bTray || bLaptop || bChair) ? TEXT("Cube") : TEXT("Sphere");
     UStaticMesh* Mesh=nullptr;
@@ -29,6 +29,7 @@ void ACEProp::Configure(ECEPropKind InKind)
     Body->SetStaticMesh(Mesh);
     Body->SetWorldScale3D(bCup || bFilter ? FVector(1.f) : bPitcher ? FVector(1.15f,1.15f,1.15f) : bChair ? FVector(.52f,.55f,.07f) : bTray ? FVector(1.1f,.7f,.035f) : bLaptop ? FVector(.42f,.32f,.035f) : FVector(.32f,.18f,.12f));
     if(bPersonal) Body->SetWorldScale3D(Kind==ECEPropKind::Bag ? FVector(.28f,.19f,.27f) : Kind==ECEPropKind::Notebook ? FVector(.24f,.18f,.018f) : FVector(.10f,.10f,.04f));
+    if(IsDevice()) Body->SetWorldScale3D(bLaptop ? FVector(.42f,.32f,.035f) : Kind==ECEPropKind::Tablet ? FVector(.25f,.18f,.014f) : FVector(.145f,.073f,.012f));
     const FLinearColor Color=bCup ? FLinearColor(.82f,.78f,.67f) : bTray ? FLinearColor(.06f,.25f,.22f) : bChair ? FLinearColor(.025f,.19f,.16f) : bPitcher ? FLinearColor(.65f,.68f,.67f) : bFilter || bLaptop ? FLinearColor(.23f,.27f,.28f) : FLinearColor(.8f,.35f,.07f);
     Body->SetMaterial(0,CEVisual::Material(this,Color,false,bFilter || bLaptop || bPitcher));
     if(bCup) Body->SetMaterial(0,CEVisual::Surface(this,Color,TEXT("M_Ceramic")));
@@ -40,7 +41,12 @@ void ACEProp::Configure(ECEPropKind InKind)
     Body->SetLinearDamping(.15f); Body->SetAngularDamping(.45f);
     if(bChair) { Body->SetCollisionResponseToChannel(ECC_WorldDynamic,ECR_Ignore); Body->SetCollisionResponseToChannel(ECC_Pawn,ECR_Block); }
     DisplayName=bPitcher ? TEXT("Jarra de leche") : bChair ? TEXT("Silla del cliente") : bCup ? TEXT("Taza vacía") : bTray ? TEXT("Bandeja") : bFilter ? TEXT("Portafiltro vacío") : bLaptop ? TEXT("Portátil del cliente") : TEXT("Cruasán recién hecho");
-    if(bPersonal) DisplayName=Kind==ECEPropKind::Notebook ? TEXT("Cuaderno del cliente") : Kind==ECEPropKind::Flower ? TEXT("Flor de la cita") : TEXT("Bolso del cliente");
+    if(bPersonal && !IsDevice()) DisplayName=Kind==ECEPropKind::Notebook ? TEXT("Cuaderno del cliente") : Kind==ECEPropKind::Flower ? TEXT("Flor de la cita") : TEXT("Bolso del cliente");
+    if(Kind==ECEPropKind::Mobile || Kind==ECEPropKind::Tablet) {
+        DisplayName=Kind==ECEPropKind::Mobile ? TEXT("Móvil del cliente") : TEXT("Tablet del cliente");
+        Body->SetMassOverrideInKg(NAME_None,Kind==ECEPropKind::Mobile ? .18f : .48f,true);
+        Body->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.035f,.055f,.06f),TEXT("M_Metal")));
+    }
     auto Add=[this](const TCHAR* S,FVector L,FVector Scale,FLinearColor C)
     {
         auto* Part=CEVisual::Part(this,S,L/Body->GetComponentScale(),Scale/Body->GetComponentScale(),C); Details.Add(Part); return Part;
@@ -98,8 +104,17 @@ void ACEProp::Configure(ECEPropKind InKind)
     {
         auto* Lid=Add(TEXT("Cube"),FVector(17,0,13),FVector(.025f,.32f,.27f),Color); Lid->SetRelativeRotation(FRotator(0,0,-12));
         auto* Screen=Add(TEXT("Cube"),FVector(15.5f,0,13),FVector(.007f,.28f,.23f),FLinearColor(.025f,.10f,.12f));
+        DeviceScreen=Screen;
         Screen->SetMaterial(0,CEVisual::Surface(this,FLinearColor::White,TEXT("M_Screen")));
         for(int32 Row=0;Row<4;++Row) Add(TEXT("Cube"),FVector(-8+Row*5,0,2),FVector(.02f,.25f,.009f),FLinearColor(.025f,.03f,.03f));
+        ClosedCover=Add(TEXT("SM_BevelCube"),FVector(0,0,2.6f),FVector(.42f,.32f,.015f),Color); ClosedCover->SetVisibility(false);
+    }
+    if(Kind==ECEPropKind::Mobile || Kind==ECEPropKind::Tablet) {
+        const bool Mobile=Kind==ECEPropKind::Mobile;
+        const FVector Size=Mobile ? FVector(.127f,.058f,.002f) : FVector(.225f,.155f,.002f);
+        DeviceScreen=Add(TEXT("SM_BevelCube"),FVector(0,0,Mobile ? .72f : .82f),Size,FLinearColor(.25f,.65f,.73f));
+        DeviceScreen->SetMaterial(0,CEVisual::Surface(this,Mobile ? FLinearColor(.65f,.85f,1.f) : FLinearColor(.75f,1.f,.8f),TEXT("M_Screen")));
+        Add(TEXT("Sphere"),FVector(Mobile ? -6.7f : -11.8f,0,Mobile ? .72f : .82f),FVector(.009f,.009f,.003f),FLinearColor(.01f,.015f,.02f));
     }
     if(Kind==ECEPropKind::Notebook) {
         Body->SetMaterial(0,CEVisual::Surface(this,FLinearColor(.12f,.23f,.28f),TEXT("M_Fabric")));
@@ -117,6 +132,23 @@ void ACEProp::Configure(ECEPropKind InKind)
         Add(TEXT("Cube"),FVector(0,0,24),FVector(.135f,.025f,.015f),FLinearColor(.09f,.055f,.035f));
     }
     // Pastry folds and crescent silhouette are baked into SM_Croissant.
+}
+void ACEProp::SetDeviceCarried(bool bCarried)
+{
+    if(IsDevice() && !bCarried) bThrown=false;
+    if(Kind!=ECEPropKind::Laptop) return;
+    for(auto Part:Details) Part->SetVisibility(Part==ClosedCover ? bCarried : !bCarried);
+}
+void ACEProp::DamageDevice()
+{
+    if(!IsDevice() || bBroken) return;
+    bBroken=true; SetDeviceCarried(false);
+    DisplayName=Kind==ECEPropKind::Laptop ? TEXT("Portátil ahogado") : Kind==ECEPropKind::Mobile ? TEXT("Móvil averiado") : TEXT("Tablet averiada");
+    auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
+    const FName Event=Kind==ECEPropKind::Laptop ? TEXT("laptop_destroyed") : TEXT("belonging_damaged");
+    Cafe->Observe(Event,OwnerCustomerId,DisplayName,1.f); Cafe->Sound(TEXT("Electric"),GetActorLocation());
+    for(TActorIterator<ACECustomer> It(GetWorld());It;++It)
+        if(It->CustomerId==OwnerCustomerId || (OwnerCustomerId.IsEmpty() && FVector::Dist2D(It->GetActorLocation(),GetActorLocation())<170.f)) It->React(Event,DisplayName,1.f);
 }
 float ACEProp::AddLiquid(float Espresso,float Milk,float Water,float Degrees)
 {
@@ -218,9 +250,9 @@ void ACEProp::Tick(float DeltaSeconds)
         else DropAccumulator=0.f;
     }
     if(IsContainer()) AnimateLiquidSurface(DeltaSeconds);
-    if(bBroken && Kind==ECEPropKind::Laptop && Details.Num()>1)
+    if(bBroken && IsDevice() && DeviceScreen)
     {
-        if(auto* Mat=Cast<UMaterialInstanceDynamic>(Details[1]->GetMaterial(0))) Mat->SetVectorParameterValue(TEXT("Tint"),FLinearColor(.01f,.01f,.01f));
+        if(auto* Mat=Cast<UMaterialInstanceDynamic>(DeviceScreen->GetMaterial(0))) Mat->SetVectorParameterValue(TEXT("Tint"),FLinearColor(.005f,.005f,.005f));
     }
     if(GetActorLocation().Z< -200.f) Destroy();
 }

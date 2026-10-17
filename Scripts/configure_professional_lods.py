@@ -11,5 +11,5 @@ for name in [p['mesh'] for p in json.loads((root/'SourceMeshes/character_manifes
     assert counts[0]>0 and 0<counts[1]<counts[0],(name,counts)
     unreal.EditorAssetLibrary.save_loaded_asset(mesh)
     rows.append({'mesh':name,'vertices_per_lod':counts})
-(root/'Evidence/entrega10_lods.json').write_text(json.dumps({'passed':True,'meshes':rows},indent=2),encoding='utf-8')
+(root/'Evidence/entrega11_lods.json').write_text(json.dumps({'passed':True,'meshes':rows},indent=2),encoding='utf-8')
 unreal.log('CE09_CHARACTER_LODS_READY '+str(rows))

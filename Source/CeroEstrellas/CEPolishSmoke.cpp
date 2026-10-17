@@ -1,5 +1,6 @@
 #include "CEGameplay.h"
 #include "CEKitchen.h"
+#include "CECafeLayout.h"
 #include "CEDialogue.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -43,7 +44,7 @@ void ACEGameMode::PolishSmokeStep()
         SmokeWitness->Configure(TEXT("qa07-testigo"),TEXT("CRIPTO-BRO"),FLinearColor(.1f,.23f,.24f),0);
         SmokeWitness->State=ECECustomerState::Waiting; SmokeWitness->bOrderKnown=true; SmokeWitness->SeatSlot=1;
         Check(TEXT("articulated_physics_assets_have_bodies_and_joints"),SmokeCustomer->Rig->GetPhysicsAsset() && SmokeCustomer->Rig->GetPhysicsAsset()->SkeletalBodySetups.Num()>=12 && SmokeCustomer->Rig->GetPhysicsAsset()->ConstraintSetup.Num()>=11);
-        Check(TEXT("three_diegetic_order_tickets_exist"),OrderTickets.Num()==3);
+        Check(TEXT("six_diegetic_order_tickets_exist"),OrderTickets.Num()==CECafeLayout::TableCount);
         SmokeCustomer->Speak(TEXT("Mis bolsillos ya no siguen a mis manos."),3.f);
         Player->SetActorLocation(FVector(260,180,92)); Aim(SmokeCustomer->GetActorLocation()+FVector(0,0,15));
         Key(EKeys::Tab,IE_Pressed); SmokeNextAt=Now+.6f; break;
@@ -137,7 +138,7 @@ void ACEGameMode::PolishSmokeStep()
     }
     case 41:
     {
-        Check(TEXT("flat_order_tickets_do_not_cover_customer_faces"),OrderTickets.Num()==3 && OrderTickets[0]->GetComponentLocation().Z<113.f && OrderTickets[0]->GetUpVector().Z<.1f);
+        Check(TEXT("flat_order_tickets_do_not_cover_customer_faces"),OrderTickets.Num()==CECafeLayout::TableCount && OrderTickets[0]->GetComponentLocation().Z<113.f && OrderTickets[0]->GetUpVector().Z<.1f);
         auto* Asset=SmokeCustomer->Rig->GetPhysicsAsset(); bool Knees=true; int32 Hinges=0;
         for(const auto& Joint:Asset->ConstraintSetup) if(Joint->DefaultInstance.ConstraintBone1.ToString().StartsWith(TEXT("shin"))) { ++Hinges; Knees &= Joint->DefaultInstance.GetAngularSwing1Limit()<=6.f && Joint->DefaultInstance.GetAngularTwistLimit()>50.f; }
         Check(TEXT("knees_use_anatomical_hinge_limits"),Knees && Hinges==2);

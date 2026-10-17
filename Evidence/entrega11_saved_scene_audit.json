@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "fixed_actors": 483,
+  "interactive_actors_baked": [],
+  "materials": [
+    {
+      "material": "M_Surface",
+      "previous_static_lighting_usage": false,
+      "saved_static_lighting_usage": true
+    },
+    {
+      "material": "M_Wood",
+      "previous_static_lighting_usage": false,
+      "saved_static_lighting_usage": true
+    },
+    {
+      "material": "M_Metal",
+      "previous_static_lighting_usage": false,
+      "saved_static_lighting_usage": true
+    },
+    {
+      "material": "M_Stone",
+      "previous_static_lighting_usage": false,
+      "saved_static_lighting_usage": true
+    },
+    {
+      "material": "M_Ceramic",
+      "previous_static_lighting_usage": false,
+      "saved_static_lighting_usage": true
+    },
+    {
+      "material": "M_Fabric",
+      "previous_static_lighting_usage": false,
+      "saved_static_lighting_usage": true
+    },
+    {
+      "material": "M_Unlit",
+      "previous_static_lighting_usage": false,
+      "saved_static_lighting_usage": true
+    }
+  ]
+}

@@ -22,7 +22,10 @@ class UMaterialInstanceDynamic;
 class UPhysicalAnimationComponent;
 
 UENUM(BlueprintType)
-enum class ECEPropKind : uint8 { Cup, Pastry, Tray, Portafilter, Laptop, Pitcher, Chair, Notebook, Flower, Bag };
+enum class ECEPropKind : uint8 { Cup, Pastry, Tray, Portafilter, Laptop, Pitcher, Chair, Notebook, Flower, Bag, Mobile, Tablet };
+
+UENUM(BlueprintType)
+enum class ECEGuestDevice : uint8 { None, Laptop, Mobile, Tablet };
 
 UENUM(BlueprintType)
 enum class ECECustomerState : uint8 { Arriving, Ordering, WalkingToTable, Waiting, Eating, Leaving };
@@ -140,6 +143,9 @@ public:
     void UpdateLiquidVisual();
     void SpillConfirmed(float Amount);
     bool IsContainer() const { return Kind==ECEPropKind::Cup || Kind==ECEPropKind::Pitcher; }
+    bool IsDevice() const { return Kind==ECEPropKind::Laptop || Kind==ECEPropKind::Mobile || Kind==ECEPropKind::Tablet; }
+    void DamageDevice();
+    void SetDeviceCarried(bool bCarried);
     float CapacityMl() const { return Kind==ECEPropKind::Pitcher ? 350.f : 180.f; }
     FVector PourTarget = FVector::ZeroVector;
     bool bAimedPour = false;
@@ -168,6 +174,8 @@ private:
     UFUNCTION() void Hit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& HitResult);
     UPROPERTY() TObjectPtr<UStaticMeshComponent> Coffee;
     UPROPERTY() TObjectPtr<UStaticMeshComponent> Foam;
+    UPROPERTY() TObjectPtr<UStaticMeshComponent> DeviceScreen;
+    UPROPERTY() TObjectPtr<UStaticMeshComponent> ClosedCover;
     TArray<TObjectPtr<UStaticMeshComponent>> Details;
     bool bThrown = false;
     float LastHitAt = -100.f;
@@ -192,6 +200,15 @@ public:
     bool Serve(ACEProp* Item);
     void Taunt();
     void BeginVisit(int32 Slot, ECEDrink Drink, bool bPastry);
+    void PreparePossessions(ECEGuestDevice Device);
+    void TickPossessions(float DeltaSeconds);
+    UPROPERTY(BlueprintReadOnly) ECEGuestDevice VisitDevice=ECEGuestDevice::None;
+    UPROPERTY(BlueprintReadOnly) TObjectPtr<ACEProp> PersonalDevice;
+    UPROPERTY(BlueprintReadOnly) bool bDevicePlaced=false;
+    UPROPERTY(BlueprintReadOnly) bool bPossessionsPrepared=false;
+    float DevicePlacement=0.f;
+    float DevicePlacedAt=-1.f;
+    TArray<TWeakObjectPtr<ACEProp>> Possessions;
     FString OrderText() const;
     void Speak(const FString& Text, float Duration=5.f);
     int32 RecordedLinesPlayed=0;
@@ -333,6 +350,9 @@ private:
     bool bTakingSip = false;
     float SipBlend = 0.f;
     float WipeBlend = 0.f;
+    float PhoneBlend = 0.f;
+    float ProtectBlend = 0.f;
+    float FaceTalk = 0.f;
     float NextGroundCheckAt = 0.f;
     float VoiceEnergy = 1.f;
     float VoiceBegin = 0.f;
@@ -419,9 +439,11 @@ class CEROESTRELLAS_API ACEHUD : public AHUD
     GENERATED_BODY()
 public:
     virtual void DrawHUD() override;
+    virtual void EndPlay(const EEndPlayReason::Type Reason) override;
+    bool HasModernOverlay() const { return Overlay.IsValid(); }
 private:
-    void Label(const FString& Text, float X, float Y, float Scale, FLinearColor Color);
-    void Wrapped(const FString& Text, float X, float Y, float Width, float Scale, FLinearColor Color);
+    TSharedPtr<struct FCEHUDView> ViewState;
+    TSharedPtr<class SWidget> Overlay;
 };
 
 UCLASS()
@@ -434,14 +456,18 @@ public:
     virtual void Tick(float DeltaSeconds) override;
     void TickArrivals();
     void TickTickets();
+    // Author the fixed set into the editor map; gameplay actors remain runtime-owned.
+    UFUNCTION(BlueprintCallable,Category="CeroEstrellas|Authoring")
+    void BuildCafe(bool bAuthoring=false);
     bool bLoopSmoke = false;
 private:
-    void BuildCafe();
     void SmokeStep();
     void LoopSmokeStep();
     void DialogueSmokeStep();
     void PolishSmokeStep();
     void ProfessionalSmokeStep();
+    void ExpansionSmokeStep();
+    float ExpansionDeadline=0;
     bool bPolishChecksCompleted = false;
     bool bDialogueSmoke = false;
     bool bSmokeMicrophoneAvailable = false;
@@ -476,6 +502,7 @@ private:
     FVector LoopPreviousCustomerPosition;
     int32 LoopFirstBossPhrase = -1;
     TArray<float> FrameSamples;
+    double LastFrameWallSeconds=0;
     UPROPERTY() TArray<TObjectPtr<UTextRenderComponent>> OrderTickets;
     float NextTicketAt = 0.f;
 };

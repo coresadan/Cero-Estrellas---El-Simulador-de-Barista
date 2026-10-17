@@ -6,6 +6,37 @@
 #include "PhysicsEngine/SkeletalBodySetup.h"
 #include "PhysicsEngine/PhysicsConstraintTemplate.h"
 #include "PhysicsEngine/AggregateGeom.h"
+#include "CEGameplay.h"
+#include "Engine/World.h"
+#include "Engine/StaticMesh.h"
+
+bool UCECharacterAssets::PrepareStaticLighting(UStaticMesh* Mesh)
+{
+#if WITH_EDITOR
+    if(!Mesh || Mesh->GetNumSourceModels()==0) return false;
+    auto& Settings=Mesh->GetSourceModel(0).BuildSettings;
+    Settings.bGenerateLightmapUVs=true; Settings.SrcLightmapIndex=0; Settings.DstLightmapIndex=1;
+    Mesh->SetLightMapCoordinateIndex(1); Mesh->SetLightMapResolution(64);
+    Mesh->Build(false); Mesh->MarkPackageDirty(); return true;
+#else
+    return false;
+#endif
+}
+
+bool UCECharacterAssets::AuthorCafe(UObject* WorldContextObject)
+{
+#if WITH_EDITOR
+    auto* World=WorldContextObject ? WorldContextObject->GetWorld() : nullptr;
+    if(!World || World->IsGameWorld()) return false;
+    // Game modes are not placeable through the editor actor palette. This
+    // temporary builder is spawned directly and removed before the map saves.
+    auto* Builder=World->SpawnActor<ACEGameMode>();
+    if(!Builder) return false;
+    Builder->BuildCafe(true); Builder->Destroy(); return true;
+#else
+    return false;
+#endif
+}
 
 bool UCECharacterAssets::PrepareSkeleton(USkeletalMesh* Mesh)
 {

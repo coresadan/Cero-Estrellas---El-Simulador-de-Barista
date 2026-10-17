@@ -1,0 +1,33 @@
+﻿{
+    "observed_utc":  "2026-10-17T07:02:10.4687355Z",
+    "voice":  {
+                  "ready":  true,
+                  "stt":  "whisper-tiny-int8-cpu",
+                  "tts":  "piper-cpu",
+                  "tts_threads":  1
+              },
+    "ollama":  {
+                   "models":  [
+                                  {
+                                      "name":  "qwen3:4b-instruct",
+                                      "model":  "qwen3:4b-instruct",
+                                      "size":  2879913982,
+                                      "digest":  "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+                                      "details":  {
+                                                      "parent_model":  "",
+                                                      "format":  "gguf",
+                                                      "family":  "qwen3",
+                                                      "families":  [
+                                                                       "qwen3"
+                                                                   ],
+                                                      "parameter_size":  "4.0B",
+                                                      "quantization_level":  "Q4_K_M"
+                                                  },
+                                      "expires_at":  "2026-10-17T09:21:54.4962783+02:00",
+                                      "size_vram":  0,
+                                      "context_length":  2048,
+                                      "runner":  "llamacpp"
+                                  }
+                              ]
+               }
+}

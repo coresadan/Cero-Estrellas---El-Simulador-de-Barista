@@ -1,5 +1,6 @@
 #include "CEGameplay.h"
 #include "CEVisual.h"
+#include "CECafeLayout.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -30,7 +31,7 @@ void ACECustomer::Configure(const FString& Id,const FString& Name,const FLinearC
 }
 void ACECustomer::BeginVisit(int32 Slot,ECEDrink Drink,bool bPastry)
 {
-    SeatSlot=Slot; RequestedDrink=Drink; bWantsPastry=bPastry; Patience=110.f+Slot*12;
+    SeatSlot=FMath::Clamp(Slot,0,CECafeLayout::TableCount-1); RequestedDrink=Drink; bWantsPastry=bPastry; Patience=110.f+(Slot%3)*12+(Slot>=3 ? 20.f : 0.f);
     const int32 Phase=GetWorld()->GetSubsystem<UCECafeSubsystem>()->ShiftPhase;
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
     if(GetWorld()->GetTimeSeconds()<Cafe->BusinessUntil) {
@@ -51,9 +52,10 @@ void ACECustomer::BeginVisit(int32 Slot,ECEDrink Drink,bool bPastry)
     if(bWantsSugar) Requirements.Add(TEXT("azúcar 2 g"));
     if(bWantsSyrup) Requirements.Add(TEXT("sirope 6 ml"));
     SpecialRequest=FString::Join(Requirements,TEXT(" / "));
-    const float Ys[]={-100.f,220.f,-405.f};
+    const FVector Table=CECafeLayout::Table(SeatSlot);
     // A separate aisle allows later arrivals to pass customers waiting at the counter.
-    Route={FVector(620,455,92),FVector(245,455,92),FVector(245,Ys[Slot],92),FVector(165,Ys[Slot],92)}; RouteIndex=0; State=ECECustomerState::Arriving;
+    const float QueueY=CECafeLayout::OrderY(SeatSlot);
+    Route={FVector(620,455,92),FVector(245,455,92),FVector(245,QueueY,92),FVector(165,QueueY,92)}; RouteIndex=0; State=ECECustomerState::Arriving;
     InitStory();
     Speak(StorySetup.IsEmpty() ? TEXT("Buenos días.\nNecesito desayunar.") : StorySetup,5.f);
 }
@@ -119,21 +121,29 @@ void ACECustomer::TakeOrder()
     Speak(OrderText()+TEXT("\n")+(SpecialRequest.IsEmpty() ? TEXT("Y que esté caliente, por favor.") : SpecialRequest),7.f);
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Notify(TEXT("Pedido anotado: ")+OrderText());
     GetWorld()->GetSubsystem<UCECafeSubsystem>()->Sound(TEXT("Order"),GetActorLocation());
-    const float Ys[]={-100.f,220.f,-405.f};
-    Route={FVector(185,455,92),FVector(620,455,92),FVector(620,Ys[SeatSlot],92),FVector(460,Ys[SeatSlot],92)};
+    const FVector Table=CECafeLayout::Table(SeatSlot);
+    const float Aisle=CECafeLayout::Aisle(SeatSlot);
+    Route={FVector(260,GetActorLocation().Y,92),FVector(260,455,92),FVector(Aisle,455,92),FVector(Aisle,Table.Y,92),CECafeLayout::Guest(SeatSlot)};
     RouteIndex=0; State=ECECustomerState::WalkingToTable;
 }
 bool ACECustomer::Serve(ACEProp* Item)
 {
     if(!Item || bLeaving || !bOrderKnown) return false;
-    const bool PersonalItem=!Item->OwnerCustomerId.IsEmpty() && Item->Kind!=ECEPropKind::Laptop;
+    const bool PersonalItem=!Item->OwnerCustomerId.IsEmpty();
     if(State==ECECustomerState::Eating && !PersonalItem) return false;
     auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>();
     if(State!=ECECustomerState::Waiting && !(PersonalItem && State==ECECustomerState::Eating)) { Cafe->Notify(TEXT("El cliente se dirige a su mesa. Entrégale allí el desayuno.")); return false; }
-    if(!Item->OwnerCustomerId.IsEmpty() && Item->Kind!=ECEPropKind::Laptop) {
+    if(!Item->OwnerCustomerId.IsEmpty()) {
         if(Item->OwnerCustomerId!=CustomerId) { ResolveStory(false); Speak(TEXT("Eso no es mío. ¿Estás intentando crear un malentendido?"),4.f); return false; }
         if(Item->bBroken) { ResolveStory(false); Speak(TEXT("Has estropeado mis cosas. Ya no me sirven."),4.f); return false; }
         if(auto* Player=Cast<ACEPlayer>(UGameplayStatics::GetPlayerPawn(this,0))) if(Player->Held==Item) Player->Release();
+        if(Item->IsDevice()) {
+            Item->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); Item->SetDeviceCarried(false);
+            Item->SetActorLocationAndRotation(CECafeLayout::Device(SeatSlot),FRotator(0,180,0));
+            Item->SetActorEnableCollision(true); Item->Body->SetSimulatePhysics(true);
+            Item->Body->SetPhysicsLinearVelocity(FVector::ZeroVector);
+            Speak(TEXT("Gracias por devolverlo. Ahora mantén el café lejos."),4.f); return true;
+        }
         bStoryHelped=true; Item->SetActorLocation(GetActorLocation()+FVector(-48,30,-7));
         Speak(StoryId==1 ? TEXT("Gracias por la flor. Mi cita podrá reconocerme.") : TEXT("Gracias por devolverlo. Lo necesitaba para hoy."),4.f); return true;
     }
@@ -156,8 +166,7 @@ bool ACECustomer::Serve(ACEProp* Item)
     if(!bAccepted) { Speak(TEXT("Eso no es mi pedido.")); return false; }
     if(auto* Player=Cast<ACEPlayer>(UGameplayStatics::GetPlayerPawn(this,0))) if(Player->Held==Item) Player->Release();
     Item->bDelivered=true; Item->Body->SetSimulatePhysics(false);
-    const float Ys[]={-100.f,220.f,-405.f};
-    Item->SetActorLocation(FVector(385, Ys[SeatSlot]+(Item->Kind==ECEPropKind::Cup ? -28.f : 25.f),Item->Kind==ECEPropKind::Cup ? 95.f : 88.f));
+    Item->SetActorLocation(CECafeLayout::Food(SeatSlot,Item->Kind==ECEPropKind::Cup));
     Item->SetActorRotation(FRotator::ZeroRotator); Item->SetLifeSpan(18.f);
     if(Item->Kind==ECEPropKind::Cup) { ServedCup=Item; ServedCupPosition=Item->GetActorLocation(); }
     if(bDrinkServed && (!bWantsPastry || bPastryServed))
@@ -242,7 +251,7 @@ void ACECustomer::Leave(bool bDisaster)
     bSeated=false;
     bLeaving=true; bDisasterExit=bDisaster; State=ECECustomerState::Leaving; ExitStartAt=GetWorld()->GetTimeSeconds()+(bDisaster ? 2.f : 1.f);
     if(GetActorLocation().X<250.f) Route={FVector(185,455,92),FVector(620,455,92),FVector(620,660,92)};
-    else Route={FVector(620,GetActorLocation().Y,92),FVector(620,660,92)};
+    else Route={FVector(CECafeLayout::Aisle(SeatSlot),GetActorLocation().Y,92),FVector(CECafeLayout::Aisle(SeatSlot),455,92),FVector(620,455,92),FVector(620,660,92)};
     RouteIndex=0;
     if(bDisaster) Speak(TEXT("¡Me voy! ¡Esto es intolerable!\n¡Que te despidan!"),6.f);
 }
@@ -251,12 +260,13 @@ void ACECustomer::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     const float Now=GetWorld()->GetTimeSeconds(); bool bWalking=false;
+    TickPossessions(DeltaSeconds);
     TickSocial(DeltaSeconds);
     TickStory(DeltaSeconds);
     if(bSeated && !bLeaving && Anger>.3f && Now>NextProtectAt) if(auto* Player=Cast<ACEPlayer>(UGameplayStatics::GetPlayerPawn(this,0)))
         if(Player->bPouring && FVector::Dist2D(Player->GetActorLocation(),GetActorLocation())<210.f) {
             NextProtectAt=Now+12.f; ProtectUntil=Now+1.2f;
-            for(TActorIterator<ACEProp> It(GetWorld());It;++It) if(It->Kind==ECEPropKind::Laptop && !It->bHeld && !It->bBroken && FVector::Dist2D(It->GetActorLocation(),GetActorLocation())<170.f) {
+            for(TActorIterator<ACEProp> It(GetWorld());It;++It) if(It->IsDevice() && It->OwnerCustomerId==CustomerId && !It->bHeld && !It->bBroken && FVector::Dist2D(It->GetActorLocation(),GetActorLocation())<170.f) {
                 It->Body->AddImpulse(FVector(0,Personality%2 ? -55.f : 55.f,0),NAME_None,true); Speak(TEXT("¡Aparta eso de mi portátil!"),3.f); break;
             }
         }
@@ -337,6 +347,10 @@ void ACECustomer::EndPlay(const EEndPlayReason::Type Reason)
 {
     if(Reason==EEndPlayReason::Destroyed && ServedCup.IsValid() && !ServedCup->bHeld) {
         ServedCup->SetActorLocation(ServedCupPosition); ServedCup->bDelivered=false; ServedCup->Body->SetSimulatePhysics(true);
+    }
+    for(auto Weak:Possessions) if(auto* Item=Weak.Get()) if(!Item->bHeld) {
+        if(Item->WasThrown() || Item->bBroken) Item->SetLifeSpan(45.f);
+        else if(Item->GetAttachParentActor()==this || FVector::Dist2D(Item->GetActorLocation(),CECafeLayout::Table(SeatSlot))<150.f) Item->Destroy();
     }
     Super::EndPlay(Reason);
 }

@@ -1,0 +1,175 @@
+{
+  "version": "0.12.0",
+  "engine": "5.8.3",
+  "created_utc": "2026-10-17T12:01:57.318004+00:00",
+  "launcher": "Jugar.bat",
+  "executable": "Release\\Windows\\CeroEstrellas\\Binaries\\Win64\\CeroEstrellas.exe",
+  "sha256": "682820de02cec8fb30079c73cc5d2bf3f0f0831a10fbb39e1ed13275993f025e",
+  "matches_compiled_binary": true,
+  "source_older_than_binary": true,
+  "human_playthrough": false,
+  "human_microphone_conversation_verified": false,
+  "table_count": 6,
+  "fixed_scene_audit": "Evidence/entrega12_saved_scene_audit.json",
+  "backend_audit": "Evidence/entrega12_backend.json",
+  "editor_validation": {
+    "folder": "Entrega12EditorFinal",
+    "passed": true,
+    "checks": 101
+  },
+  "scenarios": [
+    {
+      "folder": "Entrega12Closure",
+      "checks": 172,
+      "passed": true,
+      "full_shift_exercised": true,
+      "frame_time_basis": "wall_clock_between_game_ticks",
+      "frame_p50_ms": 16.671798706054688,
+      "frame_p95_ms": 20.437501907348633,
+      "frame_max_ms": 348.6612854003906,
+      "resources": {
+        "samples": 218,
+        "other_game_observed": false,
+        "only_named_evidence_processes": true,
+        "total_desktop_gpu_peak_mib": 4705,
+        "gpu_capacity_mib": 6144,
+        "game_working_set_peak_mib": 703.7,
+        "note": "GPU usage includes desktop and other apps; sampled every two seconds, not guaranteed to capture every transient peak."
+      },
+      "screenshots": [
+        "01_turno_abierto.png",
+        "02b_jarra_verter_a_mano.png",
+        "02_maquina_completa.png",
+        "03_pedido_y_clientes.png",
+        "04b_charco_persistente.png",
+        "04_liquido_y_charcos.png",
+        "05_reaccion_y_gestos.png",
+        "06_desastre_y_jefa.png",
+        "07b_influencer_graba.png",
+        "07_silla_caida_y_testigo.png",
+        "08_personajes_y_manos.png",
+        "09_directo_del_desastre.png",
+        "10_turno_viral.png",
+        "11_despido_denegado.png",
+        "12_caderas_y_manos_corregidas.png",
+        "13_latte_espuma_y_extras.png",
+        "14_cliente_protege_desayuno.png",
+        "15_caida_fisica_real.png",
+        "16_eventos_y_comandas.png",
+        "17_mostrador_despejado.png",
+        "18_clientela_extravagante.png",
+        "19_contacto_y_caida_en_cadena.png",
+        "20_cafetera_y_materiales.png",
+        "21_historia_y_clientes.png",
+        "22_caida_y_campana.png",
+        "24_salon_ampliado.png",
+        "25_clientes_y_dispositivos.png",
+        "26_hud_seis_comandas.png",
+        "27_movil_en_mano.png",
+        "28_tablet_mojada.png"
+      ],
+      "resolution": [
+        1920,
+        1080
+      ],
+      "graphics_audit": [
+        "CE12_GRAPHICS profile=BakedDX11 requested_lumen=0 feature_level=3",
+        "CE12_RENDER_AUDIT fixed=630 baked=630 captures=3 unique=1"
+      ],
+      "validated_live_replies": null
+    },
+    {
+      "folder": "Entrega12Lumen",
+      "checks": 167,
+      "passed": true,
+      "full_shift_exercised": false,
+      "frame_time_basis": "wall_clock_between_game_ticks",
+      "frame_p50_ms": 19.93120002746582,
+      "frame_p95_ms": 22.38050079345703,
+      "frame_max_ms": 374.8652038574219,
+      "resources": {
+        "samples": 79,
+        "other_game_observed": false,
+        "only_named_evidence_processes": true,
+        "total_desktop_gpu_peak_mib": 5668,
+        "gpu_capacity_mib": 6144,
+        "game_working_set_peak_mib": 1280.8,
+        "note": "GPU usage includes desktop and other apps; sampled every two seconds, not guaranteed to capture every transient peak."
+      },
+      "screenshots": [
+        "01_turno_abierto.png",
+        "02b_jarra_verter_a_mano.png",
+        "02_maquina_completa.png",
+        "03_pedido_y_clientes.png",
+        "04b_charco_persistente.png",
+        "04_liquido_y_charcos.png",
+        "05_reaccion_y_gestos.png",
+        "06_desastre_y_jefa.png",
+        "07b_influencer_graba.png",
+        "07_silla_caida_y_testigo.png",
+        "08_personajes_y_manos.png",
+        "09_directo_del_desastre.png",
+        "12_caderas_y_manos_corregidas.png",
+        "13_latte_espuma_y_extras.png",
+        "14_cliente_protege_desayuno.png",
+        "15_caida_fisica_real.png",
+        "16_eventos_y_comandas.png",
+        "17_mostrador_despejado.png",
+        "18_clientela_extravagante.png",
+        "19_contacto_y_caida_en_cadena.png",
+        "20_cafetera_y_materiales.png",
+        "21_historia_y_clientes.png",
+        "22_caida_y_campana.png",
+        "24_salon_ampliado.png",
+        "25_clientes_y_dispositivos.png",
+        "26_hud_seis_comandas.png",
+        "27_movil_en_mano.png",
+        "28_tablet_mojada.png"
+      ],
+      "resolution": [
+        1920,
+        1080
+      ],
+      "graphics_audit": [
+        "CE12_GRAPHICS profile=LumenSoftwareExperimental requested_lumen=1 feature_level=4",
+        "CE12_RENDER_AUDIT fixed=630 baked=630 captures=3 unique=1"
+      ],
+      "validated_live_replies": null
+    },
+    {
+      "folder": "Entrega12Dialogue",
+      "checks": 43,
+      "passed": true,
+      "full_shift_exercised": false,
+      "frame_time_basis": "wall_clock_between_game_ticks",
+      "frame_p50_ms": 24.540599822998047,
+      "frame_p95_ms": 41.24420166015625,
+      "frame_max_ms": 342.0038146972656,
+      "resources": {
+        "samples": 74,
+        "other_game_observed": false,
+        "only_named_evidence_processes": true,
+        "total_desktop_gpu_peak_mib": 4191,
+        "gpu_capacity_mib": 6144,
+        "game_working_set_peak_mib": 681.8,
+        "note": "GPU usage includes desktop and other apps; sampled every two seconds, not guaranteed to capture every transient peak."
+      },
+      "screenshots": [
+        "01_dialogar_respuesta_real.png",
+        "02_memoria_y_contexto_fisico.png",
+        "03_transcripcion_whisper.png",
+        "04_conversacion_libre.png",
+        "05_respuesta_de_servicio.png"
+      ],
+      "resolution": [
+        1920,
+        1080
+      ],
+      "graphics_audit": [
+        "CE12_GRAPHICS profile=BakedDX11 requested_lumen=0 feature_level=3"
+      ],
+      "validated_live_replies": 8
+    }
+  ],
+  "gallery": "Evidence/Comparativa12/Comparativa.html"
+}

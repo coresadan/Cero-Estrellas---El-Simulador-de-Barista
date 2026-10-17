@@ -5,6 +5,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Engine/Texture2D.h"
+#if WITH_EDITOR
+#include "TextureCompiler.h"
+#endif
 #include "Materials/MaterialInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -28,7 +31,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMesh.h"
 
-void ACEGameMode::SmokeStep() { if(bDialogueSmoke) DialogueSmokeStep(); else if((SmokeStage>=34 && SmokeStage<=43) || (SmokeStage>=45 && SmokeStage<=48)) PolishSmokeStep(); else LoopSmokeStep(); }
+void ACEGameMode::SmokeStep() { if(bDialogueSmoke) DialogueSmokeStep(); else if(SmokeStage>=50) ExpansionSmokeStep(); else if((SmokeStage>=34 && SmokeStage<=43) || (SmokeStage>=45 && SmokeStage<=48)) PolishSmokeStep(); else LoopSmokeStep(); }
 void ACEGameMode::LoopSmokeStep()
 {
     auto* PC=UGameplayStatics::GetPlayerController(this,0);
@@ -120,8 +123,19 @@ void ACEGameMode::LoopSmokeStep()
         Check(TEXT("manual_pitcher_pour_builds_hot_latte"),SmokeTray->MilkMl>=90.f && SmokeTray->VolumeMl()<=180.01f && SmokeTray->Temperature>65.f);
         if(SmokeCustomer->State!=ECECustomerState::Waiting && Now<50.f) { SmokeStage=10; SmokeNextAt=Now+.5f; break; }
         Player->SetActorLocation(FVector(235,-100,92)); Aim(SmokeCustomer->GetActorLocation()+FVector(0,0,45));
+        // This scenario teleports between appliances. Stage the already brewed
+        // cup at the grip, rather than yanking it across the room with Chaos.
+        {
+            const FRotator View=PC->GetControlRotation(); const FVector Eye=Player->Camera->GetComponentLocation();
+            FVector Grip=Eye+View.Vector()*88.f+FRotationMatrix(View).GetUnitAxis(EAxis::Y)*24.f-FVector(0,0,30);
+            Grip.Z=FMath::Max(Grip.Z,Eye.Z-50.f);
+            SmokeCup->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); SmokeCup->Body->SetSimulatePhysics(true);
+            SmokeCup->SetActorLocationAndRotation(Grip,FRotator(0,View.Yaw,0),false,nullptr,ETeleportType::TeleportPhysics);
+            SmokeCup->Body->SetPhysicsLinearVelocity(FVector::ZeroVector); SmokeCup->Body->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
+        }
         Player->Hold(SmokeCup); SmokeNextAt=Now+.7f; break;
     case 11:
+        Check(TEXT("physically_prepared_espresso_remains_valid_at_serving_input"),Player->Held==SmokeCup && SmokeCup->EspressoMl>=45.f && SmokeCup->Temperature>45.f);
         Tap(EKeys::F); Shot(TEXT("03_pedido_y_clientes")); SmokeNextAt=Now+.7f; break;
     case 12:
     {
@@ -273,14 +287,24 @@ void ACEGameMode::LoopSmokeStep()
         Player->Dialogue->EditConversation();
         Check(TEXT("return_to_dialogue_preserves_draft"),Player->Dialogue->Draft==TEXT("Borrador conservado al seguir trabajando") && Player->Dialogue->IsEditing());
         Player->Dialogue->Close();
-        SmokeCustomer->Soak(80); SmokeWitness->Witness(SmokeCustomer);
+        if(IsValid(SmokeCustomer)) SmokeCustomer->Soak(80);
+        if(IsValid(SmokeWitness)) SmokeWitness->Witness(SmokeCustomer);
         Player->SetActorLocation(FVector(185,500,92)); Aim(SmokeCustomer->HeadLocation());
         Shot(TEXT("08_personajes_y_manos")); SmokeNextAt=Now+.6f; break;
     case 27:
-        Check(TEXT("wetness_is_stored_on_customer"),SmokeCustomer->WetMl>=80.f);
+        Check(TEXT("wetness_is_stored_on_customer"),IsValid(SmokeCustomer) && SmokeCustomer->WetMl>=80.f);
         // A physics event drives the chain; the dialogue model is not involved.
-        SmokeCustomer->FallenUntil=0; SmokeCustomer->Anger=0; SmokeCustomer->bLeaving=false;
-        SmokePastry=GetWorld()->SpawnActor<ACEProp>(SmokeCustomer->GetActorLocation()+FVector(50,0,-5),FRotator::ZeroRotator); SmokePastry->Configure(ECEPropKind::Pastry);
+        // The earlier witness can already have departed. Use fresh actors so
+        // this collision cannot pass on old hit counters or a destroyed capsule.
+        if(IsValid(SmokeCustomer)) SmokeCustomer->Destroy();
+        if(IsValid(SmokeWitness)) SmokeWitness->Destroy();
+        SmokeCustomer=GetWorld()->SpawnActor<ACECustomer>(FVector(265,350,92),FRotator::ZeroRotator);
+        SmokeCustomer->Configure(TEXT("qa-chain-source"),TEXT("CLIENTE SENTADO"),FLinearColor(.2f,.3f,.3f),1);
+        SmokeCustomer->State=ECECustomerState::Waiting;
+        SmokeWitness=GetWorld()->SpawnActor<ACECustomer>(FVector(390,350,92),FRotator::ZeroRotator);
+        SmokeWitness->Configure(TEXT("qa-chain-witness"),TEXT("TESTIGO"),FLinearColor(.5f,.3f,.4f),2);
+        SmokeWitness->State=ECECustomerState::Waiting;
+        SmokePastry=GetWorld()->SpawnActor<ACEProp>(SmokeCustomer->GetActorLocation()+FVector(75,0,10),FRotator::ZeroRotator); SmokePastry->Configure(ECEPropKind::Pastry);
         LoopPreviousCustomerPosition=SmokePastry->GetActorLocation();
         SmokeCustomer->Fall(FVector(1,0,0));
         Check(TEXT("physics_does_not_need_AI_to_react"),SmokeCustomer->FallenUntil>Now && !Player->Dialogue->IsBusy());
@@ -325,13 +349,23 @@ void ACEGameMode::LoopSmokeStep()
         }
         Check(TEXT("all_21_boss_recordings_available"),bVoices);
         bool bTextures=true;
+        auto FinishTexture=[](UTexture2D* Texture) {
+#if WITH_EDITOR
+            // GetSizeX/Y return the 32px placeholder until asynchronous editor
+            // compilation finishes. Check the real data, as the cooked game does.
+            if(Texture) { UTexture* Pending[]={Texture}; FTextureCompilingManager::Get().FinishCompilation(Pending); }
+#endif
+        };
         for(const TCHAR* Set:{TEXT("Wood"),TEXT("Stone"),TEXT("Fabric"),TEXT("Metal"),TEXT("Skin"),TEXT("Paint")})
             for(const TCHAR* Map:{TEXT("A"),TEXT("N"),TEXT("ORM")}) {
                 const FString Name=FString(Set)+TEXT("_")+Map;
                 auto* Texture=LoadObject<UTexture2D>(nullptr,*FString::Printf(TEXT("/Game/Prototype/Textures/%s.%s"),*Name,*Name));
+                FinishTexture(Texture);
                 bTextures&=Texture && Texture->GetSizeX()==512 && Texture->GetSizeY()==512;
+                if(!Texture || Texture->GetSizeX()!=512 || Texture->GetSizeY()!=512) UE_LOG(LogTemp,Warning,TEXT("CE12_TEXTURE_AUDIT name=%s loaded=%d width=%d height=%d"),*Name,Texture!=nullptr,Texture ? Texture->GetSizeX() : 0,Texture ? Texture->GetSizeY() : 0);
             }
         auto* ScreenTexture=LoadObject<UTexture2D>(nullptr,TEXT("/Game/Prototype/Textures/Screen_A.Screen_A"));
+        FinishTexture(ScreenTexture);
         bTextures&=ScreenTexture && ScreenTexture->GetSizeX()==512 && ScreenTexture->GetSizeY()==512;
         Check(TEXT("all_19_PBR_and_screen_textures_available"),bTextures);
         bool bMaterials=true;
@@ -341,12 +375,13 @@ void ACEGameMode::LoopSmokeStep()
         bool Passed=true; auto Report=MakeShared<FJsonObject>();
         for(const auto& Pair:LoopChecks) { Report->SetBoolField(Pair.Key,Pair.Value); Passed=Passed && Pair.Value; }
         Report->SetBoolField(TEXT("passed"),Passed); Report->SetStringField(TEXT("engine"),FEngineVersion::Current().ToString());
-        Report->SetStringField(TEXT("version"),TEXT("0.10.0")); Report->SetBoolField(TEXT("human_playthrough"),false);
+        Report->SetStringField(TEXT("version"),TEXT("0.12.0")); Report->SetBoolField(TEXT("human_playthrough"),false);
         Report->SetBoolField(TEXT("full_shift_exercised"),!FParse::Param(FCommandLine::Get(),TEXT("CeroQuickSmoke")));
         Report->SetBoolField(TEXT("dialogue_not_exercised_in_this_scenario"),true); Report->SetNumberField(TEXT("floor_liquid_ml"),Cafe->Liquids->FloorMl);
         Report->SetNumberField(TEXT("liquid_collision_queries"),Cafe->Liquids->CollisionQueries); Report->SetNumberField(TEXT("liquid_simulation_steps"),Cafe->Liquids->SimulationSteps);
         Report->SetNumberField(TEXT("liquid_simulation_cpu_ms"),Cafe->Liquids->SimulationCpuMs); Report->SetNumberField(TEXT("liquid_peak_packets"),Cafe->Liquids->PeakActiveDrops);
         FrameSamples.Sort(); if(!FrameSamples.IsEmpty()) {
+            Report->SetStringField(TEXT("frame_time_basis"),TEXT("wall_clock_between_game_ticks"));
             Report->SetNumberField(TEXT("frame_samples"),FrameSamples.Num());
             Report->SetNumberField(TEXT("frame_p50_ms"),FrameSamples[FrameSamples.Num()/2]);
             Report->SetNumberField(TEXT("frame_p95_ms"),FrameSamples[FMath::Min(FrameSamples.Num()-1,FMath::FloorToInt(FrameSamples.Num()*.95f))]);

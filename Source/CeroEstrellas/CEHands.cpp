@@ -30,16 +30,21 @@ void ACEPlayer::AnimateHands(float Delta)
         // later and otherwise makes the arms jump when looking down quickly.
         const FTransform View(GetControlRotation(),Camera->GetComponentLocation());
         FVector Wrist=View.TransformPosition(FVector(48.f,Side*20.f,-31.f)); FQuat Grip=View.GetRotation();
-        const bool bTwoHands=Held && (Held->Kind==ECEPropKind::Tray || Held->Kind==ECEPropKind::Chair || Held->Kind==ECEPropKind::Laptop);
+        const bool bTwoHands=Held && (Held->Kind==ECEPropKind::Tray || Held->Kind==ECEPropKind::Chair || Held->Kind==ECEPropKind::Laptop || Held->Kind==ECEPropKind::Tablet);
         if(IsValid(Held) && (i==1 || bTwoHands)) {
             FVector Local;
             if(Held->Kind==ECEPropKind::Tray) Local=FVector(-18,Side*34,-1);
             else if(Held->Kind==ECEPropKind::Chair) Local=FVector(8,Side*25,35);
             else if(Held->Kind==ECEPropKind::Laptop) Local=FVector(-6,Side*16,0);
+            else if(Held->Kind==ECEPropKind::Tablet) Local=FVector(-3,Side*8,-3.2f);
+            else if(Held->Kind==ECEPropKind::Mobile) Local=FVector(-4,0,-3);
             else if(Held->Kind==ECEPropKind::Portafilter) Local=FVector(22,0,0);
-            else if(Held->IsContainer()) Local=FVector(15,0,1);
+            else if(Held->IsContainer()) Local=FVector(20,0,2);
             else Local=FVector(0,0,0);
             Wrist=Held->GetActorLocation()+Held->GetActorQuat().RotateVector(Local); Grip=Held->GetActorQuat();
+            // Fingers curl back through the handle; the forearm approaches its
+            // outside edge instead of disappearing into the ceramic body.
+            if(Held->IsContainer()) Grip=Grip*FRotator(0,180,0).Quaternion();
         } else if(Now<ActionUntil) Wrist=View.TransformPosition(FVector(52,Side*14,-20));
         if(bInteractHeld && i==1) {
             auto* Station=Cast<ACEStation>(FocusActor(260.f));

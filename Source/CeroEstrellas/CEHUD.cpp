@@ -1,76 +1,212 @@
 #include "CEGameplay.h"
 #include "CEDialogue.h"
 #include "CEKitchen.h"
+#include "CECafeLayout.h"
 #include "Engine/Canvas.h"
 #include "Engine/Engine.h"
+#include "Engine/GameViewportClient.h"
 #include "EngineUtils.h"
+#include "Brushes/SlateRoundedBoxBrush.h"
+#include "Brushes/SlateColorBrush.h"
+#include "Styling/CoreStyle.h"
+#include "Widgets/SCompoundWidget.h"
+#include "Widgets/SOverlay.h"
+#include "Widgets/SBoxPanel.h"
+#include "Widgets/Layout/SBorder.h"
+#include "Widgets/Layout/SBox.h"
+#include "Widgets/Layout/SScaleBox.h"
+#include "Widgets/Layout/SUniformGridPanel.h"
+#include "Widgets/Text/STextBlock.h"
+#include "Widgets/Notifications/SProgressBar.h"
 
-void ACEHUD::Label(const FString& Text,float X,float Y,float Scale,FLinearColor Color)
-{ DrawText(Text,Color,X,Y,GEngine->GetMediumFont(),Scale*1.6f,false); }
-void ACEHUD::Wrapped(const FString& Text,float X,float Y,float Width,float Scale,FLinearColor Color)
+struct FCEHUDOrder
 {
-    TArray<FString> Words; Text.ParseIntoArray(Words,TEXT(" "),true); FString Line;
-    for(const FString& Word:Words) {
-        const FString Next=Line.IsEmpty() ? Word : Line+TEXT(" ")+Word; float W=0,H=0;
-        GetTextSize(Next,W,H,GEngine->GetMediumFont(),Scale*1.6f);
-        if(W>Width && !Line.IsEmpty()) { Label(Line,X,Y,Scale,Color); Y+=23.f*Scale; Line=Word; } else Line=Next;
-    }
-    if(!Line.IsEmpty()) Label(Line,X,Y,Scale,Color);
+    FString Title,Drink,Extras,Status;
+    float Patience=0;
+};
+struct FCEHUDView
+{
+    FString Clock,Stats,Score,Mission,Hint,Caption,Speaker,Feedback,Business,Held,Contents,FocusedTitle,FocusedOrder,FocusedStory;
+    FCEHUDOrder Orders[CECafeLayout::TableCount];
+    float Combo=0,Volume=0;
+    bool ShowOrders=false,ShowHelp=false,HasContainer=false;
+};
+namespace CEHudStyle
+{
+    const FLinearColor Paper(.94f,.91f,.83f),Muted(.58f,.70f,.67f),Gold(.91f,.64f,.29f),Mint(.40f,.75f,.63f);
+    const FSlateRoundedBoxBrush Card(FLinearColor(.018f,.038f,.037f,.94f),12.f);
+    const FSlateRoundedBoxBrush Inner(FLinearColor(.043f,.073f,.068f,.98f),8.f);
+    const FProgressBarStyle Progress=FProgressBarStyle().SetBackgroundImage(FSlateColorBrush(FLinearColor(.08f,.13f,.12f))).SetFillImage(FSlateColorBrush(FLinearColor::White)).SetMarqueeImage(FSlateColorBrush(FLinearColor::White));
+    template<class F> TAttribute<FText> Value(F Get) { return TAttribute<FText>::CreateLambda([Get] { return FText::FromString(Get()); }); }
+    TSharedRef<SWidget> Text(TAttribute<FText> Content,int32 Size=14,FLinearColor Color=Paper,float Width=0,bool Bold=false)
+    { return SNew(STextBlock).Text(Content).Font(FCoreStyle::GetDefaultFontStyle(Bold ? "Bold" : "Regular",Size)).ColorAndOpacity(Color).WrapTextAt(Width); }
+    TSharedRef<SWidget> Text(const TCHAR* Content,int32 Size=14,FLinearColor Color=Paper,float Width=0,bool Bold=false)
+    { return Text(FText::FromString(Content),Size,Color,Width,Bold); }
+    TSharedRef<SWidget> CardBox(TSharedRef<SWidget> Content,float Width,const FSlateBrush* Brush=&Card)
+    { return SNew(SBox).WidthOverride(Width)[SNew(SBorder).BorderImage(Brush).Padding(16)[Content]]; }
 }
+
+class SCECafeHUD : public SCompoundWidget
+{
+public:
+    SLATE_BEGIN_ARGS(SCECafeHUD) {} SLATE_ARGUMENT(TSharedPtr<FCEHUDView>,View) SLATE_END_ARGS()
+    void Construct(const FArguments& Args)
+    {
+        using namespace CEHudStyle;
+        const auto V=Args._View;
+        auto Grid=SNew(SUniformGridPanel).SlotPadding(FMargin(5));
+        for(int32 i=0;i<CECafeLayout::TableCount;++i) {
+            Grid->AddSlot(i%2,i/2)[CardBox(
+                SNew(SVerticalBox)
+                +SVerticalBox::Slot().AutoHeight()[Text(Value([V,i] { return V->Orders[i].Title; }),12,Gold,0,true)]
+                +SVerticalBox::Slot().AutoHeight().Padding(0,9,0,5)[Text(Value([V,i] { return V->Orders[i].Drink; }),16,Paper,360,true)]
+                +SVerticalBox::Slot().AutoHeight()[SNew(SBox).Visibility_Lambda([V,i] { return V->Orders[i].Extras.IsEmpty() ? EVisibility::Collapsed : EVisibility::Visible; })[Text(Value([V,i] { return V->Orders[i].Extras; }),12,Muted,360)]]
+                +SVerticalBox::Slot().AutoHeight().Padding(0,9,0,7)[Text(Value([V,i] { return V->Orders[i].Status; }),12,Mint)]
+                +SVerticalBox::Slot().AutoHeight()[SNew(SBox).HeightOverride(3)[SNew(SProgressBar).Style(&Progress).Percent_Lambda([V,i] { return V->Orders[i].Patience; }).FillColorAndOpacity(Mint)]]
+                ,390,&Inner)];
+        }
+        ChildSlot[SNew(SScaleBox).Stretch(EStretch::ScaleToFit)[SNew(SBox).WidthOverride(1280).HeightOverride(720)[
+            SNew(SOverlay)
+            +SOverlay::Slot()[SNew(SOverlay).Visibility_Lambda([V] { return V->ShowOrders || V->ShowHelp ? EVisibility::Collapsed : EVisibility::HitTestInvisible; })
+            +SOverlay::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top).Padding(24)[
+                SNew(SVerticalBox)
+                +SVerticalBox::Slot().AutoHeight()[CardBox(SNew(SVerticalBox)
+                    +SVerticalBox::Slot().AutoHeight()[Text(TEXT("CERO ESTRELLAS"),18,Paper,0,true)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,4,0,0)[Text(TEXT("Servicio pésimo. Carrera brillante."),11,Muted)]
+                    ,280)]
+                +SVerticalBox::Slot().AutoHeight().Padding(0,10,0,0)[CardBox(SNew(SVerticalBox)
+                    +SVerticalBox::Slot().AutoHeight()[Text(TEXT("TU PLAN PARA HOY"),10,Gold,0,true)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,7,0,0)[Text(Value([V] { return V->Mission; }),14,Paper,248)]
+                    ,280)]
+            ]
+            +SOverlay::Slot().HAlign(HAlign_Right).VAlign(VAlign_Top).Padding(24)[
+                SNew(SVerticalBox)
+                +SVerticalBox::Slot().AutoHeight()[CardBox(SNew(SVerticalBox)
+                    +SVerticalBox::Slot().AutoHeight()[Text(TEXT("CIERRE DE CAJA"),10,Muted,0,true)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,2,0,4)[Text(Value([V] { return V->Clock; }),28,Paper,0,true)]
+                    +SVerticalBox::Slot().AutoHeight()[Text(Value([V] { return V->Stats; }),12,Muted)]
+                    ,244)]
+                +SVerticalBox::Slot().AutoHeight().Padding(0,10,0,0)[SNew(SBox).Visibility_Lambda([V] { return V->FocusedTitle.IsEmpty() || V->ShowOrders ? EVisibility::Collapsed : EVisibility::Visible; })[
+                    CardBox(SNew(SVerticalBox)
+                    +SVerticalBox::Slot().AutoHeight()[Text(Value([V] { return V->FocusedTitle; }),11,Gold,212,true)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,8,0,0)[Text(Value([V] { return V->FocusedOrder; }),14,Paper,212)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,8,0,0)[Text(Value([V] { return V->FocusedStory; }),11,Muted,212)]
+                    ,244)]]
+            ]
+            +SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Top).Padding(0,24)[
+                CardBox(SNew(SVerticalBox)
+                    +SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)[Text(Value([V] { return V->Score; }),18,Gold,0,true)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,6,0,0)[SNew(SBox).HeightOverride(3)[SNew(SProgressBar).Style(&Progress).Percent_Lambda([V] { return V->Combo; }).FillColorAndOpacity(Gold)]]
+                    ,220)]
+            +SOverlay::Slot().HAlign(HAlign_Left).VAlign(VAlign_Bottom).Padding(24,0,0,30)[
+                SNew(SVerticalBox)
+                +SVerticalBox::Slot().AutoHeight().Padding(0,0,0,12)[SNew(SBox).Visibility_Lambda([V] { return V->Feedback.IsEmpty() && V->Business.IsEmpty() ? EVisibility::Collapsed : EVisibility::Visible; })[
+                    CardBox(SNew(SVerticalBox)
+                        +SVerticalBox::Slot().AutoHeight()[Text(Value([V] { return V->Feedback; }),12,Mint,248)]
+                        +SVerticalBox::Slot().AutoHeight().Padding(0,5,0,0)[Text(Value([V] { return V->Business; }),11,Muted,248)]
+                        ,280)]]
+                +SVerticalBox::Slot().AutoHeight()[SNew(SBox).Visibility_Lambda([V] { return V->Held.IsEmpty() ? EVisibility::Collapsed : EVisibility::Visible; })[
+                    CardBox(SNew(SVerticalBox)
+                        +SVerticalBox::Slot().AutoHeight()[Text(TEXT("EN TUS MANOS"),10,Muted,0,true)]
+                        +SVerticalBox::Slot().AutoHeight().Padding(0,6,0,3)[Text(Value([V] { return V->Held; }),15,Paper,248,true)]
+                        +SVerticalBox::Slot().AutoHeight()[Text(Value([V] { return V->Contents; }),11,Muted,248)]
+                        +SVerticalBox::Slot().AutoHeight().Padding(0,8,0,0)[SNew(SBox).HeightOverride(3).Visibility_Lambda([V] { return V->HasContainer ? EVisibility::Visible : EVisibility::Collapsed; })[
+                            SNew(SProgressBar).Style(&Progress).Percent_Lambda([V] { return V->Volume; }).FillColorAndOpacity(Gold)]]
+                        ,280)]]
+            ]
+            +SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(310,0,270,28)[
+                SNew(SVerticalBox)
+                +SVerticalBox::Slot().AutoHeight().Padding(0,0,0,12)[SNew(SBox).Visibility_Lambda([V] { return V->Caption.IsEmpty() ? EVisibility::Collapsed : EVisibility::Visible; })[
+                    CardBox(SNew(SVerticalBox)
+                        +SVerticalBox::Slot().AutoHeight()[Text(Value([V] { return V->Speaker; }),10,Gold,0,true)]
+                        +SVerticalBox::Slot().AutoHeight().Padding(0,6,0,0)[Text(Value([V] { return V->Caption; }),15,Paper,600)]
+                        ,632)]]
+                +SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)[SNew(SBox).Visibility_Lambda([V] { return V->Hint.IsEmpty() ? EVisibility::Collapsed : EVisibility::Visible; })[
+                    CardBox(Text(Value([V] { return V->Hint; }),12,Paper,440),472)]]
+            ]
+            +SOverlay::Slot().HAlign(HAlign_Right).VAlign(VAlign_Bottom).Padding(0,0,24,28)[
+                CardBox(Text(TEXT("TAB  Comandas     F1  Controles"),11,Muted),244)]
+            ]
+            +SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center)[SNew(SBox).Visibility_Lambda([V] { return V->ShowOrders ? EVisibility::Visible : EVisibility::Collapsed; })[
+                CardBox(SNew(SVerticalBox)
+                    +SVerticalBox::Slot().AutoHeight().Padding(8,0,0,5)[Text(TEXT("COMANDAS EN MARCHA"),21,Paper,0,true)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(8,0,0,14)[Text(TEXT("Seis mesas. Una sola persona haciendo todo."),12,Muted)]
+                    +SVerticalBox::Slot().AutoHeight()[Grid]
+                    +SVerticalBox::Slot().AutoHeight().Padding(8,10,0,0)[Text(TEXT("Suelta TAB para volver al servicio"),11,Muted)]
+                    ,842)]]
+            +SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center)[SNew(SBox).Visibility_Lambda([V] { return V->ShowHelp ? EVisibility::Visible : EVisibility::Collapsed; })[
+                CardBox(SNew(SVerticalBox)
+                    +SVerticalBox::Slot().AutoHeight()[Text(TEXT("MANUAL DEL EMPLEADO PRESCINDIBLE"),20,Paper,0,true)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,16,0,0)[Text(TEXT("WASD  Moverte     RATÓN  Mirar     SHIFT  Correr     ESPACIO  Saltar\n\nE  Agarrar / soltar     CLIC  Lanzar o empujar     DERECHO  Verter\n\nF  Usar / tomar pedido / entregar     Q  Provocar\n\nT  Conversar     V  Grabar voz     TAB  Todas las comandas"),15,Paper,740)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,20,0,0)[Text(TEXT("DEL GRANO AL DESASTRE"),11,Gold,0,true)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,8,0,0)[Text(TEXT("Moler → mantener F para prensar → extraer café → servir.\nF detiene la extracción. La rueda ajusta cantidad o temperatura.\nPara un latte: calienta la leche, añade espuma y vierte sobre el espresso."),14,Muted,740)]
+                    +SVerticalBox::Slot().AutoHeight().Padding(0,20,0,0)[Text(TEXT("F1  Cerrar ayuda     R  Reiniciar turno     ESC  Salir"),12,Mint)]
+                    ,810)]]
+        ]]];
+        SetVisibility(EVisibility::HitTestInvisible);
+    }
+};
+
 void ACEHUD::DrawHUD()
 {
-    Super::DrawHUD(); if(!Canvas) return;
-    auto* Player=Cast<ACEPlayer>(GetOwningPawn()); if(!Player || Player->Dialogue->IsEditing()) return;
-    auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>(); const float Now=GetWorld()->GetTimeSeconds();
-    const float W=Canvas->SizeX,H=Canvas->SizeY,S=FMath::Clamp(FMath::Min(W/1280.f,H/720.f),.65f,2.5f)*.86f;
-    const FLinearColor Cream(.94f,.92f,.85f),Gold(.94f,.66f,.30f),Muted(.58f,.72f,.70f),Ink(.015f,.025f,.028f,.82f);
+    Super::DrawHUD(); if(!Canvas || !GEngine || !GEngine->GameViewport) return;
+    auto* Player=Cast<ACEPlayer>(GetOwningPawn()); if(!Player || !Player->Dialogue) return;
+    if(!ViewState) {
+        ViewState=MakeShared<FCEHUDView>(); Overlay=SNew(SCECafeHUD).View(ViewState);
+        GEngine->GameViewport->AddViewportWidgetContent(Overlay.ToSharedRef(),5);
+    }
+    Overlay->SetVisibility(Player->Dialogue->IsEditing() ? EVisibility::Collapsed : EVisibility::HitTestInvisible);
+    if(Player->Dialogue->IsEditing()) return;
+    auto& V=*ViewState;
+    const auto* Cafe=GetWorld()->GetSubsystem<UCECafeSubsystem>(); const float Now=GetWorld()->GetTimeSeconds();
     const int32 Remaining=FMath::Max(0,int32(Cafe->ShiftDuration-Now));
-    DrawRect(Ink,18*S,18*S,345*S,91*S); DrawRect(Gold,18*S,18*S,3*S,91*S);
-    Label(FString::Printf(TEXT("CERO ESTRELLAS  %02d:%02d"),Remaining/60,Remaining%60),30*S,27*S,.9f*S,Cream);
-    Label(FString::Printf(TEXT("Servidos %d · Huidas %d · Viral %d"),Cafe->OrdersServed,Cafe->DepartedCustomers,Cafe->ViralPoints),30*S,54*S,.64f*S,Muted);
-    Wrapped(Cafe->bShiftFinished ? TEXT("DESPIDO DENEGADO / Ascenso concedido") : Cafe->Challenge,30*S,77*S,318*S,.59f*S,Gold);
-    if(Cafe->Combo>1) { Label(FString::Printf(TEXT("DESMADRE x%d"),Cafe->Combo),W/2-74*S,30*S,1.f*S,Gold); DrawRect(Gold,W/2-74*S,57*S,150*S*FMath::Clamp((Cafe->ComboUntil-Now)/9.f,0.f,1.f),3*S); }
-    AActor* Target=Player->FocusActor(330.f); auto* Focused=Cast<ACECustomer>(Target);
-    int32 Row=0;
-    for(TActorIterator<ACECustomer> It(GetWorld());It;++It) {
-        if(It->bLeaving || It->State==ECECustomerState::Eating || (!Player->bShowOrderList && *It!=Focused)) continue;
-        const float X=W-282*S,Y=(18+Row*96)*S;
-        DrawRect(FLinearColor(.86f,.83f,.74f,.96f),X,Y,264*S,89*S);
-        Label(FString::Printf(TEXT("MESA %d / %s"),It->SeatSlot+1,It->Anger>.5f ? TEXT("RECLAMACIÓN") : TEXT("COMANDA")),X+12*S,Y+8*S,.69f*S,FLinearColor(.12f,.17f,.15f));
-        Wrapped(It->bOrderKnown ? It->OrderText() : TEXT("F: tomar nota"),X+12*S,Y+29*S,240*S,.62f*S,FLinearColor(.22f,.26f,.22f));
-        if(It->bOrderKnown && !It->SpecialRequest.IsEmpty()) Wrapped(It->SpecialRequest,X+12*S,Y+58*S,240*S,.52f*S,FLinearColor(.44f,.19f,.08f));
-        DrawRect(Muted,X+12*S,Y+82*S,238*S*FMath::Clamp(It->Patience/140.f,0.f,1.f),2*S);
-        if(++Row>=3) break;
+    V.Clock=FString::Printf(TEXT("%02d:%02d"),Remaining/60,Remaining%60);
+    V.Stats=FString::Printf(TEXT("%d servidos  /  %d huidas"),Cafe->OrdersServed,Cafe->DepartedCustomers);
+    V.Mission=Cafe->bShiftFinished ? TEXT("Despido denegado. Has ascendido.") : Cafe->Challenge;
+    V.Score=Cafe->Combo>1 ? FString::Printf(TEXT("DESMADRE ×%d"),Cafe->Combo) : FString::Printf(TEXT("VIRAL · %d"),Cafe->ViralPoints);
+    V.Combo=FMath::Clamp((Cafe->ComboUntil-Now)/9.f,0.f,1.f);
+    V.ShowOrders=Player->bShowOrderList; V.ShowHelp=Player->bShowHelp;
+    V.Feedback=Now<Cafe->FeedbackUntil ? Cafe->Feedback : FString();
+    V.Business=Now<Cafe->BusinessUntil ? Cafe->BusinessTitle : Now<Cafe->CampaignUntil ? Cafe->BossCampaign : FString();
+    AActor* Target=Player->FocusActor(330.f); auto* Guest=Cast<ACECustomer>(Target);
+    V.FocusedTitle=Guest ? FString::Printf(TEXT("MESA %d · %s"),Guest->SeatSlot+1,Guest->Anger>.5f ? TEXT("RECLAMACIÓN") : TEXT("COMANDA")) : FString();
+    V.FocusedOrder=Guest ? Guest->bOrderKnown ? Guest->OrderText()+TEXT("\n")+Guest->SpecialRequest : TEXT("F  Tomar nota") : FString();
+    V.FocusedStory=Guest && Guest->StoryId>=0 ? Guest->StoryTitle+TEXT("\n")+(Guest->bStoryResolved ? Guest->StoryOutcome : Guest->StoryBeat) : FString();
+    for(int32 i=0;i<CECafeLayout::TableCount;++i) {
+        V.Orders[i]=FCEHUDOrder(); V.Orders[i].Title=FString::Printf(TEXT("MESA %02d"),i+1); V.Orders[i].Drink=TEXT("Libre"); V.Orders[i].Status=TEXT("Aún hay esperanza.");
     }
-    if(Focused && Focused->StoryId>=0 && !Player->bShowOrderList) {
-        const float X=W-282*S,Y=115*S;
-        Wrapped(Focused->StoryTitle+FString::Printf(TEXT(" · %d/3"),FMath::Min(3,Focused->StoryStage+1)),X,Y,260*S,.64f*S,Gold);
-        Wrapped(Focused->bStoryResolved ? Focused->StoryOutcome : Focused->StoryBeat,X,Y+23*S,260*S,.54f*S,Cream);
+    for(TActorIterator<ACECustomer> It(GetWorld());It;++It) if(!It->bLeaving && It->SeatSlot>=0 && It->SeatSlot<CECafeLayout::TableCount) {
+        auto& O=V.Orders[It->SeatSlot];
+        O.Title=FString::Printf(TEXT("MESA %02d · %s"),It->SeatSlot+1,It->State==ECECustomerState::Eating ? TEXT("SERVIDA") : TEXT("PENDIENTE"));
+        O.Drink=It->bOrderKnown ? It->OrderText() : TEXT("Falta tomar nota"); O.Extras=It->SpecialRequest;
+        O.Status=It->State==ECECustomerState::Eating ? TEXT("Desayunando") : It->State==ECECustomerState::Arriving ? TEXT("Llegando a la barra") : It->State==ECECustomerState::WalkingToTable ? TEXT("Camino de su mesa") : FString::Printf(TEXT("Paciencia · %.0f s"),It->Patience);
+        O.Patience=FMath::Clamp(It->Patience/140.f,0.f,1.f);
     }
-    DrawRect(Target ? Gold : Cream,W/2-2,H/2-2,4,4);
-    FString Hint; auto* Station=Cast<ACEStation>(Target); if(!Station && Target) Station=Cast<ACEStation>(Target->GetAttachParentActor());
-    if(Station) Hint=Station->Prompt(Player);
-    else if(Focused) Hint=Player->Held ? !Player->Held->OwnerCustomerId.IsEmpty() && Player->Held->Kind!=ECEPropKind::Laptop ? TEXT("F devolver pertenencia · T conversar · V hablar") : TEXT("F entregar · Q provocar · T conversar · V hablar") : TEXT("F pedido · Q provocar · T conversar · V hablar");
-    else if(auto* Prop=Player->FocusProp()) Hint=TEXT("E agarrar / ")+Prop->DisplayName;
-    const float Bottom=Player->bShowHelp || Now<12.f ? 90.f : 37.f;
-    if(!Hint.IsEmpty()) { const float Width=FMath::Min(650*S,W-40*S),Y=H-(Bottom+100)*S; DrawRect(Ink,(W-Width)/2,Y,Width,42*S); Wrapped(Hint,(W-Width)/2+12*S,Y+9*S,Width-24*S,.69f*S,Cream); }
-    if(Player->Held && Player->Held->IsContainer()) {
-        auto* Cup=Player->Held.Get(); DrawRect(Ink,18*S,H-(Bottom+84)*S,290*S,69*S);
-        Label(FString::Printf(TEXT("%s · %.0f ml · %.0f C"),*Cup->DisplayName,Cup->VolumeMl(),Cup->Temperature),28*S,H-(Bottom+76)*S,.66f*S,Cream);
-        Label(FString::Printf(TEXT("Espuma %.0f · Azúcar %.0f g · Sirope %.0f"),Cup->FoamMl,Cup->SugarGrams,Cup->SyrupMl),28*S,H-(Bottom+49)*S,.53f*S,Gold);
+    auto* Station=Cast<ACEStation>(Target); if(!Station && Target) Station=Cast<ACEStation>(Target->GetAttachParentActor());
+    V.Hint=Station ? Station->Prompt(Player) : Guest ? Player->Held ? TEXT("F  Entregar     Q  Provocar     T  Conversar") : TEXT("F  Pedido     Q  Provocar     T  Conversar") : FString();
+    if(Guest && Player->Held && !Player->Held->OwnerCustomerId.IsEmpty()) V.Hint=TEXT("F  Devolver pertenencia     T  Conversar");
+    if(!Station && !Guest) if(auto* Prop=Player->FocusProp()) V.Hint=TEXT("E  Agarrar · ")+Prop->DisplayName;
+    V.Held=Player->Held ? Player->Held->DisplayName : FString(); V.Contents.Empty(); V.HasContainer=Player->Held && Player->Held->IsContainer();
+    if(V.HasContainer) {
+        const auto* C=Player->Held.Get(); V.Volume=C->VolumeMl()/C->CapacityMl();
+        V.Contents=FString::Printf(TEXT("%.0f / %.0f ml   ·   %.0f °C\nEspuma %.0f ml · Azúcar %.0f g · Sirope %.0f ml"),C->VolumeMl(),C->CapacityMl(),C->Temperature,C->FoamMl,C->SugarGrams,C->SyrupMl);
+    } else if(Player->Held) V.Contents=TEXT("E  Soltar     CLIC  Lanzar");
+    V.Caption=Now<Cafe->CustomerSubtitleUntil ? Cafe->CustomerSubtitle : FString(); V.Speaker=TEXT("EN LA CAFETERÍA");
+    const auto* D=Player->Dialogue.Get();
+    if(D->IsOpen()) {
+        if(D->bRecording) { V.Speaker=TEXT("TU VOZ"); V.Caption=TEXT("Grabando · V para detener y revisar"); }
+        else if(D->IsBusy()) { V.Speaker=D->ConversationLabel(); V.Caption=D->PreviewReply.IsEmpty() ? TEXT("Te escucha. Puedes seguir trabajando.") : D->PreviewReply; }
     }
-    FString Caption=Now<Cafe->CustomerSubtitleUntil ? Cafe->CustomerSubtitle : FString();
-    auto* Dialogue=Player->Dialogue.Get();
-    if(Dialogue->IsOpen()) {
-        if(Dialogue->bRecording) Caption=TEXT("Grabando · V para detener y revisar");
-        else if(Dialogue->IsBusy()) Caption=Dialogue->ConversationLabel()+TEXT(": ")+(Dialogue->PreviewReply.IsEmpty() ? TEXT("Te escucha. Puedes seguir trabajando.") : Dialogue->PreviewReply);
+    if(Now<Cafe->BossSubtitleUntil) { V.Speaker=TEXT("LA JEFA · RADIO CORPORATIVA"); V.Caption=Cafe->BossSubtitle; }
+    if(!Player->bShowHelp && !Player->bShowOrderList) {
+        const FLinearColor Color=Target ? CEHudStyle::Gold : CEHudStyle::Paper;
+        const float X=Canvas->SizeX*.5f,Y=Canvas->SizeY*.5f;
+        DrawRect(Color,X-1,Y-1,2,2);
+        if(Target) { DrawLine(X-8,Y,X-4,Y,Color,1); DrawLine(X+4,Y,X+8,Y,Color,1); }
     }
-    if(Now<Cafe->BossSubtitleUntil) Caption=TEXT("LA JEFA: ")+Cafe->BossSubtitle;
-    if(!Caption.IsEmpty()) { const float Width=FMath::Min(720*S,W-42*S),Y=H-(Bottom+165)*S; DrawRect(Ink,(W-Width)/2,Y,Width,58*S); Wrapped(Caption,(W-Width)/2+12*S,Y+9*S,Width-24*S,.73f*S,Cream); }
-    if(Now<Cafe->FeedbackUntil) Wrapped(Cafe->Feedback,22*S,122*S,400*S,.62f*S,Gold);
-    if(Now<Cafe->BusinessUntil && !Cafe->BusinessTitle.IsEmpty()) Label(Cafe->BusinessTitle,22*S,155*S,.60f*S,Gold);
-    if(Now<Cafe->CampaignUntil) Label(Cafe->BossCampaign,22*S,178*S,.55f*S,Gold);
-    DrawRect(Ink,0,H-Bottom*S,W,Bottom*S);
-    Label(TEXT("TAB comandas · F1 ayuda · E agarrar · F usar · T conversar · V voz"),20*S,H-(Bottom-8)*S,.62f*S,Muted);
-    if(Bottom>40.f) { Label(TEXT("WASD mover · CLIC lanzar · DERECHO verter · SHIFT correr · ESPACIO saltar · R reiniciar · ESC salir"),20*S,H-52*S,.58f*S,Cream); Label(TEXT("Moler → mantener F para prensar → extraer (F detiene) | RUEDA: cantidad / temperatura | Leche: vapor → espuma → verter"),20*S,H-29*S,.57f*S,Muted); }
+}
+void ACEHUD::EndPlay(const EEndPlayReason::Type Reason)
+{
+    if(Overlay && GEngine && GEngine->GameViewport) GEngine->GameViewport->RemoveViewportWidgetContent(Overlay.ToSharedRef());
+    Overlay.Reset(); ViewState.Reset(); Super::EndPlay(Reason);
 }

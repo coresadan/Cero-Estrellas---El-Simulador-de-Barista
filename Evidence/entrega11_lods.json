@@ -1,0 +1,68 @@
+{
+  "passed": true,
+  "meshes": [
+    {
+      "mesh": "SK_Crypto",
+      "vertices_per_lod": [
+        41703,
+        14764
+      ]
+    },
+    {
+      "mesh": "SK_Hipster",
+      "vertices_per_lod": [
+        39630,
+        14047
+      ]
+    },
+    {
+      "mesh": "SK_Influencer",
+      "vertices_per_lod": [
+        39938,
+        14133
+      ]
+    },
+    {
+      "mesh": "SK_Punk",
+      "vertices_per_lod": [
+        39646,
+        14026
+      ]
+    },
+    {
+      "mesh": "SK_Astronaut",
+      "vertices_per_lod": [
+        41871,
+        14717
+      ]
+    },
+    {
+      "mesh": "SK_Diva",
+      "vertices_per_lod": [
+        40566,
+        14352
+      ]
+    },
+    {
+      "mesh": "SK_Biker",
+      "vertices_per_lod": [
+        42117,
+        14828
+      ]
+    },
+    {
+      "mesh": "SK_Granny",
+      "vertices_per_lod": [
+        40108,
+        14239
+      ]
+    },
+    {
+      "mesh": "SK_Magician",
+      "vertices_per_lod": [
+        39779,
+        14146
+      ]
+    }
+  ]
+}
